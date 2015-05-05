@@ -22,7 +22,7 @@ namespace doStuff.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Fokk you";
 
             return View();
         }
