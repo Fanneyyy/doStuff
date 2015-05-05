@@ -180,8 +180,19 @@
     <Compile Include="Models\DatabaseModels\GroupToUserRelationTable.cs" />
     <Compile Include="Models\DatabaseModels\UserTable.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="POCOs\CommentInfo.cs" />
+    <Compile Include="POCOs\EventInfo.cs" />
+    <Compile Include="POCOs\GroupInfo.cs" />
+    <Compile Include="POCOs\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GroupService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\EventFeedViewModel.cs" />
+    <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\FriendFeedViewModel.cs" />
+    <Compile Include="ViewModels\SideBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -232,9 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="POCOs\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\Group\" />
     <Folder Include="Views\Parent\" />
     <Folder Include="Views\User\" />

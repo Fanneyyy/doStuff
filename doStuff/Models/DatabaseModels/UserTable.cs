@@ -18,6 +18,6 @@ namespace doStuff.Models.DatabaseModels
         public string DisplayName { get; set; }
         public uint Age { get; set; }
         public Gender Gender { get; set; }
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 }

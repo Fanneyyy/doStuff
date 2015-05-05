@@ -7,5 +7,6 @@ namespace doStuff.Databases
 {
     public class DatabaseUser : DatabaseGroup
     {
+        //TODO
     }
 }

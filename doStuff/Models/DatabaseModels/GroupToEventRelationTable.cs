@@ -12,7 +12,9 @@ namespace doStuff.Models.DatabaseModels
         [Key]
         public uint Id { get; set; }
         public bool Active { get; set; }
+        [ForeignKey("GroupId")]
         public uint GroupId { get; set; }
+        [ForeignKey("EventTable")]
         public uint EventId { get; set; }
     }
 }

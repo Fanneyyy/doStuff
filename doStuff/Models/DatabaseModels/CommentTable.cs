@@ -12,6 +12,7 @@ namespace doStuff.Models.DatabaseModels
         [Key]
         public uint Id { get; set; }
         public bool Active { get; set; }
+        [ForeignKey("UserTable")]
         public uint OwnerId { get; set; }
         public string Content { get; set; }
         public DateTime CreationTime { get; set; }

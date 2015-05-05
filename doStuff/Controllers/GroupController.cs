@@ -86,7 +86,7 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult JoinEvent(uint EventId)
+        public ActionResult AnswerEvent(uint groupId, uint EventId, bool answer)
         {
             //TODO
             return View();
