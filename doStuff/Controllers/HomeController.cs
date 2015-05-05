@@ -6,24 +6,11 @@ using System.Web.Mvc;
 
 namespace doStuff.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ParentController
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "nei thu fokk you";
-
+            //TODO
             return View();
         }
     }

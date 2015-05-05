@@ -13,7 +13,7 @@ using doStuff.Models;
 namespace doStuff.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : ParentController
     {
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
