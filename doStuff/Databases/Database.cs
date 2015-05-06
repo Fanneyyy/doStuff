@@ -30,75 +30,98 @@ namespace doStuff.Databases
 
             return friends;
         }
-
         public List<UserInfo> GetMembers(int groupId)
         {
             List<UserInfo> members = new List<UserInfo>();
 
             List<int> memberIds = (from g in db.GroupToUserRelations
-                                   where g.GroupId == groupId && f.Active == true
-                                   select f.SenderId).ToList();
+                                   where g.GroupId == groupId && g.Active == true
+                                   select g.SenderId).ToList();
+
+            foreach(var id in memberIds)
+            {
+                UserTable user = (from u in db.Users
+                                  where u.UserTableID == id && u.Active == true
+                                  select u).SingleOrDefault();
+                if (user != null)
+                {
+                    members.Add(TableToEntity(user));
+                }
+            }
 
             return members;
         }
-
         public List<GroupInfo> GetGroups(int userId)
         {
             List<GroupInfo> groups = new List<GroupInfo>();
 
             var groupIDs = (from g in db.GroupToUserRelations
-                            where g.MemberId == userId
+                            where g.MemberId == userId && g.Active == true
                             select g.GroupId);
 
             foreach(var id in groupIDs)
             {
-                groups.Add(TableToEntity((from g in db.Groups where g.GroupTableID == id select g).Single()));
+                GroupTable group = (from g in db.Users
+                                    where g.UserTableID == id && g.Active == true
+                                    select u).SingleOrDefault();
+                if (group != null)
+                {
+                    groups.Add(TableToEntity(group));
+                }
             }
             return groups;
         }
-
         public List<EventInfo> GetEvents(int userId)
         {
-            return null;
+            List<EventInfo> events = (from e in db.Events
+                                      where e.OwnerId == userId && e.GroupId == null && e.Active == true
+                                      select TableToEntity(e)).ToList();
+            return events;
         }
-
         public List<EventInfo> GetGroupEvents(int groupId)
         {
-            return null;
+            List<EventInfo> events = (from e in db.Events
+                                      where e.GroupId == groupId && e.Active == true
+                                      select TableToEntity(e)).ToList();
+            return events;
         }
-
         public List<CommentInfo> GetComments(int eventId)
         {
             List<CommentInfo> comments = new List<CommentInfo>();
 
             var commentIDs = (from c in db.EventToCommentRelations
-                              where c.EventId == eventId
+                              where c.EventId == eventId && c.Active == true
                               select c.EventId);
 
             foreach (var id in commentIDs)
             {
-                comments.Add(TableToEntity((from c in db.Comments where c.CommentTableID == id select c).Single()));
+                CommentTable comment = (from c in db.Comments where c.CommentTableID == id && c.Active == true select c).SingleOrDefault();
+
+                if (comment != null)
+                {
+                    comments.Add(TableToEntity(comment));
+                }
             }
             return comments;
         }
         #endregion
         #region RecordTables
-        #region Exists
-        public bool ExistsUser(int userId)
+            #region Exists
+            public bool ExistsUser(int userId)
             {
-                return (1 == (from u in db.Users where u.UserTableID == userId select u).Count());
+                return (1 == (from u in db.Users where u.UserTableID == userId && u.Active == true select u).Count());
             }
             public bool ExistsGroup(int groupId)
             {
-                return (1 == (from g in db.Groups where g.GroupTableID == groupId select g).Count());
+                return (1 == (from g in db.Groups where g.GroupTableID == groupId && g.Active == true select g).Count());
             }
             public bool ExistsEvent(int eventId)
             {
-                return (1 == (from e in db.Events where e.EventTableID == eventId select e).Count());
+                return (1 == (from e in db.Events where e.EventTableID == eventId && e.Active == true select e).Count());
             }
             public bool ExistsComment(int commentId)
             {
-                return (1 == (from c in db.Comments where c.CommentTableID == commentId select c).Count());
+                return (1 == (from c in db.Comments where c.CommentTableID == commentId && c.Active == true select c).Count());
             }
             #endregion
             #region Create
