@@ -78,11 +78,19 @@ namespace doStuff.Services
             return db.RemoveFriend(userId, friendId);
         }
 
-        public bool CreateEvent(int userId, EventInfo newEvent)
+        public bool CreateEvent(EventInfo newEvent)
         {
             //TODO add user automaticly in event.
+            bool created = false;
+            created = db.CreateEvent(newEvent);
 
-            return db.CreateEvent(newEvent);
+            if (created)
+            {
+                return db.CreateEvent(newEvent);
+            }
+
+
+            return false;
         }
 
         public bool ChangeName(int userId, string newName)
