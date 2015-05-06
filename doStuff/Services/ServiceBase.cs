@@ -10,7 +10,7 @@ namespace doStuff.Services
 {
     public class ServiceBase
     {
-        private static DatabaseBase db = new DatabaseBase();
+        private static Database db = new Database();
 
         public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
@@ -80,7 +80,7 @@ namespace doStuff.Services
 
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
-            EventInfo newEvent = getEventById(eventId);
+            EventInfo newEvent = GetEventById(eventId);
 
             if (newEvent.OwnerId == userId)
             {
@@ -162,7 +162,7 @@ namespace doStuff.Services
             }
             return false;
         }
-        public bool ChangeName(int userId, string newName)
+        public bool ChangeUserName(int userId, string newName)
         {
             if (db.ExistsUser(userId))
             {
@@ -247,7 +247,7 @@ namespace doStuff.Services
             newComment = db.GetComment(commentId);
             return newComment;
         }
-        public bool ChangeName(int groupId, string newName)
+        public bool ChangeGroupName(int groupId, string newName)
         {
             //TODO Exception ef grouId finnst ekki..
 
@@ -272,7 +272,7 @@ namespace doStuff.Services
         {
             return db.RemoveGroup(groupId);
         }
-        private EventInfo getEventById(int eventId)
+        private EventInfo GetEventById(int eventId)
         {
             EventInfo newEvent = new EventInfo();
             newEvent = db.GetEvent(eventId);

@@ -12,8 +12,6 @@ namespace doStuff.Controllers
     //[Authorize]
     public class HomeController : ParentController
     {
-        private static UserService service = new UserService();
-        private static DatabaseContext db = new DatabaseContext();
 
         public ActionResult Index()
         { 
