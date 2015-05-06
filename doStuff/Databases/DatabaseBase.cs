@@ -10,65 +10,6 @@ namespace doStuff.Databases
     public class DatabaseBase
     {
         protected static DoStuffDatabase db = new DoStuffDatabase();
-        #region CheckExistance
-        public bool UserExists(int userId)
-        {
-            return (1 == (from u in db.Users where u.UserTableID == userId select u).Count());
-        }
-        public bool GroupExists(int groupId)
-        {
-            return (1 == (from u in db.Groups where u.UserTableID == groupId select u).Count());
-        }
-        public bool EventExists(int eventId)
-        {
-            return (1 == (from u in db.Events where u.UserTableID == eventId select u).Count());
-        }
-        public bool CommentExists(int commentId)
-        {
-            return (1 == (from u in db.Comments where u.UserTableID == commentId select u).Count());
-        }
-        #endregion
-        #region GetInfo
-        public UserInfo GetUser(int userId)
-        {
-            UserTable user = (from u in db.Users
-                             where u.UserTableID == userId
-                             select u).Single();
-            return TableToEntity(user);
-        }
-
-        public UserInfo GetUser(string userName)
-        {
-            UserTable user = (from u in db.Users
-                              where u.UserName == userName
-                              select u).Single();
-            return TableToEntity(user);
-        }
-
-        public GroupInfo GetGroup(int groupId)
-        {
-            GroupTable group = (from g in db.Groups
-                                where g.GroupTableID == groupId
-                                select g).Single();
-            return TableToEntity(group);
-        }
-
-        public EventInfo GetEvent(int eventId)
-        {
-            EventTable theEvent = (from e in db.Events
-                                    where e.EventTableID == eventId
-                                    select e).Single();
-            return TableToEntity(theEvent);
-        }
-
-        public CommentInfo GetComment(int commentId)
-        {
-            CommentTable comment = (from c in db.Comments
-                                    where c.CommentTableID == commentId
-                                    select c).Single();
-            return TableToEntity(comment);
-        }
-        #endregion
 
         //TO UNION LINQ MAGIC UGLY CODE PLEASE FIX LATER
         public List<GroupInfo> GetGroups(int userId)
@@ -109,6 +50,24 @@ namespace doStuff.Databases
 
 
         #region RecordTables
+            #region Exists
+            public bool ExistsUser(int userId)
+            {
+                return (1 == (from u in db.Users where u.UserTableID == userId select u).Count());
+            }
+            public bool ExistsGroup(int groupId)
+            {
+                return (1 == (from g in db.Groups where g.GroupTableID == groupId select g).Count());
+            }
+            public bool ExistsEvent(int eventId)
+            {
+                return (1 == (from e in db.Events where e.EventTableID == eventId select e).Count());
+            }
+            public bool ExistsComment(int commentId)
+            {
+                return (1 == (from c in db.Comments where c.CommentTableID == commentId select c).Count());
+            }
+            #endregion
             #region Create
             public bool CreateUser(UserInfo user)
             {
@@ -173,8 +132,93 @@ namespace doStuff.Databases
                 return false;
             }
             #endregion
+            #region Get
+            public UserInfo GetUser(int userId)
+            {
+                UserTable user = (from u in db.Users
+                                  where u.UserTableID == userId
+                                  select u).Single();
+                return TableToEntity(user);
+            }
+
+            public UserInfo GetUser(string userName)
+            {
+                UserTable user = (from u in db.Users
+                                  where u.UserName == userName
+                                  select u).Single();
+                return TableToEntity(user);
+            }
+
+            public GroupInfo GetGroup(int groupId)
+            {
+                GroupTable group = (from g in db.Groups
+                                    where g.GroupTableID == groupId
+                                    select g).Single();
+                return TableToEntity(group);
+            }
+
+            public EventInfo GetEvent(int eventId)
+            {
+                EventTable theEvent = (from e in db.Events
+                                       where e.EventTableID == eventId
+                                       select e).Single();
+                return TableToEntity(theEvent);
+            }
+
+            public CommentInfo GetComment(int commentId)
+            {
+                CommentTable comment = (from c in db.Comments
+                                        where c.CommentTableID == commentId
+                                        select c).Single();
+                return TableToEntity(comment);
+            }
+            #endregion
+            #region Set
+            public bool SetUser(UserInfo user)
+            {
+                return true;
+            }
+            public bool SetGroup(GroupInfo group)
+            {
+                return true;
+            }
+            public bool SetEvent(EventInfo newEvent)
+            {
+                return true;
+            }
+            public bool SetComment(CommentInfo comment)
+            {
+                return false;
+            }
+            #endregion
         #endregion
         #region RelationTable
+            #region Exists
+            public bool ExistsUserToUserRelation(int senderId, int receiverId)
+            {
+                return false;
+            }
+
+            public bool ExistsGroupToUserRelation(int groupId, int userId)
+            {
+                return false;
+            }
+
+            public bool ExistsEventToUserRelation(int eventId, int userId)
+            {
+                return false;
+            }
+
+            public bool ExistsGroupToEventRelation(int groupId, int EventId)
+            {
+                return false;
+            }
+
+            public bool ExistsEventToCommentRelation(int eventId, int commentId)
+            {
+                return false;
+            }
+            #endregion
             #region Create
             public bool CreateUserToUserRelation(int senderId, int receiverId)
             {
@@ -223,6 +267,17 @@ namespace doStuff.Databases
             }
 
             public bool RemoveEventToCommentRelation(int eventId, int commentId)
+            {
+                return false;
+            }
+            #endregion
+            #region Set
+            public bool SetUserToUserRelation(bool answer)
+            {
+                return false;
+            }
+
+            public bool SetEventToUserRelation(bool answer)
             {
                 return false;
             }
