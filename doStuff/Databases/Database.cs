@@ -36,7 +36,7 @@ namespace doStuff.Databases
 
             List<int> memberIds = (from g in db.GroupToUserRelations
                                    where g.GroupId == groupId && g.Active == true
-                                   select g.SenderId).ToList();
+                                   select g.MemberId).ToList();
 
             foreach(var id in memberIds)
             {
@@ -61,9 +61,9 @@ namespace doStuff.Databases
 
             foreach(var id in groupIDs)
             {
-                GroupTable group = (from g in db.Users
-                                    where g.UserTableID == id && g.Active == true
-                                    select u).SingleOrDefault();
+                GroupTable group = (from g in db.Groups
+                                    where g.GroupTableID == id && g.Active == true
+                                    select g).SingleOrDefault();
                 if (group != null)
                 {
                     groups.Add(TableToEntity(group));
