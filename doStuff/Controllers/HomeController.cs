@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace doStuff.Controllers
 {
+    [Authorize]
     public class HomeController : ParentController
     {
         public ActionResult Index()
