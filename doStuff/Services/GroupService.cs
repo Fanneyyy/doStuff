@@ -16,7 +16,7 @@ namespace doStuff.Services
             //TODO
             // ´show something if user has no friends or events?
             EventFeedViewModel feed = new EventFeedViewModel();
-            List<EventViewModel> eventsViews = new List<EventViewModel>();
+            List<EventViewModel> eventViews = new List<EventViewModel>();
             List<EventInfo> events = db.GetEvents(groupId);
 
             foreach (EventInfo eachEvent in events)
@@ -25,13 +25,13 @@ namespace doStuff.Services
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
                 eventView.Comments = db.GetComments(eachEvent.Id);
-                eventsViews.Add(eventView);
+                eventViews.Add(eventView);
             }
 
             SideBarViewModel sidebar = new SideBarViewModel();
             sidebar.User = db.GetUser(userId);
             sidebar.UserList = db.GetMembers(groupId);
-            feed.Events = eventsViews;
+            feed.Events = eventViews;
             feed.SideBar = sidebar;
             
             
