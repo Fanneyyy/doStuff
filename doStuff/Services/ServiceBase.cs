@@ -16,7 +16,7 @@ namespace doStuff.Services
             return db.CreateUser(user);
         }
 
-        public uint GetUserId(string userName)
+        public int GetUserId(string userName)
         {
             //TODO: throw exception
             UserInfo user = new UserInfo();
@@ -25,7 +25,7 @@ namespace doStuff.Services
             return user.Id;
         }
 
-        public bool IsOwnerOfEvent(uint userId, uint eventId)
+        public bool IsOwnerOfEvent(int userId, int eventId)
         {
             EventInfo newEvent = getEventById(eventId);
 
@@ -36,56 +36,50 @@ namespace doStuff.Services
             return false;
         }
 
-        public bool IsAttendingEvent(uint userId, uint eventId)
+        public bool IsAttendingEvent(int userId, int eventId)
         {
-            //TODO
-            // Need access to event users
-            EventInfo newEvent = getEventById(eventId);
-
-            return false;
+            return db.IsAttendingEvent(userId, eventId);
         }
 
-        public bool IsOwnerOfComment(uint userId, uint commentId)
+        public bool IsOwnerOfComment(int userId, int commentId)
         {
             //TODO Exceptions if commentid and userid dont have anything attached
             CommentInfo newComment = getCommentById(commentId);
 
-            if (newComment.OwnerId == userId) ;
+            if (newComment.OwnerId == userId)
             {
                 return true;
             }
             return false;
         }
 
-        public bool HasAccessToEvent(uint userId, uint eventId)
+        public bool HasAccessToEvent(int userId, int eventId)
         {
-            //TODO
-            // Need access to users of event
-            return false;
+            return db.HasAccessToEvent(userId, eventId);
         }
 
-        public bool RemoveEvent(uint eventId)
+        public bool RemoveEvent(int eventId)
         {
             return db.RemoveEvent(eventId);
         }
 
-        public bool CreateComment(uint eventId, CommentInfo comment)
+        public bool CreateComment(int eventId, CommentInfo comment)
         {
             return db.CreateComment(eventId, comment);
         }
 
-        public bool AnswerEvent(uint userId, uint eventId, bool answer)
+        public bool AnswerEvent(int userId, int eventId, bool answer)
         {
             return db.AnswerEvent(userId, eventId, answer);
         }
 
-        private EventInfo getEventById(uint eventId)
+        private EventInfo getEventById(int eventId)
         {
             EventInfo newEvent = new EventInfo();
             newEvent = db.GetEvent(eventId);
             return newEvent;
         }
-        private CommentInfo getCommentById(uint commentId)
+        private CommentInfo getCommentById(int commentId)
         {
             CommentInfo newComment = new CommentInfo();
             newComment = db.GetComment(commentId);
