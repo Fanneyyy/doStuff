@@ -12,49 +12,64 @@ namespace doStuff.Services
     {
         private static DatabaseUser db = new DatabaseUser();
 
-        public EventFeedViewModel GetEventFeed(uint userId)
+        public EventFeedViewModel GetEventFeed(int userId)
+        {
+            //TODO
+
+            List<EventInfo> eventfeed = db.GetEvents(userId);
+
+            return null;
+        }
+
+        public bool IsFriendsWith(int userId, int friendId)
+        {
+            //TODO
+            List<UserInfo> friends = db.GetFriends(userId);
+            foreach(UserInfo a in friends) 
+            {
+                if (a.Id == friendId)
+                {
+                    return true;
+                } 
+            }
+
+            return false;
+        }
+
+        public bool SendFriendRequest(int userId, int friendId)
+        {
+            //TODO
+
+           
+
+            return false;
+        }
+
+        public bool AnswerFriendRequest(int userId, int senderId, bool answer)
+        {
+            //TODO
+            return false;
+        }
+
+        public bool RemoveFriend(int userId, int friendId)
+        {
+            //TODO
+            return false;
+        }
+
+        public EventFeedViewModel GetFriendFeed(int userId)
         {
             //TODO
             return null;
         }
 
-        public bool IsFriendsWith(uint userId, uint friendId)
+        public bool CreateEvent(int userId, EventInfo newEvent)
         {
             //TODO
             return false;
         }
 
-        public bool SendFriendRequest(uint userId, uint friendId)
-        {
-            //TODO
-            return false;
-        }
-
-        public bool AnswerFriendRequest(uint userId, uint senderId, bool answer)
-        {
-            //TODO
-            return false;
-        }
-
-        public bool RemoveFriend(uint userId, uint friendId)
-        {
-            //TODO
-            return false;
-        }
-
-        public EventFeedViewModel GetFriendFeed(uint userId)
-        {
-            //TODO
-            return null;
-        }
-
-        public bool CreateEvent(uint userId, EventInfo newEvent)
-        {
-            //TODO
-            return false;
-        }
-
-        public bool ChangeName(uint userId, string newName)
+        public bool ChangeName(int userId, string newName)
         {
             //TODO
             return false;
