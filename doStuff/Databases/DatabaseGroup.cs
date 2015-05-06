@@ -8,27 +8,27 @@ namespace doStuff.Databases
 {
     public class DatabaseGroup : DatabaseBase
     {
-        public List<UserInfo> GetMembers(uint groupId)
+        public List<UserInfo> GetMembers(int groupId)
         {
             return null;
         }
 
-        public List<EventInfo> GetEvents(uint groupId)
+        public List<EventInfo> GetEvents(int groupId)
         {
             return null;
         }
 
-        public bool AddMember(uint groupId, uint memberId)
+        public bool AddMember(int groupId, int memberId)
         {
             return false;
         }
 
-        public bool RemoveMember(uint groupId, uint memberId)
+        public bool RemoveMember(int groupId, int memberId)
         {
             return false;
         }
 
-        public bool ChangeName(uint groupId, string newName)
+        public bool ChangeName(int groupId, string newName)
         {
             return false;
         }
@@ -38,7 +38,7 @@ namespace doStuff.Databases
             return false;
         }
 
-        public bool RemoveGroup(uint groupId)
+        public bool RemoveGroup(int groupId)
         {
             return false;
         }

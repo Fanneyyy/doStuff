@@ -8,32 +8,32 @@ namespace doStuff.Databases
 {
     public class DatabaseUser : DatabaseGroup
     {
-        public List<UserInfo> GetFriends(uint userId)
+        public List<UserInfo> GetFriends(int userId)
         {
             return null;
         }
 
-        public List<EventInfo> GetEvents(uint userId)
+        public List<EventInfo> GetEvents(int userId)
         {
             return null;
         }
 
-        public bool CreateFriendRequest(uint senderId, uint receiverId)
+        public bool CreateFriendRequest(int senderId, int receiverId)
         {
             return false;
         }
 
-        public bool AnswerFriendRequest(uint senderId, uint receiverId, bool answer)
+        public bool AnswerFriendRequest(int senderId, int receiverId, bool answer)
         {
             return false;
         }
 
-        public bool RemoveFriend(uint senderId, uint receiverId)
+        public bool RemoveFriend(int senderId, int receiverId)
         {
             return false;
         }
 
-        public bool ChangeName(uint userId, string newName)
+        public bool ChangeName(int userId, string newName)
         {
             return false;
         }

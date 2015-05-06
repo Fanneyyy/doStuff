@@ -12,7 +12,7 @@ namespace doStuff.Databases
         protected static DoStuffDatabase db = new DoStuffDatabase();
 
         #region GetInfo
-        public UserInfo GetUser(uint userId)
+        public UserInfo GetUser(int userId)
         {
             UserTable user = (from u in db.Users
                              where u.UserTableID == userId
@@ -28,7 +28,7 @@ namespace doStuff.Databases
             return TableToEntity(user);
         }
 
-        public GroupInfo GetGroup(uint groupId)
+        public GroupInfo GetGroup(int groupId)
         {
             GroupTable group = (from g in db.Groups
                                 where g.GroupTableID == groupId
@@ -36,7 +36,7 @@ namespace doStuff.Databases
             return TableToEntity(group);
         }
 
-        public EventInfo GetEvent(uint eventId)
+        public EventInfo GetEvent(int eventId)
         {
             EventTable theEvent = (from e in db.Events
                                     where e.EventTableID == eventId
@@ -44,7 +44,7 @@ namespace doStuff.Databases
             return TableToEntity(theEvent);
         }
 
-        public CommentInfo GetComment(uint commentId)
+        public CommentInfo GetComment(int commentId)
         {
             CommentTable comment = (from c in db.Comments
                                     where c.CommentTableID == commentId
@@ -53,13 +53,13 @@ namespace doStuff.Databases
         }
         #endregion
 
-        public List<GroupInfo> GetGroups(uint userId)
+        public List<GroupInfo> GetGroups(int userId)
         {
             List<GroupInfo> groups = new List<GroupInfo>();
             return groups;
         }
 
-        public List<CommentInfo> GetComments(uint eventId)
+        public List<CommentInfo> GetComments(int eventId)
         {
             //TODO
             return null;
@@ -77,37 +77,37 @@ namespace doStuff.Databases
             return false;
         }
 
-        public bool RemoveEvent(uint eventId)
+        public bool RemoveEvent(int eventId)
         {
             //TODO
             return false;
         }
 
-        public bool HasAccessToEvent(uint userId, uint eventId)
+        public bool HasAccessToEvent(int userId, int eventId)
         {
             //TODO
             return false;
         }
 
-        public bool CreateComment(uint eventId, CommentInfo comment)
+        public bool CreateComment(int eventId, CommentInfo comment)
         {
             //TODO
             return false;
         }
 
-        public bool RemoveComment(uint commendId)
+        public bool RemoveComment(int commendId)
         {
             //TODO
             return false;
         }
 
-        public bool AnswerEvent(uint userId, uint eventId, bool answer)
+        public bool AnswerEvent(int userId, int eventId, bool answer)
         {
             //TODO
             return false;
         }
 
-        public bool IsAttendingEvent(uint userId, uint eventId)
+        public bool IsAttendingEvent(int userId, int eventId)
         {
             return false;
         }
