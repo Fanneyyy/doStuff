@@ -4,63 +4,92 @@ using System.Linq;
 using System.Web;
 using doStuff.POCOs;
 using doStuff.ViewModels;
+using doStuff.Databases;
 
 namespace doStuff.Services
 {
     public class ServiceBase
     {
+        private static DatabaseBase db = new DatabaseBase();
         public bool CreateUser(UserInfo user)
         {
-            //TODO
-            return false;
+            return db.CreateUser(user);
         }
 
         public uint GetUserId(string userName)
         {
-            //TODO
-            return 0;
+            //TODO: throw exception
+            UserInfo user = new UserInfo();
+            user = db.GetUser(userName);
+
+            return user.Id;
         }
 
         public bool IsOwnerOfEvent(uint userId, uint eventId)
         {
-            //TODO
+            EventInfo newEvent = getEventById(eventId);
+
+            if (newEvent.OwnerId == userId)
+            {
+                return true;
+            }
             return false;
         }
 
         public bool IsAttendingEvent(uint userId, uint eventId)
         {
             //TODO
+            // Need access to event users
+            EventInfo newEvent = getEventById(eventId);
+
             return false;
         }
 
         public bool IsOwnerOfComment(uint userId, uint commentId)
         {
-            //TODO
+            //TODO Exceptions if commentid and userid dont have anything attached
+            CommentInfo newComment = getCommentById(commentId);
+
+            if (newComment.OwnerId == userId) ;
+            {
+                return true;
+            }
             return false;
         }
 
         public bool HasAccessToEvent(uint userId, uint eventId)
         {
             //TODO
+            // Need access to users of event
             return false;
         }
 
         public bool RemoveEvent(uint eventId)
         {
-            //TODO
-            return false;
+            return db.RemoveEvent(eventId);
         }
 
         public bool CreateComment(uint eventId, CommentInfo comment)
         {
-            //TODO
-            return false;
+            return db.CreateComment(eventId, comment);
         }
 
         public bool AnswerEvent(uint userId, uint eventId, bool answer)
         {
-            //TODO
-            return false;
+            return db.AnswerEvent(userId, eventId, answer);
+        }
+
+        private EventInfo getEventById(uint eventId)
+        {
+            EventInfo newEvent = new EventInfo();
+            newEvent = db.GetEvent(eventId);
+            return newEvent;
+        }
+        private CommentInfo getCommentById(uint commentId)
+        {
+            CommentInfo newComment = new CommentInfo();
+            newComment = db.GetComment(commentId);
+            return newComment;
         }
     }
 }
