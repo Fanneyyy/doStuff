@@ -10,7 +10,7 @@ namespace doStuff.Models.DatabaseModels
     public class CommentTable
     {
         [Key]
-        public uint Id { get; set; }
+        public int CommentTableID { get; set; }
         public bool Active { get; set; }
         [ForeignKey("UserTable")]
         public uint OwnerId { get; set; }

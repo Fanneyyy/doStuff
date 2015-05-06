@@ -10,7 +10,7 @@ namespace doStuff.Models.DatabaseModels
     public class GroupTable
     {
         [Key]
-        public uint Id { get; set; }
+        public int GroupTableID { get; set; }
         public bool Active { get; set; }
         [ForeignKey("UserTable")]
         public uint OwnerId { get; set; }

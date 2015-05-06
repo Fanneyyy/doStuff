@@ -8,6 +8,8 @@ namespace doStuff.Databases
 {
     public class DatabaseBase
     {
+        private static DoStuffDatabase db = new DoStuffDatabase();
+
         public UserInfo GetUser(uint userId)
         {
             //TODO

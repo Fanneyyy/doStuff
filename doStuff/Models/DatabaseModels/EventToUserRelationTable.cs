@@ -10,7 +10,7 @@ namespace doStuff.Models.DatabaseModels
     public class EventToUserRelationTable
     {
         [Key]
-        public uint Id { get; set; }
+        public int EventToUserRelationTableID { get; set; }
         public bool Active { get; set; }
         [ForeignKey("EventTable")]
         public uint EventId { get; set; }

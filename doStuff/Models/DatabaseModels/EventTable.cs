@@ -10,7 +10,7 @@ namespace doStuff.Models.DatabaseModels
     public class EventTable
     {
         [Key]
-        public uint Id { get; set; }
+        public int EventTableID { get; set; }
         public bool Active { get; set; }
         [ForeignKey("GroupTable")]
         public uint GroupId { get; set; }
