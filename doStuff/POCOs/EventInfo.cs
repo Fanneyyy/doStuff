@@ -8,7 +8,7 @@ namespace doStuff.POCOs
     public class EventInfo
     {
         public int Id;
-        public int GroupId;
+        public int? GroupId;
         public int OwnerId;
         public string Name;
         public string Photo;

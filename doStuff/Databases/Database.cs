@@ -314,27 +314,51 @@ namespace doStuff.Databases
             #region Create
             public bool CreateUserToUserRelation(int senderId, int receiverId)
             {
-                return false;
+                UserToUserRelationTable table = new UserToUserRelationTable();
+                table.Active = true;
+                table.SenderId = senderId;
+                table.ReceiverId = receiverId;
+                table.Answer = false;
+                db.FriendShipRelations.Add(table);
+                return true;
             }
 
             public bool CreateGroupToUserRelation(int groupId, int userId)
             {
-                return false;
+                GroupToUserRelationTable table = new GroupToUserRelationTable();
+                table.Active = true;
+                table.GroupId = groupId;
+                table.MemberId = userId;
+                db.GroupToUserRelations.Add(table);
+                return true;
             }
             
             public bool CreateEventToUserRelation(int eventId, int userId)
             {
-                return false;
+                EventToUserRelationTable table = new EventToUserRelationTable();
+                table.Active = true;
+                table.EventId = eventId;
+                table.AttendeeId = userId;
+                table.Answer = null;
+                return true;
             }
 
             public bool CreateGroupToEventRelation(int groupId, int EventId)
             {
-                return false;
+                GroupToEventRelationTable table = new GroupToEventRelationTable();
+                table.Active = true;
+                table.GroupId = groupId;
+                table.EventId = EventId;
+                return true;
             }
 
             public bool CreateEventToCommentRelation(int eventId, int commentId)
             {
-                return false;
+                EventToCommentRelationTable table = new EventToCommentRelationTable();
+                table.Active = true;
+                table.EventId = eventId;
+                table.CommentId = commentId;
+                return true;
             }
             #endregion
             #region Remove

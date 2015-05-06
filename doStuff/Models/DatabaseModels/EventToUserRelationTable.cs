@@ -16,6 +16,6 @@ namespace doStuff.Models.DatabaseModels
         public int EventId { get; set; }
         [ForeignKey("UserTable")]
         public int AttendeeId { get; set; }
-        public bool Answer { get; set; }
+        public bool? Answer { get; set; }
     }
 }

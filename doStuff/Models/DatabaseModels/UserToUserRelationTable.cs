@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace doStuff.Models.DatabaseModels
 {
-    public class FriendShipRelationTable
+    public class UserToUserRelationTable
     {
         [Key]
         public int EventToUserRelationTableID { get; set; }

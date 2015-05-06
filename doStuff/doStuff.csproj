@@ -173,7 +173,7 @@
     <Compile Include="Models\DatabaseModels\EventTable.cs" />
     <Compile Include="Models\DatabaseModels\EventToCommentRelationTable.cs" />
     <Compile Include="Models\DatabaseModels\EventToUserRelationTable.cs" />
-    <Compile Include="Models\DatabaseModels\FriendShipRelationTable.cs" />
+    <Compile Include="Models\DatabaseModels\UserToUserRelationTable.cs" />
     <Compile Include="Models\DatabaseModels\GroupTable.cs" />
     <Compile Include="Models\DatabaseModels\GroupToEventRelationTable.cs" />
     <Compile Include="Models\DatabaseModels\GroupToUserRelationTable.cs" />

@@ -13,7 +13,7 @@ namespace doStuff.Models.DatabaseModels
         public int EventTableID { get; set; }
         public bool Active { get; set; }
         [ForeignKey("GroupTable")]
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         [ForeignKey("UserTable")]
         public int OwnerId { get; set; }
         public string Name { get; set; }
