@@ -15,11 +15,11 @@ namespace doStuff.Databases
         {
             List<UserInfo> friends = new List<UserInfo>();
 
-            List<int> friendIds = (from f in db.FriendShipRelations
+            List<int> friendIds = (from f in db.UserToUserRelations
                                    where f.ReceiverId == userId && f.Active == true
                                    select f.SenderId).ToList();
 
-            friendIds = friendIds.Concat(from f in db.FriendShipRelations
+            friendIds = friendIds.Concat(from f in db.UserToUserRelations
                                          where f.SenderId == userId && f.Active == true
                                          select f.ReceiverId).ToList();
 
@@ -273,7 +273,7 @@ namespace doStuff.Databases
             #region Exists
             public bool ExistsUserToUserRelation(int senderId, int receiverId)
             {
-                var relation = (from r in db.FriendShipRelations
+                var relation = (from r in db.UserToUserRelations
                                 where r.SenderId == senderId && r.ReceiverId == receiverId && r.Active == true
                                 select r).SingleOrDefault();
                 return relation != null;
@@ -319,7 +319,8 @@ namespace doStuff.Databases
                 table.SenderId = senderId;
                 table.ReceiverId = receiverId;
                 table.Answer = false;
-                db.FriendShipRelations.Add(table);
+                db.UserToUserRelations.Add(table);
+                db.SaveChanges();
                 return true;
             }
 
@@ -330,6 +331,7 @@ namespace doStuff.Databases
                 table.GroupId = groupId;
                 table.MemberId = userId;
                 db.GroupToUserRelations.Add(table);
+                db.SaveChanges();
                 return true;
             }
             
@@ -340,6 +342,8 @@ namespace doStuff.Databases
                 table.EventId = eventId;
                 table.AttendeeId = userId;
                 table.Answer = null;
+                db.EventToUserRelations.Add(table);
+                db.SaveChanges();
                 return true;
             }
 
@@ -349,6 +353,8 @@ namespace doStuff.Databases
                 table.Active = true;
                 table.GroupId = groupId;
                 table.EventId = EventId;
+                db.GroupToEventRelations.Add(table);
+                db.SaveChanges();
                 return true;
             }
 
@@ -358,69 +364,121 @@ namespace doStuff.Databases
                 table.Active = true;
                 table.EventId = eventId;
                 table.CommentId = commentId;
+                db.EventToCommentRelations.Add(table);
+                db.SaveChanges();
                 return true;
             }
             #endregion
             #region Remove
             public bool RemoveUserToUserRelation(int id)
             {
-                return false;
+                var table = (from t in db.UserToUserRelations
+                             where t.EventToUserRelationTableID == id
+                             select t).Single();
+                table.Active = false;
+                db.SaveChanges();
+                return true;
             }
 
             public bool RemoveGroupToUserRelation(int id)
             {
-                return false;
+                var table = (from t in db.GroupToUserRelations
+                             where t.GroupToUserRelationTableID == id
+                             select t).Single();
+                table.Active = false;
+                db.SaveChanges();
+                return true;
             }
 
             public bool RemoveEventToUserRelation(int id)
             {
-                return false;
+                var table = (from t in db.EventToUserRelations
+                             where t.EventToUserRelationTableID == id
+                             select t).Single();
+                table.Active = false;
+                db.SaveChanges();
+                return true;
             }
 
             public bool RemoveGroupToEventRelation(int id)
             {
-                return false;
+                var table = (from t in db.GroupToEventRelations
+                             where t.GroupToEventRelationTableID == id
+                             select t).Single();
+                table.Active = false;
+                db.SaveChanges();
+                return true;
             }
 
             public bool RemoveEventToCommentRelation(int id)
             {
-                return false;
+                var table = (from t in db.EventToCommentRelations
+                             where t.EventToCommentRelationTableID == id
+                             select t).Single();
+                table.Active = false;
+                db.SaveChanges();
+                return true;
             }
             #endregion
             #region Get
             public int GetUserToUserRelation(int senderId, int receiverId)
             {
-                return 0;
+                var table = (from t in db.UserToUserRelations
+                             where t.SenderId == senderId && t.ReceiverId == receiverId && t.Active == true
+                             select t).Single();
+                return table.EventToUserRelationTableID;
             }
 
             public int GetGroupToUserRelation(int groupId, int userId)
             {
-                return 0;
+                var table = (from t in db.GroupToUserRelations
+                             where t.GroupId == groupId && t.MemberId == userId && t.Active == true
+                             select t).Single();
+                return table.GroupToUserRelationTableID;
             }
 
             public int GetEventToUserRelation(int eventId, int userId)
             {
-                return 0;
+                var table = (from t in db.EventToUserRelations
+                             where t.EventId == eventId && t.AttendeeId == userId && t.Active == true
+                             select t).Single();
+                return table.EventToUserRelationTableID;
             }
 
-            public int GetGroupToEventRelation(int groupId, int EventId)
+            public int GetGroupToEventRelation(int groupId, int eventId)
             {
-                return 0;
+                var table = (from t in db.GroupToEventRelations
+                             where t.GroupId == groupId && t.EventId == eventId && t.Active == true
+                             select t).Single();
+                return table.GroupToEventRelationTableID;
             }
 
             public int GetEventToCommentRelation(int eventId, int commentId)
             {
-                return 0;
+                var table = (from t in db.EventToCommentRelations
+                             where t.EventId == eventId && t.CommentId == commentId && t.Active == true
+                             select t).Single();
+                return table.EventToCommentRelationTableID;
             }
             #endregion    
             #region Set
             public bool SetUserToUserRelation(int id, bool answer)
             {
-                return false;
+                var table = (from t in db.UserToUserRelations
+                             where t.EventToUserRelationTableID == id
+                             select t).Single();
+                table.Answer = answer;
+                db.SaveChanges();
+                return true;
             }
             public bool SetEventToUserRelation(int id, bool answer)
             {
-                return false;
+                var table = (from t in db.EventToUserRelations
+                             where t.EventToUserRelationTableID == id
+                             select t).Single();
+                table.Answer = answer;
+                db.SaveChanges();
+                return true;
             }
             #endregion
         #endregion
