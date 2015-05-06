@@ -11,59 +11,109 @@ namespace doStuff.Services
     public class GroupService : ServiceBase
     {
         private static DatabaseGroup db = new DatabaseGroup();
-
-        public EventFeedViewModel GetGroupFeed(uint groupId)
+        public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
             //TODO
-            return null;
+            // ´show something if user has no friends or events?
+            EventFeedViewModel feed = new EventFeedViewModel();
+            List<EventViewModel> eventsViews = new List<EventViewModel>();
+            List<EventInfo> events = db.GetEvents(groupId);
+
+            foreach (EventInfo eachEvent in events)
+            {
+                EventViewModel eventView = new EventViewModel();
+                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                eventView.Event = eachEvent;
+                eventView.Comments = db.GetComments(eachEvent.Id);
+                eventsViews.Add(eventView);
+            }
+
+            SideBarViewModel sidebar = new SideBarViewModel();
+            sidebar.User = db.GetUser(userId);
+            sidebar.UserList = db.GetMembers(groupId);
+            feed.Events = eventsViews;
+            feed.SideBar = sidebar;
+            
+            
+            return feed;
         }
 
-        public bool IsOwnerOfGroup(uint UserId, uint groupId)
+        public bool IsOwnerOfGroup(int UserId, int groupId)
         {
             //TODO
+            GroupInfo group = db.GetGroup(groupId);
+
+            if (groupId == group.OwnerId)
+            {
+                return true;
+            }
+            
             return false;
         }
 
-        public bool IsMemberOfGroup(uint userId, uint groupId)
+        public bool IsMemberOfGroup(int userId, int groupId)
         {
             //TODO
+            List <UserInfo> groupMembers = db.GetMembers(groupId);
+
+            foreach (UserInfo x in groupMembers)
+            {
+                if (x.Id == userId) {
+                    return true;
+                }
+            }
             return false;
         }
 
-        public bool AddMember(uint userId, uint groupId)
+        public bool AddMember(int userId, int groupId)
         {
-            //TODO
-            return false;
+            return db.AddMember(groupId, userId);
         }
 
-        public bool RemoveMember(uint userId, uint groupId)
+        public bool RemoveMember(int userId, int groupId)
         {
-            //TODO
-            return false;
+            return db.RemoveMember(groupId, userId);
         }
 
-        public bool CreateEvent(uint userId, uint groupId, EventInfo newEvent)
+        public bool CreateEvent(int userId, int groupId, EventInfo newEvent)
         {
-            //TODO
-            return false;
+            // TODO: Add person automatically to event
+            newEvent.GroupId = groupId;
+            newEvent.OwnerId = userId;
+            return db.CreateEvent(newEvent);
         }
 
-        public bool ChangeName(uint groupId, string newName)
+        public bool ChangeName(int groupId, string newName)
         {
-            //TODO
-            return false;
+            //TODO Exception ef grouId finnst ekki..
+
+            GroupInfo group = db.GetGroup(groupId);
+            group.GroupName = newName;
+            return true;
         }
 
         public bool CreateGroup(GroupInfo group)
         {
-            //TODO
-            return false;
+            //TODO make user join group automatically
+            return db.CreateGroup(group);
         }
 
-        public bool RemoveGroup(uint groupId)
+        public bool RemoveGroup(int groupId)
         {
-            //TODO
-            return false;
+            return db.RemoveGroup(groupId);
         }
+        private EventInfo getEventById(int eventId)
+        {
+            EventInfo newEvent = new EventInfo();
+            newEvent = db.GetEvent(eventId);
+            return newEvent;
+        }
+        private GroupInfo getGroupById(int groupId)
+        {
+            GroupInfo newGroup = new GroupInfo();
+            newGroup = db.GetGroup(groupId);
+            return newGroup;
+        }
+        
     }
 }

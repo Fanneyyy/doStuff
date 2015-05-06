@@ -55,7 +55,8 @@ namespace doStuff.Services
 
         public bool HasAccessToEvent(int userId, int eventId)
         {
-            return db.HasAccessToEvent(userId, eventId);
+            // TODO
+            return false;
         }
 
         public bool RemoveEvent(int eventId)
@@ -65,7 +66,8 @@ namespace doStuff.Services
 
         public bool CreateComment(int eventId, CommentInfo comment)
         {
-            return db.CreateComment(eventId, comment);
+            //TODO
+            return false;
         }
 
         public bool AnswerEvent(int userId, int eventId, bool answer)
