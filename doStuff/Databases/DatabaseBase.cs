@@ -53,39 +53,58 @@ namespace doStuff.Databases
         }
         #endregion
 
+        //TO UNION LINQ MAGIC UGLY CODE PLEASE FIX LATER
         public List<GroupInfo> GetGroups(int userId)
         {
             List<GroupInfo> groups = new List<GroupInfo>();
+
+            var groupIDs = (from g in db.GroupToUserRelations
+                            where g.MemberId == userId
+                            select g.GroupId);
+
+            foreach(var id in groupIDs)
+            {
+                groups.Add(TableToEntity((from g in db.Groups where g.GroupTableID == id select g).Single()));
+            }
             return groups;
         }
 
         public List<CommentInfo> GetComments(int eventId)
         {
-            //TODO
-            return null;
+            List<CommentInfo> comments = new List<CommentInfo>();
+
+            var commentIDs = (from c in db.EventToCommentRelations
+                              where c.EventId == eventId
+                              select c.EventId);
+
+            foreach (var id in commentIDs)
+            {
+                comments.Add(TableToEntity((from c in db.Comments where c.CommentTableID == id select c).Single()));
+            }
+            return comments;
         }
 
         public bool CreateUser(UserInfo user)
         {
-            //TODO
-            return false;
+            db.Users.Add(EntityToTable(user));
+            db.SaveChanges();
+            return true;
         }
 
         public bool CreateEvent(EventInfo newEvent)
         {
-            //TODO
-            return false;
+            db.Events.Add(EntityToTable(newEvent));
+            db.SaveChanges();
+            return true;
         }
 
         public bool RemoveEvent(int eventId)
         {
-            //TODO
-            return false;
-        }
-
-        public bool HasAccessToEvent(int userId, int eventId)
-        {
-            //TODO
+            var theEvent = (from e in db.Events
+                            where e.EventTableID == eventId
+                            select e).Single();
+            theEvent.Active = false;
+            db.SaveChanges();
             return false;
         }
 
@@ -167,6 +186,69 @@ namespace doStuff.Databases
 
             return info;
         }
+        #endregion
+
+        #region EntityToTable
+
+        protected UserTable EntityToTable(UserInfo user)
+        {
+            UserTable table = new UserTable();
+
+            table.UserTableID = user.Id;
+            table.Active = true;
+            table.UserName = user.UserName;
+            table.Gender = user.Gender;
+            table.DisplayName = user.DisplayName;
+            table.Age = user.Age;
+            table.Email = user.Email;
+
+            return table;
+        }
+
+        protected GroupTable EntityToTable(GroupInfo group)
+        {
+            GroupTable table = new GroupTable();
+
+            table.GroupTableID = group.Id;
+            table.Active = true;
+            table.OwnerId = group.OwnerId;
+            table.Name = group.GroupName;
+
+            return table;
+        }
+
+        protected EventTable EntityToTable(EventInfo theEvent)
+        {
+            EventTable table = new EventTable();
+
+            table.EventTableID = theEvent.Id;
+            table.GroupId = theEvent.GroupId;
+            table.OwnerId = theEvent.OwnerId;
+            table.Name = theEvent.Name;
+            table.Photo = theEvent.Photo;
+            table.Description = theEvent.Description;
+            table.CreationTime = theEvent.CreationTime;
+            table.TimeOfEvent = theEvent.TimeOfEvent;
+            table.Minutes = theEvent.Minutes;
+            table.Location = theEvent.Location;
+            table.Max = theEvent.Max;
+            table.Min = theEvent.Min;
+
+            return table;
+        }
+
+        protected CommentTable EntityToTable(CommentInfo comment)
+        {
+            CommentTable table = new CommentTable();
+
+            table.CommentTableID = comment.Id;
+            table.OwnerId = comment.OwnerId;
+            table.Content = comment.Content;
+            table.CreationTime = comment.CreationTime;
+
+            return table;
+        }
+
         #endregion
     }
 }
