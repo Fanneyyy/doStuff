@@ -20,8 +20,8 @@ namespace doStuff.Controllers
             /*UserTable user = new UserTable();
             user.Email = "Ironpeak";
             db.Users.Add(user);
-            db.SaveChanges();*/
-            var ret = (from p in db.Users select p).First();
+            db.SaveChanges();
+            var ret = (from p in db.Users select p).First(); */
             return View();
         }
     }
