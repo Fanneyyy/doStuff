@@ -38,7 +38,8 @@ namespace doStuff.Services
 
         public bool IsAttendingEvent(int userId, int eventId)
         {
-            return db.IsAttendingEvent(userId, eventId);
+            //TODO
+            return false;
         }
 
         public bool IsOwnerOfComment(int userId, int commentId)

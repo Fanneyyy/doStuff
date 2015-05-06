@@ -40,7 +40,6 @@ namespace doStuff.Services
 
         public bool IsOwnerOfGroup(int UserId, int groupId)
         {
-            //TODO
             GroupInfo group = db.GetGroup(groupId);
 
             if (groupId == group.OwnerId)
@@ -53,7 +52,6 @@ namespace doStuff.Services
 
         public bool IsMemberOfGroup(int userId, int groupId)
         {
-            //TODO
             List <UserInfo> groupMembers = db.GetMembers(groupId);
 
             foreach (UserInfo x in groupMembers)
@@ -75,12 +73,17 @@ namespace doStuff.Services
             return db.RemoveMember(groupId, userId);
         }
 
-        public bool CreateEvent(int userId, int groupId, EventInfo newEvent)
+        public bool CreateEvent(EventInfo newEvent)
         {
             // TODO: Add person automatically to event
-            newEvent.GroupId = groupId;
-            newEvent.OwnerId = userId;
-            return db.CreateEvent(newEvent);
+            bool created = false;
+            created = db.CreateEvent(newEvent);
+
+            if (created)
+            {
+                return db.CreateEventToUserRelation(newEvent.Id, newEvent.OwnerId);
+            }
+            return false;
         }
 
         public bool ChangeName(int groupId, string newName)
@@ -95,7 +98,15 @@ namespace doStuff.Services
         public bool CreateGroup(GroupInfo group)
         {
             //TODO make user join group automatically
-            return db.CreateGroup(group);
+            bool created = false;
+
+            created = db.CreateGroup(group);
+
+            if (created)
+            {
+                return db.CreateGroupToUserRelation(group.Id, group.OwnerId);
+            }
+            return false;
         }
 
         public bool RemoveGroup(int groupId)
