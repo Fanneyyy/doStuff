@@ -8,7 +8,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace doStuff.Databases
 {
-    public class DoStuffDatabase : DbContext
+    public class DatabaseContext : DbContext
     {
         public DbSet<UserTable> Users { get; set; }
         public DbSet<GroupTable> Groups { get; set; }
