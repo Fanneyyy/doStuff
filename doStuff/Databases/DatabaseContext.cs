@@ -18,5 +18,6 @@ namespace doStuff.Databases
         public DbSet<FriendShipRelationTable> FriendShipRelations { get; set; }
         public DbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
         public DbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
+        public DbSet<GroupToEventRelationTable> GroupToEventRelations { get; set; }
     }
 }

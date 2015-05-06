@@ -154,8 +154,8 @@ namespace doStuff.Databases
             public bool RemoveUser(int userId)
             {
                 var user = (from u in db.Users
-                                where u.UserTableID == userId
-                                select u).Single();
+                            where u.UserTableID == userId
+                            select u).Single();
                 user.Active = false;
                 db.SaveChanges();
                 return false;
@@ -232,19 +232,40 @@ namespace doStuff.Databases
             #region Set
             public bool SetUser(UserInfo user)
             {
+                var userTable = (from u in db.Users
+                                 where u.UserTableID == user.Id
+                                 select u).Single();
+                userTable = EntityToTable(user);
+                db.SaveChanges();
                 return true;
             }
             public bool SetGroup(GroupInfo group)
             {
+                int groupId = group.Id;
+                var groupTable = (from g in db.Groups
+                                  where g.GroupTableID == groupId
+                                  select g).Single();
+                groupTable = EntityToTable(group);
+                db.SaveChanges();
                 return true;
             }
             public bool SetEvent(EventInfo newEvent)
             {
+                var eventTable = (from e in db.Events
+                                where e.EventTableID == newEvent.Id
+                                select e).Single();
+                eventTable = EntityToTable(newEvent);
+                db.SaveChanges();
                 return true;
             }
             public bool SetComment(CommentInfo comment)
             {
-                return false;
+                var commentTable = (from c in db.Comments
+                               where c.CommentTableID == comment.Id
+                               select c).Single();
+                commentTable = EntityToTable(comment);
+                db.SaveChanges();
+                return true;
             }
             #endregion
         #endregion
@@ -252,27 +273,42 @@ namespace doStuff.Databases
             #region Exists
             public bool ExistsUserToUserRelation(int senderId, int receiverId)
             {
-                return false;
+                var relation = (from r in db.FriendShipRelations
+                                where r.SenderId == senderId && r.ReceiverId == receiverId && r.Active == true
+                                select r).SingleOrDefault();
+                return relation != null;
             }
 
             public bool ExistsGroupToUserRelation(int groupId, int userId)
             {
-                return false;
+                var relation = (from r in db.GroupToUserRelations
+                                where r.GroupId == groupId && r.MemberId == userId && r.Active == true
+                                select r).SingleOrDefault();
+                return relation != null;
             }
 
             public bool ExistsEventToUserRelation(int eventId, int userId)
             {
-                return false;
+                var relation = (from r in db.EventToUserRelations
+                                where r.EventId == eventId && r.AttendeeId == userId && r.Active == true
+                                select r).SingleOrDefault();
+                return relation != null;
             }
 
-            public bool ExistsGroupToEventRelation(int groupId, int EventId)
+            public bool ExistsGroupToEventRelation(int groupId, int eventId)
             {
-                return false;
+                var relation = (from r in db.GroupToEventRelations
+                                where r.GroupId == groupId && r.EventId == eventId && r.Active == true
+                                select r).SingleOrDefault();
+                return relation != null;
             }
 
             public bool ExistsEventToCommentRelation(int eventId, int commentId)
             {
-                return false;
+                var relation = (from r in db.EventToCommentRelations
+                                where r.EventId == eventId && r.CommentId == commentId && r.Active == true
+                                select r).SingleOrDefault();
+                return relation != null;
             }
             #endregion
             #region Create
@@ -358,7 +394,6 @@ namespace doStuff.Databases
             {
                 return false;
             }
-
             public bool SetEventToUserRelation(int id, bool answer)
             {
                 return false;
