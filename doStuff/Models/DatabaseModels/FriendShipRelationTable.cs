@@ -13,9 +13,9 @@ namespace doStuff.Models.DatabaseModels
         public int EventToUserRelationTableID { get; set; }
         public bool Active { get; set; }
         [ForeignKey("UserTable")]
-        public uint SenderId { get; set; }
+        public int SenderId { get; set; }
         [ForeignKey("UserTable")]
-        public uint ReceiverId { get; set; }
+        public int ReceiverId { get; set; }
         public bool Answer { get; set; }
     }
 }

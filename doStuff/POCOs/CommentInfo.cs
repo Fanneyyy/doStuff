@@ -7,8 +7,8 @@ namespace doStuff.POCOs
 {
     public class CommentInfo
     {
-        public uint Id;
-        public uint OwnerId;
+        public int Id;
+        public int OwnerId;
         public string Content;
         public DateTime CreationTime;
     }

@@ -7,9 +7,9 @@ namespace doStuff.POCOs
 {
     public class EventInfo
     {
-        public uint Id;
-        public uint GroupId;
-        public uint OwnerId;
+        public int Id;
+        public int GroupId;
+        public int OwnerId;
         public string Name;
         public string Photo;
         public string Description;
@@ -17,7 +17,7 @@ namespace doStuff.POCOs
         public DateTime TimeOfEvent;
         public uint Minutes;
         public string Location;
-        public string Answer;
+        public bool Answer;
         public uint Max;
         public uint Min;
     }
