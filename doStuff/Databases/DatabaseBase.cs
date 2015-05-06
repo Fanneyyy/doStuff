@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using doStuff.POCOs;
+using System.Data.Entity;
 
 namespace doStuff.Databases
 {
     public class DatabaseBase
     {
-        private static DoStuffDatabase db = new DoStuffDatabase();
+        private readonly IDostuffDataContext db;
+
+        public DatabaseBase(IDostuffDataContext dbContext)
+        {
+            db = dbContext ?? new DoStuffDatabase();       
+        }
 
         public UserInfo GetUser(uint userId)
         {
