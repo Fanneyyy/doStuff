@@ -14,16 +14,33 @@ namespace doStuff.Services
 
         public EventFeedViewModel GetEventFeed(int userId)
         {
-            //TODO
+            //TODO Show something if user has no friends or events?
 
-            List<EventInfo> eventfeed = db.GetEvents(userId);
+            EventFeedViewModel feed = new EventFeedViewModel();
+            List<EventViewModel> eventViews = new List<EventViewModel>();
+            List<EventInfo> events = db.GetEvents(userId);
 
-            return null;
+            foreach(EventInfo eachEvent in events)
+            {
+                EventViewModel eventView = new EventViewModel();
+                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                eventView.Event = eachEvent;
+                eventView.Comments = db.GetComments(eachEvent.Id);
+                eventViews.Add(eventView);
+            }
+
+            SideBarViewModel sidebar = new SideBarViewModel();
+            sidebar.User = db.GetUser(userId);
+            sidebar.UserList = db.GetFriends(userId);
+            feed.Events = eventViews;
+            feed.SideBar = sidebar;
+
+            return feed;
         }
 
         public bool IsFriendsWith(int userId, int friendId)
         {
-            //TODO
+          
             List<UserInfo> friends = db.GetFriends(userId);
             foreach(UserInfo a in friends) 
             {
@@ -38,41 +55,40 @@ namespace doStuff.Services
 
         public bool SendFriendRequest(int userId, int friendId)
         {
-            //TODO
+            //TODO Check if user has already sent a request before.
 
-           
-
-            return false;
+            return db.CreateFriendRequest(userId, friendId);
         }
 
         public bool AnswerFriendRequest(int userId, int senderId, bool answer)
         {
-            //TODO
-            return false;
+            //TODO Need function to check, if there is a friendrequest already
+            if (answer == false)
+            {
+                return false;
+            }
+
+            return true;
+   
         }
 
         public bool RemoveFriend(int userId, int friendId)
         {
-            //TODO
-            return false;
-        }
-
-        public EventFeedViewModel GetFriendFeed(int userId)
-        {
-            //TODO
-            return null;
+      
+            return db.RemoveFriend(userId, friendId);
         }
 
         public bool CreateEvent(int userId, EventInfo newEvent)
         {
-            //TODO
-            return false;
+            //TODO add user automaticly in event.
+
+            return db.CreateEvent(newEvent);
         }
 
         public bool ChangeName(int userId, string newName)
         {
-            //TODO
-            return false;
+            return db.ChangeName(userId, newName);
         }
+  
     }
 }
