@@ -11,14 +11,31 @@ namespace doStuff.Services
     public class GroupService : ServiceBase
     {
         private static DatabaseGroup db = new DatabaseGroup();
-
-        public EventFeedViewModel GetGroupFeed(int groupId)
+        public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
             //TODO
-            // NEED BACKUP
+            // ´show something if user has no friends or events?
             EventFeedViewModel feed = new EventFeedViewModel();
+            List<EventViewModel> eventsViews = new List<EventViewModel>();
+            List<EventInfo> events = db.GetEvents(groupId);
+
+            foreach (EventInfo eachEvent in events)
+            {
+                EventViewModel eventView = new EventViewModel();
+                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                eventView.Event = eachEvent;
+                eventView.Comments = db.GetComments(eachEvent.Id);
+                eventsViews.Add(eventView);
+            }
+
+            SideBarViewModel sidebar = new SideBarViewModel();
+            sidebar.User = db.GetUser(userId);
+            sidebar.UserList = db.GetMembers(groupId);
+            feed.Events = eventsViews;
+            feed.SideBar = sidebar;
             
-            return null;
+            
+            return feed;
         }
 
         public bool IsOwnerOfGroup(int UserId, int groupId)
