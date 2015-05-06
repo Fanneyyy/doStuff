@@ -10,7 +10,24 @@ namespace doStuff.Databases
     public class DatabaseBase
     {
         protected static DoStuffDatabase db = new DoStuffDatabase();
-
+        #region CheckExistance
+        public bool UserExists(int userId)
+        {
+            return (1 == (from u in db.Users where u.UserTableID == userId select u).Count());
+        }
+        public bool GroupExists(int groupId)
+        {
+            return (1 == (from u in db.Groups where u.UserTableID == groupId select u).Count());
+        }
+        public bool EventExists(int eventId)
+        {
+            return (1 == (from u in db.Events where u.UserTableID == eventId select u).Count());
+        }
+        public bool CommentExists(int commentId)
+        {
+            return (1 == (from u in db.Comments where u.UserTableID == commentId select u).Count());
+        }
+        #endregion
         #region GetInfo
         public UserInfo GetUser(int userId)
         {
@@ -84,53 +101,133 @@ namespace doStuff.Databases
             return comments;
         }
 
-        public bool CreateUser(UserInfo user)
-        {
-            db.Users.Add(EntityToTable(user));
-            db.SaveChanges();
-            return true;
-        }
-
-        public bool CreateEvent(EventInfo newEvent)
-        {
-            db.Events.Add(EntityToTable(newEvent));
-            db.SaveChanges();
-            return true;
-        }
-
-        public bool RemoveEvent(int eventId)
-        {
-            var theEvent = (from e in db.Events
-                            where e.EventTableID == eventId
-                            select e).Single();
-            theEvent.Active = false;
-            db.SaveChanges();
-            return false;
-        }
-
-        public bool CreateComment(int eventId, CommentInfo comment)
-        {
-            //TODO
-            return false;
-        }
-
-        public bool RemoveComment(int commendId)
-        {
-            //TODO
-            return false;
-        }
-
         public bool AnswerEvent(int userId, int eventId, bool answer)
         {
             //TODO
             return false;
         }
 
-        public bool IsAttendingEvent(int userId, int eventId)
-        {
-            return false;
-        }
 
+        #region RecordTables
+            #region Create
+            public bool CreateUser(UserInfo user)
+            {
+                db.Users.Add(EntityToTable(user));
+                db.SaveChanges();
+                return true;
+            }
+            public bool CreateGroup(GroupInfo group)
+            {
+                db.Groups.Add(EntityToTable(group));
+                db.SaveChanges();
+                return true;
+            }
+            public bool CreateEvent(EventInfo newEvent)
+            {
+                db.Events.Add(EntityToTable(newEvent));
+                db.SaveChanges();
+                return true;
+            }
+            public bool CreateComment(CommentInfo comment)
+            {
+                db.Comments.Add(EntityToTable(comment));
+                db.SaveChanges();
+                return false;
+            }
+            #endregion
+            #region Remove
+            public bool RemoveUser(int userId)
+            {
+                var user = (from u in db.Users
+                                where u.UserTableID == userId
+                                select u).Single();
+                user.Active = false;
+                db.SaveChanges();
+                return false;
+            }
+            public bool RemoveGroup(int groupId)
+            {
+                var group = (from g in db.Groups
+                                where g.GroupTableID == groupId
+                                select g).Single();
+                group.Active = false;
+                db.SaveChanges();
+                return false;
+            }
+            public bool RemoveEvent(int eventId)
+            {
+                var theEvent = (from e in db.Events
+                                where e.EventTableID == eventId
+                                select e).Single();
+                theEvent.Active = false;
+                db.SaveChanges();
+                return false;
+            }
+            public bool RemoveComment(int commentId)
+            {
+                var comment = (from c in db.Comments
+                                where c.CommentTableID == commentId
+                                select c).Single();
+                comment.Active = false;
+                db.SaveChanges();
+                return false;
+            }
+            #endregion
+        #endregion
+        #region RelationTable
+            #region Create
+            public bool CreateUserToUserRelation(int senderId, int receiverId)
+            {
+                return false;
+            }
+
+            public bool CreateGroupToUserRelation(int groupId, int userId)
+            {
+                return false;
+            }
+            
+            public bool CreateEventToUserRelation(int eventId, int userId)
+            {
+                return false;
+            }
+
+            public bool CreateGroupToEventRelation(int groupId, int EventId)
+            {
+                return false;
+            }
+
+            public bool CreateEventToCommentRelation(int eventId, int commentId)
+            {
+                return false;
+            }
+            #endregion
+            #region Remove
+            public bool RemoveUserToUserRelation(int senderId, int receiverId)
+            {
+                return false;
+            }
+
+            public bool RemoveGroupToUserRelation(int groupId, int userId)
+            {
+                return false;
+            }
+
+            public bool RemoveEventToUserRelation(int eventId, int userId)
+            {
+                return false;
+            }
+
+            public bool RemoveGroupToEventRelation(int groupId, int EventId)
+            {
+                return false;
+            }
+
+            public bool RemoveEventToCommentRelation(int eventId, int commentId)
+            {
+                return false;
+            }
+            #endregion
+        #endregion
         #region TableToEntity
         protected UserInfo TableToEntity(UserTable table)
         {
@@ -187,7 +284,6 @@ namespace doStuff.Databases
             return info;
         }
         #endregion
-
         #region EntityToTable
 
         protected UserTable EntityToTable(UserInfo user)
