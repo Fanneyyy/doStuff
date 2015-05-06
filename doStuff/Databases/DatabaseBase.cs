@@ -10,8 +10,17 @@ namespace doStuff.Databases
     public class DatabaseBase
     {
         protected static DoStuffDatabase db = new DoStuffDatabase();
+        #region GetRecordLists
+        public List<UserInfo> GetFriends(int userId)
+        {
+            return null;
+        }
 
-        //TO UNION LINQ MAGIC UGLY CODE PLEASE FIX LATER
+        public List<UserInfo> GetMembers(int groupId)
+        {
+            return null;
+        }
+
         public List<GroupInfo> GetGroups(int userId)
         {
             List<GroupInfo> groups = new List<GroupInfo>();
@@ -25,6 +34,16 @@ namespace doStuff.Databases
                 groups.Add(TableToEntity((from g in db.Groups where g.GroupTableID == id select g).Single()));
             }
             return groups;
+        }
+
+        public List<EventInfo> GetEvents(int userId)
+        {
+            return null;
+        }
+
+        public List<EventInfo> GetGroupEvents(int groupId)
+        {
+            return null;
         }
 
         public List<CommentInfo> GetComments(int eventId)
@@ -41,17 +60,10 @@ namespace doStuff.Databases
             }
             return comments;
         }
-
-        public bool AnswerEvent(int userId, int eventId, bool answer)
-        {
-            //TODO
-            return false;
-        }
-
-
+        #endregion
         #region RecordTables
-            #region Exists
-            public bool ExistsUser(int userId)
+        #region Exists
+        public bool ExistsUser(int userId)
             {
                 return (1 == (from u in db.Users where u.UserTableID == userId select u).Count());
             }
@@ -246,38 +258,64 @@ namespace doStuff.Databases
             }
             #endregion
             #region Remove
-            public bool RemoveUserToUserRelation(int senderId, int receiverId)
+            public bool RemoveUserToUserRelation(int id)
             {
                 return false;
             }
 
-            public bool RemoveGroupToUserRelation(int groupId, int userId)
+            public bool RemoveGroupToUserRelation(int id)
             {
                 return false;
             }
 
-            public bool RemoveEventToUserRelation(int eventId, int userId)
+            public bool RemoveEventToUserRelation(int id)
             {
                 return false;
             }
 
-            public bool RemoveGroupToEventRelation(int groupId, int EventId)
+            public bool RemoveGroupToEventRelation(int id)
             {
                 return false;
             }
 
-            public bool RemoveEventToCommentRelation(int eventId, int commentId)
+            public bool RemoveEventToCommentRelation(int id)
             {
                 return false;
             }
             #endregion
-            #region Set
-            public bool SetUserToUserRelation(bool answer)
+            #region Get
+            public bool GetUserToUserRelation(int senderId, int receiverId)
             {
                 return false;
             }
 
-            public bool SetEventToUserRelation(bool answer)
+            public bool GetGroupToUserRelation(int groupId, int userId)
+            {
+                return false;
+            }
+
+            public bool GetEventToUserRelation(int eventId, int userId)
+            {
+                return false;
+            }
+
+            public bool GetGroupToEventRelation(int groupId, int EventId)
+            {
+                return false;
+            }
+
+            public bool GetEventToCommentRelation(int eventId, int commentId)
+            {
+                return false;
+            }
+            #endregion    
+            #region Set
+            public bool SetUserToUserRelation(int id, bool answer)
+            {
+                return false;
+            }
+
+            public bool SetEventToUserRelation(int id, bool answer)
             {
                 return false;
             }
