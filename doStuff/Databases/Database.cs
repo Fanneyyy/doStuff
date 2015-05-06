@@ -7,18 +7,39 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
 {
-    public class DatabaseBase
+    public class Database
     {
-        protected static DoStuffDatabase db = new DoStuffDatabase();
+        protected static DatabaseContext db = new DatabaseContext();
         #region GetRecordLists
         public List<UserInfo> GetFriends(int userId)
         {
-            return null;
+            List<UserInfo> friends = new List<UserInfo>();
+
+            List<int> friendIds = (from f in db.FriendShipRelations
+                                   where f.ReceiverId == userId && f.Active == true
+                                   select f.SenderId).ToList();
+
+            friendIds = friendIds.Concat(from f in db.FriendShipRelations
+                                         where f.SenderId == userId && f.Active == true
+                                         select f.ReceiverId).ToList();
+
+            foreach(var id in friendIds)
+            {
+                friends.Add(GetUser(id));
+            }
+
+            return friends;
         }
 
         public List<UserInfo> GetMembers(int groupId)
         {
-            return null;
+            List<UserInfo> members = new List<UserInfo>();
+
+            List<int> memberIds = (from g in db.GroupToUserRelations
+                                   where g.GroupId == groupId && f.Active == true
+                                   select f.SenderId).ToList();
+
+            return members;
         }
 
         public List<GroupInfo> GetGroups(int userId)
@@ -284,29 +305,29 @@ namespace doStuff.Databases
             }
             #endregion
             #region Get
-            public bool GetUserToUserRelation(int senderId, int receiverId)
+            public int GetUserToUserRelation(int senderId, int receiverId)
             {
-                return false;
+                return 0;
             }
 
-            public bool GetGroupToUserRelation(int groupId, int userId)
+            public int GetGroupToUserRelation(int groupId, int userId)
             {
-                return false;
+                return 0;
             }
 
-            public bool GetEventToUserRelation(int eventId, int userId)
+            public int GetEventToUserRelation(int eventId, int userId)
             {
-                return false;
+                return 0;
             }
 
-            public bool GetGroupToEventRelation(int groupId, int EventId)
+            public int GetGroupToEventRelation(int groupId, int EventId)
             {
-                return false;
+                return 0;
             }
 
-            public bool GetEventToCommentRelation(int eventId, int commentId)
+            public int GetEventToCommentRelation(int eventId, int commentId)
             {
-                return false;
+                return 0;
             }
             #endregion    
             #region Set
