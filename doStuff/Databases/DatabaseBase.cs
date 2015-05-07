@@ -71,7 +71,18 @@ namespace doStuff.Databases
 
         public bool CreateUser(UserInfo user)
         {
-            //TODO
+            UserTable table = new UserTable();
+
+            table.UserTableID = user.Id;
+            table.Active = true;
+            table.UserName = user.UserName;
+            table.Gender = user.Gender;
+            table.DisplayName = user.DisplayName;
+            table.Age = user.Age;
+            table.Email = user.Email;
+
+            db.Users.Add(table);
+            db.SaveChanges();
             return false;
         }
 

@@ -9,7 +9,7 @@ using doStuff.POCOs;
 namespace doStuff.Tests.DbTest
 {
     [TestClass]
-    public class UnitTest1
+    public class DatabaseTest
     {
         private DatabaseBase DbTest;
 
@@ -19,10 +19,9 @@ namespace doStuff.Tests.DbTest
             MockDb mock = new MockDb();
             UserTable user1 = new UserTable
             {
-                UserTableID = 1,
                 Active = true,
-                UserName = "Gulli Gurka",
-                DisplayName = "xXx$w4gM4$t3r420xXx",
+                UserName = "testeroni",
+                DisplayName = "test",
                 Age = 9000,
                 Gender = Gender.MALE,
                 Email = "Gulli$wag@yolo.is"
