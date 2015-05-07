@@ -10,7 +10,13 @@ namespace doStuff.Databases
 
     public class Database
     {
-        protected static DatabaseContext db = new DatabaseContext();
+        protected static IDataContext db;
+
+        public Database(IDataContext dbContext)
+        {
+            db = dbContext ?? new DatabaseContext();       
+        }
+
         #region GetRecordLists
         public List<User> GetFriends(int userId)
         {

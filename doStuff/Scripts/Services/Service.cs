@@ -11,7 +11,7 @@ namespace doStuff.Services
 {
     public class Service
     {
-        private static Database db = new Database();
+        private static Database db = new Database(null);
 
         public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
