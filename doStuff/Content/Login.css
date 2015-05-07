@@ -32,12 +32,12 @@
     color: white;
     font-size: 22px;
     text-align: left;
+    margin-left: 40px;
 }
 
 .login-body .form-control {
     background-color: #4ce4ff;
     border-radius: 0px;
-    margin-left: 8px;
     margin-top: -4px;
     height: 40px;
 }
@@ -60,12 +60,25 @@
     color: white;
 }
 
-.login, .register {
+.login, .register, .confirm, .cancel {
     border-radius: 0px;
     width: 100%;
     font-size:22px;
     padding-top: 15px;
     padding-bottom: 15px;
+}
+
+.login-buttons .confirm {
+    margin-bottom: 15px;
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
+}
+
+.login-buttons .cancel {
+    margin-bottom: 15px;
+    background-color: #8fbe00;
+    color: white;
 }
 
 /*#test:-webkit-autofill {
