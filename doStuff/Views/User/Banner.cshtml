@@ -26,7 +26,7 @@
             <p>@item.Event.Description</p>
             @foreach (var c in @item.Comments)
             {
-                <p>@</p>
+                <p>@c.OwnerId</p>
                 <p>@c.Content</p>
             }
 
