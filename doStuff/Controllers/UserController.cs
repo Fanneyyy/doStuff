@@ -12,7 +12,6 @@ namespace doStuff.Controllers
 {
     public class UserController : ParentController
     {
-        static Service service = new Service();
         private static Database db = new Database();
 
         [HttpGet]
