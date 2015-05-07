@@ -165,6 +165,9 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\DatabaseContext.cs" />
+    <Compile Include="Exceptions\EventNotFoundException.cs" />
+    <Compile Include="Exceptions\GroupNotFoundException.cs" />
+    <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -236,7 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Exceptions\" />
     <Folder Include="Views\Group\" />
     <Folder Include="Views\Parent\" />
     <Folder Include="Views\User\" />
