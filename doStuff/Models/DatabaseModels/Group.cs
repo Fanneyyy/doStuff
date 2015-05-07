@@ -14,5 +14,16 @@ namespace doStuff.Models.DatabaseModels
         public bool Active { get; set; }
         public int OwnerId { get; set; }
         public string Name { get; set; }
+
+        public Group()
+        {
+
+        }
+        public Group(bool active, int ownerId, string name)
+        {
+            Active = active;
+            OwnerId = ownerId;
+            Name = name;
+        }
     }
 }

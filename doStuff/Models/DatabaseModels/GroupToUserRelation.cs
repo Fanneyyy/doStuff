@@ -14,5 +14,16 @@ namespace doStuff.Models.DatabaseModels
         public bool Active { get; set; }
         public int GroupId { get; set; }
         public int MemberId { get; set; }
+
+        public GroupToUserRelation()
+        {
+
+        }
+        public GroupToUserRelation(bool active, int groupId, int memberId)
+        {
+            Active = active;
+            GroupId = groupId;
+            MemberId = memberId;
+        }
     }
 }

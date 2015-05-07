@@ -15,5 +15,17 @@ namespace doStuff.Models.DatabaseModels
         public int EventId { get; set; }
         public int AttendeeId { get; set; }
         public bool? Answer { get; set; }
+
+        public EventToUserRelation()
+        {
+
+        }
+        public EventToUserRelation(bool active, int eventId, int attendeeId, bool? answer)
+        {
+            Active = active;
+            EventId = eventId;
+            AttendeeId = attendeeId;
+            Answer = answer;
+        }
     }
 }

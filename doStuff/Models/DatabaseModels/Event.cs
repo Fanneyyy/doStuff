@@ -21,8 +21,28 @@ namespace doStuff.Models.DatabaseModels
         public DateTime TimeOfEvent { get; set; }
         public int Minutes { get; set; }
         public string Location { get; set; }
-        public uint Min { get; set; }
-        public uint Max { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
+
+        public Event()
+        {
+
+        }
+        public Event(bool active, int? groupId, int ownerId, string name, string photo, string description, DateTime creationTime, DateTime timeOfEvent, int minutes, string location, int min, int max)
+        {
+            Active = active;
+            GroupId = groupId;
+            OwnerId = ownerId;
+            Name = name;
+            Photo = photo;
+            Description = description;
+            CreationTime = creationTime;
+            TimeOfEvent = timeOfEvent;
+            Minutes = minutes;
+            Location = location;
+            Min = min;
+            Max = max;
+        }
 
     }
 }
