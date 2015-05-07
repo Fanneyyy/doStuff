@@ -19,7 +19,7 @@ namespace doStuff.Models.DatabaseModels
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime TimeOfEvent { get; set; }
-        public uint Minutes { get; set; }
+        public int Minutes { get; set; }
         public string Location { get; set; }
         public uint Min { get; set; }
         public uint Max { get; set; }
