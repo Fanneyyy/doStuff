@@ -1,39 +1,41 @@
-﻿@model IEnumerable<doStuff.Models.DatabaseModels.Group>
+﻿@model doStuff.ViewModels.EventFeedViewModel
+
+@*Html.DropDownListFor( model => model.Groups.Group, ViewData["GroupNames"] as model.Groups.Name)
+Html.DropDownListFor(n => n.MyColorId, new SelectList(Colors, "ColorId", "Name"))*@
+
+<div>
+    <h4>EventFeedViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal"></dl>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GroupID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GroupID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GroupID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Events)
+    {
+        <tr>
+            <td>
+                @foreach (var c in item.Comments) 
+                {
+                    <tr>
+                        <td>
+                            @c.Content
+                        </td>
+                    </tr>
+                }
+            </td>
+        </tr>
+    }
 
 </table>
