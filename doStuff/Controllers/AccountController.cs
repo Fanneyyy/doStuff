@@ -83,6 +83,8 @@ namespace doStuff.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await SignInAsync(user, isPersistent: false);
+
                     User register = new User();
                     register.Active = true;
                     register.BirthYear = model.BirthYear;
@@ -92,7 +94,6 @@ namespace doStuff.Controllers
                     register.UserName = model.UserName;
                     service.CreateUser(register);
 
-                    await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "User");
                 }
                 else
