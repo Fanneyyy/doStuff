@@ -5,7 +5,11 @@
     @RenderPage("Banner.cshtml")
 </div>
 
-<div class="col-md-8 main" >
+<div class="col-md-2 add-event pull-left pull-down">
+    @Html.ActionLink("add event", "CreateEvent", null, new { @class = "btn btn-default cancel" })
+</div>
+
+<div class="col-md-6 main pull-down" >
     @RenderPage("EventFeed.cshtml")
 </div>
 
