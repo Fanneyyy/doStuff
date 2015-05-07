@@ -119,10 +119,10 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFriend(string newFriend)
+        public ActionResult AddFriend(User newFriend)
         {
             //TODO
-            int friendId = service.GetUserId(newFriend);
+            int friendId = service.GetUserId(newFriend.UserName);
             int userId = service.GetUserId(User.Identity.Name);
             service.SendFriendRequest(userId, friendId);
             service.AnswerFriendRequest(friendId, userId, true);
