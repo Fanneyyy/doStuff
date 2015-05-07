@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.ViewModels
 {
@@ -9,5 +10,6 @@ namespace doStuff.ViewModels
     {
         public SideBarViewModel SideBar;
         public List<EventViewModel> Events;
+        public List<Group> Groups;
     }
 }

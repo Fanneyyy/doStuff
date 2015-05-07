@@ -37,6 +37,9 @@ namespace doStuff.Services
             feed.SideBar = sidebar;
 
 
+            List<Group> groups = db.GetGroups(userId);
+            feed.Groups = groups;
+
             return feed;
         }
 
@@ -62,6 +65,9 @@ namespace doStuff.Services
             sidebar.UserList = db.GetFriends(userId);
             feed.Events = eventViews;
             feed.SideBar = sidebar;
+
+            List<Group> groups = db.GetGroups(userId);
+            feed.Groups = groups;
 
             return feed;
         }
@@ -328,7 +334,7 @@ namespace doStuff.Services
             return newEvent;
         }
 
-        private Group getGroupById(int groupId)
+        private Group GetGroupById(int groupId)
         {
             Group newGroup = new Group();
             newGroup = db.GetGroup(groupId);
