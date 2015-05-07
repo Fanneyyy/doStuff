@@ -12,7 +12,6 @@ namespace doStuff.Models.DatabaseModels
         [Key]
         public int GroupTableID { get; set; }
         public bool Active { get; set; }
-        [ForeignKey("UserTable")]
         public int OwnerId { get; set; }
         public string Name { get; set; }
     }

@@ -12,7 +12,6 @@ namespace doStuff.Models.DatabaseModels
         [Key]
         public int CommentTableID { get; set; }
         public bool Active { get; set; }
-        [ForeignKey("UserTable")]
         public int OwnerId { get; set; }
         public string Content { get; set; }
         public DateTime CreationTime { get; set; }

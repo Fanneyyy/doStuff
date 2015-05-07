@@ -12,15 +12,19 @@ namespace doStuff.Controllers
     //[Authorize]
     public class HomeController : ParentController
     {
-
+        /*private DatabaseContext db = new DatabaseContext();
         public ActionResult Index()
-        { 
-            /*UserTable user = new UserTable();
-            user.Email = "Ironpeak";
-            db.Users.Add(user);
+        {
+            var user = (from u in db.Users
+                        select u).ToList();
+
+            foreach(var u in user)
+            {
+                throw new Exception();
+            }
+
             db.SaveChanges();
-            var ret = (from p in db.Users select p).First(); */
-            return View();
-        }
+            return View("Error");
+        }*/
     }
 }

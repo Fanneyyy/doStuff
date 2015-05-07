@@ -12,9 +12,7 @@ namespace doStuff.Models.DatabaseModels
         [Key]
         public int EventToUserRelationTableID { get; set; }
         public bool Active { get; set; }
-        [ForeignKey("EventTable")]
         public int EventId { get; set; }
-        [ForeignKey("UserTable")]
         public int AttendeeId { get; set; }
         public bool? Answer { get; set; }
     }
