@@ -45,7 +45,7 @@
         @Html.LabelFor(model => model.BirthYear, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <select class="form-control">
-                @for (var i = 1900; i < 2015; i++)
+                @for (var i = 2015; i > 1900; i--)
                 {
                     <option value="@i">@i</option>
                 }

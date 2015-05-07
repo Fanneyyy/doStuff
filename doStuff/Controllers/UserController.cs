@@ -54,15 +54,17 @@ namespace doStuff.Controllers
             Event newEvent1 = new Event();
             Event newEvent2 = new Event();
             newEvent1.EventID = 01;
-            newEvent1.Description = "Allt ad fretta";
+            newEvent1.Name = "Blindafyllerí";
+            newEvent1.Description = "Það er djamm í kvöld og það er djamm á morgun, og ekki á morgun heldur hinn";
             newEvent1.Active = true;
             newEvent1.CreationTime = new DateTime(2015, 5, 05);
             newEvent1.Location = "heima";
-            newEvent1.EventID = 02;
-            newEvent1.Description = "Allt ad fretta2";
-            newEvent1.Active = true;
-            newEvent1.CreationTime = new DateTime(2015, 5, 06);
-            newEvent1.Location = "heima hja ther";
+            newEvent2.EventID = 02;
+            newEvent2.Name = "Spólukúr";
+            newEvent2.Description = "Allir að 'kúra' saman heima hjá þér, eru ekki allir til í það?";
+            newEvent2.Active = true;
+            newEvent2.CreationTime = new DateTime(2015, 5, 06);
+            newEvent2.Location = "heima hja ther";
 
             EventFeedViewModel feed = new EventFeedViewModel();
 

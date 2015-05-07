@@ -1,38 +1,50 @@
 ﻿@model doStuff.ViewModels.EventFeedViewModel
 
-<div>
-    <h4>EventFeedViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal"></dl>
-</div>
+<span>
+    <select class="form-control">
+        @foreach (var i in Model.Groups)
+        {
+            <option value="@i">@i.Name</option>
+        }
+    </select>
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <div>
+        <h4>EventFeedViewModel</h4>
+        <hr />
+        <dl class="dl-horizontal"></dl>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+
 
     @foreach (var item in Model.Events)
     {
-        <tr>
-            <td>
-                @foreach (var c in item.Comments) 
-                {
-                    <tr>
-                        <td>
-                            @c.Content
-                        </td>
-                    </tr>
-                }
-            </td>
-        </tr>
+        <div class="well">
+            <ul class="list-inline">
+                <li><h3>@item.Owner</h3></li>
+                <li class="pull-right"><h3>@item.Event.Name</h3></li>
+            </ul>
+            <p>@item.Event.Description</p>
+            @foreach (var c in @item.Comments)
+            {
+                <p>@</p>
+                <p>@c.Content</p>
+            }
+
+        </div>
+
     }
 
-</table>
+    </table>
+</span>
+
+<span class="pull-right">
+    <h3>@Model.SideBar.User.DisplayName</h3>
+    <ul>
+        @foreach (var user in Model.SideBar.UserList)
+        {
+            <li>@user.DisplayName</li>
+        }
+    </ul>
+
+</span>
+
