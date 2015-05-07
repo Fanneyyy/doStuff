@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using doStuff.ViewModels;
 using doStuff.Services;
 using doStuff.Models;
+using ErrorHandler;
 
 namespace doStuff.Controllers
 {
@@ -15,7 +16,6 @@ namespace doStuff.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             base.OnException(filterContext);
-            //TODO MAGIC
         }
     }
 }

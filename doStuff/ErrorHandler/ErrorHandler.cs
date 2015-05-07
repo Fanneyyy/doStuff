@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace doStuff.ExceptionHandler
+namespace ErrorHandler
 {
-    public enum LogType { None, TextFile, Email}
+    public enum LogType { None, TextFile, Email }
 
     public abstract class CustomException : Exception
     {
@@ -14,19 +14,19 @@ namespace doStuff.ExceptionHandler
         public CustomException(LogType Type = LogType.None)
             : base()
         {
-
+            LogType = Type;
         }
 
         public CustomException(string message, LogType Type = LogType.None)
             : base(message)
         {
-
+            LogType = Type;
         }
 
         public CustomException(string message, Exception inner, LogType Type = LogType.None)
             : base(message, inner)
         {
-
+            LogType = Type;
         }
     }
 

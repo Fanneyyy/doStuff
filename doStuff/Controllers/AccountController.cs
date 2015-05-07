@@ -85,7 +85,7 @@ namespace doStuff.Controllers
                 {
                     User register = new User();
                     register.Active = true;
-                    register.Age = model.Age;
+                    register.BirthYear = model.BirthYear;
                     register.DisplayName = model.DisplayName;
                     register.Email = model.Email;
                     register.Gender = model.Gender;
