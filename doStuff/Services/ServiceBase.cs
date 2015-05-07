@@ -5,6 +5,7 @@ using System.Web;
 using doStuff.POCOs;
 using doStuff.ViewModels;
 using doStuff.Databases;
+using doStuff.Exceptions;
 
 namespace doStuff.Services
 {
@@ -15,7 +16,7 @@ namespace doStuff.Services
         public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
             //TODO
-            // ´show something if user has no friends or events?
+            // Show something if user has no friends or events?
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<EventInfo> events = db.GetEvents(groupId);
@@ -64,6 +65,7 @@ namespace doStuff.Services
 
             return feed;
         }
+
         public bool CreateUser(UserInfo user)
         {
             return db.CreateUser(user);
@@ -71,7 +73,8 @@ namespace doStuff.Services
 
         public int GetUserId(string userName)
         {
-            //TODO: throw exception
+            //TODO: Throw exception
+
             UserInfo user = new UserInfo();
             user = db.GetUser(userName);
 
@@ -88,6 +91,7 @@ namespace doStuff.Services
             }
             return false;
         }
+
         public bool IsFriendsWith(int userId, int friendId)
         {
 
@@ -102,6 +106,7 @@ namespace doStuff.Services
 
             return false;
         }
+
         public bool AnswerFriendRequest(int userId, int senderId, bool answer)
         {
             if (db.ExistsUserToUserRelation(senderId, userId))
@@ -115,11 +120,13 @@ namespace doStuff.Services
             }
 
         }
+
         public bool RemoveFriend(int userId, int friendId)
         {
             int relationId = db.GetUserToUserRelation(userId, friendId);
             return db.RemoveUserToUserRelation(relationId);
         }
+
         public bool SendFriendRequest(int userId, int friendId)
         {
             //TODO Check if user has already sent a request before.
@@ -151,6 +158,7 @@ namespace doStuff.Services
             }
             return false;
         }
+
         public bool CreateEvent(EventInfo newEvent)
         {
             bool created = false;
@@ -162,6 +170,7 @@ namespace doStuff.Services
             }
             return false;
         }
+
         public bool ChangeUserName(int userId, string newName)
         {
             if (db.ExistsUser(userId))
@@ -221,6 +230,7 @@ namespace doStuff.Services
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -228,6 +238,7 @@ namespace doStuff.Services
         {
             return db.CreateGroupToUserRelation(groupId, userId);
         }
+
         public bool RemoveMember(int userId, int groupId)
         {
             int relationId = db.GetGroupToUserRelation(groupId, userId);
@@ -241,12 +252,14 @@ namespace doStuff.Services
             newEvent = db.GetEvent(eventId);
             return newEvent;
         }
+
         private CommentInfo getCommentById(int commentId)
         {
             CommentInfo newComment = new CommentInfo();
             newComment = db.GetComment(commentId);
             return newComment;
         }
+
         public bool ChangeGroupName(int groupId, string newName)
         {
             //TODO Exception ef grouId finnst ekki..
@@ -268,6 +281,7 @@ namespace doStuff.Services
             }
             return false;
         }
+
         public bool RemoveGroup(int groupId)
         {
             return db.RemoveGroup(groupId);
@@ -278,6 +292,7 @@ namespace doStuff.Services
             newEvent = db.GetEvent(eventId);
             return newEvent;
         }
+
         private GroupInfo getGroupById(int groupId)
         {
             GroupInfo newGroup = new GroupInfo();

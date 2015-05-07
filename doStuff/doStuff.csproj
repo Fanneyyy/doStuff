@@ -165,6 +165,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\DatabaseContext.cs" />
+    <Compile Include="Exceptions\UserIdNotFoundException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
