@@ -160,6 +160,7 @@ namespace doStuff.Controllers
                 //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
+                newEvent.Minutes = 23;
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
             }
