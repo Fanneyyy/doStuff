@@ -8,7 +8,7 @@ namespace doStuff.ViewModels
 {
     public class FriendFeedViewModel
     {
-        SideBarViewModel SideBar;
-        List<UserInfo> RequestList;
+        SideBarViewModel SideBar { get; set; }
+        List<UserInfo> RequestList { get; set; }
     }
 }

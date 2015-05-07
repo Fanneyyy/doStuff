@@ -10,7 +10,7 @@ namespace doStuff.Services
 {
     public class UserService : ServiceBase
     {
-        private static DatabaseUser db = new DatabaseUser();
+        private static DatabaseUser db = new DatabaseUser(null);
 
         public EventFeedViewModel GetEventFeed(uint userId)
         {

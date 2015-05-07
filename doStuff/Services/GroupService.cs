@@ -10,7 +10,7 @@ namespace doStuff.Services
 {
     public class GroupService : ServiceBase
     {
-        private static DatabaseGroup db = new DatabaseGroup();
+        private static DatabaseGroup db = new DatabaseGroup(null);
 
         public EventFeedViewModel GetGroupFeed(uint groupId)
         {

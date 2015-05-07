@@ -21,7 +21,7 @@ namespace doStuff.Controllers
             user.Email = "Ironpeak";
             db.Users.Add(user);
             db.SaveChanges();*/
-            var ret = (from p in db.Users select p).First();
+            //var ret = (from p in db.Users select p).First();
             return View();
         }
     }

@@ -7,6 +7,9 @@ namespace doStuff.Databases
 {
     public class DatabaseGroup : DatabaseBase
     {
+        public DatabaseGroup(IDostuffDataContext dbContext) : base(dbContext)
+        {
+        }
         //TODO
     }
 }

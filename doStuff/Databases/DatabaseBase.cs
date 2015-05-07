@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
 using System.Data.Entity;
+using doStuff.POCOs;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
 {
@@ -16,10 +17,20 @@ namespace doStuff.Databases
             db = dbContext ?? new DoStuffDatabase();       
         }
 
-        public UserInfo GetUser(uint userId)
+        public UserInfo GetUser(int userId)
         {
-            //TODO
-            return null;
+            UserTable user = (from u in db.Users
+                             where u.UserTableID == userId
+                             select u).First();
+            UserInfo retUser = new UserInfo();
+            retUser.Id = user.UserTableID;
+            retUser.UserName = user.UserName;
+            retUser.Gender = user.Gender;
+            retUser.Email = user.Email;
+            retUser.Age = user.Age;
+            retUser.DisplayName = user.DisplayName;
+
+            return retUser;
         }
 
         public UserInfo GetUser(string userName)

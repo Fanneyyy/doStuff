@@ -8,10 +8,10 @@ namespace doStuff.POCOs
 {
     public class UserInfo
     {
-        public uint Id;
+        public int Id;
         public string UserName;
         public string DisplayName;
-        public uint Age;
+        public int Age;
         public Gender Gender;
         public string Email;
     }

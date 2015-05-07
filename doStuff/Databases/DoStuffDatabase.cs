@@ -39,14 +39,14 @@ namespace doStuff.Databases
     }
     public class DoStuffDatabase : IdentityDbContext<ApplicationUser>, IDostuffDataContext
     {
-        IDbSet<UserTable> Users { get; set; }
-        IDbSet<GroupTable> Groups { get; set; }
-        IDbSet<EventTable> Events { get; set; }
-        IDbSet<CommentTable> Comments { get; set; }
-        IDbSet<GroupToUserRelationTable> GroupToUserRelations { get; set; }
-        IDbSet<FriendShipRelationTable> FriendShipRelations { get; set; }
-        IDbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
-        IDbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
+        public IDbSet<UserTable> Users { get; set; }
+        public IDbSet<GroupTable> Groups { get; set; }
+        public IDbSet<EventTable> Events { get; set; }
+        public IDbSet<CommentTable> Comments { get; set; }
+        public IDbSet<GroupToUserRelationTable> GroupToUserRelations { get; set; }
+        public IDbSet<FriendShipRelationTable> FriendShipRelations { get; set; }
+        public IDbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
+        public IDbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
         public DoStuffDatabase()
         : base("DefaultConnection")
         {
