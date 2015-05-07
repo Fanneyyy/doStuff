@@ -33,7 +33,7 @@ namespace doStuff.Controllers
             newUser.Active = true;
             newUser.DisplayName = "Svenni hundur";
             newUser.Email = "svennihundur@doggie.is";
-            newUser.Gender = MALE;
+            newUser.Gender = Gender.MALE;
             newUser.UserID = 01;
             newUser.UserName = "svennidog";
 
@@ -48,7 +48,7 @@ namespace doStuff.Controllers
             group2.Name = "Karfa";
             group2.OwnerId = 01;
 
-            GroupToUserRelation relation1 = new GroupToUserRelation();
+           /* GroupToUserRelation relation1 = new GroupToUserRelation();
             GroupToUserRelation relation2 = new GroupToUserRelation();
 
             relation1.GroupId = group1.GroupID;
@@ -60,12 +60,65 @@ namespace doStuff.Controllers
             relation2.MemberId = newUser.UserID;
             relation2.Active = true;
             relation2.GroupToUserRelationID = 2;
-
+            */
             List<Group> groups = new List<Group>();
             groups.Add(group1);
             groups.Add(group2);
 
-            return View(groups);
+            Event newEvent1 = new Event();
+            Event newEvent2 = new Event();
+            newEvent1.EventID = 01;
+            newEvent1.Description = "Allt ad fretta";
+            newEvent1.Active = true;
+            newEvent1.CreationTime = new DateTime(2015, 5, 05);
+            newEvent1.Location = "heima";
+            newEvent1.EventID = 02;
+            newEvent1.Description = "Allt ad fretta2";
+            newEvent1.Active = true;
+            newEvent1.CreationTime = new DateTime(2015, 5, 06);
+            newEvent1.Location = "heima hja ther";
+
+            EventFeedViewModel feed = new EventFeedViewModel();
+
+            List<Event> events = new List<Event>();
+            events.Add(newEvent1);
+            events.Add(newEvent2);
+
+            Comment comment = new Comment();
+            comment.Active = true;
+            comment.CommentID = 01;
+            comment.Content = "YEAHHH!";
+            comment.CreationTime = new DateTime(2015, 5, 06);
+            comment.OwnerId = 01;
+
+            List<Comment> comments = new List<Comment>();
+            comments.Add(comment);
+            comments.Add(comment);
+
+
+            List<EventViewModel> eventViews = new List<EventViewModel>();
+            
+
+            foreach (Event eachEvent in events)
+            {
+                EventViewModel eventView = new EventViewModel();
+                eventView.Owner = "svennidog";
+                eventView.Event = eachEvent;
+                eventView.Comments = comments;
+                eventViews.Add(eventView);
+            }
+
+            List<User> users = new List<User>();
+
+            SideBarViewModel sidebar = new SideBarViewModel();
+            sidebar.User = newUser;
+            users.Add(newUser);
+            users.Add(newUser);
+            sidebar.UserList = users;
+            feed.Events = eventViews;
+            feed.Groups = groups;
+            feed.SideBar = sidebar;
+            return View(feed);
         }
 
         [HttpGet]
