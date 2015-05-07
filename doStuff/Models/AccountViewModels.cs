@@ -63,7 +63,7 @@ namespace doStuff.Models
 
         public string DisplayName { get; set; }
 
-        public int Age { get; set; }
+        public int BirthYear { get; set; }
 
         public Gender Gender { get; set; }
 
