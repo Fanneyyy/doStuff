@@ -3,13 +3,13 @@
     background-size: 100%;
     background-repeat: no-repeat;
     background-color: white;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
 }
 
 .login-box {
     background-color: rgba(0,168,198,0.86);
     max-width: 600px;
-    border: 1px solid #9fa4a5;
+    border: 1px solid #797b7c;
 }
 
 .login-title {
@@ -25,5 +25,39 @@
 }
 
 .login-body .form-control {
-    background-color: #4ce4ff !important;
+    background-color: #4ce4ff;
+    border-radius: 0px;
+    margin-left: 8px;
+    margin-top: -4px;
+    height: 40px;
 }
+
+.login-buttons {
+    margin-bottom: 0px;
+}
+
+.login-buttons .login {
+    margin-top: 30px;
+    margin-bottom: 4px;
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
+}
+
+.login-buttons .register {
+    margin-bottom: 70px;
+    background-color: #8fbe00;
+    color: white;
+}
+
+.login, .register {
+    border-radius: 0px;
+    width: 100%;
+    font-size:22px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/*#test:-webkit-autofill {
+    background-color: #4ce4ff !important;
+}*/
