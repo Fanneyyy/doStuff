@@ -165,7 +165,9 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\DatabaseContext.cs" />
+    <Compile Include="Exceptions\CommentNotFoundException.cs" />
     <Compile Include="Exceptions\EventNotFoundException.cs" />
+    <Compile Include="Exceptions\FriendNotFoundException.cs" />
     <Compile Include="Exceptions\GroupNotFoundException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Global.asax.cs">
