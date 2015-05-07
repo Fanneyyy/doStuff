@@ -10,11 +10,11 @@
         @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
     </div>
     <div class="navbar-collapse collapse">
-        <select class="form-control">
+        <select class="form-control main-menu">
             @foreach (var i in Model.Groups)
-    {
+            {
                 <option value="@i">@i.Name</option>
-    }
+            }
         </select>
         @Html.Partial("_LoginPartial")
     </div>
