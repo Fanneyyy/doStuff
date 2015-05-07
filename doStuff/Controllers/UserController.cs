@@ -157,7 +157,7 @@ namespace doStuff.Controllers
             if (ModelState.IsValid)
             {
                 //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
-                newEvent.CreationTime = new DateTime().ToUniversalTime();
+                newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
