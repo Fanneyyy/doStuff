@@ -17,10 +17,11 @@ namespace doStuff.Tests.DbTest
         {
             MockDb mock = new MockDb();
             User user1 = new User
-            {
+            {   
+                UserID = 1,
                 Active = true,
-                UserName = "testeroni",
-                DisplayName = "test",
+                UserName = "Gulli Gurka",
+                DisplayName = "xXx$w4gM4$t3r420xXx",
                 Age = 9000,
                 Gender = Gender.MALE,
                 Email = "Gulli$wag@yolo.is"
@@ -43,8 +44,8 @@ namespace doStuff.Tests.DbTest
             User user = DbTest.GetUser(id);
 
 
-            Assert.AreEqual(user.UserID, id);
-            Assert.AreEqual(user.UserName, userName);
+            Assert.AreEqual(id, user.UserID);
+            Assert.AreEqual(userName, user.UserName);
             Assert.AreEqual(user.DisplayName, displayName);
             Assert.AreEqual(user.Age, age);
             Assert.AreEqual(user.Gender, gender);

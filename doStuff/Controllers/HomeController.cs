@@ -26,13 +26,14 @@ namespace doStuff.Controllers
             User user1 = new User
             {
                 //UserID = 1,
+                Active = true,
                 UserName = "testeroni",
-                //DisplayName = "test",
-                //Age = 9000,
-                //Gender = Gender.MALE,
-                //Email = "Gulli$wag@yolo.is"
+                DisplayName = "test",
+                Age = 9000,
+                Gender = Gender.MALE,
+                Email = "Gulli$wag@yolo.is"
             };
-            DoStuffDatabase.Create();
+            //DoStuffDatabase.Create();
             Dbase.CreateUser(user1);
             var test = Dbase.GetUser(1);
             Debug.WriteLine(test.UserName);

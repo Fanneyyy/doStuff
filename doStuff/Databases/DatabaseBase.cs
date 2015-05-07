@@ -19,7 +19,7 @@ namespace doStuff.Databases
         public User GetUser(int userId)
         {
             User user = (from u in db.Users
-                             where u.UserID == userId
+                         where u.UserID == userId
                              select u).First();
             return user;
         }

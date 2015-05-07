@@ -49,6 +49,7 @@ namespace doStuff.Databases
         public IDbSet<UserToUserRelation> UserToUserRelations { get; set; }
         public IDbSet<EventToUserRelation> EventToUserRelations { get; set; }
         public IDbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
+        
         public DoStuffDatabase()
         : base("DefaultConnection")
         {
