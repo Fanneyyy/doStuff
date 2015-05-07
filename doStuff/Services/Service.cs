@@ -180,6 +180,7 @@ namespace doStuff.Services
             {
                 UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
                 relation.Answer = answer;
+                relation.Active = true;
                 return db.SetUserToUserRelation(relation);
             }
             else
@@ -285,6 +286,7 @@ namespace doStuff.Services
                 EventToUserRelation relation = new EventToUserRelation();
                 relation.EventId = newEvent.EventID;
                 relation.AttendeeId = newEvent.OwnerId;
+                relation.Active = true;
                 relation.Answer = true;
                 db.CreateEventToUserRelation(relation);
 
@@ -295,6 +297,7 @@ namespace doStuff.Services
                     EventToUserRelation relationForFriend = new EventToUserRelation();
                     relationForFriend.EventId = newEvent.EventID;
                     relationForFriend.AttendeeId = newEvent.OwnerId;
+                    relationForFriend.Active = true;
                     db.CreateEventToUserRelation(relationForFriend);
                 }
                 return true;
