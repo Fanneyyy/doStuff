@@ -7,13 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace doStuff.Models.DatabaseModels
 {
-    public class CommentTable
+    public class GroupToUserRelation
     {
         [Key]
-        public int CommentTableID { get; set; }
+        public int GroupToUserRelationID { get; set; }
         public bool Active { get; set; }
-        public int OwnerId { get; set; }
-        public string Content { get; set; }
-        public DateTime CreationTime { get; set; }
+        public int GroupId { get; set; }
+        public int MemberId { get; set; }
     }
 }

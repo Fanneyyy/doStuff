@@ -7,10 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace doStuff.Models.DatabaseModels
 {
-    public class EventTable
+    public class Event
     {
         [Key]
-        public int EventTableID { get; set; }
+        public int EventID { get; set; }
         public bool Active { get; set; }
         public int? GroupId { get; set; }
         public int OwnerId { get; set; }

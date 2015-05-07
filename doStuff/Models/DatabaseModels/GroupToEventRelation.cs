@@ -7,13 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace doStuff.Models.DatabaseModels
 {
-    public class EventToUserRelationTable
+    public class GroupToEventRelation
     {
         [Key]
-        public int EventToUserRelationTableID { get; set; }
+        public int GroupToEventRelationID { get; set; }
         public bool Active { get; set; }
+        public int GroupId { get; set; }
         public int EventId { get; set; }
-        public int AttendeeId { get; set; }
-        public bool? Answer { get; set; }
     }
 }

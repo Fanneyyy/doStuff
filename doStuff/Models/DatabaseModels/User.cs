@@ -9,14 +9,14 @@ namespace doStuff.Models.DatabaseModels
 {
     public enum Gender { MALE, FEMALE };
 
-    public class UserTable
+    public class User
     {
         [Key]
-        public int UserTableID { get; set; }
+        public int UserID { get; set; }
         public bool Active { get; set; }
         public string UserName { get; set; }
         public string DisplayName { get; set; }
-        public uint Age { get; set; }
+        public int Age { get; set; }
         public Gender Gender { get; set; }
         public string Email { get; set; }
     }

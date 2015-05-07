@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
 using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
@@ -11,9 +10,9 @@ namespace doStuff.Databases
     {
         protected static DatabaseContext db = new DatabaseContext();
         #region GetRecordLists
-        public List<UserInfo> GetFriends(int userId)
+        public List<User> GetFriends(int userId)
         {
-            List<UserInfo> friends = new List<UserInfo>();
+            List<User> friends = new List<User>();
 
             List<int> friendIds = (from f in db.UserToUserRelations
                                    where f.ReceiverId == userId && f.Active == true
@@ -30,9 +29,9 @@ namespace doStuff.Databases
 
             return friends;
         }
-        public List<UserInfo> GetMembers(int groupId)
+        public List<User> GetMembers(int groupId)
         {
-            List<UserInfo> members = new List<UserInfo>();
+            List<User> members = new List<User>();
 
             List<int> memberIds = (from g in db.GroupToUserRelations
                                    where g.GroupId == groupId && g.Active == true
@@ -40,20 +39,20 @@ namespace doStuff.Databases
 
             foreach(var id in memberIds)
             {
-                UserTable user = (from u in db.Users
-                                  where u.UserTableID == id && u.Active == true
+                User user = (from u in db.Users
+                                  where u.UserID == id && u.Active == true
                                   select u).SingleOrDefault();
                 if (user != null)
                 {
-                    members.Add(TableToEntity(user));
+                    members.Add(user);
                 }
             }
 
             return members;
         }
-        public List<GroupInfo> GetGroups(int userId)
+        public List<Group> GetGroups(int userId)
         {
-            List<GroupInfo> groups = new List<GroupInfo>();
+            List<Group> groups = new List<Group>();
 
             var groupIDs = (from g in db.GroupToUserRelations
                             where g.MemberId == userId && g.Active == true
@@ -61,33 +60,33 @@ namespace doStuff.Databases
 
             foreach(var id in groupIDs)
             {
-                GroupTable group = (from g in db.Groups
-                                    where g.GroupTableID == id && g.Active == true
+                Group group = (from g in db.Groups
+                                    where g.GroupID == id && g.Active == true
                                     select g).SingleOrDefault();
                 if (group != null)
                 {
-                    groups.Add(TableToEntity(group));
+                    groups.Add(group);
                 }
             }
             return groups;
         }
-        public List<EventInfo> GetEvents(int userId)
+        public List<Event> GetEvents(int userId)
         {
-            List<EventInfo> events = (from e in db.Events
+            List<Event> events = (from e in db.Events
                                       where e.OwnerId == userId && e.GroupId == null && e.Active == true
-                                      select TableToEntity(e)).ToList();
+                                      select e).ToList();
             return events;
         }
-        public List<EventInfo> GetGroupEvents(int groupId)
+        public List<Event> GetGroupEvents(int groupId)
         {
-            List<EventInfo> events = (from e in db.Events
+            List<Event> events = (from e in db.Events
                                       where e.GroupId == groupId && e.Active == true
-                                      select TableToEntity(e)).ToList();
+                                      select e).ToList();
             return events;
         }
-        public List<CommentInfo> GetComments(int eventId)
+        public List<Comment> GetComments(int eventId)
         {
-            List<CommentInfo> comments = new List<CommentInfo>();
+            List<Comment> comments = new List<Comment>();
 
             var commentIDs = (from c in db.EventToCommentRelations
                               where c.EventId == eventId && c.Active == true
@@ -95,11 +94,11 @@ namespace doStuff.Databases
 
             foreach (var id in commentIDs)
             {
-                CommentTable comment = (from c in db.Comments where c.CommentTableID == id && c.Active == true select c).SingleOrDefault();
+                Comment comment = (from c in db.Comments where c.CommentID == id && c.Active == true select c).SingleOrDefault();
 
                 if (comment != null)
                 {
-                    comments.Add(TableToEntity(comment));
+                    comments.Add(comment);
                 }
             }
             return comments;
@@ -109,43 +108,43 @@ namespace doStuff.Databases
             #region Exists
             public bool ExistsUser(int userId)
             {
-                return (1 == (from u in db.Users where u.UserTableID == userId && u.Active == true select u).Count());
+                return (1 == (from u in db.Users where u.UserID == userId && u.Active == true select u).Count());
             }
             public bool ExistsGroup(int groupId)
             {
-                return (1 == (from g in db.Groups where g.GroupTableID == groupId && g.Active == true select g).Count());
+                return (1 == (from g in db.Groups where g.GroupID == groupId && g.Active == true select g).Count());
             }
             public bool ExistsEvent(int eventId)
             {
-                return (1 == (from e in db.Events where e.EventTableID == eventId && e.Active == true select e).Count());
+                return (1 == (from e in db.Events where e.EventID == eventId && e.Active == true select e).Count());
             }
             public bool ExistsComment(int commentId)
             {
-                return (1 == (from c in db.Comments where c.CommentTableID == commentId && c.Active == true select c).Count());
+                return (1 == (from c in db.Comments where c.CommentID == commentId && c.Active == true select c).Count());
             }
             #endregion
             #region Create
-            public bool CreateUser(UserInfo user)
+            public bool CreateUser(User user)
             {
-                db.Users.Add(EntityToTable(user));
+                db.Users.Add(user);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateGroup(GroupInfo group)
+            public bool CreateGroup(Group group)
             {
-                db.Groups.Add(EntityToTable(group));
+                db.Groups.Add(group);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateEvent(EventInfo newEvent)
+            public bool CreateEvent(Event newEvent)
             {
-                db.Events.Add(EntityToTable(newEvent));
+                db.Events.Add(newEvent);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateComment(CommentInfo comment)
+            public bool CreateComment(Comment comment)
             {
-                db.Comments.Add(EntityToTable(comment));
+                db.Comments.Add(comment);
                 db.SaveChanges();
                 return false;
             }
@@ -154,7 +153,7 @@ namespace doStuff.Databases
             public bool RemoveUser(int userId)
             {
                 var user = (from u in db.Users
-                            where u.UserTableID == userId
+                            where u.UserID == userId
                             select u).Single();
                 user.Active = false;
                 db.SaveChanges();
@@ -163,7 +162,7 @@ namespace doStuff.Databases
             public bool RemoveGroup(int groupId)
             {
                 var group = (from g in db.Groups
-                                where g.GroupTableID == groupId
+                                where g.GroupID == groupId
                                 select g).Single();
                 group.Active = false;
                 db.SaveChanges();
@@ -172,7 +171,7 @@ namespace doStuff.Databases
             public bool RemoveEvent(int eventId)
             {
                 var theEvent = (from e in db.Events
-                                where e.EventTableID == eventId
+                                where e.EventID == eventId
                                 select e).Single();
                 theEvent.Active = false;
                 db.SaveChanges();
@@ -181,7 +180,7 @@ namespace doStuff.Databases
             public bool RemoveComment(int commentId)
             {
                 var comment = (from c in db.Comments
-                                where c.CommentTableID == commentId
+                                where c.CommentID == commentId
                                 select c).Single();
                 comment.Active = false;
                 db.SaveChanges();
@@ -189,81 +188,81 @@ namespace doStuff.Databases
             }
             #endregion
             #region Get
-            public UserInfo GetUser(int userId)
+            public User GetUser(int userId)
             {
-                UserTable user = (from u in db.Users
-                                  where u.UserTableID == userId
+                User user = (from u in db.Users
+                                  where u.UserID == userId
                                   select u).Single();
-                return TableToEntity(user);
+                return user;
             }
 
-            public UserInfo GetUser(string userName)
+            public User GetUser(string userName)
             {
-                UserTable user = (from u in db.Users
+                User user = (from u in db.Users
                                   where u.UserName == userName
                                   select u).Single();
-                return TableToEntity(user);
+                return user;
             }
 
-            public GroupInfo GetGroup(int groupId)
+            public Group GetGroup(int groupId)
             {
-                GroupTable group = (from g in db.Groups
-                                    where g.GroupTableID == groupId
+                Group group = (from g in db.Groups
+                                    where g.GroupID == groupId
                                     select g).Single();
-                return TableToEntity(group);
+                return group;
             }
 
-            public EventInfo GetEvent(int eventId)
+            public Event GetEvent(int eventId)
             {
-                EventTable theEvent = (from e in db.Events
-                                       where e.EventTableID == eventId
+                Event theEvent = (from e in db.Events
+                                       where e.EventID == eventId
                                        select e).Single();
-                return TableToEntity(theEvent);
+                return theEvent;
             }
 
-            public CommentInfo GetComment(int commentId)
+            public Comment GetComment(int commentId)
             {
-                CommentTable comment = (from c in db.Comments
-                                        where c.CommentTableID == commentId
+                Comment comment = (from c in db.Comments
+                                        where c.CommentID == commentId
                                         select c).Single();
-                return TableToEntity(comment);
+                return comment;
             }
             #endregion
             #region Set
-            public bool SetUser(UserInfo user)
+            public bool SetUser(User user)
             {
                 var userTable = (from u in db.Users
-                                 where u.UserTableID == user.Id
+                                 where u.UserID == user.UserID
                                  select u).Single();
-                userTable = EntityToTable(user);
+                userTable = user;
                 db.SaveChanges();
                 return true;
             }
-            public bool SetGroup(GroupInfo group)
+            public bool SetGroup(Group group)
             {
-                int groupId = group.Id;
+                int groupId = group.GroupID;
                 var groupTable = (from g in db.Groups
-                                  where g.GroupTableID == groupId
+                                  where g.GroupID == groupId
                                   select g).Single();
-                groupTable = EntityToTable(group);
+                groupTable = group;
                 db.SaveChanges();
                 return true;
             }
-            public bool SetEvent(EventInfo newEvent)
+            public bool SetEvent(Event newEvent)
             {
                 var eventTable = (from e in db.Events
-                                where e.EventTableID == newEvent.Id
+                                where e.EventID == newEvent.EventID
                                 select e).Single();
-                eventTable = EntityToTable(newEvent);
+                eventTable = newEvent;
                 db.SaveChanges();
                 return true;
             }
-            public bool SetComment(CommentInfo comment)
+            public bool SetComment(Comment comment)
             {
                 var commentTable = (from c in db.Comments
-                               where c.CommentTableID == comment.Id
+                               where c.CommentID == comment.CommentID
                                select c).Single();
-                commentTable = EntityToTable(comment);
+                commentTable = comment;
                 db.SaveChanges();
                 return true;
             }
@@ -314,7 +313,7 @@ namespace doStuff.Databases
             #region Create
             public bool CreateUserToUserRelation(int senderId, int receiverId)
             {
-                UserToUserRelationTable table = new UserToUserRelationTable();
+                UserToUserRelation table = new UserToUserRelation();
                 table.Active = true;
                 table.SenderId = senderId;
                 table.ReceiverId = receiverId;
@@ -326,7 +325,7 @@ namespace doStuff.Databases
 
             public bool CreateGroupToUserRelation(int groupId, int userId)
             {
-                GroupToUserRelationTable table = new GroupToUserRelationTable();
+                GroupToUserRelation table = new GroupToUserRelation();
                 table.Active = true;
                 table.GroupId = groupId;
                 table.MemberId = userId;
@@ -337,7 +336,7 @@ namespace doStuff.Databases
             
             public bool CreateEventToUserRelation(int eventId, int userId)
             {
-                EventToUserRelationTable table = new EventToUserRelationTable();
+                EventToUserRelation table = new EventToUserRelation();
                 table.Active = true;
                 table.EventId = eventId;
                 table.AttendeeId = userId;
@@ -349,7 +348,7 @@ namespace doStuff.Databases
 
             public bool CreateGroupToEventRelation(int groupId, int EventId)
             {
-                GroupToEventRelationTable table = new GroupToEventRelationTable();
+                GroupToEventRelation table = new GroupToEventRelation();
                 table.Active = true;
                 table.GroupId = groupId;
                 table.EventId = EventId;
@@ -360,7 +359,7 @@ namespace doStuff.Databases
 
             public bool CreateEventToCommentRelation(int eventId, int commentId)
             {
-                EventToCommentRelationTable table = new EventToCommentRelationTable();
+                EventToCommentRelation table = new EventToCommentRelation();
                 table.Active = true;
                 table.EventId = eventId;
                 table.CommentId = commentId;
@@ -373,7 +372,7 @@ namespace doStuff.Databases
             public bool RemoveUserToUserRelation(int id)
             {
                 var table = (from t in db.UserToUserRelations
-                             where t.EventToUserRelationTableID == id
+                             where t.EventToUserRelationID == id
                              select t).Single();
                 table.Active = false;
                 db.SaveChanges();
@@ -383,7 +382,7 @@ namespace doStuff.Databases
             public bool RemoveGroupToUserRelation(int id)
             {
                 var table = (from t in db.GroupToUserRelations
-                             where t.GroupToUserRelationTableID == id
+                             where t.GroupToUserRelationID == id
                              select t).Single();
                 table.Active = false;
                 db.SaveChanges();
@@ -393,7 +392,7 @@ namespace doStuff.Databases
             public bool RemoveEventToUserRelation(int id)
             {
                 var table = (from t in db.EventToUserRelations
-                             where t.EventToUserRelationTableID == id
+                             where t.EventToUserRelationID == id
                              select t).Single();
                 table.Active = false;
                 db.SaveChanges();
@@ -403,7 +402,7 @@ namespace doStuff.Databases
             public bool RemoveGroupToEventRelation(int id)
             {
                 var table = (from t in db.GroupToEventRelations
-                             where t.GroupToEventRelationTableID == id
+                             where t.GroupToEventRelationID == id
                              select t).Single();
                 table.Active = false;
                 db.SaveChanges();
@@ -413,7 +412,7 @@ namespace doStuff.Databases
             public bool RemoveEventToCommentRelation(int id)
             {
                 var table = (from t in db.EventToCommentRelations
-                             where t.EventToCommentRelationTableID == id
+                             where t.EventToCommentRelationID == id
                              select t).Single();
                 table.Active = false;
                 db.SaveChanges();
@@ -426,7 +425,7 @@ namespace doStuff.Databases
                 var table = (from t in db.UserToUserRelations
                              where t.SenderId == senderId && t.ReceiverId == receiverId && t.Active == true
                              select t).Single();
-                return table.EventToUserRelationTableID;
+                return table.EventToUserRelationID;
             }
 
             public int GetGroupToUserRelation(int groupId, int userId)
@@ -434,7 +433,7 @@ namespace doStuff.Databases
                 var table = (from t in db.GroupToUserRelations
                              where t.GroupId == groupId && t.MemberId == userId && t.Active == true
                              select t).Single();
-                return table.GroupToUserRelationTableID;
+                return table.GroupToUserRelationID;
             }
 
             public int GetEventToUserRelation(int eventId, int userId)
@@ -442,7 +441,7 @@ namespace doStuff.Databases
                 var table = (from t in db.EventToUserRelations
                              where t.EventId == eventId && t.AttendeeId == userId && t.Active == true
                              select t).Single();
-                return table.EventToUserRelationTableID;
+                return table.EventToUserRelationID;
             }
 
             public int GetGroupToEventRelation(int groupId, int eventId)
@@ -450,7 +449,7 @@ namespace doStuff.Databases
                 var table = (from t in db.GroupToEventRelations
                              where t.GroupId == groupId && t.EventId == eventId && t.Active == true
                              select t).Single();
-                return table.GroupToEventRelationTableID;
+                return table.GroupToEventRelationID;
             }
 
             public int GetEventToCommentRelation(int eventId, int commentId)
@@ -458,14 +457,14 @@ namespace doStuff.Databases
                 var table = (from t in db.EventToCommentRelations
                              where t.EventId == eventId && t.CommentId == commentId && t.Active == true
                              select t).Single();
-                return table.EventToCommentRelationTableID;
+                return table.EventToCommentRelationID;
             }
             #endregion    
             #region Set
             public bool SetUserToUserRelation(int id, bool answer)
             {
                 var table = (from t in db.UserToUserRelations
-                             where t.EventToUserRelationTableID == id
+                             where t.EventToUserRelationID == id
                              select t).Single();
                 table.Answer = answer;
                 db.SaveChanges();
@@ -474,131 +473,13 @@ namespace doStuff.Databases
             public bool SetEventToUserRelation(int id, bool answer)
             {
                 var table = (from t in db.EventToUserRelations
-                             where t.EventToUserRelationTableID == id
+                             where t.EventToUserRelationID == id
                              select t).Single();
                 table.Answer = answer;
                 db.SaveChanges();
                 return true;
             }
             #endregion
-        #endregion
-        #region TableToEntity
-        protected UserInfo TableToEntity(UserTable table)
-        {
-            UserInfo info = new UserInfo();
-
-            info.Id = table.UserTableID;
-            info.UserName = table.UserName;
-            info.DisplayName = table.DisplayName;
-            info.Age = table.Age;
-            info.Email = table.Email;
-            info.Gender = table.Gender;
-
-            return info;
-        }
-        protected GroupInfo TableToEntity(GroupTable table)
-        {
-            GroupInfo info = new GroupInfo();
-
-            info.Id = table.GroupTableID;
-            info.OwnerId = table.OwnerId;
-            info.GroupName = table.Name;
-
-            return info;
-        }
-        protected EventInfo TableToEntity(EventTable table)
-        {
-            EventInfo info = new EventInfo();
-
-            info.Id = table.EventTableID;
-            info.GroupId = table.GroupId;
-            info.OwnerId = table.OwnerId;
-            info.Name = table.Name;
-            info.Photo = table.Photo;
-            info.Description = table.Description;
-            info.CreationTime = table.CreationTime;
-            info.TimeOfEvent = table.TimeOfEvent;
-            info.Minutes = table.Minutes;
-            info.Location = table.Location;
-            info.Answer = false;
-            info.Max = table.Max;
-            info.Min = table.Min;
-
-            return info;
-        }
-        protected CommentInfo TableToEntity(CommentTable table)
-        {
-            CommentInfo info = new CommentInfo();
-
-            info.Id = table.CommentTableID;
-            info.OwnerId = table.OwnerId;
-            info.Content = table.Content;
-            info.CreationTime = table.CreationTime;
-
-            return info;
-        }
-        #endregion
-        #region EntityToTable
-
-        protected UserTable EntityToTable(UserInfo user)
-        {
-            UserTable table = new UserTable();
-
-            table.UserTableID = user.Id;
-            table.Active = true;
-            table.UserName = user.UserName;
-            table.Gender = user.Gender;
-            table.DisplayName = user.DisplayName;
-            table.Age = user.Age;
-            table.Email = user.Email;
-
-            return table;
-        }
-
-        protected GroupTable EntityToTable(GroupInfo group)
-        {
-            GroupTable table = new GroupTable();
-
-            table.GroupTableID = group.Id;
-            table.Active = true;
-            table.OwnerId = group.OwnerId;
-            table.Name = group.GroupName;
-
-            return table;
-        }
-
-        protected EventTable EntityToTable(EventInfo theEvent)
-        {
-            EventTable table = new EventTable();
-
-            table.EventTableID = theEvent.Id;
-            table.GroupId = theEvent.GroupId;
-            table.OwnerId = theEvent.OwnerId;
-            table.Name = theEvent.Name;
-            table.Photo = theEvent.Photo;
-            table.Description = theEvent.Description;
-            table.CreationTime = theEvent.CreationTime;
-            table.TimeOfEvent = theEvent.TimeOfEvent;
-            table.Minutes = theEvent.Minutes;
-            table.Location = theEvent.Location;
-            table.Max = theEvent.Max;
-            table.Min = theEvent.Min;
-
-            return table;
-        }
-
-        protected CommentTable EntityToTable(CommentInfo comment)
-        {
-            CommentTable table = new CommentTable();
-
-            table.CommentTableID = comment.Id;
-            table.OwnerId = comment.OwnerId;
-            table.Content = comment.Content;
-            table.CreationTime = comment.CreationTime;
-
-            return table;
-        }
-
         #endregion
     }
 }
