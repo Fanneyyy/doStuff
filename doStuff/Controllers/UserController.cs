@@ -119,10 +119,14 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFriend(FormCollection collection)
+        public ActionResult AddFriend(string newFriend)
         {
             //TODO
-            return View();
+            int friendId = service.GetUserId(newFriend);
+            int userId = service.GetUserId(User.Identity.Name);
+            service.SendFriendRequest(userId, friendId);
+            service.AnswerFriendRequest(friendId, userId, true);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
