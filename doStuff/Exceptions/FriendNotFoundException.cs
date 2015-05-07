@@ -5,27 +5,26 @@ using System.Web;
 
 namespace doStuff.Exceptions
 {
-    public class UserNotFoundException : Exception
+    public class FriendNotFoundException : Exception
     {
 
-        public UserNotFoundException() 
+        public FriendNotFoundException()
             : base()
         {
-        
+
         }
 
-        public UserNotFoundException(string message)
+        public FriendNotFoundException(string message)
             : base(message)
         {
 
         }
 
-        public UserNotFoundException(string message, Exception inner)
+        public FriendNotFoundException(string message, Exception inner)
             : base(message, inner)
         {
 
         }
-
 
     }
 }

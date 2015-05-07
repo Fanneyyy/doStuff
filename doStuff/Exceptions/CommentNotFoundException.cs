@@ -5,26 +5,25 @@ using System.Web;
 
 namespace doStuff.Exceptions
 {
-    public class EventNotFoundException : Exception
+    public class CommentNotFoundException : Exception
     {
 
-        public EventNotFoundException()
+        public CommentNotFoundException()
             : base()
         {
 
         }
 
-        public EventNotFoundException(string message)
+        public CommentNotFoundException(string message)
             : base(message)
         {
 
         }
 
-        public EventNotFoundException(string message, Exception inner)
+        public CommentNotFoundException(string message, Exception inner)
             : base(message, inner)
         {
 
         }
-
     }
 }
