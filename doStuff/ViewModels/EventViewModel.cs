@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.ViewModels
 {
     public class EventViewModel
     {
         public string Owner;
-        public EventInfo Event;
-        public List<CommentInfo> Comments;
+        public Event Event;
+        public List<Comment> Comments;
     }
 }

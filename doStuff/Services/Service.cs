@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
+using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Databases;
+using doStuff.Exceptions;
 
 namespace doStuff.Services
 {
-    public class ServiceBase
+    public class Service
     {
         private static Database db = new Database();
 
         public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
             //TODO
-            // ´show something if user has no friends or events?
+            // Show something if user has no friends or events?
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<EventInfo> events = db.GetEvents(groupId);
+            List<Event> events = db.GetEvents(groupId);
 
-            foreach (EventInfo eachEvent in events)
+            foreach (Event eachEvent in events)
             {
                 EventViewModel eventView = new EventViewModel();
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
-                eventView.Comments = db.GetComments(eachEvent.Id);
+                eventView.Comments = db.GetComments(eachEvent.EventID);
                 eventViews.Add(eventView);
             }
 
@@ -45,14 +46,14 @@ namespace doStuff.Services
 
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<EventInfo> events = db.GetEvents(userId);
+            List<Event> events = db.GetEvents(userId);
 
-            foreach (EventInfo eachEvent in events)
+            foreach (Event eachEvent in events)
             {
                 EventViewModel eventView = new EventViewModel();
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
-                eventView.Comments = db.GetComments(eachEvent.Id);
+                eventView.Comments = db.GetComments(eachEvent.EventID);
                 eventViews.Add(eventView);
             }
 
@@ -64,23 +65,25 @@ namespace doStuff.Services
 
             return feed;
         }
-        public bool CreateUser(UserInfo user)
+
+        public bool CreateUser(User user)
         {
             return db.CreateUser(user);
         }
 
         public int GetUserId(string userName)
         {
-            //TODO: throw exception
-            UserInfo user = new UserInfo();
+            //TODO: Throw exception
+
+            User user = new User();
             user = db.GetUser(userName);
 
-            return user.Id;
+            return user.UserID;
         }
 
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
-            EventInfo newEvent = GetEventById(eventId);
+            Event newEvent = GetEventById(eventId);
 
             if (newEvent.OwnerId == userId)
             {
@@ -88,13 +91,14 @@ namespace doStuff.Services
             }
             return false;
         }
+
         public bool IsFriendsWith(int userId, int friendId)
         {
 
-            List<UserInfo> friends = db.GetFriends(userId);
-            foreach (UserInfo a in friends)
+            List<User> friends = db.GetFriends(userId);
+            foreach (User a in friends)
             {
-                if (a.Id == friendId)
+                if (a.UserID == friendId)
                 {
                     return true;
                 }
@@ -102,6 +106,7 @@ namespace doStuff.Services
 
             return false;
         }
+
         public bool AnswerFriendRequest(int userId, int senderId, bool answer)
         {
             if (db.ExistsUserToUserRelation(senderId, userId))
@@ -115,11 +120,13 @@ namespace doStuff.Services
             }
 
         }
+
         public bool RemoveFriend(int userId, int friendId)
         {
             int relationId = db.GetUserToUserRelation(userId, friendId);
             return db.RemoveUserToUserRelation(relationId);
         }
+
         public bool SendFriendRequest(int userId, int friendId)
         {
             //TODO Check if user has already sent a request before.
@@ -143,7 +150,7 @@ namespace doStuff.Services
         public bool IsOwnerOfComment(int userId, int commentId)
         {
             //TODO Exceptions if commentid and userid dont have anything attached
-            CommentInfo newComment = getCommentById(commentId);
+            Comment newComment = getCommentById(commentId);
 
             if (newComment.OwnerId == userId)
             {
@@ -151,22 +158,24 @@ namespace doStuff.Services
             }
             return false;
         }
-        public bool CreateEvent(EventInfo newEvent)
+
+        public bool CreateEvent(Event newEvent)
         {
             bool created = false;
             created = db.CreateEvent(newEvent);
 
             if (created)
             {
-                return db.CreateEventToUserRelation(newEvent.Id, newEvent.OwnerId);
+                return db.CreateEventToUserRelation(newEvent.EventID, newEvent.OwnerId);
             }
             return false;
         }
+
         public bool ChangeUserName(int userId, string newName)
         {
             if (db.ExistsUser(userId))
             {
-                UserInfo user = db.GetUser(userId);
+                User user = db.GetUser(userId);
                 user.UserName = newName;
                 return db.SetUser(user);
             }
@@ -185,7 +194,7 @@ namespace doStuff.Services
             return db.RemoveEvent(eventId);
         }
 
-        public bool CreateComment(int eventId, CommentInfo comment)
+        public bool CreateComment(int eventId, Comment comment)
         {
             //TODO
             return false;
@@ -200,7 +209,7 @@ namespace doStuff.Services
 
         public bool IsOwnerOfGroup(int UserId, int groupId)
         {
-            GroupInfo group = db.GetGroup(groupId);
+            Group group = db.GetGroup(groupId);
 
             if (groupId == group.OwnerId)
             {
@@ -212,15 +221,16 @@ namespace doStuff.Services
 
         public bool IsMemberOfGroup(int userId, int groupId)
         {
-            List<UserInfo> groupMembers = db.GetMembers(groupId);
+            List<User> groupMembers = db.GetMembers(groupId);
 
-            foreach (UserInfo x in groupMembers)
+            foreach (User x in groupMembers)
             {
-                if (x.Id == userId)
+                if (x.UserID == userId)
                 {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -228,6 +238,7 @@ namespace doStuff.Services
         {
             return db.CreateGroupToUserRelation(groupId, userId);
         }
+
         public bool RemoveMember(int userId, int groupId)
         {
             int relationId = db.GetGroupToUserRelation(groupId, userId);
@@ -235,27 +246,29 @@ namespace doStuff.Services
             return db.RemoveGroupToUserRelation(relationId);
         }
 
-        private EventInfo getEventById(int eventId)
+        private Event getEventById(int eventId)
         {
-            EventInfo newEvent = new EventInfo();
+            Event newEvent = new Event();
             newEvent = db.GetEvent(eventId);
             return newEvent;
         }
-        private CommentInfo getCommentById(int commentId)
+
+        private Comment getCommentById(int commentId)
         {
-            CommentInfo newComment = new CommentInfo();
+            Comment newComment = new Comment();
             newComment = db.GetComment(commentId);
             return newComment;
         }
+
         public bool ChangeGroupName(int groupId, string newName)
         {
             //TODO Exception ef grouId finnst ekki..
 
-            GroupInfo group = db.GetGroup(groupId);
-            group.GroupName = newName;
+            Group group = db.GetGroup(groupId);
+            group.Name = newName;
             return db.SetGroup(group);
         }
-        public bool CreateGroup(GroupInfo group)
+        public bool CreateGroup(Group group)
         {
             //TODO make user join group automatically
             bool created = false;
@@ -264,23 +277,25 @@ namespace doStuff.Services
 
             if (created)
             {
-                return db.CreateGroupToUserRelation(group.Id, group.OwnerId);
+                return db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
             }
             return false;
         }
+
         public bool RemoveGroup(int groupId)
         {
             return db.RemoveGroup(groupId);
         }
-        private EventInfo GetEventById(int eventId)
+        private Event GetEventById(int eventId)
         {
-            EventInfo newEvent = new EventInfo();
+            Event newEvent = new Event();
             newEvent = db.GetEvent(eventId);
             return newEvent;
         }
-        private GroupInfo getGroupById(int groupId)
+
+        private Group getGroupById(int groupId)
         {
-            GroupInfo newGroup = new GroupInfo();
+            Group newGroup = new Group();
             newGroup = db.GetGroup(groupId);
             return newGroup;
         }

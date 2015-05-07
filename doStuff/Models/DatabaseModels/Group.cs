@@ -7,12 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace doStuff.Models.DatabaseModels
 {
-    public class GroupTable
+    public class Group
     {
         [Key]
-        public int GroupTableID { get; set; }
+        public int GroupID { get; set; }
         public bool Active { get; set; }
-        [ForeignKey("UserTable")]
         public int OwnerId { get; set; }
         public string Name { get; set; }
     }

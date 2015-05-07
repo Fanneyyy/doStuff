@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.ViewModels
 {
     public class SideBarViewModel
     {
-        public UserInfo User;
-        public List<UserInfo> UserList;
+        public User User;
+        public List<User> UserList;
     }
 }

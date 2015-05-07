@@ -10,14 +10,14 @@ namespace doStuff.Databases
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<UserTable> Users { get; set; }
-        public DbSet<GroupTable> Groups { get; set; }
-        public DbSet<EventTable> Events { get; set; }
-        public DbSet<CommentTable> Comments { get; set; }
-        public DbSet<GroupToUserRelationTable> GroupToUserRelations { get; set; }
-        public DbSet<UserToUserRelationTable> UserToUserRelations { get; set; }
-        public DbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
-        public DbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
-        public DbSet<GroupToEventRelationTable> GroupToEventRelations { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<GroupToUserRelation> GroupToUserRelations { get; set; }
+        public DbSet<UserToUserRelation> UserToUserRelations { get; set; }
+        public DbSet<EventToUserRelation> EventToUserRelations { get; set; }
+        public DbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
+        public DbSet<GroupToEventRelation> GroupToEventRelations { get; set; }
     }
 }
