@@ -12,7 +12,6 @@ namespace doStuff.Controllers
 {
     public class UserController : ParentController
     {
-        static Service service = new Service();
         private static Database db = new Database();
 
         [HttpGet]
@@ -64,6 +63,8 @@ namespace doStuff.Controllers
             List<Group> groups = new List<Group>();
             groups.Add(group1);
             groups.Add(group2);
+
+            ViewData["GroupNames"] = groups;
 
             Event newEvent1 = new Event();
             Event newEvent2 = new Event();
