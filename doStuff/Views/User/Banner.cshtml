@@ -1,10 +1,10 @@
 ﻿@model doStuff.ViewModels.EventFeedViewModel
 
 <div class="container">
-    <!--<div class="login-logo">
+    <div class="col-md-4 login-logo">
 
-    </div> -->
-    <div>
+    </div>
+    <div class="col-md-4">
         <select class="form-control main-menu">
             @foreach (var i in Model.Groups)
             {
@@ -12,7 +12,7 @@
             }
         </select>
     </div>
-    <div>
+    <div class="col-md-4">
         @Html.Partial("_LoginPartial")
     </div>
 </div>
