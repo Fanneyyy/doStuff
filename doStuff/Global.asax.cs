@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
+using System.Data.Entity;
+using doStuff.Databases;
+
 namespace doStuff
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -16,6 +19,8 @@ namespace doStuff
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            System.Data.Entity.Database.SetInitializer<DatabaseContext>(null);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace doStuff.Controllers
 {
     public class UserController : ParentController
     {
-        private static Database db = new Database();
+        private static Database db = new Database(null);
 
         [HttpGet]
         //[Authorize]
