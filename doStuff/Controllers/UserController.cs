@@ -65,6 +65,8 @@ namespace doStuff.Controllers
             groups.Add(group1);
             groups.Add(group2);
 
+            ViewData["GroupNames"] = groups;
+
             Event newEvent1 = new Event();
             Event newEvent2 = new Event();
             newEvent1.EventID = 01;
