@@ -14,5 +14,16 @@ namespace doStuff.Models.DatabaseModels
         public bool Active { get; set; }
         public int GroupId { get; set; }
         public int EventId { get; set; }
+
+        public GroupToEventRelation()
+        {
+
+        }
+        public GroupToEventRelation(bool active, int groupId, int eventId)
+        {
+            Active = active;
+            GroupId = groupId;
+            EventId = eventId;
+        }
     }
 }

@@ -15,5 +15,17 @@ namespace doStuff.Models.DatabaseModels
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public bool? Answer { get; set; }
+
+        public UserToUserRelation()
+        {
+
+        }
+        public UserToUserRelation(bool active, int senderId, int receiverId, bool? answer)
+        {
+            Active = active;
+            SenderId = senderId;
+            ReceiverId = receiverId;
+            Answer = answer;
+        }
     }
 }

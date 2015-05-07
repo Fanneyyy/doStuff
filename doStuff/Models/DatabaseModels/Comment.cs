@@ -15,5 +15,17 @@ namespace doStuff.Models.DatabaseModels
         public int OwnerId { get; set; }
         public string Content { get; set; }
         public DateTime CreationTime { get; set; }
+
+        public Comment()
+        {
+
+        }
+        public Comment(bool active, int ownerId, string content, DateTime creationTime)
+        {
+            Active = active;
+            OwnerId = ownerId;
+            Content = content;
+            CreationTime = creationTime;
+        }
     }
 }

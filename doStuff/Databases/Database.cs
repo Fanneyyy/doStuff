@@ -6,7 +6,7 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
 {
-    public enum RequestType {Send, Received};
+    public enum RequestType {Sent, Received};
 
     public class Database
     {
@@ -23,23 +23,27 @@ namespace doStuff.Databases
             List<User> friends = new List<User>();
 
             List<int> friendIds = (from f in db.UserToUserRelations
-                                   where f.ReceiverId == userId && f.Active == true && f.Answer == true
+                                   where f.ReceiverId == userId && f.Answer.HasValue && f.Answer == true && f.Active == true
                                    select f.SenderId).ToList();
 
             friendIds = friendIds.Concat(from f in db.UserToUserRelations
-                                         where f.SenderId == userId && f.Active == true && f.Answer == true
+                                         where f.SenderId == userId && f.Answer.HasValue && f.Answer == true && f.Active == true
                                          select f.ReceiverId).ToList();
 
             foreach(var id in friendIds)
             {
-                friends.Add(GetUser(id));
+                User u = GetUser(id);
+                if (u != null && u.Active)
+                {
+                    friends.Add(u);
+                }
             }
 
             return friends;
         }
         public List<UserToUserRelation> GetFriendRequests(int userId, RequestType request)
         {
-            if (request == RequestType.Send)
+            if (request == RequestType.Sent)
             {
                 return (from u in db.UserToUserRelations
                         where u.SenderId == userId
@@ -95,17 +99,15 @@ namespace doStuff.Databases
         }
         public List<Event> GetEvents(int userId)
         {
-            List<Event> events = (from e in db.Events
-                                      where e.OwnerId == userId && e.GroupId == null && e.Active == true
-                                      select e).ToList();
-            return events;
+            return (from e in db.Events
+                    where e.OwnerId == userId && e.GroupId == null && e.Active == true
+                    select e).ToList();
         }
         public List<Event> GetGroupEvents(int groupId)
         {
-            List<Event> events = (from e in db.Events
-                                      where e.GroupId == groupId && e.Active == true
-                                      select e).ToList();
-            return events;
+            return (from e in db.Events
+                    where e.GroupId == groupId && e.Active == true
+                    select e).ToList();
         }
         public List<Comment> GetComments(int eventId)
         {

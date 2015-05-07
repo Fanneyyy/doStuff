@@ -14,5 +14,16 @@ namespace doStuff.Models.DatabaseModels
         public bool Active { get; set; }
         public int EventId { get; set; }
         public int CommentId { get; set; }
+
+        public EventToCommentRelation()
+        {
+
+        }
+        public EventToCommentRelation(bool active, int eventId, int commentId)
+        {
+            Active = active;
+            EventId = eventId;
+            CommentId = commentId;
+        }
     }
 }

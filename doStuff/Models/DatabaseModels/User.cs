@@ -19,5 +19,19 @@ namespace doStuff.Models.DatabaseModels
         public int BirthYear { get; set; }
         public Gender Gender { get; set; }
         public string Email { get; set; }
+
+        public User()
+        {
+
+        }
+        public User(bool active, string userName, string displayName, int birthYear, Gender gender, string email)
+        {
+            Active = active;
+            UserName = userName;
+            DisplayName = displayName;
+            BirthYear = birthYear;
+            Gender = gender;
+            Email = email;
+        }
     }
 }

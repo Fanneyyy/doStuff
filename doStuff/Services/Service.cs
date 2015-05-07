@@ -296,7 +296,7 @@ namespace doStuff.Services
                 {
                     EventToUserRelation relationForFriend = new EventToUserRelation();
                     relationForFriend.EventId = newEvent.EventID;
-                    relationForFriend.AttendeeId = newEvent.OwnerId;
+                    relationForFriend.AttendeeId = n.UserID;
                     relationForFriend.Active = true;
                     db.CreateEventToUserRelation(relationForFriend);
                 }
@@ -393,6 +393,7 @@ namespace doStuff.Services
         {
             //TODO Show something if user has no friends or events?
             // Throw Event Exception.
+            // Muna að laga svo maður fái líka event frá friends
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(userId);
