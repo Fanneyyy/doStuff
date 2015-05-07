@@ -1,7 +1,14 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<div class="navbar navbar-inverse navbar-fixed-top">
+    @RenderPage("Banner.cshtml")
+</div>
 
-@RenderPage("Banner.cshtml")
+<div class="col-md-8 main" >
+    @RenderPage("EventFeed.cshtml")
+</div>
 
-@RenderPage("EventFeed.cshtml")
+<div class="col-md-4 side-bar">
+    @RenderPage("SideBar.cshtml")
+</div>

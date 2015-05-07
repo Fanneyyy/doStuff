@@ -13,11 +13,336 @@ namespace doStuff.Services
     {
         private static Database db = new Database(null);
 
+        #region AccessRights
+        public bool IsFriendsWith(int userId, int friendId)
+        {
+
+            List<User> friends = db.GetFriends(userId);
+
+            foreach (User a in friends)
+            {
+                if (a.UserID == friendId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public bool IsOwnerOfGroup(int userId, int groupId)
+        {
+            //TODO: Throw Group Exception.
+            Group group = db.GetGroup(groupId);
+
+            if (group == null)
+            {
+                throw new GroupNotFoundException();
+            }
+            if (userId == group.OwnerId)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public bool IsMemberOfGroup(int userId, int groupId)
+        {
+            //TODO: Throw Group Exception.
+            List<User> groupMembers = db.GetMembers(groupId);
+
+            if (groupMembers == null)
+            {
+                throw new GroupNotFoundException();
+            }
+            foreach (User x in groupMembers)
+            {
+                if (x.UserID == userId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public bool IsOwnerOfEvent(int userId, int eventId)
+        {
+
+            Event newEvent = GetEventById(eventId);
+
+            if (newEvent.OwnerId == userId)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool IsAttendingEvent(int userId, int eventId)
+        {
+            //TODO finish this
+            if (db.ExistsEventToUserRelation(eventId, userId))
+            {
+                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+                /*if (attending)
+                {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            */
+            }
+            return false;
+        }
+        public bool IsInvitedToEvent(int userId, int eventId)
+        {
+            //TODO: Throw Event Exception.
+            Event thisEvent = GetEventById(eventId);
+
+            if (db.ExistsUserToUserRelation(thisEvent.OwnerId, userId))
+            {
+                return true;
+            }
+            else if (thisEvent.GroupId.HasValue)
+            {
+                int groupId = (int)thisEvent.GroupId;
+                if (db.ExistsGroupToUserRelation(groupId, userId))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsOwnerOfComment(int userId, int commentId)
+        {
+
+            Comment newComment = GetCommentById(commentId);
+
+            if (newComment.OwnerId == userId)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
+        #region GetByID
+        public int GetUserId(string userName)
+        {
+            User user = new User();
+            user = db.GetUser(userName);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            return user.UserID;
+        }
+        public Group GetGroupById(int groupId)
+        {
+            Group newGroup = new Group();
+            newGroup = db.GetGroup(groupId);
+
+            if (newGroup == null)
+            {
+                throw new GroupNotFoundException();
+            }
+
+            return newGroup;
+        }
+        public Event GetEventById(int eventId)
+        {
+            Event newEvent = new Event();
+            newEvent = db.GetEvent(eventId);
+
+            if (newEvent == null)
+            {
+                throw new EventNotFoundException();
+            }
+            return newEvent;
+        }
+        public Comment GetCommentById(int commentId)
+        {
+            //TODO: Do Exception for Comment?
+            Comment newComment = new Comment();
+            newComment = db.GetComment(commentId);
+
+            if (newComment == null)
+            {
+                throw new CommentNotFoundException();
+            }
+
+            return newComment;
+        }
+        #endregion
+        #region FriendRelations
+        public bool AnswerFriendRequest(int userId, int senderId, bool answer)
+        {
+
+            if (db.ExistsUserToUserRelation(senderId, userId) || (db.ExistsUserToUserRelation(userId, senderId)))
+            {
+                UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
+                relation.Answer = answer;
+                return db.SetUserToUserRelation(relation);
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public bool RemoveFriend(int userId, int friendId)
+        {
+
+            if (!db.ExistsUserToUserRelation(userId, friendId) && (!db.ExistsUserToUserRelation(friendId, userId)))
+            {
+                throw new UserNotFoundException();
+            }
+            else
+            {
+                UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            }
+
+            return false;
+        }
+        public bool SendFriendRequest(int userId, int friendId)
+        {
+
+            //TODO Check if user has already sent a request before.
+            if (!db.ExistsUserToUserRelation(userId, friendId))
+            {
+                UserToUserRelation relation = new UserToUserRelation();
+                relation.SenderId = userId;
+                relation.ReceiverId = friendId;
+                return db.CreateUserToUserRelation(relation);
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        #endregion
+        #region GroupRelations
+        public bool AddMember(int userId, int groupId)
+        {
+            return false;// db.CreateGroupToUserRelation(groupId, userId);
+        }
+        public bool RemoveMember(int userId, int groupId)
+        {
+            //TODO: Throw User Exception.
+            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
+
+            if (relation == null)
+            {
+                throw new UserNotFoundException();
+            }
+            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
+        }
+        #endregion
+        #region EventRelation
+        public bool AnswerEvent(int userId, int eventId, bool answer)
+        {
+            //TODO: Throw Event Exception.
+            if (db.ExistsEventToUserRelation(eventId, userId))
+            {
+                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+                if (relation == null)
+                {
+                    throw new EventNotFoundException();
+                }
+
+                relation.Answer = answer;
+                return db.SetEventToUserRelation(relation);
+            }
+
+            return false;
+        }
+        #endregion
+        #region Create
+        public bool CreateUser(User user)
+        {
+            return db.CreateUser(user);
+        }
+        public bool CreateGroup(Group group)
+        {
+            //TODO make user join group automatically
+            bool created = false;
+
+            created = db.CreateGroup(group);
+
+            if (created)
+            {
+                return false; // db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
+            }
+            return false;
+        }
+        public bool CreateEvent(Event newEvent)
+        {
+            bool created = false;
+            created = db.CreateEvent(newEvent);
+
+            if (created)
+            {
+                EventToUserRelation relation = new EventToUserRelation();
+                relation.EventId = newEvent.EventID;
+                relation.AttendeeId = newEvent.OwnerId;
+                return db.CreateEventToUserRelation(relation);
+            }
+            return false;
+        }
+        public bool CreateComment(int eventId, Comment comment)
+        {
+            //TODO: Throw Event Exception.
+
+            db.CreateComment(comment);
+            Event thisEvent = GetEventById(eventId);
+
+            return false;
+        }
+        #endregion
+        #region Remove
+        public bool RemoveGroup(int groupId)
+        {
+            return db.RemoveGroup(groupId);
+        }
+        public bool RemoveEvent(int eventId)
+        {
+            return db.RemoveEvent(eventId);
+        }
+        public bool RemoveComment(int commentId)
+        {
+            return db.RemoveComment(commentId);
+        }
+        #endregion
+        #region Edit
+        public bool ChangeDisplayName(int userId, string newName)
+        {
+            //TODO: Throw User Exception.
+            if (db.ExistsUser(userId))
+            {
+                User user = db.GetUser(userId);
+                user.DisplayName = newName;
+                return db.SetUser(user);
+            }
+
+            throw new UserNotFoundException();
+        }
+        public bool ChangeGroupName(int groupId, string newName)
+        {
+            Group group = db.GetGroup(groupId);
+
+            if (group == null)
+            {
+                throw new GroupNotFoundException();
+            }
+            group.Name = newName;
+            return db.SetGroup(group);
+        }
+        #endregion
+        #region GetViewModel
         public EventFeedViewModel GetGroupFeed(int groupId, int userId)
         {
             //TODO
             // Show something if user has no friends or events?
-          
+
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(groupId);
@@ -48,7 +373,6 @@ namespace doStuff.Services
 
             return feed;
         }
-
         public EventFeedViewModel GetEventFeed(int userId)
         {
             //TODO Show something if user has no friends or events?
@@ -82,350 +406,6 @@ namespace doStuff.Services
 
             return feed;
         }
-
-        public bool CreateUser(User user)
-        {
-            return db.CreateUser(user);
-        }
-
-        public int GetUserId(string userName)
-        {
-            User user = new User();
-            user = db.GetUser(userName);
-            if (user == null)
-            {
-                throw new UserNotFoundException();
-            }
-
-            return user.UserID;
-        }
-
-        public bool IsOwnerOfEvent(int userId, int eventId)
-        {
-    
-            Event newEvent = GetEventById(eventId);
-       
-            if (newEvent.OwnerId == userId)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public bool IsFriendsWith(int userId, int friendId)
-        {
-            
-            List<User> friends = db.GetFriends(userId);
-          
-            foreach (User a in friends)
-            {
-                if (a.UserID == friendId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool AnswerFriendRequest(int userId, int senderId, bool answer)
-        {
-
-            if (db.ExistsUserToUserRelation(senderId, userId) || (db.ExistsUserToUserRelation(userId, senderId)))
-            {
-                UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
-                relation.Answer = answer;
-                return db.SetUserToUserRelation(relation);
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        public bool RemoveFriend(int userId, int friendId)
-        {
-            
-            if (!db.ExistsUserToUserRelation(userId, friendId) && (!db.ExistsUserToUserRelation(friendId, userId)))
-            {
-                throw new UserNotFoundException();
-            }
-            else
-            {
-                UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
-            }
-
-            return false;
-        }
-
-        public bool SendFriendRequest(int userId, int friendId)
-        {
-            
-            //TODO Check if user has already sent a request before.
-            if (!db.ExistsUserToUserRelation(userId, friendId))
-            {
-                UserToUserRelation relation = new UserToUserRelation();
-                relation.SenderId = userId;
-                relation.ReceiverId = friendId;
-                return db.CreateUserToUserRelation(relation);
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        public bool IsAttendingEvent(int userId, int eventId)
-        {
-            //TODO finish this
-            if (db.ExistsEventToUserRelation(eventId, userId)) 
-            {
-                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
-                /*if (attending)
-                {
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            */
-            }
-            return false;
-        }
-
-        public bool IsOwnerOfComment(int userId, int commentId)
-        {
-            
-            Comment newComment = getCommentById(commentId);
-
-            if (newComment.OwnerId == userId)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public bool CreateEvent(Event newEvent)
-        {
-            bool created = false;
-            created = db.CreateEvent(newEvent);
-
-            if (created)
-            {
-                EventToUserRelation relation = new EventToUserRelation();
-                relation.EventId = newEvent.EventID;
-                relation.AttendeeId = newEvent.OwnerId;
-                return db.CreateEventToUserRelation(relation);
-            }
-            return false;
-        }
-
-        public bool ChangeDisplayName(int userId, string newName)
-        {
-            //TODO: Throw User Exception.
-            if (db.ExistsUser(userId))
-            {
-                User user = db.GetUser(userId);
-                user.DisplayName = newName;
-                return db.SetUser(user);
-            }
-
-            throw new UserNotFoundException();
-        }
-
-        public bool HasAccessToEvent(int userId, int eventId)
-        {
-            //TODO: Throw Event Exception.
-            Event thisEvent = GetEventById(eventId);
-
-            if (db.ExistsUserToUserRelation(thisEvent.OwnerId, userId))
-            {
-                return true;
-            }
-            else if (thisEvent.GroupId.HasValue)
-            {
-                int groupId = (int)thisEvent.GroupId;
-                if (db.ExistsGroupToUserRelation(groupId, userId)) 
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool RemoveEvent(int eventId)
-        {
-           
-            return db.RemoveEvent(eventId);
-        }
-
-        public bool CreateComment(int eventId, Comment comment)
-        {
-            //TODO: Throw Event Exception.
-
-            db.CreateComment(comment);
-            Event thisEvent = GetEventById(eventId);
-           
-            return false;
-        }
-
-        public bool AnswerEvent(int userId, int eventId, bool answer)
-        {
-            //TODO: Throw Event Exception.
-            if (db.ExistsEventToUserRelation(eventId, userId))
-            {
-                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
-                if (relation == null)
-                {
-                    throw new EventNotFoundException();
-                }
-
-                relation.Answer = answer;
-                return db.SetEventToUserRelation(relation);
-            }
-            
-            return false;
-        }
-
-        // Group related service
-
-        public bool IsOwnerOfGroup(int userId, int groupId)
-        {
-            //TODO: Throw Group Exception.
-            Group group = db.GetGroup(groupId);
-
-            if (group == null)
-            {
-                throw new GroupNotFoundException();
-            }
-            if (userId == group.OwnerId)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool IsMemberOfGroup(int userId, int groupId)
-        {
-            //TODO: Throw Group Exception.
-            List<User> groupMembers = db.GetMembers(groupId);
-
-            if (groupMembers == null)
-            {
-                throw new GroupNotFoundException();
-            }
-            foreach (User x in groupMembers)
-            {
-                if (x.UserID == userId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool AddMember(int userId, int groupId)
-        {
-            if (!db.ExistsGroupToUserRelation(groupId, userId))
-            {
-                GroupToUserRelation relation = new GroupToUserRelation();
-                relation.GroupId = groupId;
-                relation.MemberId = userId;
-                return db.CreateGroupToUserRelation(relation);
-            }
-            return false;
-        }
-
-        public bool RemoveMember(int userId, int groupId)
-        {
-            //TODO: Throw User Exception.
-            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
-
-            if (relation == null)
-            {
-                throw new UserNotFoundException();
-            }
-            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
-        }
-
-        public bool ChangeGroupName(int groupId, string newName)
-        {
-           
-            Group group = db.GetGroup(groupId);
-
-            if (group == null)
-            {
-                throw new GroupNotFoundException();
-            }
-
-            group.Name = newName;
-            return db.SetGroup(group);
-        }
-        public bool CreateGroup(Group group)
-        {
-            //TODO make user join group automatically
-            bool created = false;
-
-            created = db.CreateGroup(group);
-
-            if (created)
-            {
-                GroupToUserRelation relation = new GroupToUserRelation();
-                relation.GroupId = group.GroupID;
-                relation.MemberId = group.OwnerId;
-                db.CreateGroupToUserRelation(relation);
-                db.CreateGroup(group);
-                return db.CreateGroupToUserRelation(relation);
-            } 
-            return false;
-        }
-
-        public bool RemoveGroup(int groupId)
-        {
-            return db.RemoveGroup(groupId);
-        }
-
-        private Event GetEventById(int eventId)
-        {
-            Event newEvent = new Event();
-            newEvent = db.GetEvent(eventId);
-
-            if (newEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
-            return newEvent;
-        }
-
-        private Group GetGroupById(int groupId)
-        {
-            Group newGroup = new Group();
-            newGroup = db.GetGroup(groupId);
-
-            if (newGroup == null)
-            {
-                throw new GroupNotFoundException();
-            }
-
-            return newGroup;
-        }
-
-        private Comment getCommentById(int commentId)
-        {
-           
-            Comment newComment = new Comment();
-            newComment = db.GetComment(commentId);
-
-            if (newComment == null)
-            {
-                throw new CommentNotFoundException();
-            }
-
-            return newComment;
-        }
+        #endregion
     }
 }
