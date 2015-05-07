@@ -33,7 +33,7 @@ namespace doStuff.Controllers
             newUser.Active = true;
             newUser.DisplayName = "Svenni hundur";
             newUser.Email = "svennihundur@doggie.is";
-            newUser.Gender = MALE;
+            newUser.Gender = Gender.MALE;
             newUser.UserID = 01;
             newUser.UserName = "svennidog";
 
