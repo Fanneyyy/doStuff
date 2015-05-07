@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
-using doStuff.POCOs;
 using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
@@ -17,76 +16,59 @@ namespace doStuff.Databases
             db = dbContext ?? new DoStuffDatabase();       
         }
 
-        public UserInfo GetUser(int userId)
+        public User GetUser(int userId)
         {
-            UserTable user = (from u in db.Users
-                             where u.UserTableID == userId
+            User user = (from u in db.Users
+                             where u.UserID == userId
                              select u).First();
-            UserInfo retUser = new UserInfo();
-            retUser.Id = user.UserTableID;
-            retUser.UserName = user.UserName;
-            retUser.Gender = user.Gender;
-            retUser.Email = user.Email;
-            retUser.Age = user.Age;
-            retUser.DisplayName = user.DisplayName;
-
-            return retUser;
+            return user;
         }
 
-        public UserInfo GetUser(string userName)
+        public User GetUser(string userName)
         {
             //TODO
             return null;
         }
 
-        public GroupInfo GetGroup(uint groupId)
+        public Group GetGroup(uint groupId)
         {
             //TODO
             return null;
         }
 
-        public EventInfo GetEvent(uint eventId)
+        public Event GetEvent(uint eventId)
         {
             //TODO
             return null;
         }
 
-        public CommentInfo GetComment(uint commentId)
+        public Comment GetComment(uint commentId)
         {
             //TODO
             return null;
         }
 
-        public List<GroupInfo> GetGroups(uint userId)
+        public List<Group> GetGroups(uint userId)
         {
             //TODO
             return null;
         }
 
-        public List<CommentInfo> GetComments(uint eventId)
+        public List<Comment> GetComments(uint eventId)
         {
             //TODO
             return null;
         }
 
-        public bool CreateUser(UserInfo user)
+        public bool CreateUser(User user)
         {
-            UserTable table = new UserTable();
 
-            table.UserTableID = user.Id;
-            table.Active = true;
-            table.UserName = user.UserName;
-            table.Gender = user.Gender;
-            table.DisplayName = user.DisplayName;
-            table.Age = user.Age;
-            table.Email = user.Email;
-
-            db.Users.Add(table);
+            db.Users.Add(user);
             db.SaveChanges();
             return false;
         }
 
-        public bool CreateEvent(EventInfo newEvent)
+        public bool CreateEvent(Event newEvent)
         {
             //TODO
             return false;
@@ -104,7 +86,7 @@ namespace doStuff.Databases
             return false;
         }
 
-        public bool CreateComment(uint eventId, CommentInfo comment)
+        public bool CreateComment(uint eventId, Comment comment)
         {
             //TODO
             return false;

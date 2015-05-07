@@ -7,13 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace doStuff.Models.DatabaseModels
 {
-    public class GroupTable
+    public class UserToUserRelation
     {
         [Key]
-        public int GroupTableID { get; set; }
+        public int EventToUserRelationID { get; set; }
         public bool Active { get; set; }
-        [ForeignKey("UserTable")]
-        public uint OwnerId { get; set; }
-        public string Name { get; set; }
+        public int SenderId { get; set; }
+        public int ReceiverId { get; set; }
+        public bool Answer { get; set; }
     }
 }

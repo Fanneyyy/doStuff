@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
+using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 
 namespace doStuff.Services
 {
     public class ServiceBase
     {
-        public bool CreateUser(UserInfo user)
+        public bool CreateUser(User user)
         {
             //TODO
             return false;
@@ -51,7 +51,7 @@ namespace doStuff.Services
             return false;
         }
 
-        public bool CreateComment(uint eventId, CommentInfo comment)
+        public bool CreateComment(uint eventId, Comment comment)
         {
             //TODO
             return false;

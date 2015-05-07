@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using doStuff.POCOs;
+using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Databases;
 
@@ -48,7 +48,7 @@ namespace doStuff.Services
             return null;
         }
 
-        public bool CreateEvent(uint userId, EventInfo newEvent)
+        public bool CreateEvent(uint userId, Event newEvent)
         {
             //TODO
             return false;

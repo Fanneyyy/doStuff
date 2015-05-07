@@ -4,31 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using doStuff.Databases;
-using doStuff.Models.DatabaseModels;
 using System.Data.Entity;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Tests
 {
     class MockDb : IDostuffDataContext
     {
-        public IDbSet<UserTable> Users { get; set; }
-        public IDbSet<GroupTable> Groups { get; set; }
-        public IDbSet<EventTable> Events { get; set; }
-        public IDbSet<CommentTable> Comments { get; set; }
-        public IDbSet<GroupToUserRelationTable> GroupToUserRelations { get; set; }
-        public IDbSet<FriendShipRelationTable> FriendShipRelations { get; set; }
-        public IDbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
-        public IDbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
+        public IDbSet<User> Users { get; set; }
+        public IDbSet<Group> Groups { get; set; }
+        public IDbSet<Event> Events { get; set; }
+        public IDbSet<Comment> Comments { get; set; }
+        public IDbSet<GroupToUserRelation> GroupToUserRelations { get; set; }
+        public IDbSet<UserToUserRelation> UserToUserRelations { get; set; }
+        public IDbSet<EventToUserRelation> EventToUserRelations { get; set; }
+        public IDbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
         public MockDb()
         {
-            Users = new InMemoryDbSet<UserTable>();
-            Groups = new InMemoryDbSet<GroupTable>();
-            Events = new InMemoryDbSet<EventTable>();
-            Comments = new InMemoryDbSet<CommentTable>();
-            GroupToUserRelations = new InMemoryDbSet<GroupToUserRelationTable>();
-            FriendShipRelations = new InMemoryDbSet<FriendShipRelationTable>();
-            EventToUserRelations = new InMemoryDbSet<EventToUserRelationTable>();
-            EventToCommentRelations = new InMemoryDbSet<EventToCommentRelationTable>();
+            Users = new InMemoryDbSet<User>();
+            Groups = new InMemoryDbSet<Group>();
+            Events = new InMemoryDbSet<Event>();
+            Comments = new InMemoryDbSet<Comment>();
+            GroupToUserRelations = new InMemoryDbSet<GroupToUserRelation>();
+            UserToUserRelations = new InMemoryDbSet<UserToUserRelation>();
+            EventToUserRelations = new InMemoryDbSet<EventToUserRelation>();
+            EventToCommentRelations = new InMemoryDbSet<EventToCommentRelation>();
         }
         public int SaveChanges()
         {

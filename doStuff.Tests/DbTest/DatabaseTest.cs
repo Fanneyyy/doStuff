@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using doStuff.Databases;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
-using doStuff.POCOs;
 
 namespace doStuff.Tests.DbTest
 {
@@ -17,7 +16,7 @@ namespace doStuff.Tests.DbTest
         public void Initialize()
         {
             MockDb mock = new MockDb();
-            UserTable user1 = new UserTable
+            User user1 = new User
             {
                 Active = true,
                 UserName = "testeroni",
@@ -41,10 +40,10 @@ namespace doStuff.Tests.DbTest
             const string Email = "Gulli$wag@yolo.is";
 
 
-            UserInfo user = DbTest.GetUser(id);
+            User user = DbTest.GetUser(id);
 
 
-            Assert.AreEqual(user.Id, id);
+            Assert.AreEqual(user.UserID, id);
             Assert.AreEqual(user.UserName, userName);
             Assert.AreEqual(user.DisplayName, displayName);
             Assert.AreEqual(user.Age, age);

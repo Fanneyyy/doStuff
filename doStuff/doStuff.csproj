@@ -171,20 +171,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\DatabaseModels\CommentTable.cs" />
-    <Compile Include="Models\DatabaseModels\EventTable.cs" />
-    <Compile Include="Models\DatabaseModels\EventToCommentRelationTable.cs" />
-    <Compile Include="Models\DatabaseModels\EventToUserRelationTable.cs" />
-    <Compile Include="Models\DatabaseModels\FriendShipRelationTable.cs" />
-    <Compile Include="Models\DatabaseModels\GroupTable.cs" />
-    <Compile Include="Models\DatabaseModels\GroupToEventRelationTable.cs" />
-    <Compile Include="Models\DatabaseModels\GroupToUserRelationTable.cs" />
-    <Compile Include="Models\DatabaseModels\UserTable.cs" />
+    <Compile Include="Models\DatabaseModels\Comment.cs" />
+    <Compile Include="Models\DatabaseModels\Event.cs" />
+    <Compile Include="Models\DatabaseModels\EventToCommentRelation.cs" />
+    <Compile Include="Models\DatabaseModels\EventToUserRelation.cs" />
+    <Compile Include="Models\DatabaseModels\Group.cs" />
+    <Compile Include="Models\DatabaseModels\GroupToEventRelation.cs" />
+    <Compile Include="Models\DatabaseModels\GroupToUserRelation.cs" />
+    <Compile Include="Models\DatabaseModels\User.cs" />
+    <Compile Include="Models\DatabaseModels\UserToUserRelation.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="POCOs\CommentInfo.cs" />
-    <Compile Include="POCOs\EventInfo.cs" />
-    <Compile Include="POCOs\GroupInfo.cs" />
-    <Compile Include="POCOs\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\ServiceBase.cs" />

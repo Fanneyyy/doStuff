@@ -29,26 +29,26 @@ namespace doStuff.Databases
 
     public interface IDostuffDataContext
     {
-        IDbSet<UserTable> Users { get; set; }
-        IDbSet<GroupTable> Groups { get; set; }
-        IDbSet<EventTable> Events { get; set; }
-        IDbSet<CommentTable> Comments { get; set; }
-        IDbSet<GroupToUserRelationTable> GroupToUserRelations { get; set; }
-        IDbSet<FriendShipRelationTable> FriendShipRelations { get; set; }
-        IDbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
-        IDbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
+        IDbSet<User> Users { get; set; }
+        IDbSet<Group> Groups { get; set; }
+        IDbSet<Event> Events { get; set; }
+        IDbSet<Comment> Comments { get; set; }
+        IDbSet<GroupToUserRelation> GroupToUserRelations { get; set; }
+        IDbSet<UserToUserRelation> UserToUserRelations { get; set; }
+        IDbSet<EventToUserRelation> EventToUserRelations { get; set; }
+        IDbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
         int SaveChanges();
     }
     public class DoStuffDatabase : IdentityDbContext<AppUser>, IDostuffDataContext
     {
-        public IDbSet<UserTable> Users { get; set; }
-        public IDbSet<GroupTable> Groups { get; set; }
-        public IDbSet<EventTable> Events { get; set; }
-        public IDbSet<CommentTable> Comments { get; set; }
-        public IDbSet<GroupToUserRelationTable> GroupToUserRelations { get; set; }
-        public IDbSet<FriendShipRelationTable> FriendShipRelations { get; set; }
-        public IDbSet<EventToUserRelationTable> EventToUserRelations { get; set; }
-        public IDbSet<EventToCommentRelationTable> EventToCommentRelations { get; set; }
+        public IDbSet<User> Users { get; set; }
+        public IDbSet<Group> Groups { get; set; }
+        public IDbSet<Event> Events { get; set; }
+        public IDbSet<Comment> Comments { get; set; }
+        public IDbSet<GroupToUserRelation> GroupToUserRelations { get; set; }
+        public IDbSet<UserToUserRelation> UserToUserRelations { get; set; }
+        public IDbSet<EventToUserRelation> EventToUserRelations { get; set; }
+        public IDbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
         public DoStuffDatabase()
         : base("DefaultConnection")
         {
