@@ -165,7 +165,9 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\DatabaseContext.cs" />
-    <Compile Include="Exceptions\UserIdNotFoundException.cs" />
+    <Compile Include="Exceptions\EventNotFoundException.cs" />
+    <Compile Include="Exceptions\GroupNotFoundException.cs" />
+    <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,8 +191,10 @@
     <Compile Include="ViewModels\SideBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\balloonBackground.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Login.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
