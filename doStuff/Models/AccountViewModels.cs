@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Models
 {
@@ -59,5 +60,13 @@ namespace doStuff.Models
         [Display(Name = "confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string DisplayName { get; set; }
+
+        public int Age { get; set; }
+
+        public Gender Gender { get; set; }
+
+        public string Email { get; set; }
     }
 }

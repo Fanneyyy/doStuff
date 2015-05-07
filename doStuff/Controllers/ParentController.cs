@@ -11,6 +11,7 @@ namespace doStuff.Controllers
 {
     public class ParentController : Controller
     {
+        protected static Service service = new Service();
         protected override void OnException(ExceptionContext filterContext)
         {
             base.OnException(filterContext);

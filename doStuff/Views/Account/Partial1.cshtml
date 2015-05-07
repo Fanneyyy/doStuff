@@ -27,6 +27,7 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
+
     <div class="form-group">
         @Html.LabelFor(model => model.DisplayName, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -44,12 +45,22 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.Age, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Age)
+            @Html.ValidationMessageFor(model => model.Age)
+            @Html
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
         </div>
     </div>
+
     <div class="form-group login-buttons">
         <div class="col-md-5 col-md-offset-1">
             <input type="submit" class="btn btn-default confirm" value="register" />
