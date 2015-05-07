@@ -27,6 +27,7 @@ namespace doStuff.Tests
             Events = new InMemoryDbSet<Event>();
             Comments = new InMemoryDbSet<Comment>();
             GroupToUserRelations = new InMemoryDbSet<GroupToUserRelation>();
+            GroupToEventRelations = new InMemoryDbSet<GroupToEventRelation>();
             UserToUserRelations = new InMemoryDbSet<UserToUserRelation>();
             EventToUserRelations = new InMemoryDbSet<EventToUserRelation>();
             EventToCommentRelations = new InMemoryDbSet<EventToCommentRelation>();

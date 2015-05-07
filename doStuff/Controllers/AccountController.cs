@@ -50,7 +50,7 @@ namespace doStuff.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToAction("../User/Index");
+                    return RedirectToAction("Index", "User");
                 }
                 else
                 {
@@ -93,7 +93,7 @@ namespace doStuff.Controllers
                     service.CreateUser(register);
 
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "User");
                 }
                 else
                 {

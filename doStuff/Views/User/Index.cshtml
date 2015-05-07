@@ -1,7 +1,18 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<div class="navbar navbar-inverse navbar-fixed-top">
+    @RenderPage("Banner.cshtml")
+</div>
 
-@RenderPage("Banner.cshtml")
+<div class="col-md-2 add-event pull-left pull-down">
+    @Html.ActionLink("add event", "CreateEvent", null, new { @class = "btn btn-default cancel" })
+</div>
 
-@RenderPage("EventFeed.cshtml")
+<div class="col-md-6 main pull-down" >
+    @RenderPage("EventFeed.cshtml")
+</div>
+
+<div class="col-md-4 side-bar">
+    @RenderPage("SideBar.cshtml")
+</div>

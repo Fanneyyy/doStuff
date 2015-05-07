@@ -180,6 +180,7 @@ namespace doStuff.Services
             {
                 UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
                 relation.Answer = answer;
+                relation.Active = true;
                 return db.SetUserToUserRelation(relation);
             }
             else
@@ -281,10 +282,25 @@ namespace doStuff.Services
 
             if (created)
             {
+                // Creating relation & attending for owner
                 EventToUserRelation relation = new EventToUserRelation();
                 relation.EventId = newEvent.EventID;
                 relation.AttendeeId = newEvent.OwnerId;
-                return db.CreateEventToUserRelation(relation);
+                relation.Active = true;
+                relation.Answer = true;
+                db.CreateEventToUserRelation(relation);
+
+                List <User> users = db.GetFriends(newEvent.OwnerId);
+
+                foreach (User n in users)
+                {
+                    EventToUserRelation relationForFriend = new EventToUserRelation();
+                    relationForFriend.EventId = newEvent.EventID;
+                    relationForFriend.AttendeeId = n.UserID;
+                    relationForFriend.Active = true;
+                    db.CreateEventToUserRelation(relationForFriend);
+                }
+                return true;
             }
             return false;
         }
@@ -377,6 +393,7 @@ namespace doStuff.Services
         {
             //TODO Show something if user has no friends or events?
             // Throw Event Exception.
+            // Muna að laga svo maður fái líka event frá friends
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(userId);
