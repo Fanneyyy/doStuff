@@ -23,11 +23,11 @@ namespace doStuff.Databases
             List<User> friends = new List<User>();
 
             List<int> friendIds = (from f in db.UserToUserRelations
-                                   where f.ReceiverId == userId && f.Active == true
+                                   where f.ReceiverId == userId && f.Active == true && f.Answer == true
                                    select f.SenderId).ToList();
 
             friendIds = friendIds.Concat(from f in db.UserToUserRelations
-                                         where f.SenderId == userId && f.Active == true
+                                         where f.SenderId == userId && f.Active == true && f.Answer == true
                                          select f.ReceiverId).ToList();
 
             foreach(var id in friendIds)

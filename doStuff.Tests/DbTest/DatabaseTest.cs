@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using doStuff.Databases;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace doStuff.Tests.DbTest
 {
@@ -17,6 +19,7 @@ namespace doStuff.Tests.DbTest
         {
 
             MockDb mock = new MockDb();
+
             #region Users
             User user1 = new User
             {
@@ -265,12 +268,12 @@ namespace doStuff.Tests.DbTest
         }
 
         [TestMethod]
-        public void CheckPerson1()
+        public void CheckPerson1Details()
         {
             const int id = 1;
             const string userName = "Gulli Gurka";
             const string displayName = "xXx$w4gM4$t3r420xXx";
-            const int age = 9000;
+            const int birthYear = 9000;
             const Gender gender = Gender.MALE;
             const string Email = "Gulli$wag@yolo.is";
 
@@ -280,10 +283,41 @@ namespace doStuff.Tests.DbTest
 
             Assert.AreEqual(id, user.UserID);
             Assert.AreEqual(userName, user.UserName);
-            Assert.AreEqual(user.DisplayName, displayName);
-            Assert.AreEqual(user.BirthYear, age);
-            Assert.AreEqual(user.Gender, gender);
-            Assert.AreEqual(user.Email, Email);
+            Assert.AreEqual(displayName, user.DisplayName);
+            Assert.AreEqual(birthYear, user.BirthYear);
+            Assert.AreEqual(gender, user.Gender);
+            Assert.AreEqual(Email, user.Email);
+        }
+
+        [TestMethod]
+        public void CheckFriendships()
+        {
+            const int user1Id = 1;
+            const int user2Id = 2;
+            const int user3Id = 3;
+            const int user1Amount = 1;
+            const int user2Amount = 2;
+            const int user3Amount = 1;
+            const string user2Name = "Siggi Sulta";
+
+
+            List<User> user1friends = DbTest.GetFriends(user1Id);
+            List<User> user2friends = DbTest.GetFriends(user2Id);
+            List<User> user3friends = DbTest.GetFriends(user3Id);
+
+
+            Assert.AreEqual(user1Amount, user1friends.Count);
+            Assert.AreEqual(user2Amount, user2friends.Count);
+            Assert.AreEqual(user3Amount, user3friends.Count);
+
+            Assert.AreEqual(user1friends[0].UserName, user2Name);
+            Assert.AreEqual(user3friends[0].UserName, user2Name);
+        }
+      
+        [TestMethod]
+        public void CheckGroups()
+        {
+
         }
     }
 }
