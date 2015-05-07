@@ -5,7 +5,7 @@ using System.Web;
 
 namespace doStuff.Exceptions
 {
-    public class EventNotFoundException :Exception
+    public class EventNotFoundException : Exception
     {
 
         public EventNotFoundException()
