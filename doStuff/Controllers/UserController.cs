@@ -15,7 +15,7 @@ namespace doStuff.Controllers
         private static Database db = new Database();
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {/*
             EventFeedViewModel feed = new EventFeedViewModel();
@@ -47,24 +47,9 @@ namespace doStuff.Controllers
             group2.Name = "Karfa";
             group2.OwnerId = 01;
 
-           /* GroupToUserRelation relation1 = new GroupToUserRelation();
-            GroupToUserRelation relation2 = new GroupToUserRelation();
-
-            relation1.GroupId = group1.GroupID;
-            relation1.MemberId = newUser.UserID;
-            relation1.Active = true;
-            relation1.GroupToUserRelationID = 1;
-
-            relation2.GroupId = group2.GroupID;
-            relation2.MemberId = newUser.UserID;
-            relation2.Active = true;
-            relation2.GroupToUserRelationID = 2;
-            */
             List<Group> groups = new List<Group>();
             groups.Add(group1);
             groups.Add(group2);
-
-            ViewData["GroupNames"] = groups;
 
             Event newEvent1 = new Event();
             Event newEvent2 = new Event();

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ExceptionHandler
+namespace ErrorHandler
 {
-    public enum LogType { None, TextFile, Email}
+    public enum LogType { None, TextFile, Email }
 
     public abstract class CustomException : Exception
     {

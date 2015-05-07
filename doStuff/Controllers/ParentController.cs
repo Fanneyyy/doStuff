@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using doStuff.ViewModels;
 using doStuff.Services;
 using doStuff.Models;
-using ExceptionHandler;
+using ErrorHandler;
 
 namespace doStuff.Controllers
 {

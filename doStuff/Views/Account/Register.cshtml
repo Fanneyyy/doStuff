@@ -28,28 +28,33 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.DisplayName, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DisplayName)
-            @Html.ValidationMessageFor(model => model.DisplayName)
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.BirthYear, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.BirthYear)
-            @Html.ValidationMessageFor(model => model.BirthYear)
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Email, new { @class = "col-md-10 control-label col-md-offset-1" })
+        <div class="col-md-10 col-md-offset-1">
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DisplayName, new { @class = "col-md-10 control-label col-md-offset-1" })
+        <div class="col-md-10 col-md-offset-1">
+            @Html.EditorFor(model => model.DisplayName)
+            @Html.ValidationMessageFor(model => model.DisplayName)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BirthYear, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control">
+                @for (var i = 1900; i < 2015; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+                @*Html.EditorFor(model => model.Age)*@
+                @Html.ValidationMessageFor(model => model.BirthYear)
+            </select>
+        </div>
+    </div>
+
     <div class="form-group login-buttons">
         <div class="col-md-5 col-md-offset-1">
             <input type="submit" class="btn btn-default confirm" value="register" />

@@ -10,11 +10,13 @@ using doStuff.ViewModels;
 
 namespace doStuff.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : ParentController
     {
+        private DatabaseContext db = new DatabaseContext();
         public ActionResult Index()
         {
+
             return View();
         }
 
