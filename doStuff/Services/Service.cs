@@ -165,7 +165,10 @@ namespace doStuff.Services
             //TODO Check if user has already sent a request before.
             if (!db.ExistsUserToUserRelation(userId, friendId))
             {
-                return false; // db.CreateUserToUserRelation(userId, friendId);
+                UserToUserRelation relation = new UserToUserRelation();
+                relation.SenderId = userId;
+                relation.ReceiverId = friendId;
+                return db.CreateUserToUserRelation(relation);
             }
             else
             {
@@ -211,18 +214,21 @@ namespace doStuff.Services
 
             if (created)
             {
-                return false; // db.CreateEventToUserRelation(newEvent.EventID, newEvent.OwnerId);
+                EventToUserRelation relation = new EventToUserRelation();
+                relation.EventId = newEvent.EventID;
+                relation.AttendeeId = newEvent.OwnerId;
+                return db.CreateEventToUserRelation(relation);
             }
             return false;
         }
 
-        public bool ChangeUserName(int userId, string newName)
+        public bool ChangeDisplayName(int userId, string newName)
         {
             //TODO: Throw User Exception.
             if (db.ExistsUser(userId))
             {
                 User user = db.GetUser(userId);
-                user.UserName = newName;
+                user.DisplayName = newName;
                 return db.SetUser(user);
             }
 
@@ -324,7 +330,14 @@ namespace doStuff.Services
 
         public bool AddMember(int userId, int groupId)
         {
-            return false;// db.CreateGroupToUserRelation(groupId, userId);
+            if (!db.ExistsGroupToUserRelation(groupId, userId))
+            {
+                GroupToUserRelation relation = new GroupToUserRelation();
+                relation.GroupId = groupId;
+                relation.MemberId = userId;
+                return db.CreateGroupToUserRelation(relation);
+            }
+            return false;
         }
 
         public bool RemoveMember(int userId, int groupId)
@@ -361,8 +374,12 @@ namespace doStuff.Services
 
             if (created)
             {
-           
-                return false; // db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
+                GroupToUserRelation relation = new GroupToUserRelation();
+                relation.GroupId = group.GroupID;
+                relation.MemberId = group.OwnerId;
+                db.CreateGroupToUserRelation(relation);
+                db.CreateGroup(group);
+                return db.CreateGroupToUserRelation(relation);
             } 
             return false;
         }
