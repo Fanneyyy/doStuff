@@ -17,7 +17,7 @@ namespace doStuff.Controllers
         [HttpGet]
         //[Authorize]
         public ActionResult Index()
-        {/*
+        {
             EventFeedViewModel feed = new EventFeedViewModel();
             // Gets userId of the user viewing the site
             int userId = service.GetUserId(User.Identity.Name);
@@ -25,8 +25,8 @@ namespace doStuff.Controllers
             feed = service.GetEventFeed(userId);
             // Returns the feed to the view
 
-            return View(feed);*/
-
+            return View(feed);
+/*
             User newUser = new User();
             newUser.BirthYear = 25;
             newUser.Active = true;
@@ -107,6 +107,7 @@ namespace doStuff.Controllers
             feed.Groups = groups;
             feed.SideBar = sidebar;
             return View(feed);
+ * */
         }
 
         [HttpGet]
