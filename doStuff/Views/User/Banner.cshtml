@@ -1,50 +1,22 @@
 ﻿@model doStuff.ViewModels.EventFeedViewModel
-
-<span>
-    <select class="form-control">
-        @foreach (var i in Model.Groups)
-        {
-            <option value="@i">@i.Name</option>
-        }
-    </select>
-
-    <div>
-        <h4>EventFeedViewModel</h4>
-        <hr />
-        <dl class="dl-horizontal"></dl>
-    </div>
-
-
-
-    @foreach (var item in Model.Events)
-    {
-        <div class="well">
-            <ul class="list-inline">
-                <li><h3>@item.Owner</h3></li>
-                <li class="pull-right"><h3>@item.Event.Name</h3></li>
-            </ul>
-            <p>@item.Event.Description</p>
-            @foreach (var c in @item.Comments)
-            {
-                <p>@</p>
-                <p>@c.Content</p>
-            }
-
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
         </div>
-
-    }
-
-    </table>
-</span>
-
-<span class="pull-right">
-    <h3>@Model.SideBar.User.DisplayName</h3>
-    <ul>
-        @foreach (var user in Model.SideBar.UserList)
+        <div class="navbar-collapse collapse">
+            <select class="form-control">
+                @foreach (var i in Model.Groups)
         {
-            <li>@user.DisplayName</li>
+                    <option value="@i">@i.Name</option>
         }
-    </ul>
-
-</span>
-
+            </select>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div> 

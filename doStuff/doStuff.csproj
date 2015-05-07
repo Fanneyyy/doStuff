@@ -244,6 +244,7 @@
     <Content Include="Views\User\Banner.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\User\EventFeed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

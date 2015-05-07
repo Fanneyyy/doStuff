@@ -50,7 +50,7 @@ namespace doStuff.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("User");
                 }
                 else
                 {
