@@ -296,7 +296,7 @@ namespace doStuff.Services
                 {
                     EventToUserRelation relationForFriend = new EventToUserRelation();
                     relationForFriend.EventId = newEvent.EventID;
-                    relationForFriend.AttendeeId = newEvent.OwnerId;
+                    relationForFriend.AttendeeId = n.UserID;
                     relationForFriend.Active = true;
                     db.CreateEventToUserRelation(relationForFriend);
                 }
