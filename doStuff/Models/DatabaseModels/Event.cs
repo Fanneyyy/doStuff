@@ -23,5 +23,6 @@ namespace doStuff.Models.DatabaseModels
         public string Location { get; set; }
         public uint Min { get; set; }
         public uint Max { get; set; }
+
     }
 }
