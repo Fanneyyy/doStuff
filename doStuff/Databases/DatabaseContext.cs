@@ -19,5 +19,9 @@ namespace doStuff.Databases
         public DbSet<EventToUserRelation> EventToUserRelations { get; set; }
         public DbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
         public DbSet<GroupToEventRelation> GroupToEventRelations { get; set; }
+        public DatabaseContext()
+            : base("DefaultConnection")
+        {
+        }
     }
 }
