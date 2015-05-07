@@ -1,9 +1,19 @@
 ﻿.login-body {
     background-image: url("balloonBackground.jpg");
-    background-size: 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     background-color: white;
+    padding-top: 10px;
     letter-spacing: 3px;
+}
+
+.login-logo {
+    height: 90px;
+    background-image: url("doStufflogo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 50px;
+    margin-left: 5px;
 }
 
 .login-box {
