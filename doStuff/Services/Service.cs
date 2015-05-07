@@ -361,6 +361,7 @@ namespace doStuff.Services
 
             if (created)
             {
+           
                 return false; // db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
             } 
             return false;
@@ -398,7 +399,7 @@ namespace doStuff.Services
 
         private Comment getCommentById(int commentId)
         {
-            //TODO: Do Exception for Comment?
+           
             Comment newComment = new Comment();
             newComment = db.GetComment(commentId);
 
