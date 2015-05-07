@@ -108,19 +108,19 @@ namespace doStuff.Databases
             #region Exists
             public bool ExistsUser(int userId)
             {
-                return (1 == (from u in db.Users where u.UserID == userId && u.Active == true select u).Count());
+                return (1 == (from u in db.Users where u.UserID == userId select u).Count());
             }
             public bool ExistsGroup(int groupId)
             {
-                return (1 == (from g in db.Groups where g.GroupID == groupId && g.Active == true select g).Count());
+                return (1 == (from g in db.Groups where g.GroupID == groupId select g).Count());
             }
             public bool ExistsEvent(int eventId)
             {
-                return (1 == (from e in db.Events where e.EventID == eventId && e.Active == true select e).Count());
+                return (1 == (from e in db.Events where e.EventID == eventId select e).Count());
             }
             public bool ExistsComment(int commentId)
             {
-                return (1 == (from c in db.Comments where c.CommentID == commentId && c.Active == true select c).Count());
+                return (1 == (from c in db.Comments where c.CommentID == commentId select c).Count());
             }
             #endregion
             #region Create
@@ -192,7 +192,7 @@ namespace doStuff.Databases
             {
                 User user = (from u in db.Users
                                   where u.UserID == userId
-                                  select u).Single();
+                                  select u).SingleOrDefault();
                 return user;
             }
 
@@ -200,7 +200,7 @@ namespace doStuff.Databases
             {
                 User user = (from u in db.Users
                                   where u.UserName == userName
-                                  select u).Single();
+                                  select u).SingleOrDefault();
                 return user;
             }
 
@@ -208,7 +208,7 @@ namespace doStuff.Databases
             {
                 Group group = (from g in db.Groups
                                     where g.GroupID == groupId
-                                    select g).Single();
+                                    select g).SingleOrDefault();
                 return group;
             }
 
@@ -216,7 +216,7 @@ namespace doStuff.Databases
             {
                 Event theEvent = (from e in db.Events
                                        where e.EventID == eventId
-                                       select e).Single();
+                                       select e).SingleOrDefault();
                 return theEvent;
             }
 
@@ -224,7 +224,7 @@ namespace doStuff.Databases
             {
                 Comment comment = (from c in db.Comments
                                         where c.CommentID == commentId
-                                        select c).Single();
+                                        select c).SingleOrDefault();
                 return comment;
             }
             #endregion
@@ -273,7 +273,7 @@ namespace doStuff.Databases
             public bool ExistsUserToUserRelation(int senderId, int receiverId)
             {
                 var relation = (from r in db.UserToUserRelations
-                                where r.SenderId == senderId && r.ReceiverId == receiverId && r.Active == true
+                                where r.SenderId == senderId && r.ReceiverId == receiverId
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -281,7 +281,7 @@ namespace doStuff.Databases
             public bool ExistsGroupToUserRelation(int groupId, int userId)
             {
                 var relation = (from r in db.GroupToUserRelations
-                                where r.GroupId == groupId && r.MemberId == userId && r.Active == true
+                                where r.GroupId == groupId && r.MemberId == userId
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -289,7 +289,7 @@ namespace doStuff.Databases
             public bool ExistsEventToUserRelation(int eventId, int userId)
             {
                 var relation = (from r in db.EventToUserRelations
-                                where r.EventId == eventId && r.AttendeeId == userId && r.Active == true
+                                where r.EventId == eventId && r.AttendeeId == userId
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -297,7 +297,7 @@ namespace doStuff.Databases
             public bool ExistsGroupToEventRelation(int groupId, int eventId)
             {
                 var relation = (from r in db.GroupToEventRelations
-                                where r.GroupId == groupId && r.EventId == eventId && r.Active == true
+                                where r.GroupId == groupId && r.EventId == eventId
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -305,65 +305,43 @@ namespace doStuff.Databases
             public bool ExistsEventToCommentRelation(int eventId, int commentId)
             {
                 var relation = (from r in db.EventToCommentRelations
-                                where r.EventId == eventId && r.CommentId == commentId && r.Active == true
+                                where r.EventId == eventId && r.CommentId == commentId
                                 select r).SingleOrDefault();
                 return relation != null;
             }
             #endregion
             #region Create
-            public bool CreateUserToUserRelation(int senderId, int receiverId)
+            public bool CreateUserToUserRelation(UserToUserRelation relation)
             {
-                UserToUserRelation table = new UserToUserRelation();
-                table.Active = true;
-                table.SenderId = senderId;
-                table.ReceiverId = receiverId;
-                table.Answer = false;
-                db.UserToUserRelations.Add(table);
+                db.UserToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateGroupToUserRelation(int groupId, int userId)
+            public bool CreateGroupToUserRelation(GroupToUserRelation relation)
             {
-                GroupToUserRelation table = new GroupToUserRelation();
-                table.Active = true;
-                table.GroupId = groupId;
-                table.MemberId = userId;
-                db.GroupToUserRelations.Add(table);
+                db.GroupToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
             
-            public bool CreateEventToUserRelation(int eventId, int userId)
+            public bool CreateEventToUserRelation(EventToUserRelation relation)
             {
-                EventToUserRelation table = new EventToUserRelation();
-                table.Active = true;
-                table.EventId = eventId;
-                table.AttendeeId = userId;
-                table.Answer = null;
-                db.EventToUserRelations.Add(table);
+                db.EventToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateGroupToEventRelation(int groupId, int EventId)
+            public bool CreateGroupToEventRelation(GroupToEventRelation relation)
             {
-                GroupToEventRelation table = new GroupToEventRelation();
-                table.Active = true;
-                table.GroupId = groupId;
-                table.EventId = EventId;
-                db.GroupToEventRelations.Add(table);
+                db.GroupToEventRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateEventToCommentRelation(int eventId, int commentId)
+            public bool CreateEventToCommentRelation(EventToCommentRelation relation)
             {
-                EventToCommentRelation table = new EventToCommentRelation();
-                table.Active = true;
-                table.EventId = eventId;
-                table.CommentId = commentId;
-                db.EventToCommentRelations.Add(table);
+                db.EventToCommentRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
@@ -461,49 +439,49 @@ namespace doStuff.Databases
             #region Set
             public bool SetUserToUserRelation(UserToUserRelation value)
             {
-                var table = (from t in db.UserToUserRelations
+                var relation = (from t in db.UserToUserRelations
                              where t.UserToUserRelationID == value.UserToUserRelationID
                              select t).Single();
-                table = value;
+                relation = value;
                 db.SaveChanges();
                 return true;
             }
             public bool SetGroupToUserRelation(GroupToUserRelation value)
             {
-                var table = (from t in db.GroupToUserRelations
+                var relation = (from t in db.GroupToUserRelations
                              where t.GroupToUserRelationID == value.GroupToUserRelationID
                              select t).Single();
-                table = value;
+                relation = value;
                 db.SaveChanges();
                 return true;
             }
 
             public bool SetEventToUserRelation(EventToUserRelation value)
             {
-                var table = (from t in db.EventToUserRelations
+                var relation = (from t in db.EventToUserRelations
                              where t.EventToUserRelationID == value.EventToUserRelationID
                              select t).Single();
-                table = value;
+                relation = value;
                 db.SaveChanges();
                 return true;
             }
 
             public bool SetGroupToEventRelation(GroupToEventRelation value)
             {
-                var table = (from t in db.GroupToEventRelations
+                var relation = (from t in db.GroupToEventRelations
                              where t.GroupToEventRelationID == value.GroupToEventRelationID
                              select t).Single();
-                table = value;
+                relation = value;
                 db.SaveChanges();
                 return true;
             }
 
             public bool SetEventToCommentRelation(EventToCommentRelation value)
             {
-                var table = (from t in db.EventToCommentRelations
+                var relation = (from t in db.EventToCommentRelations
                              where t.EventToCommentRelationID == value.EventToCommentRelationID
                              select t).Single();
-                table = value;
+                relation = value;
                 db.SaveChanges();
                 return true;
             }
