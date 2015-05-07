@@ -99,17 +99,15 @@ namespace doStuff.Databases
         }
         public List<Event> GetEvents(int userId)
         {
-            List<Event> events = (from e in db.Events
-                                      where e.OwnerId == userId && e.GroupId == null && e.Active == true
-                                      select e).ToList();
-            return events;
+            return (from e in db.Events
+                    where e.OwnerId == userId && e.GroupId == null && e.Active == true
+                    select e).ToList();
         }
         public List<Event> GetGroupEvents(int groupId)
         {
-            List<Event> events = (from e in db.Events
-                                      where e.GroupId == groupId && e.Active == true
-                                      select e).ToList();
-            return events;
+            return (from e in db.Events
+                    where e.GroupId == groupId && e.Active == true
+                    select e).ToList();
         }
         public List<Comment> GetComments(int eventId)
         {
