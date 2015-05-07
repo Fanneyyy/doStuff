@@ -17,7 +17,7 @@ namespace doStuff.Controllers
         [HttpGet]
         //[Authorize]
         public ActionResult Index()
-        {/*
+        {
             EventFeedViewModel feed = new EventFeedViewModel();
             // Gets userId of the user viewing the site
             int userId = service.GetUserId(User.Identity.Name);
@@ -25,8 +25,8 @@ namespace doStuff.Controllers
             feed = service.GetEventFeed(userId);
             // Returns the feed to the view
 
-            return View(feed);*/
-
+            return View(feed);
+/*
             User newUser = new User();
             newUser.BirthYear = 25;
             newUser.Active = true;
@@ -107,6 +107,7 @@ namespace doStuff.Controllers
             feed.Groups = groups;
             feed.SideBar = sidebar;
             return View(feed);
+ * */
         }
 
         [HttpGet]
@@ -118,10 +119,14 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFriend(FormCollection collection)
+        public ActionResult AddFriend(string newFriend)
         {
             //TODO
-            return View();
+            int friendId = service.GetUserId(newFriend);
+            int userId = service.GetUserId(User.Identity.Name);
+            service.SendFriendRequest(userId, friendId);
+            service.AnswerFriendRequest(friendId, userId, true);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -157,8 +162,9 @@ namespace doStuff.Controllers
             if (ModelState.IsValid)
             {
                 //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
-                newEvent.CreationTime = new DateTime().ToUniversalTime();
+                newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
+                newEvent.Minutes = 23;
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
             }

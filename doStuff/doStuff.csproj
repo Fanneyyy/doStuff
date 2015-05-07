@@ -181,7 +181,7 @@
     <Compile Include="Models\DatabaseModels\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\Services\Service.cs" />
+    <Compile Include="Services\Service.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EventFeedViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
@@ -194,6 +194,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\doStufflogo.png" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\SideBar.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -245,6 +246,10 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\User\EventFeed.cshtml" />
+    <Content Include="Views\Shared\LoginRegisterBase.cshtml" />
+    <Content Include="Views\User\SideBar.cshtml" />
+    <Content Include="Views\User\CreateEvent.cshtml" />
+    <Content Include="Views\User\AddFriend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
