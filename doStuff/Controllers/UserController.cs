@@ -165,6 +165,7 @@ namespace doStuff.Controllers
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Minutes = 23;
+                newEvent.Active = true;
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
             }
