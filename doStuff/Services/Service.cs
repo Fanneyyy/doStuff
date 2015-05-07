@@ -143,7 +143,19 @@ namespace doStuff.Services
 
         public bool IsAttendingEvent(int userId, int eventId)
         {
-            //TODO
+            //TODO finish this
+            if (db.ExistsEventToUserRelation(eventId, userId)) 
+            {
+                int relationId = db.GetEventToUserRelation(eventId, userId);
+                /*if (attending)
+                {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            */
+            }
             return false;
         }
 
@@ -185,7 +197,19 @@ namespace doStuff.Services
 
         public bool HasAccessToEvent(int userId, int eventId)
         {
-            // TODO
+            Event thisEvent = db.GetEvent(eventId);
+            if (db.ExistsUserToUserRelation(thisEvent.OwnerId, userId))
+            {
+                return true;
+            }
+            else if (thisEvent.GroupId.HasValue)
+            {
+                int groupId = (int)thisEvent.GroupId;
+                if (db.ExistsGroupToUserRelation(groupId, userId)) 
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -196,22 +220,30 @@ namespace doStuff.Services
 
         public bool CreateComment(int eventId, Comment comment)
         {
-            //TODO
-            return false;
+            //TODO Kasta villum ef event finnst ekki / virkar ekki
+            db.CreateComment(comment);
+            Event thisEvent = db.GetEvent(eventId);
+            return db.CreateEventToCommentRelation(thisEvent.EventID, comment.CommentID);
         }
 
         public bool AnswerEvent(int userId, int eventId, bool answer)
         {
+            if (db.ExistsEventToUserRelation(eventId, userId))
+            {
+                int relationId = db.GetEventToUserRelation(eventId, userId);
+                return db.SetEventToUserRelation(relationId, answer);
+            }
+            
             return false;
         }
 
         // Group related service
 
-        public bool IsOwnerOfGroup(int UserId, int groupId)
+        public bool IsOwnerOfGroup(int userId, int groupId)
         {
             Group group = db.GetGroup(groupId);
 
-            if (groupId == group.OwnerId)
+            if (userId == group.OwnerId)
             {
                 return true;
             }
