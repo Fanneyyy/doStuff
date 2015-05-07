@@ -281,10 +281,23 @@ namespace doStuff.Services
 
             if (created)
             {
+                // Creating relation & attending for owner
                 EventToUserRelation relation = new EventToUserRelation();
                 relation.EventId = newEvent.EventID;
                 relation.AttendeeId = newEvent.OwnerId;
-                return db.CreateEventToUserRelation(relation);
+                relation.Answer = true;
+                db.CreateEventToUserRelation(relation);
+
+                List <User> users = db.GetFriends(newEvent.OwnerId);
+
+                foreach (User n in users)
+                {
+                    EventToUserRelation relationForFriend = new EventToUserRelation();
+                    relationForFriend.EventId = newEvent.EventID;
+                    relationForFriend.AttendeeId = newEvent.OwnerId;
+                    db.CreateEventToUserRelation(relationForFriend);
+                }
+                return true;
             }
             return false;
         }
