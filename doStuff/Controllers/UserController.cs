@@ -3,22 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using doStuff.ViewModels;
+using doStuff.Services;
+using doStuff.Models;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Controllers
 {
     public class UserController : ParentController
     {
+        static Service service = new Service();
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
-            //TODO
-            return View();
+            EventFeedViewModel feed = new EventFeedViewModel();
+            // Gets userId of the user viewing the site
+            int userId = service.GetUserId(User.Identity.Name);
+            // Gets the correct feed for the userId
+            feed = service.GetEventFeed(userId);
+            // Returns the feed to the view
+            return View(feed);
         }
 
         [HttpGet]
         public ActionResult AddFriend()
         {
             //TODO
+
             return View();
         }
 
@@ -53,47 +65,53 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult CreateEvent()
         {
-            //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreateEvent(FormCollection collection)
+        public ActionResult CreateEvent(/*[Bind(Include = "Id,Title,Text,DateCreated,Category")], */Event newEvent)
+        {
+            if (ModelState.IsValid)
+            {
+                service.CreateEvent(newEvent);
+                return RedirectToAction("Index");
+            }
+
+            return View(newEvent);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveEvent(int eventId)
         {
             //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult RemoveEvent(uint eventId)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Comment(uint eventId, FormCollection collection)
+        public ActionResult Comment(int eventId, FormCollection collection)
         {
             //TODO
             return View();
         }
 
         [HttpGet]
-        public ActionResult ChangeName()
+        public ActionResult ChangeUserName()
         {
             //TODO
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult ChangeName(FormCollection collection)
+        public ActionResult ChangeUserName(Event eventToChange)
         {
             //TODO
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult AnswerEvent(uint eventId, bool answer)
+        public ActionResult AnswerEvent(int eventId, bool answer)
         {
             //TODO
             return View();

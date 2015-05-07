@@ -6,25 +6,25 @@ using System.Web.Mvc;
 using doStuff.Services;
 using doStuff.Databases;
 using doStuff.Models.DatabaseModels;
+using doStuff.ViewModels;
 
 namespace doStuff.Controllers
 {
     //[Authorize]
     public class HomeController : ParentController
     {
-        /*private DatabaseContext db = new DatabaseContext();
+        static Service service = new Service();
+        [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
-            var user = (from u in db.Users
-                        select u).ToList();
-
-            foreach(var u in user)
-            {
-                throw new Exception();
-            }
-
-            db.SaveChanges();
-            return View("Error");
-        }*/
+            EventFeedViewModel feed = new EventFeedViewModel();
+            // Gets userId of the user viewing the site
+            int userId = service.GetUserId(User.Identity.Name);
+            // Gets the correct feed for the userId
+            feed = service.GetEventFeed(userId);
+            // Returns the feed to the view
+            return View(feed);
+        }
     }
 }
