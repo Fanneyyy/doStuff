@@ -28,7 +28,7 @@ namespace doStuff.Controllers
             return View(feed);*/
 
             User newUser = new User();
-            newUser.Age = 25;
+            newUser.BirthYear = 25;
             newUser.Active = true;
             newUser.DisplayName = "Svenni hundur";
             newUser.Email = "svennihundur@doggie.is";

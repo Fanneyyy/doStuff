@@ -5,7 +5,7 @@ using System.Web;
 using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Databases;
-using doStuff.Exceptions;
+using ExceptionHandler;
 
 namespace doStuff.Services
 {
@@ -140,7 +140,7 @@ namespace doStuff.Services
             //TODO Check if user has already sent a request before.
             if (!db.ExistsUserToUserRelation(userId, friendId))
             {
-                return db.CreateUserToUserRelation(userId, friendId);
+                return false; // db.CreateUserToUserRelation(userId, friendId);
             }
             else
             {
@@ -186,7 +186,7 @@ namespace doStuff.Services
 
             if (created)
             {
-                return db.CreateEventToUserRelation(newEvent.EventID, newEvent.OwnerId);
+                return false; // db.CreateEventToUserRelation(newEvent.EventID, newEvent.OwnerId);
             }
             return false;
         }
@@ -231,7 +231,7 @@ namespace doStuff.Services
             //TODO Kasta villum ef event finnst ekki / virkar ekki
             db.CreateComment(comment);
             Event thisEvent = db.GetEvent(eventId);
-            return db.CreateEventToCommentRelation(thisEvent.EventID, comment.CommentID);
+            return false; //db.CreateEventToCommentRelation(thisEvent.EventID, comment.CommentID);
         }
 
         public bool AnswerEvent(int userId, int eventId, bool answer)
@@ -277,7 +277,7 @@ namespace doStuff.Services
 
         public bool AddMember(int userId, int groupId)
         {
-            return db.CreateGroupToUserRelation(groupId, userId);
+            return false;// db.CreateGroupToUserRelation(groupId, userId);
         }
 
         public bool RemoveMember(int userId, int groupId)
@@ -318,7 +318,7 @@ namespace doStuff.Services
 
             if (created)
             {
-                return db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
+                return false;// db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
             }
             return false;
         }
