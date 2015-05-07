@@ -249,6 +249,7 @@
     <Content Include="Views\Shared\LoginRegisterBase.cshtml" />
     <Content Include="Views\User\SideBar.cshtml" />
     <Content Include="Views\User\CreateEvent.cshtml" />
+    <Content Include="Views\User\AddFriend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
