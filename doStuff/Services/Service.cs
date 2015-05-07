@@ -22,11 +22,6 @@ namespace doStuff.Services
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(groupId);
 
-            if (events == null)
-            {
-                throw new EventNotFoundException();
-            }
-
             foreach (Event eachEvent in events)
             {
                 EventViewModel eventView = new EventViewModel();
@@ -104,10 +99,7 @@ namespace doStuff.Services
         {
     
             Event newEvent = GetEventById(eventId);
-            if (newEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
+       
             if (newEvent.OwnerId == userId)
             {
                 return true;
@@ -152,9 +144,12 @@ namespace doStuff.Services
             
             if (!db.ExistsUserToUserRelation(userId, friendId) && (!db.ExistsUserToUserRelation(friendId, userId)))
             {
-                //TODO
+                throw new UserNotFoundException();
             }
-            UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            else
+            {
+                UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            }
 
             return false;
         }
@@ -197,11 +192,6 @@ namespace doStuff.Services
             
             Comment newComment = getCommentById(commentId);
 
-            if (newComment == null)
-            {
-                throw new CommentNotFoundException();
-            }
-
             if (newComment.OwnerId == userId)
             {
                 return true;
@@ -230,19 +220,15 @@ namespace doStuff.Services
                 user.UserName = newName;
                 return db.SetUser(user);
             }
-            
-            return false;
+
+            throw new UserNotFoundException();
         }
 
         public bool HasAccessToEvent(int userId, int eventId)
         {
             //TODO: Throw Event Exception.
-            Event thisEvent = db.GetEvent(eventId);
+            Event thisEvent = GetEventById(eventId);
 
-            if (thisEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
             if (db.ExistsUserToUserRelation(thisEvent.OwnerId, userId))
             {
                 return true;
@@ -269,11 +255,8 @@ namespace doStuff.Services
             //TODO: Throw Event Exception.
 
             db.CreateComment(comment);
-            Event thisEvent = db.GetEvent(eventId);
-            if (thisEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
+            Event thisEvent = GetEventById(eventId);
+           
             return false;
         }
 
@@ -351,42 +334,16 @@ namespace doStuff.Services
             return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
         }
 
-        private Event getEventById(int eventId)
-        {
-            // TODO: Throw Event Exception.
-            Event newEvent = new Event();
-
-            if (newEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
-            newEvent = db.GetEvent(eventId);
-            return newEvent;
-        }
-
-        private Comment getCommentById(int commentId)
-        {
-            //TODO: Do Exception for Comment?
-            Comment newComment = new Comment();
-
-            if (newComment == null)
-            {
-                //throw new CommentNotFoundException();
-            }
-            newComment = db.GetComment(commentId);
-            return newComment;
-        }
-
         public bool ChangeGroupName(int groupId, string newName)
         {
-            //TODO Throw Group Exception.
-
+           
             Group group = db.GetGroup(groupId);
 
             if (group == null)
             {
                 throw new GroupNotFoundException();
             }
+
             group.Name = newName;
             return db.SetGroup(group);
         }
@@ -399,8 +356,8 @@ namespace doStuff.Services
 
             if (created)
             {
-                return false;// db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
-            }
+                return false; // db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
+            } 
             return false;
         }
 
@@ -408,9 +365,9 @@ namespace doStuff.Services
         {
             return db.RemoveGroup(groupId);
         }
+
         private Event GetEventById(int eventId)
         {
-            //TODO: Throw Event Exception.
             Event newEvent = new Event();
             newEvent = db.GetEvent(eventId);
 
@@ -423,7 +380,6 @@ namespace doStuff.Services
 
         private Group GetGroupById(int groupId)
         {
-            //TODO: Throw Group Exception.
             Group newGroup = new Group();
             newGroup = db.GetGroup(groupId);
 
@@ -431,7 +387,22 @@ namespace doStuff.Services
             {
                 throw new GroupNotFoundException();
             }
+
             return newGroup;
+        }
+
+        private Comment getCommentById(int commentId)
+        {
+            //TODO: Do Exception for Comment?
+            Comment newComment = new Comment();
+            newComment = db.GetComment(commentId);
+
+            if (newComment == null)
+            {
+                throw new CommentNotFoundException();
+            }
+
+            return newComment;
         }
     }
 }
