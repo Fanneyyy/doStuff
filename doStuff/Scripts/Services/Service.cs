@@ -5,7 +5,7 @@ using System.Web;
 using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Databases;
-using doStuff.Exceptions;
+using ErrorHandler;
 
 namespace doStuff.Services
 {
@@ -17,9 +17,15 @@ namespace doStuff.Services
         {
             //TODO
             // Show something if user has no friends or events?
+          
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(groupId);
+
+            if (events == null)
+            {
+                throw new EventNotFoundException();
+            }
 
             foreach (Event eachEvent in events)
             {
@@ -46,10 +52,15 @@ namespace doStuff.Services
         public EventFeedViewModel GetEventFeed(int userId)
         {
             //TODO Show something if user has no friends or events?
-
+            // Throw Event Exception.
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(userId);
+
+            if (events == null)
+            {
+                throw new EventNotFoundException();
+            }
 
             foreach (Event eachEvent in events)
             {
@@ -79,18 +90,21 @@ namespace doStuff.Services
 
         public int GetUserId(string userName)
         {
-            //TODO: Throw exception
-
             User user = new User();
             user = db.GetUser(userName);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
 
             return user.UserID;
         }
 
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
+    
             Event newEvent = GetEventById(eventId);
-
+       
             if (newEvent.OwnerId == userId)
             {
                 return true;
@@ -100,8 +114,9 @@ namespace doStuff.Services
 
         public bool IsFriendsWith(int userId, int friendId)
         {
-
+            
             List<User> friends = db.GetFriends(userId);
+          
             foreach (User a in friends)
             {
                 if (a.UserID == friendId)
@@ -115,7 +130,8 @@ namespace doStuff.Services
 
         public bool AnswerFriendRequest(int userId, int senderId, bool answer)
         {
-            if (db.ExistsUserToUserRelation(senderId, userId))
+
+            if (db.ExistsUserToUserRelation(senderId, userId) || (db.ExistsUserToUserRelation(userId, senderId)))
             {
                 UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
                 relation.Answer = answer;
@@ -130,17 +146,26 @@ namespace doStuff.Services
 
         public bool RemoveFriend(int userId, int friendId)
         {
-            UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            
+            if (!db.ExistsUserToUserRelation(userId, friendId) && (!db.ExistsUserToUserRelation(friendId, userId)))
+            {
+                throw new UserNotFoundException();
+            }
+            else
+            {
+                UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            }
 
-            return db.RemoveUserToUserRelation(relation.UserToUserRelationID);
+            return false;
         }
 
         public bool SendFriendRequest(int userId, int friendId)
         {
+            
             //TODO Check if user has already sent a request before.
             if (!db.ExistsUserToUserRelation(userId, friendId))
             {
-                return db.CreateUserToUserRelation(userId, friendId);
+                return false; // db.CreateUserToUserRelation(userId, friendId);
             }
             else
             {
@@ -169,7 +194,7 @@ namespace doStuff.Services
 
         public bool IsOwnerOfComment(int userId, int commentId)
         {
-            //TODO Exceptions if commentid and userid dont have anything attached
+            
             Comment newComment = getCommentById(commentId);
 
             if (newComment.OwnerId == userId)
@@ -186,26 +211,29 @@ namespace doStuff.Services
 
             if (created)
             {
-                return db.CreateEventToUserRelation(newEvent.EventID, newEvent.OwnerId);
+                return false; // db.CreateEventToUserRelation(newEvent.EventID, newEvent.OwnerId);
             }
             return false;
         }
 
         public bool ChangeUserName(int userId, string newName)
         {
+            //TODO: Throw User Exception.
             if (db.ExistsUser(userId))
             {
                 User user = db.GetUser(userId);
                 user.UserName = newName;
                 return db.SetUser(user);
             }
-            //TODO: throw exeptions
-            return false;
+
+            throw new UserNotFoundException();
         }
 
         public bool HasAccessToEvent(int userId, int eventId)
         {
-            Event thisEvent = db.GetEvent(eventId);
+            //TODO: Throw Event Exception.
+            Event thisEvent = GetEventById(eventId);
+
             if (db.ExistsUserToUserRelation(thisEvent.OwnerId, userId))
             {
                 return true;
@@ -223,22 +251,31 @@ namespace doStuff.Services
 
         public bool RemoveEvent(int eventId)
         {
+           
             return db.RemoveEvent(eventId);
         }
 
         public bool CreateComment(int eventId, Comment comment)
         {
-            //TODO Kasta villum ef event finnst ekki / virkar ekki
+            //TODO: Throw Event Exception.
+
             db.CreateComment(comment);
-            Event thisEvent = db.GetEvent(eventId);
-            return db.CreateEventToCommentRelation(thisEvent.EventID, comment.CommentID);
+            Event thisEvent = GetEventById(eventId);
+           
+            return false;
         }
 
         public bool AnswerEvent(int userId, int eventId, bool answer)
         {
+            //TODO: Throw Event Exception.
             if (db.ExistsEventToUserRelation(eventId, userId))
             {
                 EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+                if (relation == null)
+                {
+                    throw new EventNotFoundException();
+                }
+
                 relation.Answer = answer;
                 return db.SetEventToUserRelation(relation);
             }
@@ -250,8 +287,13 @@ namespace doStuff.Services
 
         public bool IsOwnerOfGroup(int userId, int groupId)
         {
+            //TODO: Throw Group Exception.
             Group group = db.GetGroup(groupId);
 
+            if (group == null)
+            {
+                throw new GroupNotFoundException();
+            }
             if (userId == group.OwnerId)
             {
                 return true;
@@ -262,8 +304,13 @@ namespace doStuff.Services
 
         public bool IsMemberOfGroup(int userId, int groupId)
         {
+            //TODO: Throw Group Exception.
             List<User> groupMembers = db.GetMembers(groupId);
 
+            if (groupMembers == null)
+            {
+                throw new GroupNotFoundException();
+            }
             foreach (User x in groupMembers)
             {
                 if (x.UserID == userId)
@@ -277,35 +324,31 @@ namespace doStuff.Services
 
         public bool AddMember(int userId, int groupId)
         {
-            return db.CreateGroupToUserRelation(groupId, userId);
+            return false;// db.CreateGroupToUserRelation(groupId, userId);
         }
 
         public bool RemoveMember(int userId, int groupId)
         {
+            //TODO: Throw User Exception.
             GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
 
+            if (relation == null)
+            {
+                throw new UserNotFoundException();
+            }
             return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
-        }
-
-        private Event getEventById(int eventId)
-        {
-            Event newEvent = new Event();
-            newEvent = db.GetEvent(eventId);
-            return newEvent;
-        }
-
-        private Comment getCommentById(int commentId)
-        {
-            Comment newComment = new Comment();
-            newComment = db.GetComment(commentId);
-            return newComment;
         }
 
         public bool ChangeGroupName(int groupId, string newName)
         {
-            //TODO Exception ef grouId finnst ekki..
-
+           
             Group group = db.GetGroup(groupId);
+
+            if (group == null)
+            {
+                throw new GroupNotFoundException();
+            }
+
             group.Name = newName;
             return db.SetGroup(group);
         }
@@ -318,8 +361,9 @@ namespace doStuff.Services
 
             if (created)
             {
-                return db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
-            }
+           
+                return false; // db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
+            } 
             return false;
         }
 
@@ -327,10 +371,16 @@ namespace doStuff.Services
         {
             return db.RemoveGroup(groupId);
         }
+
         private Event GetEventById(int eventId)
         {
             Event newEvent = new Event();
             newEvent = db.GetEvent(eventId);
+
+            if (newEvent == null)
+            {
+                throw new EventNotFoundException();
+            }
             return newEvent;
         }
 
@@ -338,7 +388,27 @@ namespace doStuff.Services
         {
             Group newGroup = new Group();
             newGroup = db.GetGroup(groupId);
+
+            if (newGroup == null)
+            {
+                throw new GroupNotFoundException();
+            }
+
             return newGroup;
+        }
+
+        private Comment getCommentById(int commentId)
+        {
+           
+            Comment newComment = new Comment();
+            newComment = db.GetComment(commentId);
+
+            if (newComment == null)
+            {
+                throw new CommentNotFoundException();
+            }
+
+            return newComment;
         }
     }
 }

@@ -165,9 +165,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\DatabaseContext.cs" />
-    <Compile Include="Exceptions\EventNotFoundException.cs" />
-    <Compile Include="Exceptions\GroupNotFoundException.cs" />
-    <Compile Include="Exceptions\UserNotFoundException.cs" />
+    <Compile Include="ErrorHandler\ErrorHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,13 +237,19 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Account\Partial1.cshtml" />
+    <Content Include="Views\User\Index.cshtml">
+      <SubType>
+      </SubType>
+    </Content>
+    <Content Include="Views\User\Banner.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\User\EventFeed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Group\" />
     <Folder Include="Views\Parent\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

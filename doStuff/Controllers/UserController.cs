@@ -12,11 +12,10 @@ namespace doStuff.Controllers
 {
     public class UserController : ParentController
     {
-        static Service service = new Service();
         private static Database db = new Database(null);
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {/*
             EventFeedViewModel feed = new EventFeedViewModel();
@@ -48,19 +47,6 @@ namespace doStuff.Controllers
             group2.Name = "Karfa";
             group2.OwnerId = 01;
 
-           /* GroupToUserRelation relation1 = new GroupToUserRelation();
-            GroupToUserRelation relation2 = new GroupToUserRelation();
-
-            relation1.GroupId = group1.GroupID;
-            relation1.MemberId = newUser.UserID;
-            relation1.Active = true;
-            relation1.GroupToUserRelationID = 1;
-
-            relation2.GroupId = group2.GroupID;
-            relation2.MemberId = newUser.UserID;
-            relation2.Active = true;
-            relation2.GroupToUserRelationID = 2;
-            */
             List<Group> groups = new List<Group>();
             groups.Add(group1);
             groups.Add(group2);
@@ -68,15 +54,17 @@ namespace doStuff.Controllers
             Event newEvent1 = new Event();
             Event newEvent2 = new Event();
             newEvent1.EventID = 01;
-            newEvent1.Description = "Allt ad fretta";
+            newEvent1.Name = "Blindafyllerí";
+            newEvent1.Description = "Það er djamm í kvöld og það er djamm á morgun, og ekki á morgun heldur hinn";
             newEvent1.Active = true;
             newEvent1.CreationTime = new DateTime(2015, 5, 05);
             newEvent1.Location = "heima";
-            newEvent1.EventID = 02;
-            newEvent1.Description = "Allt ad fretta2";
-            newEvent1.Active = true;
-            newEvent1.CreationTime = new DateTime(2015, 5, 06);
-            newEvent1.Location = "heima hja ther";
+            newEvent2.EventID = 02;
+            newEvent2.Name = "Spólukúr";
+            newEvent2.Description = "Allir að 'kúra' saman heima hjá þér, eru ekki allir til í það?";
+            newEvent2.Active = true;
+            newEvent2.CreationTime = new DateTime(2015, 5, 06);
+            newEvent2.Location = "heima hja ther";
 
             EventFeedViewModel feed = new EventFeedViewModel();
 
@@ -168,6 +156,9 @@ namespace doStuff.Controllers
         {
             if (ModelState.IsValid)
             {
+                //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
+                newEvent.CreationTime = new DateTime().ToUniversalTime();
+                newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
             }
