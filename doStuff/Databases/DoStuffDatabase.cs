@@ -27,7 +27,7 @@ namespace doStuff.Databases
         }
     }
 
-    public interface IDostuffDataContext
+    public interface IDataContext
     {
         IDbSet<User> Users { get; set; }
         IDbSet<Group> Groups { get; set; }

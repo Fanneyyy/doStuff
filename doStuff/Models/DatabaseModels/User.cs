@@ -16,7 +16,7 @@ namespace doStuff.Models.DatabaseModels
         public bool Active { get; set; }
         public string UserName { get; set; }
         public string DisplayName { get; set; }
-        public int Age { get; set; }
+        public int BirthYear { get; set; }
         public Gender Gender { get; set; }
         public string Email { get; set; }
     }

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using doStuff.Models;
+using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Controllers
 {
@@ -82,6 +83,15 @@ namespace doStuff.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    User register = new User();
+                    register.Active = true;
+                    register.BirthYear = model.Age;
+                    register.DisplayName = model.DisplayName;
+                    register.Email = model.Email;
+                    register.Gender = model.Gender;
+                    register.UserName = model.UserName;
+                    service.CreateUser(register);
+
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

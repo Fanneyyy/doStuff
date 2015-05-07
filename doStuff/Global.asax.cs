@@ -20,7 +20,7 @@ namespace doStuff
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Database.SetInitializer<DoStuffDatabase>(null);
+            //System.Data.Entity.Database.SetInitializer<DatabaseContext>(null);
         }
     }
 }

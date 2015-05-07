@@ -9,13 +9,14 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Tests
 {
-    class MockDb : IDostuffDataContext
+    class MockDb : IDataContext
     {
         public IDbSet<User> Users { get; set; }
         public IDbSet<Group> Groups { get; set; }
         public IDbSet<Event> Events { get; set; }
         public IDbSet<Comment> Comments { get; set; }
         public IDbSet<GroupToUserRelation> GroupToUserRelations { get; set; }
+        public IDbSet<GroupToEventRelation> GroupToEventRelations { get; set; }
         public IDbSet<UserToUserRelation> UserToUserRelations { get; set; }
         public IDbSet<EventToUserRelation> EventToUserRelations { get; set; }
         public IDbSet<EventToCommentRelation> EventToCommentRelations { get; set; }

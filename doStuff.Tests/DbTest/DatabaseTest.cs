@@ -10,7 +10,7 @@ namespace doStuff.Tests.DbTest
     [TestClass]
     public class DatabaseTest
     {
-        private DatabaseBase DbTest;
+        private Database DbTest;
 
         [TestInitialize]
         public void Initialize()
@@ -22,12 +22,12 @@ namespace doStuff.Tests.DbTest
                 Active = true,
                 UserName = "Gulli Gurka",
                 DisplayName = "xXx$w4gM4$t3r420xXx",
-                Age = 9000,
+                BirthYear = 9000,
                 Gender = Gender.MALE,
                 Email = "Gulli$wag@yolo.is"
             };
             mock.Users.Add(user1);
-            DbTest = new DatabaseBase(mock);
+            DbTest = new Database(mock);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(id, user.UserID);
             Assert.AreEqual(userName, user.UserName);
             Assert.AreEqual(user.DisplayName, displayName);
-            Assert.AreEqual(user.Age, age);
+            Assert.AreEqual(user.BirthYear, age);
             Assert.AreEqual(user.Gender, gender);
             Assert.AreEqual(user.Email, Email);
         }
