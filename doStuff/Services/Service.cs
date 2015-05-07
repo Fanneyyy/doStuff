@@ -22,6 +22,11 @@ namespace doStuff.Services
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetEvents(groupId);
 
+            if (events == null)
+            {
+                throw new EventNotFoundException();
+            }
+
             foreach (Event eachEvent in events)
             {
                 EventViewModel eventView = new EventViewModel();
