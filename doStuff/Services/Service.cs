@@ -111,8 +111,9 @@ namespace doStuff.Services
         {
             if (db.ExistsUserToUserRelation(senderId, userId))
             {
-                int relationId = db.GetUserToUserRelation(senderId, userId);
-                return db.SetUserToUserRelation(relationId, answer);
+                UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
+                relation.Answer = answer;
+                return db.SetUserToUserRelation(relation);
             }
             else
             {
@@ -123,8 +124,9 @@ namespace doStuff.Services
 
         public bool RemoveFriend(int userId, int friendId)
         {
-            int relationId = db.GetUserToUserRelation(userId, friendId);
-            return db.RemoveUserToUserRelation(relationId);
+            UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+
+            return db.RemoveUserToUserRelation(relation.UserToUserRelationID);
         }
 
         public bool SendFriendRequest(int userId, int friendId)
@@ -146,7 +148,7 @@ namespace doStuff.Services
             //TODO finish this
             if (db.ExistsEventToUserRelation(eventId, userId)) 
             {
-                int relationId = db.GetEventToUserRelation(eventId, userId);
+                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
                 /*if (attending)
                 {
                     return true;
@@ -230,8 +232,9 @@ namespace doStuff.Services
         {
             if (db.ExistsEventToUserRelation(eventId, userId))
             {
-                int relationId = db.GetEventToUserRelation(eventId, userId);
-                return db.SetEventToUserRelation(relationId, answer);
+                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+                relation.Answer = answer;
+                return db.SetEventToUserRelation(relation);
             }
             
             return false;
@@ -273,9 +276,9 @@ namespace doStuff.Services
 
         public bool RemoveMember(int userId, int groupId)
         {
-            int relationId = db.GetGroupToUserRelation(groupId, userId);
+            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
 
-            return db.RemoveGroupToUserRelation(relationId);
+            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
         }
 
         private Event getEventById(int eventId)

@@ -372,7 +372,7 @@ namespace doStuff.Databases
             public bool RemoveUserToUserRelation(int id)
             {
                 var table = (from t in db.UserToUserRelations
-                             where t.EventToUserRelationID == id
+                             where t.UserToUserRelationID == id
                              select t).Single();
                 table.Active = false;
                 db.SaveChanges();
@@ -425,15 +425,14 @@ namespace doStuff.Databases
                 var table = (from t in db.UserToUserRelations
                              where t.SenderId == senderId && t.ReceiverId == receiverId && t.Active == true
                              select t).Single();
-                return table.EventToUserRelationID;
+                return table;
             }
-
             public GroupToUserRelation GetGroupToUserRelation(int groupId, int userId)
             {
                 var table = (from t in db.GroupToUserRelations
                              where t.GroupId == groupId && t.MemberId == userId && t.Active == true
                              select t).Single();
-                return table.GroupToUserRelationID;
+                return table;
             }
 
             public EventToUserRelation GetEventToUserRelation(int eventId, int userId)
@@ -441,7 +440,7 @@ namespace doStuff.Databases
                 var table = (from t in db.EventToUserRelations
                              where t.EventId == eventId && t.AttendeeId == userId && t.Active == true
                              select t).Single();
-                return table.EventToUserRelationID;
+                return table;
             }
 
             public GroupToEventRelation GetGroupToEventRelation(int groupId, int eventId)
@@ -449,22 +448,21 @@ namespace doStuff.Databases
                 var table = (from t in db.GroupToEventRelations
                              where t.GroupId == groupId && t.EventId == eventId && t.Active == true
                              select t).Single();
-                return table.GroupToEventRelationID;
+                return table;
             }
-
             public EventToCommentRelation GetEventToCommentRelation(int eventId, int commentId)
             {
                 var table = (from t in db.EventToCommentRelations
                              where t.EventId == eventId && t.CommentId == commentId && t.Active == true
                              select t).Single();
-                return table.EventToCommentRelationID;
+                return table;
             }
             #endregion    
             #region Set
             public bool SetUserToUserRelation(UserToUserRelation value)
             {
                 var table = (from t in db.UserToUserRelations
-                             where t.UserToUserRelationsID == value.UserToUserRelationsID
+                             where t.UserToUserRelationID == value.UserToUserRelationID
                              select t).Single();
                 table = value;
                 db.SaveChanges();
@@ -472,7 +470,7 @@ namespace doStuff.Databases
             }
             public bool SetGroupToUserRelation(GroupToUserRelation value)
             {
-                var table = (from t in db.GroupToUserRelation
+                var table = (from t in db.GroupToUserRelations
                              where t.GroupToUserRelationID == value.GroupToUserRelationID
                              select t).Single();
                 table = value;
@@ -482,7 +480,7 @@ namespace doStuff.Databases
 
             public bool SetEventToUserRelation(EventToUserRelation value)
             {
-                var table = (from t in db.EventToUserRelation
+                var table = (from t in db.EventToUserRelations
                              where t.EventToUserRelationID == value.EventToUserRelationID
                              select t).Single();
                 table = value;
@@ -492,7 +490,7 @@ namespace doStuff.Databases
 
             public bool SetGroupToEventRelation(GroupToEventRelation value)
             {
-                var table = (from t in db.GroupToEventRelation
+                var table = (from t in db.GroupToEventRelations
                              where t.GroupToEventRelationID == value.GroupToEventRelationID
                              select t).Single();
                 table = value;
@@ -502,7 +500,7 @@ namespace doStuff.Databases
 
             public bool SetEventToCommentRelation(EventToCommentRelation value)
             {
-                var table = (from t in db.EventToCommentRelation
+                var table = (from t in db.EventToCommentRelations
                              where t.EventToCommentRelationID == value.EventToCommentRelationID
                              select t).Single();
                 table = value;
