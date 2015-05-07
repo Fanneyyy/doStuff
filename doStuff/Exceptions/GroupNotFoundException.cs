@@ -5,27 +5,26 @@ using System.Web;
 
 namespace doStuff.Exceptions
 {
-    public class UserNotFoundException : Exception
+    public class GroupNotFoundException : Exception
     {
 
-        public UserNotFoundException() 
+        public GroupNotFoundException()
             : base()
         {
-        
+
         }
 
-        public UserNotFoundException(string message)
+        public GroupNotFoundException(string message)
             : base(message)
         {
 
         }
 
-        public UserNotFoundException(string message, Exception inner)
+        public GroupNotFoundException(string message, Exception inner)
             : base(message, inner)
         {
 
         }
-
 
     }
 }
