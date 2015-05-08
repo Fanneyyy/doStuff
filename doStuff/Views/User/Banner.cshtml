@@ -5,12 +5,22 @@
 
     </div>-->
     <div class="col-md-4">
-        <select class="form-control main-menu">
-            @foreach (var i in Model.Groups)
-            {
-                <option value="@i">@i.Name</option>
-            }
-        </select>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                @foreach (var i in Model.Groups)
+                {
+                <li>@Html.ActionLink(i.Name, "Index" , "Group" , new { groupId = i.GroupID }, null)</li>
+                }
+                <li class="divider"></li>
+                <li>@Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })</li>
+            </ul>
+        </div>
+
+            <!--<option value="@*Html.ActionLink(" create new part", "CreateParts" , "PartList" , new { parentpartid=0 }, null)*@"
+                <option value="@*Html.ActionLink(i.Name, "Index", "Group", null, new {id = i.GroupID})*@"></option>-->
     </div>
     <div class="col-md-4">
         @Html.Partial("_LoginPartial")
