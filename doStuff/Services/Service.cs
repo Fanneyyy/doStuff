@@ -16,12 +16,11 @@ namespace doStuff.Services
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
-
             List<User> friends = db.GetFriends(userId);
 
-            foreach (User a in friends)
+            foreach (User friend in friends)
             {
-                if (a.UserID == friendId)
+                if (friend.UserID == friendId)
                 {
                     return true;
                 }
@@ -31,12 +30,11 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfGroup(int userId, int groupId)
         {
-            //TODO: Throw Group Exception.
             Group group = db.GetGroup(groupId);
 
             if (group == null)
             {
-                throw new GroupNotFoundException();
+                return false;
             }
             if (userId == group.OwnerId)
             {
@@ -47,16 +45,11 @@ namespace doStuff.Services
         }
         public bool IsMemberOfGroup(int userId, int groupId)
         {
-            //TODO: Throw Group Exception.
-            List<User> groupMembers = db.GetMembers(groupId);
+            List<User> members = db.GetMembers(groupId);
 
-            if (groupMembers == null)
+            foreach (User member in members)
             {
-                throw new GroupNotFoundException();
-            }
-            foreach (User x in groupMembers)
-            {
-                if (x.UserID == userId)
+                if (member.UserID == userId)
                 {
                     return true;
                 }
@@ -77,50 +70,28 @@ namespace doStuff.Services
         }
         public bool IsAttendingEvent(int userId, int eventId)
         {
-            //TODO finish this
-            if (db.ExistsEventToUserRelation(eventId, userId))
+            EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+            if(relation == null || relation.Answer.HasValue == false)
             {
-                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
-                /*if (attending)
-                {
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            */
+                return false;
             }
-            return false;
+            return relation.Answer.Value;
         }
         public bool IsInvitedToEvent(int userId, int eventId)
         {
-            //TODO: Throw Event Exception.
-            Event thisEvent = GetEventById(eventId);
+            Event theEvent = db.GetEvent(eventId);
 
-            if (db.ExistsUserToUserRelation(thisEvent.OwnerId, userId))
+            if(theEvent.GroupId.HasValue)
             {
-                return true;
+                return IsMemberOfGroup(userId, theEvent.GroupId.Value);
             }
-            else if (thisEvent.GroupId.HasValue)
-            {
-                int groupId = (int)thisEvent.GroupId;
-                if (db.ExistsGroupToUserRelation(groupId, userId))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return IsFriendsWith(userId, theEvent.OwnerId);
         }
         public bool IsOwnerOfComment(int userId, int commentId)
         {
 
-            Comment newComment = GetCommentById(commentId);
-
-            if (newComment.OwnerId == userId)
-            {
-                return true;
-            }
-            return false;
+            Comment comment = GetCommentById(commentId);
+            return (userId == comment.OwnerId);
         }
         #endregion
         #region GetByID
