@@ -103,34 +103,18 @@ namespace doStuff.Services
         {
             User user = new User();
             user = db.GetUser(userName);
-            if (user == null)
-            {
-                throw new UserNotFoundException();
-            }
-
             return user.UserID;
         }
         public Group GetGroupById(int groupId)
         {
             Group newGroup = new Group();
             newGroup = db.GetGroup(groupId);
-
-            if (newGroup == null)
-            {
-                throw new GroupNotFoundException();
-            }
-
             return newGroup;
         }
         public Event GetEventById(int eventId)
         {
             Event newEvent = new Event();
             newEvent = db.GetEvent(eventId);
-
-            if (newEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
             return newEvent;
         }
         public Comment GetCommentById(int commentId)
@@ -138,12 +122,6 @@ namespace doStuff.Services
             //TODO: Do Exception for Comment?
             Comment newComment = new Comment();
             newComment = db.GetComment(commentId);
-
-            if (newComment == null)
-            {
-                throw new CommentNotFoundException();
-            }
-
             return newComment;
         }
         #endregion
@@ -184,10 +162,7 @@ namespace doStuff.Services
                 relation.Answer = null;
                 return db.CreateUserToUserRelation(ref relation);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         #endregion
         #region GroupRelations
