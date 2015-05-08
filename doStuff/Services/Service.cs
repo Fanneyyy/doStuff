@@ -271,7 +271,11 @@ namespace doStuff.Services
 
             if (created)
             {
-                return false; // db.CreateGroupToUserRelation(group.GroupID, group.OwnerId);
+                GroupToUserRelation relation = new GroupToUserRelation();
+                relation.GroupId = group.GroupID;
+                relation.MemberId = group.OwnerId;
+                relation.Active = true;
+                db.CreateGroupToUserRelation(relation);
             }
             return false;
         }
