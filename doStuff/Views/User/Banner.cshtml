@@ -1,25 +1,23 @@
 ﻿@model doStuff.ViewModels.EventFeedViewModel
 
-<div class="container">
-    <!-- <div class="col-md-4 login-logo">
-
-    </div>-->
-    <div class="col-md-4">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Event feed <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                @foreach (var i in Model.Groups)
-                {
-                <li>@Html.ActionLink(i.Name, "Index" , "Group" , new { groupId = i.GroupID }, null)</li>
-                }
-                <li class="divider"></li>
-                <li>@Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })</li>
-            </ul>
-        </div>
+<div class="col-md-4">
+    <div class="banner-logo"></div>
+</div>
+<div class="col-md-4">
+    <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle feed-chooser" data-toggle="dropdown" aria-expanded="false">
+            Event feed <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            @foreach (var i in Model.Groups)
+            {
+            <li>@Html.ActionLink(i.Name, "Index" , "Group" , new { groupId = i.GroupID }, null)</li>
+            }
+            <li class="divider"></li>
+            <li>@Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })</li>
+        </ul>
     </div>
-    <div class="col-md-4">
-        @Html.Partial("_LoginPartial")
-    </div>
+</div>
+<div class="col-md-4">
+    @Html.Partial("_LoginPartial")
 </div>

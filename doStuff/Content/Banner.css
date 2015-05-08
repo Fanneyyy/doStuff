@@ -1,0 +1,34 @@
+﻿.navbar-fixed-top {
+    margin-top: 8px;
+    background-color: #26727f;
+    border: 0px;
+}
+
+.navbar .col-md-4 {
+    padding: 0px;
+}
+
+.banner-logo {
+    height: 90px;
+    background-image: url("LogoGray.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 0px;
+    padding: 0px;
+}
+
+.feed-chooser {
+    background-color: #26727f;
+    color: white;
+    font-size: 40px;
+    font-variant: small-caps;
+    border-radius: 0px;
+    height: 90px;
+}
+
+.user-index {
+    min-height: 1000px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #eee;
+}
