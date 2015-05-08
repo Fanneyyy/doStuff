@@ -647,6 +647,34 @@ namespace doStuff.Tests.DbTest
         public void ServiceIsOwnerOfComment()
         {
             Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 0));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfComment(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 4));
         }
 
         #endregion
