@@ -20,8 +20,9 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public EventToUserRelation(bool active, int eventId, int attendeeId, bool? answer)
+        public EventToUserRelation(bool active, int eventId, int attendeeId, bool? answer, int id = 0)
         {
+            EventToUserRelationID = id;
             Active = active;
             EventId = eventId;
             AttendeeId = attendeeId;
