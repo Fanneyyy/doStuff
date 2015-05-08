@@ -1,4 +1,5 @@
-﻿<div class="navbar navbar-inverse navbar-fixed-top">
+﻿
+<div class="navbar navbar-inverse navbar-fixed-top">
     @RenderPage("Banner.cshtml")
 </div>
 
@@ -6,8 +7,8 @@
     @Html.ActionLink("add event", "CreateEvent", null, new { @class = "btn btn-default cancel" })
 </div>
 
-<div class="col-md-6 main pull-down" >
-    @RenderPage("EventFeed.cshtml")
+<div class="col-md-6 main pull-down">
+    @RenderPage("GroupFeed.cshtml")
 </div>
 
 <div class="col-md-4 side-bar pull-down">
