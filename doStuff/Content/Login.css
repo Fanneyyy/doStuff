@@ -42,6 +42,8 @@
 
 .login-body .form-control {
     background-color: #4ce4ff;
+    color: #26727f;
+    font-size: 15px;
     border-radius: 0px;
     margin-top: -4px;
     height: 40px;
@@ -89,6 +91,17 @@
 .main-menu {
 
 }
-/*#test:-webkit-autofill {
-    background-color: #4ce4ff !important;
-}*/
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
+    -webkit-text-fill-color: #26727f !important;
+}
+
+input:-webkit-autofill:hover {
+    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
+    -webkit-text-fill-color: #26727f !important;
+}
+
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
+    -webkit-text-fill-color: #26727f !important;
+}
