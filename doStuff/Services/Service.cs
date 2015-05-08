@@ -11,7 +11,11 @@ namespace doStuff.Services
 {
     public class Service
     {
-        private static Database db = new Database(null);
+        private static Database db = null;
+        public Service(Database database = null)
+        {
+            db = database ?? new Database(null); 
+        }
 
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
