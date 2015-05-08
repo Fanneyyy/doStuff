@@ -32,6 +32,21 @@
     width: 100%;
 }
 
+.banner-dropdown {
+    background-color: #40c0cb;
+    color: white;
+    font-size: 30px;
+    font-variant: small-caps;
+    border-radius: 0px;
+    width: 100%;
+}
+
+.banner-dropdown .cancel {
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
+}
+
 .logout-box {
     margin-right: 10px;
 }
