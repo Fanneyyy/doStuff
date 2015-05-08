@@ -193,21 +193,18 @@ namespace doStuff.Services
         #region GroupRelations
         public bool AddMember(int userId, int groupId)
         {
-            if (IsOwnerOfGroup(userId, groupId))
+            
+            if (!db.ExistsGroupToUserRelation(groupId, userId))
             {
-                GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
-                if (relation == null)
-                {
-                    relation = new GroupToUserRelation();
-                    relation.Active = true;
-                    relation.GroupId = groupId;
-                    relation.MemberId = userId;
-                    return db.CreateGroupToUserRelation(ref relation);
-                }
+                GroupToUserRelation relation = new GroupToUserRelation();
                 relation.Active = true;
-                return db.SetGroupToUserRelation(relation);
+                relation.GroupId = groupId;
+                relation.MemberId = userId;
+                return db.CreateGroupToUserRelation(ref relation);
             }
-            throw new Exception("You Tried To Add A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            GroupToUserRelation existingRelation = db.GetGroupToUserRelation(groupId, userId);
+            existingRelation.Active = true;
+            return db.SetGroupToUserRelation(existingRelation);
         }
         public bool RemoveMember(int userId, int groupId)
         {
