@@ -63,10 +63,9 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
-
             Event newEvent = GetEventById(eventId);
 
-            if (newEvent.OwnerId == userId)
+            if (newEvent != null && newEvent.OwnerId == userId)
             {
                 return true;
             }
@@ -102,7 +101,14 @@ namespace doStuff.Services
         {
             User user = new User();
             user = db.GetUser(userName);
-            return user.UserID;
+            if (user != null)
+            {
+                return user.UserID;
+            }
+            else
+            {
+                throw UserNotFoundException;
+            }
         }
         public Group GetGroupById(int groupId)
         {
