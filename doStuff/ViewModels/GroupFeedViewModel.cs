@@ -6,7 +6,7 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.ViewModels
 {
-    public class EventFeedViewModel
+    public class GroupFeedViewModel
     {
         public SideBarViewModel SideBar;
         public List<EventViewModel> Events;

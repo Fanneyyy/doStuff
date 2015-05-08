@@ -167,7 +167,7 @@ namespace doStuff.Services
                 return db.SetUserToUserRelation(relation);
             }
             //TODO REMOVE IF STATEMENT
-            throw Exception("You Tried To Remove A Friend Without Checking IsFriendsWith(userId, friendId) In The Controller First!!!");
+            throw new Exception("You Tried To Remove A Friend Without Checking IsFriendsWith(userId, friendId) In The Controller First!!!");
         }
         public bool SendFriendRequest(int userId, int friendId)
         {
@@ -203,7 +203,7 @@ namespace doStuff.Services
                 relation.Active = true;
                 return db.SetGroupToUserRelation(relation);
             }
-            throw Exception("You Tried To Add A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            throw new Exception("You Tried To Add A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
         }
         public bool RemoveMember(int userId, int groupId)
         {
@@ -217,7 +217,7 @@ namespace doStuff.Services
                 }
                 return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
             }
-            throw Exception("You Tried To Remove A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            throw new Exception("You Tried To Remove A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
         }
         #endregion
         #region EventRelation
@@ -237,7 +237,7 @@ namespace doStuff.Services
                 relation.Answer = answer;
                 return db.SetEventToUserRelation(relation);
             }
-            throw Exception("You Tried To Answer An Event Without Checking IsInvitedToEvent(userId, eventId) In The Controller First!!!");
+            throw new Exception("You Tried To Answer An Event Without Checking IsInvitedToEvent(userId, eventId) In The Controller First!!!");
         }
         #endregion
         #region Create
