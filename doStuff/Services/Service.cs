@@ -208,17 +208,13 @@ namespace doStuff.Services
         }
         public bool RemoveMember(int userId, int groupId)
         {
-            if (IsOwnerOfGroup(userId, groupId))
-            {
-                GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
+            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
 
-                if (relation == null)
-                {
-                    return false;
-                }
-                return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
+            if (relation == null)
+            {
+                return false;
             }
-            throw new Exception("You Tried To Remove A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
         }
         #endregion
         #region EventRelation
@@ -350,7 +346,7 @@ namespace doStuff.Services
 
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<Event> events = db.GetEvents(groupId);
+            List<Event> events = db.GetGroupEvents(groupId);
 
             if (events == null)
             {
@@ -395,11 +391,15 @@ namespace doStuff.Services
 
             foreach (Event eachEvent in events)
             {
-                EventViewModel eventView = new EventViewModel();
-                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
-                eventView.Event = eachEvent;
-                eventView.Comments = db.GetComments(eachEvent.EventID);
-                eventViews.Add(eventView);
+                // Removes Events from event feed that are part of a group
+                //if (eachEvent.GroupId == null)
+                //{
+                    EventViewModel eventView = new EventViewModel();
+                    eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                    eventView.Event = eachEvent;
+                    eventView.Comments = db.GetComments(eachEvent.EventID);
+                    eventViews.Add(eventView);
+                //}
             }
 
             SideBarViewModel sidebar = new SideBarViewModel();

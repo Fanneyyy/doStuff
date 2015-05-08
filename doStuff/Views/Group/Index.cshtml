@@ -1,10 +1,10 @@
-﻿
+﻿@model doStuff.ViewModels.GroupFeedViewModel
 <div class="navbar navbar-inverse navbar-fixed-top">
     @RenderPage("Banner.cshtml")
 </div>
 
 <div class="col-md-2 add-event pull-left pull-down">
-    @Html.ActionLink("add event", "CreateEvent", null, new { @class = "btn btn-default cancel" })
+    @Html.ActionLink("add event", "CreateEvent", new { @groupId = Model.groupId }, new { @class = "btn btn-default cancel" })
 </div>
 
 <div class="col-md-6 main pull-down">
