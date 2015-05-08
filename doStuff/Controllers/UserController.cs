@@ -8,6 +8,7 @@ using doStuff.Services;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using doStuff.Databases;
+using ErrorHandler;
 namespace doStuff.Controllers
 {
     [Authorize]
@@ -122,11 +123,20 @@ namespace doStuff.Controllers
         public ActionResult AddFriend(User newFriend)
         {
             //TODO
-            int friendId = service.GetUserId(newFriend.UserName);
-            int userId = service.GetUserId(User.Identity.Name);
-            service.SendFriendRequest(userId, friendId);
-            service.AnswerFriendRequest(friendId, userId, true);
-            return RedirectToAction("Index");
+            try
+            {
+                int friendId = service.GetUserId(newFriend.UserName);
+                int userId = service.GetUserId(User.Identity.Name);
+                service.SendFriendRequest(userId, friendId);
+                service.AnswerFriendRequest(friendId, userId, true);
+                return RedirectToAction("Index");
+            }
+            catch(UserNotFoundException)
+            {
+                ModelState.AddModelError("Error", "Username not found");
+                return View();
+            }
+        
         }
 
         [HttpGet]

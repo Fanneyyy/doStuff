@@ -3,6 +3,7 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationMessage("Error")
     
     <div class="form-horizontal">
         <h4>User</h4>
