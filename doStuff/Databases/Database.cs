@@ -113,13 +113,15 @@ namespace doStuff.Databases
         {
             List<Comment> comments = new List<Comment>();
 
-            var commentIDs = (from c in db.EventToCommentRelations
-                              where c.EventId == eventId && c.Active == true
-                              select c.EventId);
+            List<int> commentIDs = (from c in db.EventToCommentRelations
+                                    where c.EventId == eventId && c.Active == true
+                                    select c.CommentId).ToList();
 
             foreach (var id in commentIDs)
             {
-                Comment comment = (from c in db.Comments where c.CommentID == id && c.Active == true select c).SingleOrDefault();
+                Comment comment = (from c in db.Comments 
+                                   where c.CommentID == id && c.Active == true 
+                                   select c).SingleOrDefault();
 
                 if (comment != null)
                 {
@@ -171,7 +173,7 @@ namespace doStuff.Databases
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return false;
+                return true;
             }
             #endregion
             #region Remove

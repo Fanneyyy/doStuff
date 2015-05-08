@@ -7,6 +7,7 @@ using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using System.Collections.Generic;
 using ErrorHandler;
+using doStuff.ViewModels;
 
 namespace doStuff.Tests.DbTest
 {
@@ -258,7 +259,8 @@ namespace doStuff.Tests.DbTest
             {
                 EventToCommentRelationID = 1,
                 EventId = 2,
-                CommentId = 1
+                CommentId = 1,
+                Active = true
 
             };
 
@@ -290,7 +292,30 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(user.Gender, gender);
             Assert.AreEqual(user.Email, Email);
         }
+        [TestMethod]
+        public void CheckFriendships()
+        {
+            const int user1Id = 1;
+            const int user2Id = 2;
+            const int user3Id = 3;
+            const int user1Amount = 1;
+            const int user2Amount = 2;
+            const int user3Amount = 1;
+            const string user2Name = "Siggi Sulta";
 
+
+            List<User> user1friends = DbTest.GetFriends(user1Id);
+            List<User> user2friends = DbTest.GetFriends(user2Id);
+            List<User> user3friends = DbTest.GetFriends(user3Id);
+
+
+            Assert.AreEqual(user1Amount, user1friends.Count);
+            Assert.AreEqual(user2Amount, user2friends.Count);
+            Assert.AreEqual(user3Amount, user3friends.Count);
+
+            Assert.AreEqual(user1friends[0].UserName, user2Name);
+            Assert.AreEqual(user3friends[0].UserName, user2Name);
+        }
         [TestMethod]
         public void DatabaseGetGroup()
         {
@@ -305,7 +330,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(group1Name, group1.Name);
             Assert.AreEqual(group2Name, group2.Name);
         }
-
         [TestMethod]
         public void DatabaseGetGroups()
         {
@@ -323,8 +347,7 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(user1GroupAmount, user1Groups.Count);
             Assert.AreEqual(user2GroupAmount, user2Groups.Count);
             Assert.AreEqual(user3GroupAmount, user3Groups.Count);
-        }
-        
+        }        
         [TestMethod]
         public void DatabaseGetGroupEvents()
         {
@@ -341,7 +364,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(group2EventsAmount, group2Eventslist.Count);
             Assert.AreEqual(group2Event1Name, group2Eventslist[0].Name);
         }
-
         [TestMethod]
         public void DatabaseGetMembers()
         {
@@ -356,7 +378,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(group1MembersAmount, group1Users.Count);
             Assert.AreEqual(group2MembersAmount, group2Users.Count);
         }
-
         [TestMethod]
         public void DatabaseGetEvent()
         {
@@ -374,7 +395,6 @@ namespace doStuff.Tests.DbTest
         }
         #endregion
         #region Service tests
-
         [TestMethod]
         public void ServiceChangeDisplayName()
         {
@@ -397,7 +417,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(newName, userWithNewName.DisplayName);
 
         }
-
         [TestMethod]
         public void ServiceChangeGroupName()
         {
@@ -418,7 +437,6 @@ namespace doStuff.Tests.DbTest
             catch (ErrorHandler.GroupNotFoundException) { }
             Assert.AreEqual(newName, groupWithNewName.Name);
         }
-
         [TestMethod]
         public void ServiceSendFriendRequest()
         {
@@ -428,36 +446,55 @@ namespace doStuff.Tests.DbTest
             ServiceTest.SendFriendRequest(user1Id, user2Id);
             bool fail1 = ServiceTest.IsFriendsWith(user1Id, user2Id);
             bool fail2 = ServiceTest.IsFriendsWith(user2Id, user1Id);
-            
             bool fail3 = ServiceTest.AnswerFriendRequest(user1Id, user2Id, true);
-            //bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
-            //bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
-            //bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
+            bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool success3 = ServiceTest.IsFriendsWith(user2Id, user1Id);
 
             Assert.AreEqual(false, fail1);
             Assert.AreEqual(false, fail2);
             Assert.AreEqual(false, fail3);
-            //Assert.AreEqual(false, fail4);
-            //Assert.AreEqual(true, success1);
-            //Assert.AreEqual(true, success2);
-
-
+            Assert.AreEqual(false, fail4);
+            Assert.AreEqual(true, success1);
+            Assert.AreEqual(true, success2);
+            Assert.AreEqual(true, success3);
 
         }
-
         [TestMethod]
         public void ServiceCreateComment()
         {
-            //ServiceTest.CreateComment
+            const int event1Id = 1;
+            const int event2Id = 2;
+            const int event1CommentAmount = 1;
+            const int event2CommentAmount = 2;
+            Comment newComment1 = new Comment
+            {
+                CommentID = 2,
+                Content = "ut2k4 lets go bois",
+                Active = true,
+                OwnerId = 2,
+                CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
+            };
+            Comment newComment2 = new Comment
+            {
+                CommentID = 3,
+                Content = "Pulsur eru fyrir aula",
+                Active = true,
+                OwnerId = 2,
+                CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
+            };
+
+            ServiceTest.CreateComment(event1Id, newComment1);
+            ServiceTest.CreateComment(event2Id, newComment2);
+            List<Comment> commentsEvent1 = DbTest.GetComments(event1Id);
+            List<Comment> commentsEvent2 = DbTest.GetComments(event2Id);
+
+
+            Assert.AreEqual(event1CommentAmount, commentsEvent1.Count);
+            Assert.AreEqual(event2CommentAmount, commentsEvent2.Count);
+
         }
-
-
-        [TestMethod]
-        public void TemplateTest()
-        {
-
-        }
-
         [TestMethod]
         public void ServiceIsFriendsWith()
         {
@@ -478,7 +515,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 0));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 0));
         }
-
         [TestMethod]
         public void ServiceIsOwnerOfGroup()
         {
@@ -507,7 +543,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(4, 2));
             Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(4, 3));
         }
-
         [TestMethod]
         public void ServiceIsMemberOfGroup()
         {
@@ -536,7 +571,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(4, 2));
             Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(4, 3));
         }
-
         [TestMethod]
         public void ServiceIsOwnerOfEvent()
         {
@@ -570,7 +604,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 3));
             Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 4));
         }
-
         [TestMethod]
         public void ServiceIsAttendingEvent()
         {
@@ -604,7 +637,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 3));
             Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 4));
         }
-
         [TestMethod]
         public void ServiceIsInvitedToEvent()
         {
@@ -638,7 +670,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 3));
             Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 4));
         }
-
         [TestMethod]
         public void ServiceIsOwnerOfComment()
         {
