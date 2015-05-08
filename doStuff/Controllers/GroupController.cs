@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using doStuff.Models.DatabaseModels;
 using doStuff.Services;
+using ErrorHandler;
 
 namespace doStuff.Controllers
 {
@@ -15,77 +16,97 @@ namespace doStuff.Controllers
         static private Service service = new Service();
         [HttpGet]
 
-        public ActionResult Index(uint groupId)
+        public ActionResult Index(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpGet]
-        public ActionResult AddMember(uint groupId)
+        public ActionResult AddMember(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddMember(uint groupId, FormCollection collection)
+        public ActionResult AddMember(int groupId, User newMember)
+        {
+            //TODO
+            try
+                {
+                    service.AddMember(service.GetUserId(newMember.UserName), groupId);
+                }
+            catch (UserNotFoundException)
+                {
+                    return View();
+                }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult RemoveMember(int groupId, int memberId)
+        {
+            //TODO
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RemoveGroup(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpGet]
-        public ActionResult RemoveMember(uint groupId, uint memberId)
+        public ActionResult CreateEvent(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult RemoveGroup(uint groupId)
+        public ActionResult CreateEvent(int groupId, Event newEvent)
+        {
+            //TODO
+            if (ModelState.IsValid)
+            {
+                //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
+                newEvent.CreationTime = DateTime.Now;
+                newEvent.OwnerId = service.GetUserId(User.Identity.Name);
+                newEvent.Minutes = 23;
+                newEvent.Active = true;
+                newEvent.GroupId = groupId;
+                service.CreateEvent(newEvent);
+                return RedirectToAction("Index");
+            }
+
+            return View(newEvent);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveEvent(int groupId, int eventId)
         {
             //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreateEvent(uint groupId)
+        public ActionResult Comment(int groupId, int eventId, Comment newComment)
         {
             //TODO
             return View();
         }
 
         [HttpGet]
-        public ActionResult CreateEvent(uint groupId, FormCollection collection)
+        public ActionResult ChangeDisplayName(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult RemoveEvent(uint groupId, uint eventId)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Comment(uint groupId, uint eventId, FormCollection collection)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult ChangeName(uint groupId)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult ChangeName(uint groupId, FormCollection collection)
+        public ActionResult ChangeDisplayName(int groupId, User myUser)
         {
             //TODO
             return View();
