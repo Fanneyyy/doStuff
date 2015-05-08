@@ -208,17 +208,13 @@ namespace doStuff.Services
         }
         public bool RemoveMember(int userId, int groupId)
         {
-            if (IsOwnerOfGroup(userId, groupId))
-            {
-                GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
+            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
 
-                if (relation == null)
-                {
-                    return false;
-                }
-                return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
+            if (relation == null)
+            {
+                return false;
             }
-            throw new Exception("You Tried To Remove A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
         }
         #endregion
         #region EventRelation
