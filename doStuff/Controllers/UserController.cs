@@ -139,6 +139,7 @@ namespace doStuff.Controllers
                 }
                 
         }
+
         [HttpGet]
         public ActionResult ViewFriendRequests()
         {
