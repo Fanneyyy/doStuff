@@ -123,16 +123,16 @@ namespace doStuff.Controllers
         public ActionResult AddFriend(User newFriend)
         {
             //TODO
-                int friendId = service.GetUserId(newFriend.UserName);
-                int userId = service.GetUserId(User.Identity.Name);
-                
-                if(friendId  != null || userId != null)
+               
+                try
                 {
+                   int friendId = service.GetUserId(newFriend.UserName);
+                   int userId = service.GetUserId(User.Identity.Name);
                    service.SendFriendRequest(userId, friendId);
                    service.AnswerFriendRequest(friendId, userId, true);
                    return RedirectToAction("Index");
                 }
-                else
+                catch(UserNotFoundException)
                 {
                     ModelState.AddModelError("Error", "Username not found");
                     return View();
