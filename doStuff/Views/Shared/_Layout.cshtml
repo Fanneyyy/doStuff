@@ -10,23 +10,25 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
+<body>
 @if (Request.IsAuthenticated)
 {
-    <body>
-        <div class="container body-content">
-            @RenderBody()
-        </div>
-    </body>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
 }
 else
 {
-    <body class="login-body">
-        <div class="col-md-12 login-logo"></div>
-        <div class="container body-content login-box">
-            @RenderBody()
+    <div class="login-container">
+        <div class="login-body">
+            <div class="col-md-12 login-logo"></div>
+            <div class="container body-content login-box">
+                @RenderBody()
+            </div>
         </div>
-    </body>
+    </div>
 }
+</body>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
