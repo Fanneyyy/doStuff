@@ -123,20 +123,21 @@ namespace doStuff.Controllers
         public ActionResult AddFriend(User newFriend)
         {
             //TODO
-            try
-            {
-                int friendId = service.GetUserId(newFriend.UserName);
-                int userId = service.GetUserId(User.Identity.Name);
-                service.SendFriendRequest(userId, friendId);
-                service.AnswerFriendRequest(friendId, userId, true);
-                return RedirectToAction("Index");
-            }
-            catch(UserNotFoundException)
-            {
-                ModelState.AddModelError("Error", "Username not found");
-                return View();
-            }
-        
+               
+                try
+                {
+                   int friendId = service.GetUserId(newFriend.UserName);
+                   int userId = service.GetUserId(User.Identity.Name);
+                   service.SendFriendRequest(userId, friendId);
+                   service.AnswerFriendRequest(friendId, userId, true);
+                   return RedirectToAction("Index");
+                }
+                catch(UserNotFoundException)
+                {
+                    ModelState.AddModelError("Error", "Username not found");
+                    return View();
+                }
+                
         }
 
         [HttpGet]
@@ -150,8 +151,9 @@ namespace doStuff.Controllers
         public ActionResult AnswerFriendRequests(int userId, bool answer)
         {
             //TODO
-
-           
+            int myId = service.GetUserId(User.Identity.Name);
+            service.AnswerFriendRequest(userId, myId, answer);
+            
             return View();
         }
 
@@ -195,10 +197,11 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult Comment(int eventId, FormCollection collection)
+        public ActionResult Comment(int eventId, Comment myComment)
         {
             //TODO
-           
+            service.CreateComment(eventId, myComment);
+
             return View();
         }
 
@@ -211,18 +214,23 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeUserName(Event eventToChange)
+        public ActionResult ChangeUserName(User myUser)
         {
             //TODO
+            int myId = service.GetUserId(User.Identity.Name);
+            service.ChangeDisplayName(myId, myUser.DisplayName);
 
-            
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult AnswerEvent(int eventId, bool answer)
         {
             //TODO
+
+            int myId = service.GetUserId(User.Identity.Name);
+            service.AnswerEvent(myId, eventId, answer);
+            
             return View();
         }
     }

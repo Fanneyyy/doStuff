@@ -13,8 +13,6 @@ namespace doStuff.Controllers
     [Authorize]
     public class GroupController : ParentController
     {
-        
-        static private Service service = new Service();
         [HttpGet]
 
         public ActionResult Index(int groupId)
@@ -47,7 +45,7 @@ namespace doStuff.Controllers
                 {
                     return View();
                 }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpPost]
@@ -84,7 +82,7 @@ namespace doStuff.Controllers
                 newEvent.Active = true;
                 newEvent.GroupId = groupId;
                 service.CreateEvent(newEvent);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { groupId = groupId });
             }
 
             return View(newEvent);

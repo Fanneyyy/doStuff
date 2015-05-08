@@ -63,10 +63,9 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
-
             Event newEvent = GetEventById(eventId);
 
-            if (newEvent.OwnerId == userId)
+            if (newEvent != null && newEvent.OwnerId == userId)
             {
                 return true;
             }
@@ -93,7 +92,6 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfComment(int userId, int commentId)
         {
-
             Comment comment = GetCommentById(commentId);
             return (userId == comment.OwnerId);
         }
@@ -103,34 +101,25 @@ namespace doStuff.Services
         {
             User user = new User();
             user = db.GetUser(userName);
-            if (user == null)
+            if (user != null)
+            {
+                return user.UserID;
+            }
+            else
             {
                 throw new UserNotFoundException();
             }
-
-            return user.UserID;
         }
         public Group GetGroupById(int groupId)
         {
             Group newGroup = new Group();
             newGroup = db.GetGroup(groupId);
-
-            if (newGroup == null)
-            {
-                throw new GroupNotFoundException();
-            }
-
             return newGroup;
         }
         public Event GetEventById(int eventId)
         {
             Event newEvent = new Event();
             newEvent = db.GetEvent(eventId);
-
-            if (newEvent == null)
-            {
-                throw new EventNotFoundException();
-            }
             return newEvent;
         }
         public Comment GetCommentById(int commentId)
@@ -138,12 +127,6 @@ namespace doStuff.Services
             //TODO: Do Exception for Comment?
             Comment newComment = new Comment();
             newComment = db.GetComment(commentId);
-
-            if (newComment == null)
-            {
-                throw new CommentNotFoundException();
-            }
-
             return newComment;
         }
         #endregion
@@ -184,44 +167,34 @@ namespace doStuff.Services
                 relation.Answer = null;
                 return db.CreateUserToUserRelation(ref relation);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         #endregion
         #region GroupRelations
         public bool AddMember(int userId, int groupId)
         {
-            if (IsOwnerOfGroup(userId, groupId))
+            
+            if (!db.ExistsGroupToUserRelation(groupId, userId))
             {
-                GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
-                if (relation == null)
-                {
-                    relation = new GroupToUserRelation();
-                    relation.Active = true;
-                    relation.GroupId = groupId;
-                    relation.MemberId = userId;
-                    return db.CreateGroupToUserRelation(ref relation);
-                }
+                GroupToUserRelation relation = new GroupToUserRelation();
                 relation.Active = true;
-                return db.SetGroupToUserRelation(relation);
+                relation.GroupId = groupId;
+                relation.MemberId = userId;
+                return db.CreateGroupToUserRelation(ref relation);
             }
-            throw new Exception("You Tried To Add A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            GroupToUserRelation existingRelation = db.GetGroupToUserRelation(groupId, userId);
+            existingRelation.Active = true;
+            return db.SetGroupToUserRelation(existingRelation);
         }
         public bool RemoveMember(int userId, int groupId)
         {
-            if (IsOwnerOfGroup(userId, groupId))
-            {
-                GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
+            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
 
-                if (relation == null)
-                {
-                    return false;
-                }
-                return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
+            if (relation == null)
+            {
+                return false;
             }
-            throw new Exception("You Tried To Remove A Member Without Checking IsOwnerOfGroup(userId, groupId) In The Controller First!!!");
+            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
         }
         #endregion
         #region EventRelation
@@ -353,7 +326,7 @@ namespace doStuff.Services
 
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<Event> events = db.GetEvents(groupId);
+            List<Event> events = db.GetGroupEvents(groupId);
 
             if (events == null)
             {
@@ -398,11 +371,15 @@ namespace doStuff.Services
 
             foreach (Event eachEvent in events)
             {
-                EventViewModel eventView = new EventViewModel();
-                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
-                eventView.Event = eachEvent;
-                eventView.Comments = db.GetComments(eachEvent.EventID);
-                eventViews.Add(eventView);
+                // Removes Events from event feed that are part of a group
+                //if (eachEvent.GroupId == null)
+                //{
+                    EventViewModel eventView = new EventViewModel();
+                    eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                    eventView.Event = eachEvent;
+                    eventView.Comments = db.GetComments(eachEvent.EventID);
+                    eventViews.Add(eventView);
+                //}
             }
 
             SideBarViewModel sidebar = new SideBarViewModel();
