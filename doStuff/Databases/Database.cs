@@ -422,7 +422,7 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.UserToUserRelations
                              where t.SenderId == senderId && t.ReceiverId == receiverId
-                             select t).Single();
+                             select t).SingleOrDefault();
                 return table;
             }
             public GroupToUserRelation GetGroupToUserRelation(int groupId, int userId)

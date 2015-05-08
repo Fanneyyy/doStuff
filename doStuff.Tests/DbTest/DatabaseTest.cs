@@ -383,7 +383,6 @@ namespace doStuff.Tests.DbTest
             const string newName = "Gulli G";
 
 
-            User user1 = DbTest.GetUser(user1Id);
             bool success = ServiceTest.ChangeDisplayName(user1Id, newName);
             User userWithNewName = DbTest.GetUser(user1Id);
 
@@ -402,29 +401,48 @@ namespace doStuff.Tests.DbTest
         [TestMethod]
         public void ServiceChangeGroupName()
         {
-            /*const int groupId = 1;
-
+            const int group1Id = 1;
+            const int noGroupId = 999;
             const string newName = "Team Gulli & co";
 
-            User user1 = DbTest.GetUser(user1Id);
-            bool success = ServiceTest.ChangeDisplayName(user1Id, newName);
-            User userWithNewName = DbTest.GetUser(user1Id);
+            bool success = ServiceTest.ChangeGroupName(group1Id, newName);
+            Group groupWithNewName = DbTest.GetGroup(group1Id);
 
 
             Assert.AreEqual(true, success);
             try
             {
-                ServiceTest.ChangeDisplayName(noUserId, newName);
+                ServiceTest.ChangeGroupName(noGroupId, newName);
                 Assert.Fail();
             }
-            catch (ErrorHandler.UserNotFoundException) { }
-            Assert.AreEqual(newName, userWithNewName.DisplayName);*/
+            catch (ErrorHandler.GroupNotFoundException) { }
+            Assert.AreEqual(newName, groupWithNewName.Name);
         }
 
         [TestMethod]
         public void ServiceSendFriendRequest()
         {
-            //ServiceTest.SendFriendRequest()
+            const int user1Id = 1;
+            const int user2Id = 3;
+
+            ServiceTest.SendFriendRequest(user1Id, user2Id);
+            bool fail1 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool fail2 = ServiceTest.IsFriendsWith(user2Id, user1Id);
+            
+            bool fail3 = ServiceTest.AnswerFriendRequest(user1Id, user2Id, true);
+            //bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            //bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
+            //bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+
+            Assert.AreEqual(false, fail1);
+            Assert.AreEqual(false, fail2);
+            Assert.AreEqual(false, fail3);
+            //Assert.AreEqual(false, fail4);
+            //Assert.AreEqual(true, success1);
+            //Assert.AreEqual(true, success2);
+
+
+
         }
 
         [TestMethod]
@@ -441,13 +459,13 @@ namespace doStuff.Tests.DbTest
         }
 
         [TestMethod]
-        public void TemplateTest()
+        public void TemplateTest(int test)
         {
 
         }
 
         [TestMethod]
-        public void TemplateTest()
+        public void TemplateTest(bool test)
         {
 
         }
