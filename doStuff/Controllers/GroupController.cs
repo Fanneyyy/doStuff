@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using doStuff.Models.DatabaseModels;
+using doStuff.Services;
 
 namespace doStuff.Controllers
 {
     public class GroupController : ParentController
     {
+        
+        static private Service service = new Service();
         [HttpGet]
+        [Authorize]
         public ActionResult Index(uint groupId)
         {
             //TODO
@@ -92,7 +97,7 @@ namespace doStuff.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult CreateGroup()
         {
             //TODO
@@ -100,9 +105,14 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateGroup(FormCollection collection)
+        public ActionResult CreateGroup(Group newGroup)
         {
-            //TODO
+            newGroup.Active = true;
+            newGroup.OwnerId = service.GetUserId(User.Identity.Name);
+            if (service.CreateGroup(newGroup))
+            {
+                RedirectToAction("Index");
+            }
             return View();
         }
     }
