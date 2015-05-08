@@ -8,12 +8,13 @@ using doStuff.Services;
 
 namespace doStuff.Controllers
 {
+    [Authorize]
     public class GroupController : ParentController
     {
         
         static private Service service = new Service();
         [HttpGet]
-        [Authorize]
+
         public ActionResult Index(uint groupId)
         {
             //TODO
@@ -111,7 +112,7 @@ namespace doStuff.Controllers
             newGroup.OwnerId = service.GetUserId(User.Identity.Name);
             if (service.CreateGroup(newGroup))
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View();
         }
