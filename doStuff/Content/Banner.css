@@ -85,6 +85,16 @@
     height: 100%;
 }
 
+.banner-dropdown .cancel:visited {
+    background-color: #aee239;
+    color: #26727f;
+}
+
+.banner-dropdown .cancel:hover {
+    color: #26727f;
+    background-color: #eee;
+}
+
 .logout-box {
     margin-right: 10px;
 }
