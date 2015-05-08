@@ -465,19 +465,15 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 1));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 2));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 3));
-
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 1));
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(1, 2));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 3));
-
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(2, 1));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 2));
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(2, 3));
-
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 1));
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(3, 2));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 3));
-
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 0));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 0));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 0));

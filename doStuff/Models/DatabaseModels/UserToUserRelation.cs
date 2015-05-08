@@ -20,8 +20,9 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public UserToUserRelation(bool active, int senderId, int receiverId, bool? answer)
+        public UserToUserRelation(bool active, int senderId, int receiverId, bool? answer, int id = 0)
         {
+            UserToUserRelationID = id;
             Active = active;
             SenderId = senderId;
             ReceiverId = receiverId;
