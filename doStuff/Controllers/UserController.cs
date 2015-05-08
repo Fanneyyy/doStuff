@@ -10,12 +10,12 @@ using doStuff.Models.DatabaseModels;
 using doStuff.Databases;
 namespace doStuff.Controllers
 {
+    [Authorize]
     public class UserController : ParentController
     {
         private static Database db = new Database(null);
 
         [HttpGet]
-        //[Authorize]
         public ActionResult Index()
         {
             EventFeedViewModel feed = new EventFeedViewModel();
