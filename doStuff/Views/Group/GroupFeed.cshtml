@@ -1,0 +1,29 @@
+﻿@model doStuff.ViewModels.EventFeedViewModel
+<div>
+    <h4>EventFeedViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal"></dl>
+</div>
+
+@foreach (var item in Model.Events)
+{
+    <div class="well">
+        <ul class="list-inline">
+            <li><h3>@item.Owner</h3></li>
+            <li class="pull-right"><h3>@item.Event.Name</h3></li>
+        </ul>
+        <p>@item.Event.Description</p>
+        @foreach (var c in @item.Comments)
+        {
+            <p>@c.OwnerId</p>
+            <p>@c.Content</p>
+        }
+
+    </div>
+
+}
+
+    </table>
+</span>
+
+
