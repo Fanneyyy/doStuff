@@ -16,6 +16,9 @@
                         @i.Name <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Event feed", "Index", "User")</li>
+                        <li class="divider"></li>
+
                         @foreach (var x in Model.Groups)
                         {
                             if(x.GroupID != Model.groupId)
