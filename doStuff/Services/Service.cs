@@ -276,6 +276,7 @@ namespace doStuff.Services
                 relation.MemberId = group.OwnerId;
                 relation.Active = true;
                 db.CreateGroupToUserRelation(relation);
+                return true;
             }
             return false;
         }
