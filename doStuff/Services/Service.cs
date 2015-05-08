@@ -377,10 +377,11 @@ namespace doStuff.Services
             {
                 events = events.Concat(db.GetGroupEvents(group.GroupID)).ToList();
             }
+            events = events.Concat(db.GetEvents(userId)).ToList();
             events.Sort(delegate(Event e1, Event e2) 
                         { 
                             //Sorting the list by when it was created
-                            return e1.CreationTime.CompareTo(e2.CreationTime); 
+                            return e2.CreationTime.CompareTo(e1.CreationTime); 
                         });
             foreach(Event e in events)
             {
