@@ -441,6 +441,27 @@ namespace doStuff.Databases
                 return table;
             }
 
+            public List<Event> GetAllEventUserRelation(int userId)
+            {
+                List<Event> events = new List<Event>();
+                var table = (from t in db.EventToUserRelations
+                             where t.AttendeeId == userId && t.Active == true
+                             select t.EventId).ToList();
+
+                foreach (var id in table)
+                {
+                    Event thisEvent = (from u in db.Events
+                                 where u.EventID == id && u.Active == true
+                                 select u).SingleOrDefault();
+                    if (thisEvent != null)
+                    {
+                        events.Add(thisEvent);
+                    }
+                }
+
+                return events;
+            }
+
             public GroupToEventRelation GetGroupToEventRelation(int groupId, int eventId)
             {
                 var table = (from t in db.GroupToEventRelations

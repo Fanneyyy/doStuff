@@ -396,7 +396,7 @@ namespace doStuff.Services
             // Muna að laga svo maður fái líka event frá friends
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<Event> events = db.GetEvents(userId);
+            List<Event> events = db.GetAllEventUserRelation(userId);
 
             if (events == null)
             {
