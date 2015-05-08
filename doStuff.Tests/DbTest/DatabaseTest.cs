@@ -643,6 +643,12 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 4));
         }
 
+        [TestMethod]
+        public void ServiceIsOwnerOfComment()
+        {
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 0));
+        }
+
         #endregion
     }
 }

@@ -87,6 +87,10 @@ namespace doStuff.Services
             {
                 return false;
             }
+            if(userId == theEvent.EventID)
+            {
+                return true;
+            }
             if(theEvent.GroupId.HasValue)
             {
                 return IsMemberOfGroup(userId, theEvent.GroupId.Value);
