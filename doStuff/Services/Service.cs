@@ -350,7 +350,7 @@ namespace doStuff.Services
 
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<Event> events = db.GetEvents(groupId);
+            List<Event> events = db.GetGroupEvents(groupId);
 
             if (events == null)
             {
@@ -395,11 +395,15 @@ namespace doStuff.Services
 
             foreach (Event eachEvent in events)
             {
-                EventViewModel eventView = new EventViewModel();
-                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
-                eventView.Event = eachEvent;
-                eventView.Comments = db.GetComments(eachEvent.EventID);
-                eventViews.Add(eventView);
+                // Removes Events from event feed that are part of a group
+                //if (eachEvent.GroupId == null)
+                //{
+                    EventViewModel eventView = new EventViewModel();
+                    eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                    eventView.Event = eachEvent;
+                    eventView.Comments = db.GetComments(eachEvent.EventID);
+                    eventViews.Add(eventView);
+                //}
             }
 
             SideBarViewModel sidebar = new SideBarViewModel();

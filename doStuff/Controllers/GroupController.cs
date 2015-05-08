@@ -47,7 +47,7 @@ namespace doStuff.Controllers
                 {
                     return View();
                 }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpPost]
@@ -84,7 +84,7 @@ namespace doStuff.Controllers
                 newEvent.Active = true;
                 newEvent.GroupId = groupId;
                 service.CreateEvent(newEvent);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { groupId = groupId });
             }
 
             return View(newEvent);
