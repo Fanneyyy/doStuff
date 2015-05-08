@@ -1,10 +1,10 @@
 ﻿
-@model doStuff.ViewModels.EventFeedViewModel
+@model doStuff.ViewModels.GroupFeedViewModel
 
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
     <div>
-        @Html.ActionLink("add friend", "AddFriend", null, new { @class = "btn btn-default cancel" })
+        @Html.ActionLink("add member", "AddMember", null, new { @class = "btn btn-default cancel" })
     </div>
     <ul>
         @foreach (var user in Model.SideBar.UserList)
@@ -12,7 +12,4 @@
             <li>@user.DisplayName</li>
         }
     </ul>
-    <div>
-        @Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })
-    </div>
 </div>
