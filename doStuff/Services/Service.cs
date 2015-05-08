@@ -104,7 +104,14 @@ namespace doStuff.Services
         {
             User user = new User();
             user = db.GetUser(userName);
-            return user.UserID;
+            if (user != null)
+            {
+                return user.UserID;
+            }
+            else
+            {
+                throw new UserNotFoundException();
+            }
         }
         public Group GetGroupById(int groupId)
         {
