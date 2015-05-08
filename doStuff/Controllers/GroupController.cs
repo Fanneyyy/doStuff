@@ -23,6 +23,12 @@ namespace doStuff.Controllers
         }
 
         [HttpGet]
+        public ActionResult Banner()
+        {
+            return RedirectToAction("Index", "User");
+        }
+
+        [HttpGet]
         public ActionResult AddMember(int groupId)
         {
             return View();
