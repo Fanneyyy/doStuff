@@ -20,8 +20,9 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public Comment(bool active, int ownerId, string content, DateTime creationTime)
+        public Comment(bool active, int ownerId, string content, DateTime creationTime, int id = 0)
         {
+            CommentID = id;
             Active = active;
             OwnerId = ownerId;
             Content = content;

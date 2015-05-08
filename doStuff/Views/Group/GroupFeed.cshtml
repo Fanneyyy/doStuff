@@ -1,9 +1,4 @@
 ﻿@model doStuff.ViewModels.GroupFeedViewModel
-<div>
-    <h4>EventFeedViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal"></dl>
-</div>
 
 @foreach (var item in Model.Events)
 {
@@ -18,12 +13,7 @@
             <p>@c.OwnerId</p>
             <p>@c.Content</p>
         }
-
     </div>
-
 }
-
-    </table>
-</span>
 
 

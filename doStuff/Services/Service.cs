@@ -63,10 +63,9 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
-
             Event newEvent = GetEventById(eventId);
 
-            if (newEvent.OwnerId == userId)
+            if (newEvent != null && newEvent.OwnerId == userId)
             {
                 return true;
             }
@@ -84,7 +83,14 @@ namespace doStuff.Services
         public bool IsInvitedToEvent(int userId, int eventId)
         {
             Event theEvent = db.GetEvent(eventId);
-
+            if(theEvent == null)
+            {
+                return false;
+            }
+            if(userId == theEvent.EventID)
+            {
+                return true;
+            }
             if(theEvent.GroupId.HasValue)
             {
                 return IsMemberOfGroup(userId, theEvent.GroupId.Value);
@@ -93,9 +99,8 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfComment(int userId, int commentId)
         {
-
             Comment comment = GetCommentById(commentId);
-            return (userId == comment.OwnerId);
+            return (comment != null && userId == comment.OwnerId);
         }
         #endregion
         #region GetByID
@@ -103,7 +108,14 @@ namespace doStuff.Services
         {
             User user = new User();
             user = db.GetUser(userName);
-            return user.UserID;
+            if (user != null)
+            {
+                return user.UserID;
+            }
+            else
+            {
+                throw new UserNotFoundException();
+            }
         }
         public Group GetGroupById(int groupId)
         {
@@ -362,42 +374,45 @@ namespace doStuff.Services
         }
         public EventFeedViewModel GetEventFeed(int userId)
         {
-            //TODO Show something if user has no friends or events?
-            // Throw Event Exception.
-            // Muna að laga svo maður fái líka event frá friends
-            EventFeedViewModel feed = new EventFeedViewModel();
-            List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<Event> events = db.GetAllEventUserRelation(userId);
-
-            if (events == null)
+            EventFeedViewModel eventFeed = new EventFeedViewModel();
+            eventFeed.Events = new List<EventViewModel>();
+            List<User> friends = db.GetFriends(userId);
+            List<Event> events = new List<Event>();
+            foreach(User friend in friends)
             {
-                throw new EventNotFoundException();
+                events = events.Concat(db.GetEvents(friend.UserID)).ToList();
             }
-
-            foreach (Event eachEvent in events)
-            {
-                // Removes Events from event feed that are part of a group
-                //if (eachEvent.GroupId == null)
-                //{
-                    EventViewModel eventView = new EventViewModel();
-                    eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
-                    eventView.Event = eachEvent;
-                    eventView.Comments = db.GetComments(eachEvent.EventID);
-                    eventViews.Add(eventView);
-                //}
-            }
-
-            SideBarViewModel sidebar = new SideBarViewModel();
-            sidebar.User = db.GetUser(userId);
-            sidebar.UserList = db.GetFriends(userId);
-            feed.Events = eventViews;
-            feed.SideBar = sidebar;
-
             List<Group> groups = db.GetGroups(userId);
-            feed.Groups = groups;
-
-            return feed;
+            foreach (Group group in groups)
+            {
+                events = events.Concat(db.GetGroupEvents(group.GroupID)).ToList();
+            }
+            events = events.Concat(db.GetEvents(userId)).ToList();
+            events.Sort(delegate(Event e1, Event e2) 
+                        { 
+                            //Sorting the list by when it was created
+                            return e2.CreationTime.CompareTo(e1.CreationTime); 
+                        });
+            foreach(Event e in events)
+            {
+                EventViewModel eventViewModel = new EventViewModel();
+                eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
+                eventViewModel.Event = e;
+                eventViewModel.Comments = db.GetComments(e.EventID);
+                eventFeed.Events.Add(eventViewModel);
+            }
+            eventFeed.Groups = groups;
+            eventFeed.SideBar = new SideBarViewModel();
+            eventFeed.SideBar.User = db.GetUser(userId);
+            eventFeed.SideBar.UserList = friends;
+            return eventFeed;
         }
+        #region SideBar
+        private SideBarViewModel GetUserSideBar(int userId)
+        {
+            return null;
+        }
+        #endregion
         #endregion
     }
 }

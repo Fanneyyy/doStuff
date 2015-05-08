@@ -1,0 +1,71 @@
+﻿.navbar-fixed-top {
+    margin-top: 8px;
+    background-color: #26727f;
+    border: 0px;
+}
+
+.navbar .col-md-4 {
+    padding: 0px;
+}
+
+#banner-logo {
+    height: 90px;
+    background-image: url("LogoGray.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    display:block;
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar .btn-group {
+    width: 100%;
+}
+
+.feed-chooser {
+    background-color: #26727f;
+    color: white;
+    font-size: 50px;
+    font-variant: small-caps;
+    border-radius: 0px;
+    height: 90px;
+    width: 100%;
+}
+
+.banner-dropdown {
+    background-color: #40c0cb;
+    color: white;
+    font-size: 30px;
+    font-variant: small-caps;
+    border-radius: 0px;
+    width: 100%;
+    padding: 0px;
+}
+
+.banner-dropdown .cancel {
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
+    height: 100%;
+}
+
+.logout-box {
+    margin-right: 10px;
+}
+
+#logout-logo {
+    background-image:url(logOut.png);
+    background-repeat: no-repeat;
+    background-size:40%;
+    background-position: right;
+    display:block;
+    height:90px;
+    width:100%;
+}
+
+.user-index {
+    min-height: 1000px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #eee;
+}

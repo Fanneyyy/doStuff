@@ -13,25 +13,24 @@ namespace doStuff.Controllers
     [Authorize]
     public class GroupController : ParentController
     {
-        
-        static private Service service = new Service();
         [HttpGet]
-
         public ActionResult Index(int groupId)
         {
-            //TODO
             // Gets the correct feed for the userId
-
             GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
             // Returns the feed to the view
-
             return View(feed);
+        }
+
+        [HttpGet]
+        public ActionResult Banner()
+        {
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet]
         public ActionResult AddMember(int groupId)
         {
-            //TODO
             return View();
         }
 
@@ -45,6 +44,7 @@ namespace doStuff.Controllers
                 }
             catch (UserNotFoundException)
                 {
+                    ModelState.AddModelError("Error", "Username not found");
                     return View();
                 }
             return RedirectToAction("Index", new { groupId = groupId });
@@ -101,21 +101,24 @@ namespace doStuff.Controllers
         public ActionResult Comment(int groupId, int eventId, Comment newComment)
         {
             //TODO
-            return View();
+            service.CreateComment(eventId, newComment);
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpGet]
         public ActionResult ChangeDisplayName(int groupId)
         {
             //TODO
-            return View();
+            return View(new { groupId = groupId });
         }
 
         [HttpPost]
         public ActionResult ChangeDisplayName(int groupId, User myUser)
         {
             //TODO
-            return View();
+            int myId = service.GetUserId(User.Identity.Name);
+            service.ChangeDisplayName(myId, myUser.DisplayName);
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpPost]

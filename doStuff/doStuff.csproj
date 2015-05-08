@@ -191,10 +191,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\balloonBackground.jpg" />
+    <Content Include="Content\Banner.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\doStufflogo.png" />
+    <Content Include="Content\grayBackground.jpg" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\LogoGray.png" />
+    <Content Include="Content\logOut.png" />
     <Content Include="Content\Reset.css" />
     <Content Include="Content\SideBar.css" />
     <Content Include="favicon.ico" />
