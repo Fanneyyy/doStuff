@@ -183,6 +183,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\GroupFeedViewModel.cs" />
     <Compile Include="ViewModels\EventFeedViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\FriendFeedViewModel.cs" />
