@@ -133,6 +133,7 @@ namespace doStuff.Controllers
             }
             catch(UserNotFoundException)
             {
+                ModelState.AddModelError("Error", "Username not found");
                 return View();
             }
         
