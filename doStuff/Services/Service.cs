@@ -365,6 +365,7 @@ namespace doStuff.Services
         public EventFeedViewModel GetEventFeed(int userId)
         {
             EventFeedViewModel eventFeed = new EventFeedViewModel();
+            eventFeed.Events = new List<EventViewModel>();
             List<User> friends = db.GetFriends(userId);
             List<Event> events = new List<Event>();
             foreach(User friend in friends)
@@ -390,10 +391,17 @@ namespace doStuff.Services
                 eventFeed.Events.Add(eventViewModel);
             }
             eventFeed.Groups = groups;
+            eventFeed.SideBar = new SideBarViewModel();
             eventFeed.SideBar.User = db.GetUser(userId);
             eventFeed.SideBar.UserList = friends;
             return eventFeed;
         }
+        #region SideBar
+        private SideBarViewModel GetUserSideBar(int userId)
+        {
+            return null;
+        }
+        #endregion
         #endregion
     }
 }
