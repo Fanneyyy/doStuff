@@ -7,6 +7,7 @@ using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using System.Collections.Generic;
 using ErrorHandler;
+using doStuff.ViewModels;
 
 namespace doStuff.Tests.DbTest
 {
@@ -258,7 +259,8 @@ namespace doStuff.Tests.DbTest
             {
                 EventToCommentRelationID = 1,
                 EventId = 2,
-                CommentId = 1
+                CommentId = 1,
+                Active = true
 
             };
 
@@ -374,7 +376,6 @@ namespace doStuff.Tests.DbTest
         }
         #endregion
         #region Service tests
-
         [TestMethod]
         public void ServiceChangeDisplayName()
         {
@@ -397,7 +398,6 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(newName, userWithNewName.DisplayName);
 
         }
-
         [TestMethod]
         public void ServiceChangeGroupName()
         {
@@ -418,7 +418,6 @@ namespace doStuff.Tests.DbTest
             catch (ErrorHandler.GroupNotFoundException) { }
             Assert.AreEqual(newName, groupWithNewName.Name);
         }
-
         [TestMethod]
         public void ServiceSendFriendRequest()
         {
@@ -428,33 +427,53 @@ namespace doStuff.Tests.DbTest
             ServiceTest.SendFriendRequest(user1Id, user2Id);
             bool fail1 = ServiceTest.IsFriendsWith(user1Id, user2Id);
             bool fail2 = ServiceTest.IsFriendsWith(user2Id, user1Id);
-            
             bool fail3 = ServiceTest.AnswerFriendRequest(user1Id, user2Id, true);
-            //bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
-            //bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
-            //bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
+            bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool success3 = ServiceTest.IsFriendsWith(user2Id, user1Id);
 
             Assert.AreEqual(false, fail1);
             Assert.AreEqual(false, fail2);
             Assert.AreEqual(false, fail3);
-            //Assert.AreEqual(false, fail4);
-            //Assert.AreEqual(true, success1);
-            //Assert.AreEqual(true, success2);
-
-
+            Assert.AreEqual(false, fail4);
+            Assert.AreEqual(true, success1);
+            Assert.AreEqual(true, success2);
+            Assert.AreEqual(true, success3);
 
         }
-
         [TestMethod]
         public void ServiceCreateComment()
         {
-            //ServiceTest.CreateComment
-        }
+            const int event1Id = 1;
+            const int event2Id = 2;
+            const int event1CommentAmount = 1;
+            const int event2CommentAmount = 2;
+            Comment newComment1 = new Comment
+            {
+                CommentID = 2,
+                Content = "ut2k4 lets go bois",
+                Active = true,
+                OwnerId = 2,
+                CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
+            };
+            Comment newComment2 = new Comment
+            {
+                CommentID = 3,
+                Content = "Pulsur eru fyrir aula",
+                Active = true,
+                OwnerId = 2,
+                CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
+            };
+
+            ServiceTest.CreateComment(event1Id, newComment1);
+            ServiceTest.CreateComment(event2Id, newComment2);
+            List<Comment> commentsEvent1 = DbTest.GetComments(event1Id);
+            List<Comment> commentsEvent2 = DbTest.GetComments(event2Id);
 
 
-        [TestMethod]
-        public void TemplateTest()
-        {
+            Assert.AreEqual(event1CommentAmount, commentsEvent1.Count);
+            Assert.AreEqual(event2CommentAmount, commentsEvent2.Count);
 
         }
 

@@ -51,6 +51,11 @@ namespace doStuff.Controllers
                     return View();
                 }
         }
+        [HttpGet]
+        public ActionResult Banner()
+        {
+            return RedirectToAction("Index");
+        }
 
         [HttpGet]
         public ActionResult ViewFriendRequests()
