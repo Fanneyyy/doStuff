@@ -195,6 +195,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\doStufflogo.png" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\Reset.css" />
     <Content Include="Content\SideBar.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
