@@ -313,11 +313,5 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(user1friends[0].UserName, user2Name);
             Assert.AreEqual(user3friends[0].UserName, user2Name);
         }
-      
-        [TestMethod]
-        public void CheckGroups()
-        {
-
-        }
     }
 }
