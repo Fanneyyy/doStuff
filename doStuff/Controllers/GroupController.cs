@@ -22,7 +22,7 @@ namespace doStuff.Controllers
             //TODO
             // Gets the correct feed for the userId
 
-            EventFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
+            GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
             // Returns the feed to the view
 
             return View(feed);
