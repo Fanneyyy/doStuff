@@ -93,7 +93,6 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfComment(int userId, int commentId)
         {
-
             Comment comment = GetCommentById(commentId);
             return (userId == comment.OwnerId);
         }

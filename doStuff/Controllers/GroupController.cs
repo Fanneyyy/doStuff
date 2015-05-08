@@ -13,8 +13,6 @@ namespace doStuff.Controllers
     [Authorize]
     public class GroupController : ParentController
     {
-        
-        static private Service service = new Service();
         [HttpGet]
 
         public ActionResult Index(int groupId)
