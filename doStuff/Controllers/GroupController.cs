@@ -139,7 +139,7 @@ namespace doStuff.Controllers
             newGroup.OwnerId = service.GetUserId(User.Identity.Name);
             if (service.CreateGroup(newGroup))
             {
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", new { groupId = newGroup.GroupID });
             }
             return View();
         }
