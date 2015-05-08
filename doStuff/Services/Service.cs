@@ -178,7 +178,7 @@ namespace doStuff.Services
                 relation.SenderId = userId;
                 relation.ReceiverId = friendId;
                 relation.Answer = null;
-                return db.CreateUserToUserRelation(relation);
+                return db.CreateUserToUserRelation(ref relation);
             }
             else
             {
@@ -198,7 +198,7 @@ namespace doStuff.Services
                     relation.Active = true;
                     relation.GroupId = groupId;
                     relation.MemberId = userId;
-                    return db.CreateGroupToUserRelation(relation);
+                    return db.CreateGroupToUserRelation(ref relation);
                 }
                 relation.Active = true;
                 return db.SetGroupToUserRelation(relation);
@@ -232,7 +232,7 @@ namespace doStuff.Services
                     relation.EventId = eventId;
                     relation.AttendeeId = userId;
                     relation.Answer = answer;
-                    return db.CreateEventToUserRelation(relation);
+                    return db.CreateEventToUserRelation(ref relation);
                 }
                 relation.Answer = answer;
                 return db.SetEventToUserRelation(relation);
@@ -243,18 +243,18 @@ namespace doStuff.Services
         #region Create
         public bool CreateUser(User user)
         {
-            return db.CreateUser(user);
+            return db.CreateUser(ref user);
         }
         public bool CreateGroup(Group group)
         {
-            //TODO
-            if (db.CreateGroup(group))
+
+            if (db.CreateGroup(ref group))
             {
                 GroupToUserRelation relation = new GroupToUserRelation();
                 relation.GroupId = group.GroupID;
                 relation.MemberId = group.OwnerId;
                 relation.Active = true;
-                db.CreateGroupToUserRelation(relation);
+                db.CreateGroupToUserRelation(ref relation);
                 return true;
             }
             return false;
@@ -262,7 +262,7 @@ namespace doStuff.Services
         public bool CreateEvent(Event newEvent)
         {
             bool created = false;
-            created = db.CreateEvent(newEvent);
+            created = db.CreateEvent(ref newEvent);
 
             if (created)
             {
@@ -272,7 +272,7 @@ namespace doStuff.Services
                 relation.AttendeeId = newEvent.OwnerId;
                 relation.Active = true;
                 relation.Answer = true;
-                db.CreateEventToUserRelation(relation);
+                db.CreateEventToUserRelation(ref relation);
 
                 List <User> users = db.GetFriends(newEvent.OwnerId);
 
@@ -282,7 +282,7 @@ namespace doStuff.Services
                     relationForFriend.EventId = newEvent.EventID;
                     relationForFriend.AttendeeId = n.UserID;
                     relationForFriend.Active = true;
-                    db.CreateEventToUserRelation(relationForFriend);
+                    db.CreateEventToUserRelation(ref relationForFriend);
                 }
                 return true;
             }
@@ -292,7 +292,7 @@ namespace doStuff.Services
         {
             //TODO: Throw Event Exception.
 
-            db.CreateComment(comment);
+            db.CreateComment(ref comment);
             Event thisEvent = GetEventById(eventId);
 
             return false;
