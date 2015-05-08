@@ -2,8 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using doStuff.Databases;
+using doStuff.Services;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
+using System.Collections.Generic;
+using ErrorHandler;
 
 namespace doStuff.Tests.DbTest
 {
@@ -11,12 +14,13 @@ namespace doStuff.Tests.DbTest
     public class DatabaseTest
     {
         private Database DbTest;
-
+        private Service ServiceTest;
         [TestInitialize]
         public void Initialize()
         {
 
             MockDb mock = new MockDb();
+        
             #region Users
             User user1 = new User
             {
@@ -217,7 +221,7 @@ namespace doStuff.Tests.DbTest
 
             EventToUserRelation eventUser2 = new EventToUserRelation
             {
-                EventToUserRelationID = 1,
+                EventToUserRelationID = 2,
                 Active = true,
                 EventId = 1,
                 AttendeeId = 2,
@@ -226,7 +230,7 @@ namespace doStuff.Tests.DbTest
 
             EventToUserRelation eventUser3 = new EventToUserRelation
             {
-                EventToUserRelationID = 1,
+                EventToUserRelationID = 3,
                 Active = true,
                 EventId = 2,
                 AttendeeId = 3,
@@ -235,7 +239,7 @@ namespace doStuff.Tests.DbTest
 
             EventToUserRelation eventUser4 = new EventToUserRelation
             {
-                EventToUserRelationID = 1,
+                EventToUserRelationID = 4,
                 Active = true,
                 EventId = 2,
                 AttendeeId = 2,
@@ -262,10 +266,11 @@ namespace doStuff.Tests.DbTest
             #endregion
 
             DbTest = new Database(mock);
+            ServiceTest = new Service(DbTest);
         }
-
+        #region Database tests
         [TestMethod]
-        public void CheckPerson1()
+        public void DatabaseCheckPerson1()
         {
             const int id = 1;
             const string userName = "Gulli Gurka";
@@ -285,5 +290,168 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(user.Gender, gender);
             Assert.AreEqual(user.Email, Email);
         }
+
+        [TestMethod]
+        public void DatabaseGetGroup()
+        {
+            const int group1Id = 1;
+            const int group2Id = 2;
+            const string group1Name = "Team Gulli";
+            const string group2Name = "Pulsuvagninn";
+
+            Group group1 = DbTest.GetGroup(group1Id);
+            Group group2 = DbTest.GetGroup(group2Id);
+
+            Assert.AreEqual(group1Name, group1.Name);
+            Assert.AreEqual(group2Name, group2.Name);
+        }
+
+        [TestMethod]
+        public void DatabaseGetGroups()
+        {
+            const int user1Id = 1;
+            const int user2Id = 2;
+            const int user3Id = 3;
+            const int user1GroupAmount = 1;
+            const int user2GroupAmount = 2;
+            const int user3GroupAmount = 1;
+
+            List<Group> user1Groups = DbTest.GetGroups(user1Id);
+            List<Group> user2Groups = DbTest.GetGroups(user2Id);
+            List<Group> user3Groups = DbTest.GetGroups(user3Id);
+                    
+            Assert.AreEqual(user1GroupAmount, user1Groups.Count);
+            Assert.AreEqual(user2GroupAmount, user2Groups.Count);
+            Assert.AreEqual(user3GroupAmount, user3Groups.Count);
+        }
+        
+        [TestMethod]
+        public void DatabaseGetGroupEvents()
+        {
+            const int group1Id = 1;
+            const int group2Id = 2;
+            const int group1EventsAmount = 0;
+            const int group2EventsAmount = 1;
+            const string group2Event1Name = "Pulsuparty";
+
+            List<Event> group1Eventslist = DbTest.GetGroupEvents(group1Id);
+            List<Event> group2Eventslist = DbTest.GetGroupEvents(group2Id);
+
+            Assert.AreEqual(group1EventsAmount, group1Eventslist.Count);
+            Assert.AreEqual(group2EventsAmount, group2Eventslist.Count);
+            Assert.AreEqual(group2Event1Name, group2Eventslist[0].Name);
+        }
+
+        [TestMethod]
+        public void DatabaseGetMembers()
+        {
+            const int group1Id = 1;
+            const int group2Id = 2;
+            const int group1MembersAmount = 2;
+            const int group2MembersAmount = 2;
+
+            List<User> group1Users = DbTest.GetMembers(group1Id);
+            List<User> group2Users = DbTest.GetMembers(group2Id);
+
+            Assert.AreEqual(group1MembersAmount, group1Users.Count);
+            Assert.AreEqual(group2MembersAmount, group2Users.Count);
+        }
+
+        [TestMethod]
+        public void DatabaseGetEvent()
+        {
+            const int event1Id = 1;
+            const int event2Id = 2;
+            const string event1Name = "Lan";
+            const string event2Name = "Pulsuparty";
+
+
+            Event event1 = DbTest.GetEvent(event1Id);
+            Event event2 = DbTest.GetEvent(event2Id);
+
+            Assert.AreEqual(event1Name, event1.Name);
+            Assert.AreEqual(event2Name, event2.Name);
+        }
+        #endregion
+        #region Service tests
+
+        [TestMethod]
+        public void ServiceChangeDisplayName()
+        {
+            const int user1Id = 1;
+            const int noUserId = 999;
+            const string newName = "Gulli G";
+
+
+            User user1 = DbTest.GetUser(user1Id);
+            bool success = ServiceTest.ChangeDisplayName(user1Id, newName);
+            User userWithNewName = DbTest.GetUser(user1Id);
+
+
+            Assert.AreEqual(true, success);
+            try
+            {
+                ServiceTest.ChangeDisplayName(noUserId, newName);
+                Assert.Fail();
+            }
+            catch (ErrorHandler.UserNotFoundException) { }
+            Assert.AreEqual(newName, userWithNewName.DisplayName);
+
+        }
+
+        [TestMethod]
+        public void ServiceChangeGroupName()
+        {
+            /*const int groupId = 1;
+
+            const string newName = "Team Gulli & co";
+
+            User user1 = DbTest.GetUser(user1Id);
+            bool success = ServiceTest.ChangeDisplayName(user1Id, newName);
+            User userWithNewName = DbTest.GetUser(user1Id);
+
+
+            Assert.AreEqual(true, success);
+            try
+            {
+                ServiceTest.ChangeDisplayName(noUserId, newName);
+                Assert.Fail();
+            }
+            catch (ErrorHandler.UserNotFoundException) { }
+            Assert.AreEqual(newName, userWithNewName.DisplayName);*/
+        }
+
+        [TestMethod]
+        public void ServiceSendFriendRequest()
+        {
+            //ServiceTest.SendFriendRequest()
+        }
+
+        [TestMethod]
+        public void ServiceCreateComment()
+        {
+            //ServiceTest.CreateComment
+        }
+
+
+        [TestMethod]
+        public void TemplateTest()
+        {
+
+        }
+
+        [TestMethod]
+        public void TemplateTest()
+        {
+
+        }
+
+        [TestMethod]
+        public void TemplateTest()
+        {
+
+        }
+
+        #endregion
     }
 }

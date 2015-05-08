@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
+// Fengið frá Daníeli 
 namespace doStuff.Tests
 {
     /// <summary>
