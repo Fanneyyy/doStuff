@@ -25,7 +25,6 @@ namespace doStuff.Controllers
             // Gets the correct feed for the userId
             feed = service.GetEventFeed(userId);
             // Returns the feed to the view
-
             return View(feed);
         }
 
