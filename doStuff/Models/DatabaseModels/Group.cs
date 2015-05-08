@@ -19,7 +19,7 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public Group(bool active, int ownerId, string name, int id)
+        public Group(bool active, int ownerId, string name, int id = 0)
         {
             GroupID = id;
             Active = active;
