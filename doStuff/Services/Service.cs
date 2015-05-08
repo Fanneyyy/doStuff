@@ -107,7 +107,7 @@ namespace doStuff.Services
             }
             else
             {
-                throw UserNotFoundException;
+                throw new UserNotFoundException();
             }
         }
         public Group GetGroupById(int groupId)
