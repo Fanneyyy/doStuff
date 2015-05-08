@@ -14,22 +14,17 @@ namespace doStuff.Controllers
     public class GroupController : ParentController
     {
         [HttpGet]
-
         public ActionResult Index(int groupId)
         {
-            //TODO
             // Gets the correct feed for the userId
-
             GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
             // Returns the feed to the view
-
             return View(feed);
         }
 
         [HttpGet]
         public ActionResult AddMember(int groupId)
         {
-            //TODO
             return View();
         }
 
@@ -43,6 +38,7 @@ namespace doStuff.Controllers
                 }
             catch (UserNotFoundException)
                 {
+                    ModelState.AddModelError("Error", "Username not found");
                     return View();
                 }
             return RedirectToAction("Index", new { groupId = groupId });
