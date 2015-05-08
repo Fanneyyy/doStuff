@@ -8,11 +8,12 @@
     padding: 0px;
 }
 
-.banner-logo {
+#banner-logo {
     height: 90px;
     background-image: url("LogoGray.png");
     background-size: contain;
     background-repeat: no-repeat;
+    display:block;
     margin: 0px;
     padding: 0px;
 }
@@ -24,7 +25,7 @@
 .feed-chooser {
     background-color: #26727f;
     color: white;
-    font-size: 40px;
+    font-size: 50px;
     font-variant: small-caps;
     border-radius: 0px;
     height: 90px;
