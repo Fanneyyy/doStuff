@@ -63,10 +63,9 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
-
             Event newEvent = GetEventById(eventId);
 
-            if (newEvent.OwnerId == userId)
+            if (newEvent != null && newEvent.OwnerId == userId)
             {
                 return true;
             }
