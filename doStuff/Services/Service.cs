@@ -247,7 +247,6 @@ namespace doStuff.Services
         }
         public bool CreateGroup(Group group)
         {
-
             if (db.CreateGroup(ref group))
             {
                 GroupToUserRelation relation = new GroupToUserRelation();
@@ -261,41 +260,49 @@ namespace doStuff.Services
         }
         public bool CreateEvent(Event newEvent)
         {
-            bool created = false;
-            created = db.CreateEvent(ref newEvent);
-
-            if (created)
+            if(db.CreateEvent(ref newEvent))
             {
-                // Creating relation & attending for owner
                 EventToUserRelation relation = new EventToUserRelation();
                 relation.EventId = newEvent.EventID;
                 relation.AttendeeId = newEvent.OwnerId;
                 relation.Active = true;
                 relation.Answer = true;
-                db.CreateEventToUserRelation(ref relation);
-
-                List <User> users = db.GetFriends(newEvent.OwnerId);
-
-                foreach (User n in users)
+                if(db.CreateEventToUserRelation(ref relation))
                 {
-                    EventToUserRelation relationForFriend = new EventToUserRelation();
-                    relationForFriend.EventId = newEvent.EventID;
-                    relationForFriend.AttendeeId = n.UserID;
-                    relationForFriend.Active = true;
-                    db.CreateEventToUserRelation(ref relationForFriend);
+                    if(newEvent.GroupId.HasValue)
+                    {
+                        GroupToEventRelation relation2 = new GroupToEventRelation();
+                        relation2.EventId = newEvent.EventID;
+                        relation2.GroupId = newEvent.GroupId.Value;
+                        relation2.Active = true;
+                        if(db.CreateGroupToEventRelation(ref relation2))
+                        {
+                            return true;
+                        }
+                        throw new Exception("The Event was created but an error occured when creation the GroupToUserRelation");
+                    }
+                    return true;
                 }
-                return true;
+                throw new Exception("The Event was created but an error occured when creation the EventToUserRelation");
             }
             return false;
         }
         public bool CreateComment(int eventId, Comment comment)
         {
-            //TODO: Throw Event Exception.
-
-            db.CreateComment(ref comment);
-            Event thisEvent = GetEventById(eventId);
-
-            return false;
+            if (IsInvitedToEvent(comment.OwnerId, eventId))
+            {
+                if (db.CreateComment(ref comment))
+                {
+                    EventToCommentRelation relation = new EventToCommentRelation(true, eventId, comment.CommentID);
+                    if (db.CreateEventToCommentRelation(ref relation))
+                    {
+                        return true;
+                    }
+                    throw new Exception("The comment was created but an error occured when creating the EventToCommentRelation");
+                }
+                return false;
+            }
+            throw new Exception("CreatedComment was called with out checking if IsInvitedToEvent in the controller first");
         }
         #endregion
         #region Remove
@@ -315,20 +322,17 @@ namespace doStuff.Services
         #region Edit
         public bool ChangeDisplayName(int userId, string newName)
         {
-            //TODO: Throw User Exception.
             if (db.ExistsUser(userId))
             {
                 User user = db.GetUser(userId);
                 user.DisplayName = newName;
                 return db.SetUser(user);
             }
-
             throw new UserNotFoundException();
         }
         public bool ChangeGroupName(int groupId, string newName)
         {
             Group group = db.GetGroup(groupId);
-
             if (group == null)
             {
                 throw new GroupNotFoundException();
