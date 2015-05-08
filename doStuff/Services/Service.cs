@@ -83,7 +83,10 @@ namespace doStuff.Services
         public bool IsInvitedToEvent(int userId, int eventId)
         {
             Event theEvent = db.GetEvent(eventId);
-
+            if(theEvent == null)
+            {
+                return false;
+            }
             if(theEvent.GroupId.HasValue)
             {
                 return IsMemberOfGroup(userId, theEvent.GroupId.Value);
