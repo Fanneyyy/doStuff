@@ -338,9 +338,6 @@ namespace doStuff.Services
         #region GetViewModel
         public GroupFeedViewModel GetGroupFeed(int groupId, int userId)
         {
-            //TODO
-            // Show something if user has no friends or events?
-
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetGroupEvents(groupId);
@@ -375,42 +372,82 @@ namespace doStuff.Services
         public EventFeedViewModel GetEventFeed(int userId)
         {
             EventFeedViewModel eventFeed = new EventFeedViewModel();
-            eventFeed.Events = new List<EventViewModel>();
-            List<User> friends = db.GetFriends(userId);
-            List<Event> events = new List<Event>();
-            foreach(User friend in friends)
-            {
-                events = events.Concat(db.GetEvents(friend.UserID)).ToList();
-            }
-            List<Group> groups = db.GetGroups(userId);
-            foreach (Group group in groups)
-            {
-                events = events.Concat(db.GetGroupEvents(group.GroupID)).ToList();
-            }
+            eventFeed.Groups = db.GetGroups(userId);
+            eventFeed.SideBar = GetSideBar(userId);
+            List<Event> events = GetEventsFromFriends(eventFeed.SideBar.UserList);
             events = events.Concat(db.GetEvents(userId)).ToList();
-            events.Sort(delegate(Event e1, Event e2) 
-                        { 
-                            //Sorting the list by when it was created
-                            return e2.CreationTime.CompareTo(e1.CreationTime); 
-                        });
+            events = events.Concat(GetEventsFromGroups(eventFeed.Groups)).ToList();
+            events = GetSortedEventList(events);
+            eventFeed.Events = new List<EventViewModel>();
             foreach(Event e in events)
             {
-                EventViewModel eventViewModel = new EventViewModel();
-                eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
-                eventViewModel.Event = e;
-                eventViewModel.Comments = db.GetComments(e.EventID);
-                eventFeed.Events.Add(eventViewModel);
+                eventFeed.Events.Add(CastEventToViewModel(e));
             }
-            eventFeed.Groups = groups;
-            eventFeed.SideBar = new SideBarViewModel();
-            eventFeed.SideBar.User = db.GetUser(userId);
-            eventFeed.SideBar.UserList = friends;
             return eventFeed;
         }
-        #region SideBar
-        private SideBarViewModel GetUserSideBar(int userId)
+        #region ViewModelHelperFunctions
+        private SideBarViewModel GetSideBar(int userId, int? groupId = null)
         {
-            return null;
+            SideBarViewModel SideBar = new SideBarViewModel();
+
+            SideBar.User = db.GetUser(userId);
+            if (groupId.HasValue)
+            {
+                SideBar.UserList = db.GetMembers(groupId.Value);
+                SideBar.UserList.Remove(SideBar.User);
+            }
+            else
+            {
+                SideBar.UserList = db.GetFriends(userId);
+            }
+
+            SideBar.UserList = GetSortedUserList(SideBar.UserList);
+
+            return SideBar;
+        }
+        private EventViewModel CastEventToViewModel(Event e)
+        {
+            EventViewModel eventViewModel = new EventViewModel();
+            eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
+            eventViewModel.Event = e;
+            eventViewModel.Comments = db.GetComments(e.EventID);
+            return eventViewModel;
+        }
+        private List<Event> GetEventsFromFriends(List<User> friends)
+        {
+            List<Event> list = new List<Event>();
+            foreach (User friend in friends)
+            {
+                list = list.Concat(db.GetEvents(friend.UserID)).ToList();
+            }
+            return list;
+        }
+        private List<Event> GetEventsFromGroups(List<Group> groups)
+        {
+            List<Event> list = new List<Event>();
+
+            foreach (Group group in groups)
+            {
+                list = list.Concat(db.GetGroupEvents(group.GroupID)).ToList();
+            }
+
+            return list;
+        }
+        private List<Event> GetSortedEventList(List<Event> list)
+        {
+            list.Sort(delegate(Event e1, Event e2)
+                      {
+                          return e2.CreationTime.CompareTo(e1.CreationTime);
+                      });
+            return list;
+        }
+        private List<User> GetSortedUserList(List<User> list)
+        {
+            list.Sort(delegate(User u1, User u2)
+                      {
+                          return u1.DisplayName.CompareTo(u2.DisplayName);
+                      });
+            return list;
         }
         #endregion
         #endregion
