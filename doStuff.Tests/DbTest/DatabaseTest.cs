@@ -2,10 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using doStuff.Databases;
+using doStuff.Services;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using System.Collections.Generic;
-using System.Diagnostics;
+using ErrorHandler;
+using doStuff.ViewModels;
 
 namespace doStuff.Tests.DbTest
 {
@@ -13,13 +15,13 @@ namespace doStuff.Tests.DbTest
     public class DatabaseTest
     {
         private Database DbTest;
-
+        private Service ServiceTest;
         [TestInitialize]
         public void Initialize()
         {
 
             MockDb mock = new MockDb();
-
+        
             #region Users
             User user1 = new User
             {
@@ -220,7 +222,7 @@ namespace doStuff.Tests.DbTest
 
             EventToUserRelation eventUser2 = new EventToUserRelation
             {
-                EventToUserRelationID = 1,
+                EventToUserRelationID = 2,
                 Active = true,
                 EventId = 1,
                 AttendeeId = 2,
@@ -229,7 +231,7 @@ namespace doStuff.Tests.DbTest
 
             EventToUserRelation eventUser3 = new EventToUserRelation
             {
-                EventToUserRelationID = 1,
+                EventToUserRelationID = 3,
                 Active = true,
                 EventId = 2,
                 AttendeeId = 3,
@@ -238,7 +240,7 @@ namespace doStuff.Tests.DbTest
 
             EventToUserRelation eventUser4 = new EventToUserRelation
             {
-                EventToUserRelationID = 1,
+                EventToUserRelationID = 4,
                 Active = true,
                 EventId = 2,
                 AttendeeId = 2,
@@ -257,7 +259,8 @@ namespace doStuff.Tests.DbTest
             {
                 EventToCommentRelationID = 1,
                 EventId = 2,
-                CommentId = 1
+                CommentId = 1,
+                Active = true
 
             };
 
@@ -265,15 +268,16 @@ namespace doStuff.Tests.DbTest
             #endregion
 
             DbTest = new Database(mock);
+            ServiceTest = new Service(DbTest);
         }
-
+        #region Database tests
         [TestMethod]
-        public void CheckPerson1Details()
+        public void DatabaseCheckPerson1()
         {
             const int id = 1;
             const string userName = "Gulli Gurka";
             const string displayName = "xXx$w4gM4$t3r420xXx";
-            const int birthYear = 9000;
+            const int age = 9000;
             const Gender gender = Gender.MALE;
             const string Email = "Gulli$wag@yolo.is";
 
@@ -283,12 +287,11 @@ namespace doStuff.Tests.DbTest
 
             Assert.AreEqual(id, user.UserID);
             Assert.AreEqual(userName, user.UserName);
-            Assert.AreEqual(displayName, user.DisplayName);
-            Assert.AreEqual(birthYear, user.BirthYear);
-            Assert.AreEqual(gender, user.Gender);
-            Assert.AreEqual(Email, user.Email);
+            Assert.AreEqual(user.DisplayName, displayName);
+            Assert.AreEqual(user.BirthYear, age);
+            Assert.AreEqual(user.Gender, gender);
+            Assert.AreEqual(user.Email, Email);
         }
-
         [TestMethod]
         public void CheckFriendships()
         {
@@ -313,5 +316,394 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(user1friends[0].UserName, user2Name);
             Assert.AreEqual(user3friends[0].UserName, user2Name);
         }
+        [TestMethod]
+        public void DatabaseGetGroup()
+        {
+            const int group1Id = 1;
+            const int group2Id = 2;
+            const string group1Name = "Team Gulli";
+            const string group2Name = "Pulsuvagninn";
+
+            Group group1 = DbTest.GetGroup(group1Id);
+            Group group2 = DbTest.GetGroup(group2Id);
+
+            Assert.AreEqual(group1Name, group1.Name);
+            Assert.AreEqual(group2Name, group2.Name);
+        }
+        [TestMethod]
+        public void DatabaseGetGroups()
+        {
+            const int user1Id = 1;
+            const int user2Id = 2;
+            const int user3Id = 3;
+            const int user1GroupAmount = 1;
+            const int user2GroupAmount = 2;
+            const int user3GroupAmount = 1;
+
+            List<Group> user1Groups = DbTest.GetGroups(user1Id);
+            List<Group> user2Groups = DbTest.GetGroups(user2Id);
+            List<Group> user3Groups = DbTest.GetGroups(user3Id);
+                    
+            Assert.AreEqual(user1GroupAmount, user1Groups.Count);
+            Assert.AreEqual(user2GroupAmount, user2Groups.Count);
+            Assert.AreEqual(user3GroupAmount, user3Groups.Count);
+        }        
+        [TestMethod]
+        public void DatabaseGetGroupEvents()
+        {
+            const int group1Id = 1;
+            const int group2Id = 2;
+            const int group1EventsAmount = 0;
+            const int group2EventsAmount = 1;
+            const string group2Event1Name = "Pulsuparty";
+
+            List<Event> group1Eventslist = DbTest.GetGroupEvents(group1Id);
+            List<Event> group2Eventslist = DbTest.GetGroupEvents(group2Id);
+
+            Assert.AreEqual(group1EventsAmount, group1Eventslist.Count);
+            Assert.AreEqual(group2EventsAmount, group2Eventslist.Count);
+            Assert.AreEqual(group2Event1Name, group2Eventslist[0].Name);
+        }
+        [TestMethod]
+        public void DatabaseGetMembers()
+        {
+            const int group1Id = 1;
+            const int group2Id = 2;
+            const int group1MembersAmount = 2;
+            const int group2MembersAmount = 2;
+
+            List<User> group1Users = DbTest.GetMembers(group1Id);
+            List<User> group2Users = DbTest.GetMembers(group2Id);
+
+            Assert.AreEqual(group1MembersAmount, group1Users.Count);
+            Assert.AreEqual(group2MembersAmount, group2Users.Count);
+        }
+        [TestMethod]
+        public void DatabaseGetEvent()
+        {
+            const int event1Id = 1;
+            const int event2Id = 2;
+            const string event1Name = "Lan";
+            const string event2Name = "Pulsuparty";
+
+
+            Event event1 = DbTest.GetEvent(event1Id);
+            Event event2 = DbTest.GetEvent(event2Id);
+
+            Assert.AreEqual(event1Name, event1.Name);
+            Assert.AreEqual(event2Name, event2.Name);
+        }
+        #endregion
+        #region Service tests
+        [TestMethod]
+        public void ServiceChangeDisplayName()
+        {
+            const int user1Id = 1;
+            const int noUserId = 999;
+            const string newName = "Gulli G";
+
+
+            bool success = ServiceTest.ChangeDisplayName(user1Id, newName);
+            User userWithNewName = DbTest.GetUser(user1Id);
+
+
+            Assert.AreEqual(true, success);
+            try
+            {
+                ServiceTest.ChangeDisplayName(noUserId, newName);
+                Assert.Fail();
+            }
+            catch (ErrorHandler.UserNotFoundException) { }
+            Assert.AreEqual(newName, userWithNewName.DisplayName);
+
+        }
+        [TestMethod]
+        public void ServiceChangeGroupName()
+        {
+            const int group1Id = 1;
+            const int noGroupId = 999;
+            const string newName = "Team Gulli & co";
+
+            bool success = ServiceTest.ChangeGroupName(group1Id, newName);
+            Group groupWithNewName = DbTest.GetGroup(group1Id);
+
+
+            Assert.AreEqual(true, success);
+            try
+            {
+                ServiceTest.ChangeGroupName(noGroupId, newName);
+                Assert.Fail();
+            }
+            catch (ErrorHandler.GroupNotFoundException) { }
+            Assert.AreEqual(newName, groupWithNewName.Name);
+        }
+        [TestMethod]
+        public void ServiceSendFriendRequest()
+        {
+            const int user1Id = 1;
+            const int user2Id = 3;
+
+            ServiceTest.SendFriendRequest(user1Id, user2Id);
+            bool fail1 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool fail2 = ServiceTest.IsFriendsWith(user2Id, user1Id);
+            bool fail3 = ServiceTest.AnswerFriendRequest(user1Id, user2Id, true);
+            bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
+            bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
+            bool success3 = ServiceTest.IsFriendsWith(user2Id, user1Id);
+
+            Assert.AreEqual(false, fail1);
+            Assert.AreEqual(false, fail2);
+            Assert.AreEqual(false, fail3);
+            Assert.AreEqual(false, fail4);
+            Assert.AreEqual(true, success1);
+            Assert.AreEqual(true, success2);
+            Assert.AreEqual(true, success3);
+
+        }
+        [TestMethod]
+        public void ServiceCreateComment()
+        {
+            const int event1Id = 1;
+            const int event2Id = 2;
+            const int event1CommentAmount = 1;
+            const int event2CommentAmount = 2;
+            Comment newComment1 = new Comment
+            {
+                CommentID = 2,
+                Content = "ut2k4 lets go bois",
+                Active = true,
+                OwnerId = 2,
+                CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
+            };
+            Comment newComment2 = new Comment
+            {
+                CommentID = 3,
+                Content = "Pulsur eru fyrir aula",
+                Active = true,
+                OwnerId = 2,
+                CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
+            };
+
+            ServiceTest.CreateComment(event1Id, newComment1);
+            ServiceTest.CreateComment(event2Id, newComment2);
+            List<Comment> commentsEvent1 = DbTest.GetComments(event1Id);
+            List<Comment> commentsEvent2 = DbTest.GetComments(event2Id);
+
+
+            Assert.AreEqual(event1CommentAmount, commentsEvent1.Count);
+            Assert.AreEqual(event2CommentAmount, commentsEvent2.Count);
+
+        }
+        [TestMethod]
+        public void ServiceIsFriendsWith()
+        {
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 1));
+            Assert.AreEqual(true, ServiceTest.IsFriendsWith(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 3));
+            Assert.AreEqual(true, ServiceTest.IsFriendsWith(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 2));
+            Assert.AreEqual(true, ServiceTest.IsFriendsWith(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsFriendsWith(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 0));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 0));
+            Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 0));
+        }
+        [TestMethod]
+        public void ServiceIsOwnerOfGroup()
+        {
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(0, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(1, 0));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfGroup(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(1, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(2, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(2, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfGroup(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(3, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfGroup(4, 3));
+        }
+        [TestMethod]
+        public void ServiceIsMemberOfGroup()
+        {
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(0, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(1, 0));
+            Assert.AreEqual(true, ServiceTest.IsMemberOfGroup(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(1, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(2, 0));
+            Assert.AreEqual(true, ServiceTest.IsMemberOfGroup(2, 1));
+            Assert.AreEqual(true, ServiceTest.IsMemberOfGroup(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(2, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsMemberOfGroup(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(3, 3));
+
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsMemberOfGroup(4, 3));
+        }
+        [TestMethod]
+        public void ServiceIsOwnerOfEvent()
+        {
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(1, 0));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfEvent(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(2, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfEvent(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfEvent(4, 4));
+        }
+        [TestMethod]
+        public void ServiceIsAttendingEvent()
+        {
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(1, 0));
+            Assert.AreEqual(true, ServiceTest.IsAttendingEvent(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(2, 0));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsAttendingEvent(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 4));
+        }
+        [TestMethod]
+        public void ServiceIsInvitedToEvent()
+        {
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 0));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(2, 0));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(2, 1));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 4));
+        }
+        [TestMethod]
+        public void ServiceIsOwnerOfComment()
+        {
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 0));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfComment(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 4));
+        }
+
+        #endregion
     }
 }

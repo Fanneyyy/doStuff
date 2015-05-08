@@ -1,4 +1,9 @@
-﻿.login-body {
+﻿.login-container {
+    min-height: 1000px;
+}
+
+.login-body {
+    min-height: 1000px;
     background-image: url("balloonBackground.jpg");
     background-size: cover;
     background-repeat: no-repeat;

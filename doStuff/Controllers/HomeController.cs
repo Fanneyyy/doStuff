@@ -16,7 +16,7 @@ namespace doStuff.Controllers
         private DatabaseContext db = new DatabaseContext();
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "User");
         }
 
         public ActionResult About()

@@ -3,86 +3,122 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using doStuff.Models.DatabaseModels;
+using doStuff.ViewModels;
+using doStuff.Services;
+using ErrorHandler;
 
 namespace doStuff.Controllers
 {
+    [Authorize]
     public class GroupController : ParentController
     {
         [HttpGet]
-        public ActionResult Index(uint groupId)
+        public ActionResult Index(int groupId)
+        {
+            // Gets the correct feed for the userId
+            GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
+            // Returns the feed to the view
+            return View(feed);
+        }
+
+        [HttpGet]
+        public ActionResult Banner()
+        {
+            return RedirectToAction("Index", "User");
+        }
+
+        [HttpGet]
+        public ActionResult AddMember(int groupId)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddMember(int groupId, User newMember)
+        {
+            //TODO
+            try
+                {
+                    service.AddMember(service.GetUserId(newMember.UserName), groupId);
+                }
+            catch (UserNotFoundException)
+                {
+                    ModelState.AddModelError("Error", "Username not found");
+                    return View();
+                }
+            return RedirectToAction("Index", new { groupId = groupId });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveMember(int groupId, int memberId)
+        {
+            //TODO
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RemoveGroup(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpGet]
-        public ActionResult AddMember(uint groupId)
+        public ActionResult CreateEvent(int groupId)
         {
             //TODO
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddMember(uint groupId, FormCollection collection)
+        public ActionResult CreateEvent(int groupId, Event newEvent)
+        {
+            //TODO
+            if (ModelState.IsValid)
+            {
+                //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
+                newEvent.CreationTime = DateTime.Now;
+                newEvent.OwnerId = service.GetUserId(User.Identity.Name);
+                newEvent.Minutes = 23;
+                newEvent.Active = true;
+                newEvent.GroupId = groupId;
+                service.CreateEvent(newEvent);
+                return RedirectToAction("Index", new { groupId = groupId });
+            }
+
+            return View(newEvent);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveEvent(int groupId, int eventId)
         {
             //TODO
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Comment(int groupId, int eventId, Comment newComment)
+        {
+            //TODO
+            service.CreateComment(eventId, newComment);
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpGet]
-        public ActionResult RemoveMember(uint groupId, uint memberId)
+        public ActionResult ChangeDisplayName(int groupId)
         {
             //TODO
-            return View();
+            return View(new { groupId = groupId });
         }
 
         [HttpPost]
-        public ActionResult RemoveGroup(uint groupId)
+        public ActionResult ChangeDisplayName(int groupId, User myUser)
         {
             //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateEvent(uint groupId)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult CreateEvent(uint groupId, FormCollection collection)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult RemoveEvent(uint groupId, uint eventId)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Comment(uint groupId, uint eventId, FormCollection collection)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult ChangeName(uint groupId)
-        {
-            //TODO
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult ChangeName(uint groupId, FormCollection collection)
-        {
-            //TODO
-            return View();
+            int myId = service.GetUserId(User.Identity.Name);
+            service.ChangeDisplayName(myId, myUser.DisplayName);
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpPost]
@@ -92,7 +128,7 @@ namespace doStuff.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult CreateGroup()
         {
             //TODO
@@ -100,9 +136,14 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateGroup(FormCollection collection)
+        public ActionResult CreateGroup(Group newGroup)
         {
-            //TODO
+            newGroup.Active = true;
+            newGroup.OwnerId = service.GetUserId(User.Identity.Name);
+            if (service.CreateGroup(newGroup))
+            {
+                return RedirectToAction("Index", new { groupId = newGroup.GroupID });
+            }
             return View();
         }
     }

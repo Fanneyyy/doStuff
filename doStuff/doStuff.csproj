@@ -183,6 +183,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\GroupFeedViewModel.cs" />
     <Compile Include="ViewModels\EventFeedViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\FriendFeedViewModel.cs" />
@@ -190,10 +191,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\balloonBackground.jpg" />
+    <Content Include="Content\Banner.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\doStufflogo.png" />
+    <Content Include="Content\grayBackground.jpg" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\LogoGray.png" />
+    <Content Include="Content\logOut.png" />
+    <Content Include="Content\Reset.css" />
     <Content Include="Content\SideBar.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -224,9 +230,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -250,11 +253,16 @@
     <Content Include="Views\User\SideBar.cshtml" />
     <Content Include="Views\User\CreateEvent.cshtml" />
     <Content Include="Views\User\AddFriend.cshtml" />
-    <Content Include="Views\User\CreateGroup.cshtml" />
+    <Content Include="Views\Group\CreateGroup.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\Group\GroupFeed.cshtml" />
+    <Content Include="Views\Group\CreateEvent.cshtml" />
+    <Content Include="Views\Group\AddMember.cshtml" />
+    <Content Include="Views\Group\SideBar.cshtml" />
+    <Content Include="Views\Group\Banner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Group\" />
     <Folder Include="Views\Parent\" />
   </ItemGroup>
   <ItemGroup>

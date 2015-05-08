@@ -1,0 +1,42 @@
+﻿@using doStuff.Services;
+@model doStuff.ViewModels.GroupFeedViewModel
+
+<div class="container">
+    <!-- <div class="col-md-4 login-logo">
+
+    </div>-->
+    <div class="col-md-4">
+
+        @foreach (var i in Model.Groups)
+        {
+            if (Model.groupId == i.GroupID)
+            {
+                <div class="btn-group">
+                    <<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        @i.Name <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Event feed", "Index", "User")</li>
+                        <li class="divider"></li>
+
+                        @foreach (var x in Model.Groups)
+                        {
+                            if(x.GroupID != Model.groupId)
+                            {
+                                <li>@Html.ActionLink(x.Name, "Index", "Group", new { groupId = x.GroupID }, null)</li>
+
+                            }
+                        }
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })</li>
+                    </ul>
+                </div>
+            }
+        }
+    </div>
+
+        <div class="col-md-4">
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+

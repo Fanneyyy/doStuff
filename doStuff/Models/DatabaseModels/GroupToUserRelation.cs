@@ -19,8 +19,9 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public GroupToUserRelation(bool active, int groupId, int memberId)
+        public GroupToUserRelation(bool active, int groupId, int memberId, int id = 0)
         {
+            GroupToUserRelationID = id;
             Active = active;
             GroupId = groupId;
             MemberId = memberId;

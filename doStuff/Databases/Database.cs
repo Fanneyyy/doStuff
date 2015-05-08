@@ -113,13 +113,15 @@ namespace doStuff.Databases
         {
             List<Comment> comments = new List<Comment>();
 
-            var commentIDs = (from c in db.EventToCommentRelations
-                              where c.EventId == eventId && c.Active == true
-                              select c.EventId);
+            List<int> commentIDs = (from c in db.EventToCommentRelations
+                                    where c.EventId == eventId && c.Active == true
+                                    select c.CommentId).ToList();
 
             foreach (var id in commentIDs)
             {
-                Comment comment = (from c in db.Comments where c.CommentID == id && c.Active == true select c).SingleOrDefault();
+                Comment comment = (from c in db.Comments 
+                                   where c.CommentID == id && c.Active == true 
+                                   select c).SingleOrDefault();
 
                 if (comment != null)
                 {
@@ -149,29 +151,29 @@ namespace doStuff.Databases
             }
             #endregion
             #region Create
-            public bool CreateUser(User user)
+            public bool CreateUser(ref User user)
             {
                 db.Users.Add(user);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateGroup(Group group)
+            public bool CreateGroup(ref Group group)
             {
                 db.Groups.Add(group);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateEvent(Event newEvent)
+            public bool CreateEvent(ref Event newEvent)
             {
                 db.Events.Add(newEvent);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateComment(Comment comment)
+            public bool CreateComment(ref Comment comment)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return false;
+                return true;
             }
             #endregion
             #region Remove
@@ -179,7 +181,7 @@ namespace doStuff.Databases
             {
                 var user = (from u in db.Users
                             where u.UserID == userId
-                            select u).Single();
+                            select u).SingleOrDefault();
                 user.Active = false;
                 db.SaveChanges();
                 return false;
@@ -188,7 +190,7 @@ namespace doStuff.Databases
             {
                 var group = (from g in db.Groups
                              where g.GroupID == groupId
-                             select g).Single();
+                             select g).SingleOrDefault();
                 group.Active = false;
                 db.SaveChanges();
                 return false;
@@ -197,7 +199,7 @@ namespace doStuff.Databases
             {
                 var theEvent = (from e in db.Events
                                 where e.EventID == eventId
-                                select e).Single();
+                                select e).SingleOrDefault();
                 theEvent.Active = false;
                 db.SaveChanges();
                 return false;
@@ -206,7 +208,7 @@ namespace doStuff.Databases
             {
                 var comment = (from c in db.Comments
                                where c.CommentID == commentId
-                               select c).Single();
+                               select c).SingleOrDefault();
                 comment.Active = false;
                 db.SaveChanges();
                 return false;
@@ -253,7 +255,7 @@ namespace doStuff.Databases
             {
                 var userTable = (from u in db.Users
                                  where u.UserID == user.UserID
-                                 select u).Single();
+                                 select u).SingleOrDefault();
                 userTable = user;
                 db.SaveChanges();
                 return true;
@@ -263,7 +265,7 @@ namespace doStuff.Databases
                 int groupId = group.GroupID;
                 var groupTable = (from g in db.Groups
                                   where g.GroupID == groupId
-                                  select g).Single();
+                                  select g).SingleOrDefault();
                 groupTable = group;
                 db.SaveChanges();
                 return true;
@@ -272,7 +274,7 @@ namespace doStuff.Databases
             {
                 var eventTable = (from e in db.Events
                                   where e.EventID == newEvent.EventID
-                                  select e).Single();
+                                  select e).SingleOrDefault();
                 eventTable = newEvent;
                 db.SaveChanges();
                 return true;
@@ -281,7 +283,7 @@ namespace doStuff.Databases
             {
                 var commentTable = (from c in db.Comments
                                     where c.CommentID == comment.CommentID
-                                    select c).Single();
+                                    select c).SingleOrDefault();
                 commentTable = comment;
                 db.SaveChanges();
                 return true;
@@ -331,35 +333,35 @@ namespace doStuff.Databases
             }
             #endregion
             #region Create
-            public bool CreateUserToUserRelation(UserToUserRelation relation)
+            public bool CreateUserToUserRelation(ref UserToUserRelation relation)
             {
                 db.UserToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateGroupToUserRelation(GroupToUserRelation relation)
+            public bool CreateGroupToUserRelation(ref GroupToUserRelation relation)
             {
                 db.GroupToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
             
-            public bool CreateEventToUserRelation(EventToUserRelation relation)
+            public bool CreateEventToUserRelation(ref EventToUserRelation relation)
             {
                 db.EventToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateGroupToEventRelation(GroupToEventRelation relation)
+            public bool CreateGroupToEventRelation(ref GroupToEventRelation relation)
             {
                 db.GroupToEventRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateEventToCommentRelation(EventToCommentRelation relation)
+            public bool CreateEventToCommentRelation(ref EventToCommentRelation relation)
             {
                 db.EventToCommentRelations.Add(relation);
                 db.SaveChanges();
@@ -371,7 +373,7 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.UserToUserRelations
                              where t.UserToUserRelationID == id
-                             select t).Single();
+                             select t).SingleOrDefault();
                 table.Active = false;
                 db.SaveChanges();
                 return true;
@@ -381,7 +383,7 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.GroupToUserRelations
                              where t.GroupToUserRelationID == id
-                             select t).Single();
+                             select t).SingleOrDefault();
                 table.Active = false;
                 db.SaveChanges();
                 return true;
@@ -391,7 +393,7 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.EventToUserRelations
                              where t.EventToUserRelationID == id
-                             select t).Single();
+                             select t).SingleOrDefault();
                 table.Active = false;
                 db.SaveChanges();
                 return true;
@@ -401,7 +403,7 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.GroupToEventRelations
                              where t.GroupToEventRelationID == id
-                             select t).Single();
+                             select t).SingleOrDefault();
                 table.Active = false;
                 db.SaveChanges();
                 return true;
@@ -411,7 +413,7 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.EventToCommentRelations
                              where t.EventToCommentRelationID == id
-                             select t).Single();
+                             select t).SingleOrDefault();
                 table.Active = false;
                 db.SaveChanges();
                 return true;
@@ -422,14 +424,14 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.UserToUserRelations
                              where t.SenderId == senderId && t.ReceiverId == receiverId
-                             select t).Single();
+                             select t).SingleOrDefault();
                 return table;
             }
             public GroupToUserRelation GetGroupToUserRelation(int groupId, int userId)
             {
                 var table = (from t in db.GroupToUserRelations
                              where t.GroupId == groupId && t.MemberId == userId
-                             select t).Single();
+                             select t).SingleOrDefault();
                 return table;
             }
 
@@ -437,22 +439,43 @@ namespace doStuff.Databases
             {
                 var table = (from t in db.EventToUserRelations
                              where t.EventId == eventId && t.AttendeeId == userId
-                             select t).Single();
+                             select t).SingleOrDefault();
                 return table;
+            }
+
+            public List<Event> GetAllEventUserRelation(int userId)
+            {
+                List<Event> events = new List<Event>();
+                var table = (from t in db.EventToUserRelations
+                             where t.AttendeeId == userId && t.Active == true
+                             select t.EventId).ToList();
+
+                foreach (var id in table)
+                {
+                    Event thisEvent = (from u in db.Events
+                                 where u.EventID == id && u.Active == true
+                                 select u).SingleOrDefault();
+                    if (thisEvent != null)
+                    {
+                        events.Add(thisEvent);
+                    }
+                }
+
+                return events;
             }
 
             public GroupToEventRelation GetGroupToEventRelation(int groupId, int eventId)
             {
                 var table = (from t in db.GroupToEventRelations
                              where t.GroupId == groupId && t.EventId == eventId
-                             select t).Single();
+                             select t).SingleOrDefault();
                 return table;
             }
             public EventToCommentRelation GetEventToCommentRelation(int eventId, int commentId)
             {
                 var table = (from t in db.EventToCommentRelations
                              where t.EventId == eventId && t.CommentId == commentId
-                             select t).Single();
+                             select t).SingleOrDefault();
                 return table;
             }
             #endregion    
@@ -461,7 +484,7 @@ namespace doStuff.Databases
             {
                 var relation = (from t in db.UserToUserRelations
                              where t.UserToUserRelationID == value.UserToUserRelationID
-                             select t).Single();
+                             select t).SingleOrDefault();
                 relation = value;
                 db.SaveChanges();
                 return true;
@@ -470,7 +493,7 @@ namespace doStuff.Databases
             {
                 var relation = (from t in db.GroupToUserRelations
                              where t.GroupToUserRelationID == value.GroupToUserRelationID
-                             select t).Single();
+                             select t).SingleOrDefault();
                 relation = value;
                 db.SaveChanges();
                 return true;
@@ -480,7 +503,7 @@ namespace doStuff.Databases
             {
                 var relation = (from t in db.EventToUserRelations
                              where t.EventToUserRelationID == value.EventToUserRelationID
-                             select t).Single();
+                             select t).SingleOrDefault();
                 relation = value;
                 db.SaveChanges();
                 return true;
@@ -490,7 +513,7 @@ namespace doStuff.Databases
             {
                 var relation = (from t in db.GroupToEventRelations
                              where t.GroupToEventRelationID == value.GroupToEventRelationID
-                             select t).Single();
+                             select t).SingleOrDefault();
                 relation = value;
                 db.SaveChanges();
                 return true;
@@ -500,7 +523,7 @@ namespace doStuff.Databases
             {
                 var relation = (from t in db.EventToCommentRelations
                              where t.EventToCommentRelationID == value.EventToCommentRelationID
-                             select t).Single();
+                             select t).SingleOrDefault();
                 relation = value;
                 db.SaveChanges();
                 return true;
