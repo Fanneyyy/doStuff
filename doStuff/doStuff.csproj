@@ -250,11 +250,10 @@
     <Content Include="Views\User\SideBar.cshtml" />
     <Content Include="Views\User\CreateEvent.cshtml" />
     <Content Include="Views\User\AddFriend.cshtml" />
-    <Content Include="Views\User\CreateGroup.cshtml" />
+    <Content Include="Views\Group\CreateGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Group\" />
     <Folder Include="Views\Parent\" />
   </ItemGroup>
   <ItemGroup>
