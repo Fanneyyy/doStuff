@@ -147,16 +147,20 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AnswerFriendRequests(uint userId, bool answer)
+        public ActionResult AnswerFriendRequests(int userId, bool answer)
         {
             //TODO
+
+           
             return View();
         }
 
         [HttpPost]
-        public ActionResult RemoveFriend(uint friendId)
+        public ActionResult RemoveFriend(int friendId)
         {
             //TODO
+            int userId = service.GetUserId(User.Identity.Name);
+            service.RemoveFriend(userId, friendId);
             return View();
         }
 
@@ -194,6 +198,7 @@ namespace doStuff.Controllers
         public ActionResult Comment(int eventId, FormCollection collection)
         {
             //TODO
+           
             return View();
         }
 
@@ -210,6 +215,7 @@ namespace doStuff.Controllers
         {
             //TODO
 
+            
             return View();
         }
 
