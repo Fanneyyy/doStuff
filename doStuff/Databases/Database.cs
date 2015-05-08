@@ -149,25 +149,25 @@ namespace doStuff.Databases
             }
             #endregion
             #region Create
-            public bool CreateUser(User user)
+            public bool CreateUser(ref User user)
             {
                 db.Users.Add(user);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateGroup(Group group)
+            public bool CreateGroup(ref Group group)
             {
                 db.Groups.Add(group);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateEvent(Event newEvent)
+            public bool CreateEvent(ref Event newEvent)
             {
                 db.Events.Add(newEvent);
                 db.SaveChanges();
                 return true;
             }
-            public bool CreateComment(Comment comment)
+            public bool CreateComment(ref Comment comment)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
@@ -331,35 +331,35 @@ namespace doStuff.Databases
             }
             #endregion
             #region Create
-            public bool CreateUserToUserRelation(UserToUserRelation relation)
+            public bool CreateUserToUserRelation(ref UserToUserRelation relation)
             {
                 db.UserToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateGroupToUserRelation(GroupToUserRelation relation)
+            public bool CreateGroupToUserRelation(ref GroupToUserRelation relation)
             {
                 db.GroupToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
             
-            public bool CreateEventToUserRelation(EventToUserRelation relation)
+            public bool CreateEventToUserRelation(ref EventToUserRelation relation)
             {
                 db.EventToUserRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateGroupToEventRelation(GroupToEventRelation relation)
+            public bool CreateGroupToEventRelation(ref GroupToEventRelation relation)
             {
                 db.GroupToEventRelations.Add(relation);
                 db.SaveChanges();
                 return true;
             }
 
-            public bool CreateEventToCommentRelation(EventToCommentRelation relation)
+            public bool CreateEventToCommentRelation(ref EventToCommentRelation relation)
             {
                 db.EventToCommentRelations.Add(relation);
                 db.SaveChanges();
