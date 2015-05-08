@@ -39,12 +39,14 @@
     font-variant: small-caps;
     border-radius: 0px;
     width: 100%;
+    padding: 0px;
 }
 
 .banner-dropdown .cancel {
     background-color: #aee239;
     letter-spacing: 3px;
     color: #26727f;
+    height: 100%;
 }
 
 .logout-box {
