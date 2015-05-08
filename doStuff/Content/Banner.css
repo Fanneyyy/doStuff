@@ -17,6 +17,10 @@
     padding: 0px;
 }
 
+.navbar .btn-group {
+    width: 100%;
+}
+
 .feed-chooser {
     background-color: #26727f;
     color: white;
@@ -24,6 +28,21 @@
     font-variant: small-caps;
     border-radius: 0px;
     height: 90px;
+    width: 100%;
+}
+
+.logout-box {
+    margin-right: 10px;
+}
+
+#logout-logo {
+    background-image:url(logOut.png);
+    background-repeat: no-repeat;
+    background-size:40%;
+    background-position: right;
+    display:block;
+    height:90px;
+    width:100%;
 }
 
 .user-index {
