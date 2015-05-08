@@ -83,7 +83,14 @@ namespace doStuff.Services
         public bool IsInvitedToEvent(int userId, int eventId)
         {
             Event theEvent = db.GetEvent(eventId);
-
+            if(theEvent == null)
+            {
+                return false;
+            }
+            if(userId == theEvent.EventID)
+            {
+                return true;
+            }
             if(theEvent.GroupId.HasValue)
             {
                 return IsMemberOfGroup(userId, theEvent.GroupId.Value);
@@ -93,7 +100,7 @@ namespace doStuff.Services
         public bool IsOwnerOfComment(int userId, int commentId)
         {
             Comment comment = GetCommentById(commentId);
-            return (userId == comment.OwnerId);
+            return (comment != null && userId == comment.OwnerId);
         }
         #endregion
         #region GetByID
@@ -362,25 +369,24 @@ namespace doStuff.Services
             // Muna að laga svo maður fái líka event frá friends
             EventFeedViewModel feed = new EventFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<Event> events = db.GetAllEventUserRelation(userId);
+            List<Event> feedEvents = new List<Event>();
 
-            if (events == null)
+            List<User> friends = db.GetFriends(userId);
+
+            foreach (User friend in friends)
             {
-                throw new EventNotFoundException();
+                List<Event> userEvents = db.GetEvents(friend.UserID);
+                feedEvents = feedEvents.Concat(userEvents).ToList();
+            }
+            foreach (Event eachEvent in feedEvents)
+            {
+                EventViewModel eventView = new EventViewModel();
+                eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
+                eventView.Event = eachEvent;
+                eventView.Comments = db.GetComments(eachEvent.EventID);
+                eventViews.Add(eventView);
             }
 
-            foreach (Event eachEvent in events)
-            {
-                // Removes Events from event feed that are part of a group
-                //if (eachEvent.GroupId == null)
-                //{
-                    EventViewModel eventView = new EventViewModel();
-                    eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
-                    eventView.Event = eachEvent;
-                    eventView.Comments = db.GetComments(eachEvent.EventID);
-                    eventViews.Add(eventView);
-                //}
-            }
 
             SideBarViewModel sidebar = new SideBarViewModel();
             sidebar.User = db.GetUser(userId);

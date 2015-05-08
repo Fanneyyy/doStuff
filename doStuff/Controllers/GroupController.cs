@@ -99,21 +99,24 @@ namespace doStuff.Controllers
         public ActionResult Comment(int groupId, int eventId, Comment newComment)
         {
             //TODO
-            return View();
+            service.CreateComment(eventId, newComment);
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpGet]
         public ActionResult ChangeDisplayName(int groupId)
         {
             //TODO
-            return View();
+            return View(new { groupId = groupId });
         }
 
         [HttpPost]
         public ActionResult ChangeDisplayName(int groupId, User myUser)
         {
             //TODO
-            return View();
+            int myId = service.GetUserId(User.Identity.Name);
+            service.ChangeDisplayName(myId, myUser.DisplayName);
+            return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpPost]

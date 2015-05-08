@@ -28,8 +28,9 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public Event(bool active, int? groupId, int ownerId, string name, string photo, string description, DateTime creationTime, DateTime timeOfEvent, int minutes, string location, int min, int max)
+        public Event(bool active, int? groupId, int ownerId, string name, string photo, string description, DateTime creationTime, DateTime timeOfEvent, int minutes, string location, int min, int max, int id = 0)
         {
+            EventID = id;
             Active = active;
             GroupId = groupId;
             OwnerId = ownerId;

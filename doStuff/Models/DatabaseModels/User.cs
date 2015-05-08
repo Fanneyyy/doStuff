@@ -24,8 +24,9 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
-        public User(bool active, string userName, string displayName, int birthYear, Gender gender, string email)
+        public User(bool active, string userName, string displayName, int birthYear, Gender gender, string email, int id = 0)
         {
+            UserID = id;
             Active = active;
             UserName = userName;
             DisplayName = displayName;

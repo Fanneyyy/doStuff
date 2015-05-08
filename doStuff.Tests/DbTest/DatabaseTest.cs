@@ -465,19 +465,15 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 1));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 2));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(0, 3));
-
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 1));
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(1, 2));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 3));
-
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(2, 1));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 2));
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(2, 3));
-
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 1));
             Assert.AreEqual(true, ServiceTest.IsFriendsWith(3, 2));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 3));
-
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(1, 0));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(2, 0));
             Assert.AreEqual(false, ServiceTest.IsFriendsWith(3, 0));
@@ -607,6 +603,74 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 2));
             Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 3));
             Assert.AreEqual(false, ServiceTest.IsAttendingEvent(4, 4));
+        }
+
+        [TestMethod]
+        public void ServiceIsInvitedToEvent()
+        {
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 0));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(2, 0));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(2, 1));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 1));
+            Assert.AreEqual(true, ServiceTest.IsInvitedToEvent(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsInvitedToEvent(4, 4));
+        }
+
+        [TestMethod]
+        public void ServiceIsOwnerOfComment()
+        {
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(0, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(1, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 0));
+            Assert.AreEqual(true, ServiceTest.IsOwnerOfComment(2, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(2, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(3, 4));
+
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 0));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 1));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 2));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 3));
+            Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 4));
         }
 
         #endregion
