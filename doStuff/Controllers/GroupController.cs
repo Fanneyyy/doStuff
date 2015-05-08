@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using doStuff.Models.DatabaseModels;
+using doStuff.ViewModels;
 using doStuff.Services;
 using ErrorHandler;
 
@@ -19,7 +20,12 @@ namespace doStuff.Controllers
         public ActionResult Index(int groupId)
         {
             //TODO
-            return View();
+            // Gets the correct feed for the userId
+
+            EventFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
+            // Returns the feed to the view
+
+            return View(feed);
         }
 
         [HttpGet]
