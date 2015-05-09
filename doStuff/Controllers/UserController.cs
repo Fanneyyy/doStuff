@@ -123,13 +123,13 @@ namespace doStuff.Controllers
         }
 
         [HttpGet]
-        public ActionResult ChangeUserName()
+        public ActionResult ChangeName()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult ChangeUserName(User myUser)
+        public ActionResult ChangeName(User myUser)
         {
             int myId = service.GetUserId(User.Identity.Name);
             service.ChangeDisplayName(myId, myUser.DisplayName);
