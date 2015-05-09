@@ -703,6 +703,34 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 3));
             Assert.AreEqual(false, ServiceTest.IsOwnerOfComment(4, 4));
         }
+        [TestMethod]
+        public void ServiceRemoveEvent()
+        {
+            const int event1Id = 1;
+            const int event2Id = 2;
+
+            bool success1 = ServiceTest.RemoveEvent(event1Id);
+            bool success2 = ServiceTest.RemoveEvent(event2Id);
+            Event event1 = ServiceTest.GetEventById(event1Id);
+            Event event2 = ServiceTest.GetEventById(event2Id);
+
+            Assert.AreEqual(true, success1);
+            Assert.AreEqual(true, success2);
+            Assert.AreEqual(null, event1);
+            Assert.AreEqual(null, event2);
+
+        }
+        [TestMethod]
+        public void ServiceRemoveComment()
+        {
+            const int commentId = 1;
+
+            bool success = ServiceTest.RemoveComment(commentId);
+            Comment comment = ServiceTest.GetCommentById(commentId);
+
+            Assert.AreEqual(true, success);
+            Assert.AreEqual(null, comment);
+        }
 
         #endregion
     }

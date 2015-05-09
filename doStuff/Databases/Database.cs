@@ -184,7 +184,7 @@ namespace doStuff.Databases
                             select u).SingleOrDefault();
                 user.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             public bool RemoveGroup(int groupId)
             {
@@ -193,7 +193,7 @@ namespace doStuff.Databases
                              select g).SingleOrDefault();
                 group.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             public bool RemoveEvent(int eventId)
             {
@@ -202,7 +202,7 @@ namespace doStuff.Databases
                                 select e).SingleOrDefault();
                 theEvent.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             public bool RemoveComment(int commentId)
             {
@@ -211,7 +211,7 @@ namespace doStuff.Databases
                                select c).SingleOrDefault();
                 comment.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             #endregion
             #region Get
@@ -225,28 +225,28 @@ namespace doStuff.Databases
             public User GetUser(string userName)
             {
                 return (from u in db.Users
-                        where u.UserName == userName
+                        where u.UserName == userName && u.Active == true
                         select u).SingleOrDefault();
             }
 
             public Group GetGroup(int groupId)
             {
                 return (from g in db.Groups
-                        where g.GroupID == groupId
+                        where g.GroupID == groupId && g.Active == true
                         select g).SingleOrDefault();
             }
 
             public Event GetEvent(int eventId)
             {
                 return (from e in db.Events
-                        where e.EventID == eventId
+                        where e.EventID == eventId && e.Active == true
                         select e).SingleOrDefault();
             }
 
             public Comment GetComment(int commentId)
             {
                 return (from c in db.Comments
-                        where c.CommentID == commentId
+                        where c.CommentID == commentId && c.Active == true
                         select c).SingleOrDefault();
             }
             #endregion

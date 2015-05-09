@@ -119,21 +119,18 @@ namespace doStuff.Services
         }
         public Group GetGroupById(int groupId)
         {
-            Group newGroup = new Group();
-            newGroup = db.GetGroup(groupId);
+            Group newGroup = db.GetGroup(groupId);
             return newGroup;
         }
         public Event GetEventById(int eventId)
         {
-            Event newEvent = new Event();
-            newEvent = db.GetEvent(eventId);
+            Event newEvent = db.GetEvent(eventId);
             return newEvent;
         }
         public Comment GetCommentById(int commentId)
         {
             //TODO: Do Exception for Comment?
-            Comment newComment = new Comment();
-            newComment = db.GetComment(commentId);
+            Comment newComment = db.GetComment(commentId);
             return newComment;
         }
         #endregion
@@ -368,6 +365,20 @@ namespace doStuff.Services
             feed.Groups = groups;
 
             return feed;
+        }
+        public FriendProfileViewModel GetFriendFeed(int friendId)
+        {
+            FriendProfileViewModel profile = new FriendProfileViewModel();
+
+            profile.Profile = db.GetUser(friendId);
+            profile.Friends = db.GetFriends(friendId);
+            List<Event> events = db.GetEvents(friendId);
+            foreach(Event e in events)
+            {
+                profile.Events.Add(CastEventToViewModel(e));
+            }
+
+            return profile;
         }
         public EventFeedViewModel GetEventFeed(int userId)
         {
