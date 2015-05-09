@@ -51,6 +51,10 @@
     padding-bottom: 6px; 
 }
 
+.event-location {
+    text-align: right;
+}
+
 .event-description-buttons {
     padding-left: 0px;
 }
