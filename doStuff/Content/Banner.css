@@ -32,6 +32,38 @@
     width: 100%;
 }
 
+#main-title {
+    outline: none;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#main-title:link {
+    box-shadow: none !important;
+}
+
+#main-title:visited {
+    box-shadow: none !important;
+}
+
+#main-title:hover {
+    box-shadow: none !important;
+}
+
+#main-title:active {
+    box-shadow: none !important;
+}
+
+#main-title:focus {
+    outline: none;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
 .feed-chooser:link {
     color: white;
 }
@@ -83,6 +115,8 @@
     letter-spacing: 3px;
     color: #26727f;
     height: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .banner-dropdown .cancel:visited {
