@@ -154,8 +154,17 @@ namespace doStuff.Controllers
             }
 
             int myId = service.GetUserId(User.Identity.Name);
-            service.AnswerEvent(myId, eventId, answer);
-            return RedirectToAction("Index");
+
+            try
+            {
+                service.AnswerEvent(myId, eventId, answer);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                //should return an error window here (you most likely dont have access to this event)
+                return RedirectToAction("Index");
+            }
         }
     }
 }
