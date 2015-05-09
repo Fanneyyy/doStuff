@@ -41,8 +41,8 @@ input[type="checkbox"].input-validation-error {
 }
 
 .plus-symbol {
-    height: 90px;
-    width: 90px;
+    height: 70px;
+    width: 70px;
     background-image: url("plus.png");
     background-size: contain;
     background-repeat: no-repeat;

@@ -32,6 +32,11 @@
     width: 100%;
 }
 
+.green {
+    color: #aee239;
+    font-size: 30px;
+}
+
 #main-title {
     outline: none;
   border: none !important;
