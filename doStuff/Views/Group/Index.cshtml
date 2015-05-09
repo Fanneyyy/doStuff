@@ -4,7 +4,7 @@
 </div>
 
 <div class="col-md-2 add-event pull-left pull-down">
-    @Html.ActionLink("add event", "CreateEvent", new { @groupId = Model.groupId }, new { @class = "btn btn-default cancel" })
+    <a class="btn btn-default plus-symbol" href="@Url.Action("CreateEvent", "Group" , new { @groupId = Model.groupId })"></a>
 </div>
 
 <div class="col-md-6 main pull-down">
