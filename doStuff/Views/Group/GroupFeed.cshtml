@@ -2,17 +2,61 @@
 
 @foreach (var item in Model.Events)
 {
-    <div class="well">
-        <ul class="list-inline">
-            <li><h3>@item.Owner</h3></li>
-            <li class="pull-right"><h3>@item.Event.Name</h3></li>
-        </ul>
-        <p>@item.Event.Description</p>
-        @foreach (var c in @item.Comments)
-        {
-            <p>@c.OwnerId</p>
-            <p>@c.Content</p>
-        }
+    <div class="row event-box" >
+        <div class="col-md-12 event-banner">
+            <div class="row">
+                <div class="col-md-4 event-owner">@item.Owner</div>
+                <div class="col-md-3 event-group">
+                    @*if (item.Event.GroupId != null)
+                    {
+                        foreach (var i in Model.Groups)
+                        {
+                            if (i.GroupID == item.Event.GroupId)
+                            { <!-- Gets groupname if Event has group-->
+                            @i.Name
+                            }
+                        }
+                    }*@
+                </div>
+                <div class="col-md-2 event-countdown">@item.Event.Minutes</div>
+                <div class="col-md-3 event-name">@item.Event.Name</div>
+            </div>
+        </div>
+        <div class="col-md-12 event-middle">
+            <div class="row">
+                <div class="col-md-6 event-photo-time-location">
+                    <div class="row">
+                        <div class="col-md-12 event-photo-space"></div>
+                    </div>
+                    <div class="row event-time-place">
+                        <div class="col-md-6 event-time">time: <br /> @item.Event.TimeOfEvent</div>
+                        <div class="col-md-6 event-location">@item.Event.Location</div>
+                    </div>
+                </div>
+                <div class="col-md-6 event-description-buttons">
+                    <div class="row">
+                        <div class="col-md-12 event-description">@item.Event.Description</div>
+                    </div>
+                    <div class="row">
+                        @using (Html.BeginForm("AnswerEvent", "User"))
+                        {
+                            <div class="col-md-12 btn-group">
+                                <button type="submit" class="btn btn-primary" id="event-join" name="Yes" value="@item.Event.EventID">join</button>
+                                <button type="submit" class="btn btn-primary" id="event-decline" name="No" value="@item.Event.EventID">decline</button>
+                            </div>
+                            @Html.ValidationSummary(false)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 event-comments">
+            @foreach (var c in @item.Comments)
+            {
+                <p>@c.OwnerId</p>
+                <p>@c.Content</p>
+            }
+        </div>
     </div>
 }
 
