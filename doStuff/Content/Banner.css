@@ -1,5 +1,4 @@
 ﻿.navbar-fixed-top {
-    margin-top: 8px;
     background-color: #26727f;
     border: 0px;
 }
@@ -141,7 +140,7 @@
 #logout-logo {
     background-image:url(logOut.png);
     background-repeat: no-repeat;
-    background-size:40%;
+    background-size:170px;
     background-position: right;
     display:block;
     height:90px;
