@@ -1,13 +1,29 @@
-﻿@model doStuff.ViewModels.EventFeedViewModel
+﻿@using doStuff.Services;
+@model doStuff.ViewModels.EventFeedViewModel
 
 @foreach (var item in Model.Events)
     {
     <div class="well">
         <ul class="list-inline">
-            <li><h3>@item.Owner</h3></li>
+            <li><p>@item.Owner</p></li>
+            @if (item.Event.GroupId != null)
+            {
+                foreach (var i in Model.Groups)
+                {
+                    if (i.GroupID == item.Event.GroupId)
+                    {
+                        <li><p>@i.Name</p></li>
+                    }
+                }
+            }
+            <li><h3>@item.Event.Minutes</h3></li>
             <li class="pull-right"><h3>@item.Event.Name</h3></li>
         </ul>
         <p>@item.Event.Description</p>
+        <ul class="btn-group pull-right" role="group" aria-label="...">
+            <li>@Html.ActionLink("Join", "Index", "User", new { eventId = item.Event.EventID, answer = true }, null)</li>            
+            <li>@Html.ActionLink("Cancel", "Index", "User", new { eventId = item.Event.EventID, answer = false }, null)</li>
+        </ul>
         @foreach (var c in @item.Comments)
             {
             <p>@c.OwnerId</p>
