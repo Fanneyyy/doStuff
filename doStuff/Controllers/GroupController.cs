@@ -31,23 +31,44 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult AddMember(int groupId)
         {
+            User user = service.GetUser(User.Identity.Name);
+            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            {
+                return RedirectToAction("Index", "User");
+            }
             return View();
         }
 
         [HttpPost]
         public ActionResult AddMember(int groupId, User newMember)
         {
-            //TODO
-            try
-                {
-                    service.AddMember(service.GetUserId(newMember.UserName), groupId);
-                }
-            catch (UserNotFoundException)
-                {
-                    ModelState.AddModelError("Error", "Username not found");
-                    return View();
-                }
-            return RedirectToAction("Index", new { groupId = groupId });
+            User user = service.GetUser(User.Identity.Name);
+            User member = service.GetUser(newMember.UserName);
+            if(service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            {
+                return View("Index", "User");
+            }
+            if(member == null)
+            {
+                ModelState.AddModelError("Error", "The username " + newMember.UserName + " could not be found.");
+                return View();
+            }
+            if(User.Identity.Name == member.UserName)
+            {
+                ModelState.AddModelError("Error", "You are already in the group.");
+                return View();
+            }
+            if(service.IsMemberOfGroup(member.UserID, groupId))
+            {
+                ModelState.AddModelError("Error", newMember.UserName + " is already in the group.");
+                return View();
+            }
+            if(service.AddMember(member.UserID, groupId))
+            {
+                ModelState.Clear();
+                return View();
+            }
+            return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
         }
 
         [HttpPost]

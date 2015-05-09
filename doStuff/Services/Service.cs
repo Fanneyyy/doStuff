@@ -17,6 +17,16 @@ namespace doStuff.Services
             db = database ?? new Database(null); 
         }
 
+        public User GetUser(int id)
+        {
+            return db.GetUser(id);
+        }
+
+        public User GetUser(string userName)
+        {
+            return db.GetUser(userName);
+        }
+
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
