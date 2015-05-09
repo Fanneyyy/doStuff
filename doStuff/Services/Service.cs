@@ -71,6 +71,11 @@ namespace doStuff.Services
 
             return false;
         }
+        public bool IsEventInGroup(int groupId, int eventId)
+        {
+            //TODO HELGI
+            return false;
+        }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
             Event newEvent = GetEventById(eventId);

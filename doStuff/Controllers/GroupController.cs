@@ -147,7 +147,11 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveEvent(int groupId, int eventId)
         {
-            //TODO
+            User user = service.GetUser(User.Identity.Name);
+            if((service.IsOwnerOfGroup(user.UserID, groupId) && service.IsEventInGroup(groupId, eventId)) || service.IsOwnerOfEvent(user.UserID, eventId))
+            {
+
+            }
             return View();
         }
 
