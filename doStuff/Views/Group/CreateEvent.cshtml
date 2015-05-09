@@ -37,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TimeOfEvent, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeOfEvent)
+                <input type="text" id="datepicker" name="TimeOfEvent">
                 @Html.ValidationMessageFor(model => model.TimeOfEvent)
             </div>
         </div>
@@ -76,5 +76,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back", "Index")
 </div>

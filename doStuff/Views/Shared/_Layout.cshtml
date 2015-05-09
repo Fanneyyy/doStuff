@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/Reset.css")
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/DatePicker.css")
     @Styles.Render("~/Content/Login.css")
     @Styles.Render("~/Content/Banner.css")
     @Styles.Render("~/Content/SideBar.css")
@@ -34,6 +35,9 @@
 </body>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/datepicker.js")
+    @Scripts.Render("~/Scripts/timepicker.js")
+    @Scripts.Render("~/Scripts/scripts.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>
