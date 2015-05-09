@@ -16,10 +16,13 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult Index(int groupId)
         {
-            // Gets the correct feed for the userId
-            GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
-            // Returns the feed to the view
-            return View(feed);
+            User user = service.GetUser(User.Identity.Name);
+            if(service.IsMemberOfGroup(user.UserID, groupId))
+            {
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
+                return View(feed);
+            }
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet]
@@ -150,7 +153,7 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             if((service.IsOwnerOfGroup(user.UserID, groupId) && service.IsEventInGroup(groupId, eventId)) || service.IsOwnerOfEvent(user.UserID, eventId))
             {
-
+                return RedirectToAction("Index", new { groupId = groupId });
             }
             return View();
         }
@@ -158,46 +161,75 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult Comment(int groupId, int eventId, Comment newComment)
         {
-            //TODO
-            service.CreateComment(eventId, newComment);
-            return RedirectToAction("Index", new { groupId = groupId });
+            User user = service.GetUser(User.Identity.Name);
+            if(service.IsInvitedToEvent(user.UserID, eventId))
+            {
+                if(ModelState.IsValid)
+                {
+                    newComment.Active = true;
+                    newComment.OwnerId = user.UserID;
+                    newComment.CreationTime = DateTime.Now;
+                    if(service.CreateComment(eventId, newComment))
+                    {
+                        return RedirectToAction("Index", new { groupId = groupId });
+                    }
+                    ModelState.AddModelError("Error", "Something went wrong when creating your comment, please try again later.");
+                    return View();
+                }
+                return View();
+            }
+            ModelState.AddModelError("Error", "Either the event doesn't exist or you do not have sufficient access to it.");
+            return View();
         }
 
         [HttpGet]
-        public ActionResult ChangeDisplayName(int groupId)
+        public ActionResult ChangeName(int groupId)
         {
             //TODO
             return View(new { groupId = groupId });
         }
 
         [HttpPost]
-        public ActionResult ChangeDisplayName(int groupId, User myUser)
+        public ActionResult ChangeName(int groupId, User myUser)
         {
-            //TODO
-            int myId = service.GetUserId(User.Identity.Name);
-            service.ChangeDisplayName(myId, myUser.DisplayName);
+            User user = service.GetUser(User.Identity.Name);
+
+            if (ModelState.IsValid)
+            {
+                service.ChangeDisplayName(user.UserID, myUser.DisplayName);
+            }
+
             return RedirectToAction("Index", new { groupId = groupId });
         }
 
         [HttpPost]
-        public ActionResult AnswerEvent(uint groupId, uint EventId, bool answer)
+        public ActionResult AnswerEvent(int groupId, int eventId, bool answer)
         {
-            //TODO
+            User user = service.GetUser(User.Identity.Name);
+
+            if(service.IsInvitedToEvent(user.UserID, eventId))
+            {
+                if(service.AnswerEvent(user.UserID, eventId, answer))
+                {
+                    return RedirectToAction("Index", new { groupId = groupId });
+                }
+            }
+
             return View();
         }
 
         [HttpGet]
         public ActionResult CreateGroup()
         {
-            //TODO
             return View();
         }
 
         [HttpPost]
         public ActionResult CreateGroup(Group newGroup)
         {
+            User user = service.GetUser(User.Identity.Name);
             newGroup.Active = true;
-            newGroup.OwnerId = service.GetUserId(User.Identity.Name);
+            newGroup.OwnerId = user.UserID;
             if (service.CreateGroup(newGroup))
             {
                 return RedirectToAction("Index", new { groupId = newGroup.GroupID });
