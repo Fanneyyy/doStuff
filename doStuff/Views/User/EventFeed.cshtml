@@ -3,7 +3,7 @@
 
 @foreach (var item in Model.Events)
     {
-    <div class="well">
+    <div class="well well-lg" >
         <ul class="list-inline">
             <li><p>@item.Owner</p></li>
             @if (item.Event.GroupId != null)
@@ -11,7 +11,7 @@
                 foreach (var i in Model.Groups)
                 {
                     if (i.GroupID == item.Event.GroupId)
-                    {
+                    { <!-- Gets groupname if Event has group-->
                         <li><p>@i.Name</p></li>
                     }
                 }
@@ -20,10 +20,14 @@
             <li class="pull-right"><h3>@item.Event.Name</h3></li>
         </ul>
         <p>@item.Event.Description</p>
-        <ul class="btn-group pull-right" role="group" aria-label="...">
-            <li>@Html.ActionLink("Join", "Index", "User", new { eventId = item.Event.EventID, answer = true }, null)</li>            
-            <li>@Html.ActionLink("Cancel", "Index", "User", new { eventId = item.Event.EventID, answer = false }, null)</li>
-        </ul>
+        @using (Html.BeginForm("AnswerEvent", "User"))
+        {
+            <div class="btn-group list-inline pull-right">
+                <button type="submit" class="btn btn-primary" name ="Yes" value="@item.Event.EventID">Join</button>
+                <button type="submit" class="btn btn-primary" name ="No" value="@item.Event.EventID">Cancel</button>
+            </div>
+            @Html.ValidationSummary(false)
+        }
         @foreach (var c in @item.Comments)
             {
             <p>@c.OwnerId</p>

@@ -140,7 +140,7 @@ namespace doStuff.Controllers
         {
             int myId = service.GetUserId(User.Identity.Name);
             service.AnswerEvent(myId, eventId, answer);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }
