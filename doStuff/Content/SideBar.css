@@ -1,8 +1,33 @@
 ﻿.right-sidebar {
-    margin-top: 100px;
+    background-color: #00a8c6;
+    color: white;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    text-align: center;
     position: fixed;
+    width: 20%;
+}
+
+.right-sidebar li {
+    font-size: 15px;
+    text-align: left;
+    margin-left: 8px;
+    margin-top: 4px;
+}
+
+.btn-sidebar {
+    border-radius: 0px;
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
+    width: 100%;
+    font-size:22px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .pull-down {
-    margin-top: 200px;
+    margin-top: 100px;
 }

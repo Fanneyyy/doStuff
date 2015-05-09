@@ -4,7 +4,7 @@
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
     <div>
-        @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default cancel" })
+        @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
     </div>
     <ul>
         @foreach (var user in Model.SideBar.UserList)
