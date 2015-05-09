@@ -22,23 +22,20 @@ namespace doStuff.Databases
         {
             List<User> friends = new List<User>();
 
-            List<int> friendIds = (from f in db.UserToUserRelations
-                                   where f.ReceiverId == userId && f.Answer.HasValue && f.Answer == true && f.Active == true
-                                   select f.SenderId).ToList();
+            List<UserToUserRelation> relations = (from f in db.UserToUserRelations
+                                                  where (f.ReceiverId == userId || f.SenderId == userId) && f.Answer.HasValue && f.Answer == true && f.Active == true
+                                                  select f).ToList();
 
-            friendIds = friendIds.Concat(from f in db.UserToUserRelations
-                                         where f.SenderId == userId && f.Answer.HasValue && f.Answer == true && f.Active == true
-                                         select f.ReceiverId).ToList();
-
-            foreach(var id in friendIds)
+            foreach(var relation in relations)
             {
-                User u = GetUser(id);
-                if (u != null && u.Active)
+                int id = (relation.SenderId == userId) ? relation.ReceiverId : relation.SenderId;
+                User friend = GetUser(id);
+                if(friend != null)
                 {
-                    friends.Add(u);
+                    friends.Add(friend);
                 }
             }
-
+            
             return friends;
         }
         public List<UserToUserRelation> GetFriendRequests(int userId, RequestType request)
@@ -218,14 +215,14 @@ namespace doStuff.Databases
             public User GetUser(int userId)
             {
                 return (from u in db.Users
-                        where u.UserID == userId
+                        where u.UserID == userId && u.Active == true
                         select u).SingleOrDefault();
             }
 
             public User GetUser(string userName)
             {
                 return (from u in db.Users
-                        where u.UserName == userName && u.Active == true
+                        where u.UserName.ToLower() == userName.ToLower() && u.Active == true
                         select u).SingleOrDefault();
             }
 
@@ -295,7 +292,7 @@ namespace doStuff.Databases
             public bool ExistsUserToUserRelation(int senderId, int receiverId)
             {
                 var relation = (from r in db.UserToUserRelations
-                                where r.SenderId == senderId && r.ReceiverId == receiverId
+                                where r.SenderId == senderId && r.ReceiverId == receiverId && r.Active == true
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -303,7 +300,7 @@ namespace doStuff.Databases
             public bool ExistsGroupToUserRelation(int groupId, int userId)
             {
                 var relation = (from r in db.GroupToUserRelations
-                                where r.GroupId == groupId && r.MemberId == userId
+                                where r.GroupId == groupId && r.MemberId == userId && r.Active == true
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -311,7 +308,7 @@ namespace doStuff.Databases
             public bool ExistsEventToUserRelation(int eventId, int userId)
             {
                 var relation = (from r in db.EventToUserRelations
-                                where r.EventId == eventId && r.AttendeeId == userId
+                                where r.EventId == eventId && r.AttendeeId == userId && r.Active == true
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -319,7 +316,7 @@ namespace doStuff.Databases
             public bool ExistsGroupToEventRelation(int groupId, int eventId)
             {
                 var relation = (from r in db.GroupToEventRelations
-                                where r.GroupId == groupId && r.EventId == eventId
+                                where r.GroupId == groupId && r.EventId == eventId && r.Active == true
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -327,7 +324,7 @@ namespace doStuff.Databases
             public bool ExistsEventToCommentRelation(int eventId, int commentId)
             {
                 var relation = (from r in db.EventToCommentRelations
-                                where r.EventId == eventId && r.CommentId == commentId
+                                where r.EventId == eventId && r.CommentId == commentId && r.Active == true
                                 select r).SingleOrDefault();
                 return relation != null;
             }
@@ -423,14 +420,14 @@ namespace doStuff.Databases
             public UserToUserRelation GetUserToUserRelation(int senderId, int receiverId)
             {
                 var table = (from t in db.UserToUserRelations
-                             where t.SenderId == senderId && t.ReceiverId == receiverId
+                             where t.SenderId == senderId && t.ReceiverId == receiverId && t.Active == true
                              select t).SingleOrDefault();
                 return table;
             }
             public GroupToUserRelation GetGroupToUserRelation(int groupId, int userId)
             {
                 var table = (from t in db.GroupToUserRelations
-                             where t.GroupId == groupId && t.MemberId == userId
+                             where t.GroupId == groupId && t.MemberId == userId && t.Active == true
                              select t).SingleOrDefault();
                 return table;
             }
@@ -438,43 +435,22 @@ namespace doStuff.Databases
             public EventToUserRelation GetEventToUserRelation(int eventId, int userId)
             {
                 var table = (from t in db.EventToUserRelations
-                             where t.EventId == eventId && t.AttendeeId == userId
+                             where t.EventId == eventId && t.AttendeeId == userId && t.Active == true
                              select t).SingleOrDefault();
                 return table;
-            }
-
-            public List<Event> GetAllEventUserRelation(int userId)
-            {
-                List<Event> events = new List<Event>();
-                var table = (from t in db.EventToUserRelations
-                             where t.AttendeeId == userId && t.Active == true
-                             select t.EventId).ToList();
-
-                foreach (var id in table)
-                {
-                    Event thisEvent = (from u in db.Events
-                                 where u.EventID == id && u.Active == true
-                                 select u).SingleOrDefault();
-                    if (thisEvent != null)
-                    {
-                        events.Add(thisEvent);
-                    }
-                }
-
-                return events;
             }
 
             public GroupToEventRelation GetGroupToEventRelation(int groupId, int eventId)
             {
                 var table = (from t in db.GroupToEventRelations
-                             where t.GroupId == groupId && t.EventId == eventId
+                             where t.GroupId == groupId && t.EventId == eventId && t.Active == true
                              select t).SingleOrDefault();
                 return table;
             }
             public EventToCommentRelation GetEventToCommentRelation(int eventId, int commentId)
             {
                 var table = (from t in db.EventToCommentRelations
-                             where t.EventId == eventId && t.CommentId == commentId
+                             where t.EventId == eventId && t.CommentId == commentId && t.Active == true
                              select t).SingleOrDefault();
                 return table;
             }
