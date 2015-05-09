@@ -18,6 +18,7 @@ namespace doStuff.Models.DatabaseModels
         public string Photo { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
+        [DataType(DataType.DateTime)]
         public DateTime TimeOfEvent { get; set; }
         public int Minutes { get; set; }
         public string Location { get; set; }

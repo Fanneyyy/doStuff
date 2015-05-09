@@ -74,41 +74,74 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveMember(int groupId, int memberId)
         {
-            //TODO
+            User user = service.GetUser(User.Identity.Name);
+
+            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            {
+                return View("Index", "User");
+            }
+
+            if (service.RemoveMember(memberId, groupId))
+            {
+                return View();
+            }
+
             return View();
         }
 
         [HttpPost]
         public ActionResult RemoveGroup(int groupId)
         {
-            //TODO
+            User user = service.GetUser(User.Identity.Name);
+
+            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            {
+                return View("Index", "User");
+            }
+
+            if (service.RemoveGroup(groupId))
+            {
+                return RedirectToAction("Index", "User");
+            }
+
             return View();
         }
 
         [HttpGet]
         public ActionResult CreateEvent(int groupId)
         {
-            //TODO
+            User user = service.GetUser(User.Identity.Name);
+
+            if (service.IsMemberOfGroup(user.UserID, groupId) == false)
+            {
+                return RedirectToAction("Index", "User");
+            }
+
             return View();
         }
 
         [HttpPost]
         public ActionResult CreateEvent(int groupId, Event newEvent)
         {
-            //TODO
-            if (ModelState.IsValid)
+            User user = service.GetUser(User.Identity.Name);
+
+            if (service.IsMemberOfGroup(user.UserID, groupId) == false)
             {
-                //EventID, GroupID, OwnerId, Name, Photo, Description, CreationTime, TimeOfEvent, Minutes, Location, Min, Max
-                newEvent.CreationTime = DateTime.Now;
-                newEvent.OwnerId = service.GetUserId(User.Identity.Name);
-                newEvent.Minutes = 23;
-                newEvent.Active = true;
-                newEvent.GroupId = groupId;
-                service.CreateEvent(newEvent);
-                return RedirectToAction("Index", new { groupId = groupId });
+                ModelState.AddModelError("Error", "Either the group doesn't exist or you do not have access to it.");
+                return View();
             }
 
-            return View(newEvent);
+            if (ModelState.IsValid)
+            {
+                if (service.CreateEvent(newEvent))
+                {
+                    return RedirectToAction("Index", new { groupId = groupId });
+                }
+                ModelState.AddModelError("Error", "Something went wrong when trying to add your event to the group, please try again later.");
+                return View();
+            }
+
+            return View();
         }
 
         [HttpPost]
