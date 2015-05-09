@@ -73,7 +73,15 @@ namespace doStuff.Services
         }
         public bool IsEventInGroup(int groupId, int eventId)
         {
-            //TODO HELGI
+            List<Event> events = db.GetEvents(groupId);
+            foreach(Event eventt in events)
+            {
+                if (eventId == eventt.EventID)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
         public bool IsOwnerOfEvent(int userId, int eventId)
