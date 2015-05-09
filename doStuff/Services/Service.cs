@@ -97,10 +97,6 @@ namespace doStuff.Services
             {
                 return false;
             }
-            if(userId == theEvent.EventID)
-            {
-                return true;
-            }
             if(theEvent.GroupId.HasValue)
             {
                 return IsMemberOfGroup(userId, theEvent.GroupId.Value);
@@ -230,6 +226,7 @@ namespace doStuff.Services
                 if (relation == null)
                 {
                     relation = new EventToUserRelation();
+                    relation.Active = true;
                     relation.EventId = eventId;
                     relation.AttendeeId = userId;
                     relation.Answer = answer;

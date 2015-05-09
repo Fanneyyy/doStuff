@@ -19,6 +19,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+
             EventFeedViewModel feed = new EventFeedViewModel();
             // Gets userId of the user viewing the site
             int userId = service.GetUserId(User.Identity.Name);
