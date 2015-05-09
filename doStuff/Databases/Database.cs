@@ -184,7 +184,7 @@ namespace doStuff.Databases
                             select u).SingleOrDefault();
                 user.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             public bool RemoveGroup(int groupId)
             {
@@ -193,7 +193,7 @@ namespace doStuff.Databases
                              select g).SingleOrDefault();
                 group.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             public bool RemoveEvent(int eventId)
             {
@@ -202,7 +202,7 @@ namespace doStuff.Databases
                                 select e).SingleOrDefault();
                 theEvent.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             public bool RemoveComment(int commentId)
             {
@@ -211,7 +211,7 @@ namespace doStuff.Databases
                                select c).SingleOrDefault();
                 comment.Active = false;
                 db.SaveChanges();
-                return false;
+                return true;
             }
             #endregion
             #region Get
