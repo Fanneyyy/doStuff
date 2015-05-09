@@ -19,8 +19,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-
-            EventFeedViewModel feed = new EventFeedViewModel();
+            EventFeedViewModel feed;
             // Gets userId of the user viewing the site
             int userId = service.GetUserId(User.Identity.Name);
             // Gets the correct feed for the userId
@@ -38,19 +37,30 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AddFriend(User newFriend)
         {
-                try
-                {
-                   int friendId = service.GetUserId(newFriend.UserName);
-                   int userId = service.GetUserId(User.Identity.Name);
-                   service.SendFriendRequest(userId, friendId);
-                   service.AnswerFriendRequest(friendId, userId, true);
-                   return RedirectToAction("Index");
-                }
-                catch(UserNotFoundException)
-                {
-                    ModelState.AddModelError("Error", "Username not found");
-                    return View();
-                }
+            User user = service.GetUser(User.Identity.Name);
+            User friend = service.GetUser(newFriend.UserName);
+            if (friend == null)
+            {
+                ModelState.AddModelError("Error", "The username " + newFriend.UserName + " could not be found.");
+                return View();
+            }
+            if (User.Identity.Name == friend.UserName)
+            {
+                ModelState.AddModelError("Error", "You can't add yourself to your friend list.");
+                return View();
+            }
+            if (service.IsFriendsWith(user.UserID, friend.UserID))
+            {
+                ModelState.AddModelError("Error", newFriend.UserName + " is already your friend.");
+                return View();
+            }
+            if (service.SendFriendRequest(user.UserID, friend.UserID))
+            {
+                ViewBag.Message = "Success, " + friend.UserName + " is now you friend.";
+                ModelState.Clear();
+                return View();
+            }
+            return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
         }
         [HttpGet]
         public ActionResult Banner()
