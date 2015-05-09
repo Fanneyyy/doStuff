@@ -711,14 +711,13 @@ namespace doStuff.Tests.DbTest
 
             bool success1 = ServiceTest.RemoveEvent(event1Id);
             bool success2 = ServiceTest.RemoveEvent(event2Id);
-            //should perhaps return null?
             Event event1 = ServiceTest.GetEventById(event1Id);
             Event event2 = ServiceTest.GetEventById(event2Id);
 
             Assert.AreEqual(true, success1);
             Assert.AreEqual(true, success2);
-            Assert.AreEqual(false, event1.Active);
-            Assert.AreEqual(false, event2.Active);
+            Assert.AreEqual(null, event1);
+            Assert.AreEqual(null, event2);
 
         }
         [TestMethod]
@@ -727,11 +726,10 @@ namespace doStuff.Tests.DbTest
             const int commentId = 1;
 
             bool success = ServiceTest.RemoveComment(commentId);
-            //should perhaps return null?
             Comment comment = ServiceTest.GetCommentById(commentId);
 
             Assert.AreEqual(true, success);
-            Assert.AreEqual(false, comment.Active);
+            Assert.AreEqual(null, comment);
         }
 
         #endregion
