@@ -71,6 +71,19 @@ namespace doStuff.Services
 
             return false;
         }
+        public bool IsEventInGroup(int groupId, int eventId)
+        {
+            List<Event> events = db.GetEvents(groupId);
+            foreach(Event eventt in events)
+            {
+                if (eventId == eventt.EventID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
             Event newEvent = GetEventById(eventId);
