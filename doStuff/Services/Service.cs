@@ -96,6 +96,10 @@ namespace doStuff.Services
             if(theEvent == null)
             {
                 return false;
+            } 
+            if (userId == theEvent.OwnerId)
+            {
+                return true;
             }
             if(theEvent.GroupId.HasValue)
             {
