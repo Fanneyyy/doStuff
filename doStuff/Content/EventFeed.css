@@ -1,3 +1,88 @@
 ﻿.main {
     margin-top: 110px;
 }
+
+.event-box {
+    background-color: #90BC25;
+    margin-bottom: 20px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    padding: 0px;
+}
+
+.event-banner {
+    background-color: rgba(255,255,255,0.86);
+    color: #26727f;
+}
+
+.event-owner, .event-group, .event-countdown, .event-name {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.event-countdown {
+    font-size: 20px;
+}
+
+.event-name {
+    text-align: right;
+}
+
+.event-middle {
+    min-height: 0px;
+    margin: 0px;
+    color: white;
+    padding-right: 0px;
+}
+
+.event-photo-time-location {
+    background-image: url("pictures/stockPhoto01.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.event-photo-space {
+    min-height: 100px;
+}
+
+.event-time-place {
+    background-color: rgba(0,168,198,0.86);
+    padding-top: 6px;
+    padding-bottom: 6px; 
+}
+
+.event-description-buttons {
+    padding-left: 0px;
+}
+
+.event-description {
+    min-height: 100px;
+    padding: 5px 25px 5px 25px;
+}
+
+.event-comments {
+    min-height: 0px;
+}
+
+#event-join, #event-decline {
+    font-size: 26px;
+    border-radius: 0px;
+    letter-spacing: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 0px;
+}
+
+#event-join {
+    background-color: #f1c40f;
+    color: #26727f;
+    min-height: 100%;
+    min-width: 60%;
+}
+
+#event-decline {
+    background-color: #26727f;
+    color: white;
+    min-height: 100%;
+    min-width: 40%;
+}
