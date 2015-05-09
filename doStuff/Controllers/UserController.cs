@@ -136,11 +136,35 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AnswerEvent(int eventId, bool answer)
+        public ActionResult AnswerEvent(FormCollection collection)
         {
+            //apologies for very spooky code, but it should work
+            //feel free to change
+            int eventId;
+            bool answer = "Yes" == collection.AllKeys[0];
+            if (answer)
+            {
+                string id = collection.GetValue("Yes").AttemptedValue;
+                eventId = Int32.Parse(id);
+            }
+            else
+            {
+                string id = collection.GetValue("No").AttemptedValue;
+                eventId = Int32.Parse(id);
+            }
+
             int myId = service.GetUserId(User.Identity.Name);
-            service.AnswerEvent(myId, eventId, answer);
-            return RedirectToAction("Index");
+
+            try
+            {
+                service.AnswerEvent(myId, eventId, answer);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                //should return an error window here (you most likely dont have access to this event)
+                return RedirectToAction("Index");
+            }
         }
     }
 }
