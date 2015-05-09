@@ -19,6 +19,7 @@
                 @Html.EditorFor(model => model.UserName)
                 @Html.ValidationMessageFor(model => model.UserName)                
                 @Html.ValidationMessage("Error")
+                @ViewBag.Message
             </div>
         </div>
         <div class="form-group">

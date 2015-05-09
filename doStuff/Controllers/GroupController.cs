@@ -14,12 +14,16 @@ namespace doStuff.Controllers
     public class GroupController : ParentController
     {
         [HttpGet]
-        public ActionResult Index(int groupId)
+        public ActionResult Index(int? groupId)
         {
-            User user = service.GetUser(User.Identity.Name);
-            if(service.IsMemberOfGroup(user.UserID, groupId))
+            if(groupId == null)
             {
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId, service.GetUserId(User.Identity.Name));
+                return RedirectToAction("Index", "User");
+            }
+            User user = service.GetUser(User.Identity.Name);
+            if(service.IsMemberOfGroup(user.UserID, groupId.Value))
+            {
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId.Value, service.GetUserId(User.Identity.Name));
                 return View(feed);
             }
             return RedirectToAction("Index", "User");
@@ -68,6 +72,8 @@ namespace doStuff.Controllers
             }
             if(service.AddMember(member.UserID, groupId))
             {
+                Group group = service.GetGroupById(groupId);
+                ViewBag.Message = "Success, " + member.UserName + " was added to " + group.Name;
                 ModelState.Clear();
                 return View();
             }
