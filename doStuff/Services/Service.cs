@@ -369,6 +369,20 @@ namespace doStuff.Services
 
             return feed;
         }
+        public FriendProfileViewModel GetFriendFeed(int friendId)
+        {
+            FriendProfileViewModel profile = new FriendProfileViewModel();
+
+            profile.Profile = db.GetUser(friendId);
+            profile.Friends = db.GetFriends(friendId);
+            List<Event> events = db.GetEvents(friendId);
+            foreach(Event e in events)
+            {
+                profile.Events.Add(CastEventToViewModel(e));
+            }
+
+            return profile;
+        }
         public EventFeedViewModel GetEventFeed(int userId)
         {
             EventFeedViewModel eventFeed = new EventFeedViewModel();
