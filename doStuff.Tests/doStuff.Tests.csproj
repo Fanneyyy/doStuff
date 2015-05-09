@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbTest\DatabaseTest.cs" />
+    <Compile Include="DbTest\UnitTests.cs" />
     <Compile Include="InMemoryDbSet.cs" />
     <Compile Include="MockDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

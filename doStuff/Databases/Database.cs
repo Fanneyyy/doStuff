@@ -135,19 +135,19 @@ namespace doStuff.Databases
             #region Exists
             public bool ExistsUser(int userId)
             {
-                return (null != (from u in db.Users where u.UserID == userId select u).SingleOrDefault());
+                return (null != (from u in db.Users where u.UserID == userId && u.Active == true select u).SingleOrDefault());
             }
             public bool ExistsGroup(int groupId)
             {
-                return (null != (from g in db.Groups where g.GroupID == groupId select g).SingleOrDefault());
+                return (null != (from g in db.Groups where g.GroupID == groupId && g.Active == true select g).SingleOrDefault());
             }
             public bool ExistsEvent(int eventId)
             {
-                return (null != (from e in db.Events where e.EventID == eventId select e).SingleOrDefault());
+                return (null != (from e in db.Events where e.EventID == eventId && e.Active == true select e).SingleOrDefault());
             }
             public bool ExistsComment(int commentId)
             {
-                return (null != (from c in db.Comments where c.CommentID == commentId select c).SingleOrDefault());
+                return (null != (from c in db.Comments where c.CommentID == commentId && c.Active == true select c).SingleOrDefault());
             }
             #endregion
             #region Create
