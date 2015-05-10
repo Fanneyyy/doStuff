@@ -71,7 +71,7 @@
             <div>@comment.Owner</div>
             <div>@comment.Comment</div>
         }
-        <a class="btn btn-default" href="@Url.Action("Comment", "User")"></a>
+        <a class="btn btn-default" href="@Url.Action("Comment", "User", new { @eventId = item.Event.EventID })"></a>
     </div>
     }
 
