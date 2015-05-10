@@ -5,10 +5,12 @@
     <div>
         @Html.ActionLink("add friend", "AddFriend", null, new { @class = "btn btn-default btn-sidebar" })
     </div>
-    <ul>
-        @foreach (var user in Model.SideBar.UserList)
-        {
-            <li class="eventfeed-friend">@user.DisplayName
+    <div class="friend-list">
+        <ul>
+            @foreach (var user in Model.SideBar.UserList)
+            {
+                <li class="eventfeed-friend">
+                    @user.DisplayName
                 @using (Html.BeginForm("RemoveFriend", "User"))
                 {
                     @Html.Hidden("friendId", user.UserID)
@@ -18,6 +20,7 @@
                     @Html.ValidationSummary(false)
                 }
             </li>
-        }
-    </ul>
+            }
+        </ul>
+    </div>
 </div>
