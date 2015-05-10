@@ -73,7 +73,7 @@ namespace doStuff.Controllers
             if(service.AddMember(member.UserID, groupId))
             {
                 Group group = service.GetGroupById(groupId);
-                ViewBag.Message = "Success, " + member.UserName + " was added to " + group.Name;
+                ViewBag.SuccessMessage = "Success, " + member.UserName + " was added to " + group.Name;
                 ModelState.Clear();
                 return View();
             }
@@ -87,14 +87,14 @@ namespace doStuff.Controllers
 
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                ViewBag.Message = "You are not the owner of this group.";
+                ViewBag.ErrorMessage = "You are not the owner of this group.";
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
 
             if (service.RemoveMember(memberId, groupId))
             {
                 User member = service.GetUser(memberId);
-                ViewBag.Message = member.DisplayName + " has been removed from the group";
+                ViewBag.SuccessMessage = member.DisplayName + " has been removed from the group";
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
 
