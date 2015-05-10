@@ -323,6 +323,7 @@
     <Content Include="Views\Group\Banner.cshtml" />
     <Content Include="Views\Shared\Feedback.cshtml" />
     <Content Include="Views\User\Comment.cshtml" />
+    <Content Include="Views\Group\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

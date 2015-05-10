@@ -10,6 +10,8 @@ using ErrorHandler;
 
 namespace doStuff.Controllers
 {
+    //TODO:
+    //1. Fix Redirect from commentview to GroupFeed..
     [Authorize]
     public class GroupController : ParentController
     {
@@ -146,6 +148,10 @@ namespace doStuff.Controllers
 
             if (ModelState.IsValid)
             {
+                newEvent.CreationTime = DateTime.Now;
+                newEvent.OwnerId = user.UserID;
+                newEvent.Minutes = 23;
+                newEvent.Active = true;
                 if (service.CreateEvent(newEvent))
                 {
                     return RedirectToAction("Index", new { groupId = groupId });
@@ -167,9 +173,14 @@ namespace doStuff.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public ActionResult Comment()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public ActionResult Comment(int groupId, int eventId, Comment newComment)
+        public ActionResult Comment(int eventId, Comment newComment)
         {
             User user = service.GetUser(User.Identity.Name);
             if(service.IsInvitedToEvent(user.UserID, eventId))
@@ -181,7 +192,7 @@ namespace doStuff.Controllers
                     newComment.CreationTime = DateTime.Now;
                     if(service.CreateComment(eventId, newComment))
                     {
-                        return RedirectToAction("Index", new { groupId = groupId });
+                        return RedirectToAction("Index", "User");
                     }
                     ModelState.AddModelError("Error", "Something went wrong when creating your comment, please try again later.");
                     return View();

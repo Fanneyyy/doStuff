@@ -2,21 +2,21 @@
 
 @foreach (var item in Model.Events)
 {
-    <div class="row event-box" >
+    <div class="row event-box">
         <div class="col-md-12 event-banner">
             <div class="row">
                 <div class="col-md-4 event-owner">@item.Owner</div>
                 <div class="col-md-3 event-group">
                     @*if (item.Event.GroupId != null)
-                    {
-                        foreach (var i in Model.Groups)
                         {
-                            if (i.GroupID == item.Event.GroupId)
-                            { <!-- Gets groupname if Event has group-->
-                            @i.Name
+                            foreach (var i in Model.Groups)
+                            {
+                                if (i.GroupID == item.Event.GroupId)
+                                { <!-- Gets groupname if Event has group-->
+                                @i.Name
+                                }
                             }
-                        }
-                    }*@
+                        }*@
                 </div>
                 <div class="col-md-2 event-countdown">@item.Event.Minutes</div>
                 <div class="col-md-3 event-name">@item.Event.Name</div>
@@ -37,9 +37,9 @@
                     <div class="row">
                         <div class="col-md-12 event-description">@item.Event.Description</div>
                     </div>
-                        @if (item.Attending == null)
-                        {
-                            using (Html.BeginForm("AnswerEvent", "Group"))
+                    @if (item.Attending == null)
+                    {
+                        using (Html.BeginForm("AnswerEvent", "Group"))
                         {
                             @Html.Hidden("groupid", item.Event.GroupId)
                             @Html.Hidden("eventId", item.Event.EventID)
@@ -51,30 +51,29 @@
                             </div>
                             @Html.ValidationSummary(false)
                         }
-                        }
-                        else if (item.Attending == true)
-                        {
-                            <div class="row event-join-decline">
-                                <div class="col-md-12 event-joined">You Have Joined!</div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="row event-join-decline">
-                                <div class="col-md-12 event-declined">You Have Declined!</div>
-                            </div>
-                        }
-                    </div>
+                    }
+                    else if (item.Attending == true)
+                    {
+                        <div class="row event-join-decline">
+                            <div class="col-md-12 event-joined">You Have Joined!</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row event-join-decline">
+                            <div class="col-md-12 event-declined">You Have Declined!</div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-        <!--<div class="col-md-12 event-comments">
-            foreach (var c in item.Comments)
-            {
-                <p>c.OwnerId</p>
-                <p>c.Content</p>
-            }
-        </div>-->
+        @foreach (var comment in item.CommentsViewModels)
+        {
+            <div>@comment.Owner.DisplayName</div>
+            <div>@comment.Comment.Content</div>
+        }
+        <a class="btn btn-default" href="@Url.Action("Comment", "Group", new { @eventId = item.Event.EventID })"></a>
+    </div>
 }
 
 
