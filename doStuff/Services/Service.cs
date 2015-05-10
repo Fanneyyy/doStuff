@@ -27,12 +27,12 @@ namespace doStuff.Services
             return db.GetUser(userName);
         }
 
-        private DateTime newTime(Event time)
+        public DateTime NewTime(Event time, DateTime Now)
         {
-            DateTime newT = new DateTime();
-            newT.Subtract(time.CreationTime.AddMinutes(time.Minutes));
+            DateTime newt = new DateTime();
+            newt.Subtract(time.CreationTime.AddMinutes(time.Minutes));
 
-            return newT;
+            return newt;
         }
 
         #region AccessRights
