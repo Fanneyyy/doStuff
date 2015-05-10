@@ -66,13 +66,25 @@
                 </div>
             </div>
         </div>
-       <!-- <div class="col-md-12 event-comments">
-            foreach (var c in item.Comments)
-            {
-                <p>c.OwnerId</p>
-                <p>c.Content</p>
-            }
-        </div>-->
+        @foreach (var comment in item.CommentsViewModels)
+        {
+            <div>@comment.Owner</div>
+            <div>@comment.Comment</div>
+        }
+        @using (Html.BeginForm("Comment", "User"))
+        {
+            @Html.Hidden("eventId", item.Event.EventID)
+            <div class="form-horizontal">
+                <div class="form-group">
+                    
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Submit" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
     </div>
     }
 
