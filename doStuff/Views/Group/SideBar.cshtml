@@ -4,7 +4,19 @@
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
     <div>
-        @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
+        @foreach (var group in Model.Groups)
+        {
+           if (Model.SideBar.User.UserID == group.OwnerId && group.GroupID == Model.groupId)
+           {
+                @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
+               break;
+           }
+           else
+           {
+               <p>Members</p>
+               break;
+           }
+        }
     </div>
     <ul>
         @foreach (var group in Model.Groups)

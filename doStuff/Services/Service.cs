@@ -374,6 +374,7 @@ namespace doStuff.Services
         {
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
+            List<CommentViewModel> commentViews = new List<CommentViewModel>();
             List<Event> events = db.GetGroupEvents(groupId);
 
             foreach (Event eachEvent in events)
@@ -392,7 +393,15 @@ namespace doStuff.Services
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
                 eventView.Attending = attending;
-                eventView.Comments = db.GetComments(eachEvent.EventID);
+                List<Comment> comments = db.GetComments(eachEvent.EventID);
+                foreach (Comment comment in comments)
+                {
+                    CommentViewModel commentViewModel = new CommentViewModel();
+                    commentViewModel.Comment = comment;
+                    commentViewModel.Owner = db.GetUser(comment.OwnerId);
+                    commentViews.Add(commentViewModel);
+                }
+                eventView.CommentsViewModels = commentViews;
                 eventViews.Add(eventView);
             }
 
@@ -460,10 +469,20 @@ namespace doStuff.Services
         private EventViewModel CastEventToViewModel(Event e, bool? attending)
         {
             EventViewModel eventViewModel = new EventViewModel();
+            List<CommentViewModel> commentViews = new List<CommentViewModel>();
             eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
             eventViewModel.Event = e;
             eventViewModel.Attending = attending;
-            eventViewModel.Comments = db.GetComments(e.EventID);
+            List<Comment> comments = db.GetComments(e.EventID);
+            foreach (Comment comment in comments)
+            {
+                CommentViewModel commentViewModel = new CommentViewModel();
+                commentViewModel.Comment = comment;
+                commentViewModel.Owner = db.GetUser(comment.OwnerId);
+                commentViews.Add(commentViewModel);
+            }
+            eventViewModel.CommentsViewModels = commentViews;
+            //eventViewModel.Comments = db.GetComments(e.EventID);
             return eventViewModel;
         }
         private List<Event> GetEventsFromFriends(List<User> friends)
