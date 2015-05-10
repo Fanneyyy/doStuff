@@ -88,9 +88,24 @@
     color: white;
 }
 
-.main-menu {
-
+#register-birth-year {
+    text-align: center;
+    margin-left: 50px;
 }
+
+#register-gender {
+    text-align: center;
+    margin-left: 15px;
+}
+
+#BirthYear {
+    font-size: 20px;
+}
+
+#Gender {
+    font-size: 20px;
+}
+
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
     -webkit-text-fill-color: #26727f !important;
