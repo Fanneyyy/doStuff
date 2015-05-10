@@ -29,10 +29,10 @@ namespace doStuff.Services
 
         private DateTime newTime(Event time)
         {
-            DateTime newT = new DateTime();
-            newT.Subtract(time.CreationTime.AddMinutes(time.Minutes));
+            DateTime newt = new DateTime();
+            newt.Subtract(time.CreationTime.AddMinutes(time.Minutes));
 
-            return newT;
+            return newt;
         }
 
         #region AccessRights
