@@ -177,7 +177,7 @@ namespace doStuff.Services
                 {
                     relation = db.GetUserToUserRelation(friendId, userId);
                 }
-                relation.Answer = false;
+                relation.Active = false;
                 return db.SetUserToUserRelation(relation);
             }
             //TODO REMOVE IF STATEMENT
