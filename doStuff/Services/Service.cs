@@ -194,26 +194,27 @@ namespace doStuff.Services
         }
         public bool SendFriendRequest(int userId, int friendId)
         {
-            //if user1 sends a friend request to user2 and user2 already sent a request, then they become friends
-            if (db.ExistsUserToUserRelation(friendId, userId))
+            //part of the request system if it will be implemented
+            /*if (db.ExistsUserToUserRelation(friendId, userId))
             {
 
                 UserToUserRelation relation = db.GetUserToUserRelation(friendId, userId);
                 
-                //this will be needed if/when friend requests are up
-                //if (relation.Answer == null ||)
-                //{
+                if (relation.Answer == null )
+                {
                     AnswerFriendRequest(userId, friendId, true);
                     return true;
-                //}
+                }
             }
-            else if (!db.ExistsUserToUserRelation(userId, friendId))
+            else */
+            if (!(db.ExistsUserToUserRelation(userId, friendId) || db.ExistsUserToUserRelation(friendId, userId) ))
             {
                 UserToUserRelation relation = new UserToUserRelation();
                 relation.Active = true;
                 relation.SenderId = userId;
                 relation.ReceiverId = friendId;
-                relation.Answer = null;
+                //should be null with request system
+                relation.Answer = true;
                 return db.CreateUserToUserRelation(ref relation);
             }
             return false;
