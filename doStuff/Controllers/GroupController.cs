@@ -87,15 +87,18 @@ namespace doStuff.Controllers
 
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                return View("Index", "User");
+                ViewBag.Message = "You are not the owner of this group.";
+                return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
 
             if (service.RemoveMember(memberId, groupId))
             {
-                return View();
+                User member = service.GetUser(memberId);
+                ViewBag.Message = member.DisplayName + " has been removed from the group";
+                return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
 
-            return View();
+            return RedirectToAction("Index", "User");
         }
 
         [HttpPost]
