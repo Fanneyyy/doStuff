@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Magnific.Popup</id>
+    <version>1.0.4</version>
+    <title>Magnific Popup</title>
+    <authors>Dmitry Semenov, Tieson Trowbridge (NuGet package only)</authors>
+    <owners>Dmitry Semenov, Tieson Trowbridge (NuGet package only)</owners>
+    <licenseUrl>https://github.com/dimsemenov/Magnific-Popup/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://dimsemenov.com/plugins/magnific-popup/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Magnific Popup is a responsive lightbox &amp; dialog script that is focused on performance and providing best experience for user with any device (for Zepto.js or jQuery).
+
+Documentation can be found at http://dimsemenov.com/plugins/magnific-popup/documentation.html</description>
+    <summary>Fast, light and responsive lightbox plugin, for jQuery and Zepto.js.</summary>
+    <releaseNotes>Updated to 1.0.0 release.</releaseNotes>
+    <copyright>2014 Dmitry Semenov</copyright>
+    <language>en-US</language>
+    <tags>lightbox jQuery Zepto.js</tags>
+    <dependencies>
+      <dependency id="jQuery" version="1.8.3" />
+    </dependencies>
+  </metadata>
+</package>
