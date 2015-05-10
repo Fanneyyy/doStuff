@@ -7,9 +7,33 @@
         @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
     </div>
     <ul>
-        @foreach (var user in Model.SideBar.UserList)
+        @foreach (var group in Model.Groups)
         {
-            <li>@user.DisplayName<span class="glyphicon glyphicon-remove right" aria-hidden="true"></span></li>
-        }
+            if (group.GroupID == Model.groupId)
+            {
+                 if (Model.SideBar.User.UserID == group.OwnerId)
+                {
+                    foreach (var user in Model.SideBar.UserList)
+                    {
+                        if (user.UserID != Model.SideBar.User.UserID)
+                        {
+                            <li>@user.DisplayName<span class="glyphicon glyphicon-remove right" aria-hidden="true"></span></li>
+                        }
+                    }
+                    break;
+                }
+                else
+                {
+                    foreach (var user in Model.SideBar.UserList)
+                    {
+                        if (user.UserID != Model.SideBar.User.UserID)
+                        {
+                            <li>@user.DisplayName</li>
+                        }
+                    }
+                    break;
+                }
+            }
+        }        
     </ul>
 </div>
