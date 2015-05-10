@@ -91,7 +91,7 @@ namespace doStuff.Controllers
             if (service.IsFriendsWith(user.UserID, friendId))
             {
                 User friend = service.GetUser(friendId);
-                ViewBag.Message = "You are not longer friends with " + friend.DisplayName;
+                ViewBag.Message = "You are no longer friends with " + friend.DisplayName;
                 service.RemoveFriend(user.UserID, friendId);
                 return RedirectToAction("Index");
             }
