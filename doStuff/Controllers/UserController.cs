@@ -86,10 +86,17 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveFriend(int friendId)
         {
-            //TODO
-            int userId = service.GetUserId(User.Identity.Name);
-            service.RemoveFriend(userId, friendId);
-            return View();
+            User user = service.GetUser(User.Identity.Name);
+
+            if (service.IsFriendsWith(user.UserID, friendId))
+            {
+                User friend = service.GetUser(friendId);
+                ViewBag.Message = "You are not longer friends with " + friend.DisplayName;
+                service.RemoveFriend(user.UserID, friendId);
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Error", "An error occured when handeling your request, please try again later.");
         }
 
         [HttpGet]
