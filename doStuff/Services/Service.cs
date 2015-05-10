@@ -27,7 +27,7 @@ namespace doStuff.Services
             return db.GetUser(userName);
         }
 
-        private DateTime newTime(Event time)
+        public DateTime NewTime(Event time, DateTime Now)
         {
             DateTime newt = new DateTime();
             newt.Subtract(time.CreationTime.AddMinutes(time.Minutes));
