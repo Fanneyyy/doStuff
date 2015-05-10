@@ -56,11 +56,12 @@ namespace doStuff.Controllers
             }
             if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
-                ViewBag.Message = "Success, " + friend.UserName + " is now you friend.";
+                ViewBag.SuccessMessage = "Success, " + friend.UserName + " is now you friend.";
                 ModelState.Clear();
                 return View();
             }
-            return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
+            ViewBag.ErrorMessage = "An error occured when processing your request, please try again later.";
+            return View("Index", service.GetEventFeed(user.UserID));
         }
         [HttpGet]
         public ActionResult Banner()
@@ -79,8 +80,8 @@ namespace doStuff.Controllers
         {
             //TODO
             int myId = service.GetUserId(User.Identity.Name);
-            service.AnswerFriendRequest(userId, myId, answer); 
-            return RedirectToAction("Index");
+            service.AnswerFriendRequest(userId, myId, answer);
+            return RedirectToAction("ViewFriendRequests");
         }
 
         [HttpPost]
@@ -91,7 +92,7 @@ namespace doStuff.Controllers
             if (service.IsFriendsWith(user.UserID, friendId))
             {
                 User friend = service.GetUser(friendId);
-                ViewBag.Message = "You are no longer friends with " + friend.DisplayName;
+                ViewBag.SuccessMessage = "You are no longer friends with " + friend.DisplayName;
                 service.RemoveFriend(user.UserID, friendId);
                 return RedirectToAction("Index");
             }
@@ -131,6 +132,11 @@ namespace doStuff.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public ActionResult Comment()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult Comment(int eventId, Comment myComment)
@@ -164,10 +170,11 @@ namespace doStuff.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                return RedirectToAction("Error", "An error occured when processing your request, please try again later.");
+                ViewBag.ErrorMessage = "An error occured when processing your request, please try again later.";
+                return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Error", "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.");
+            ViewBag.ErrorMessage = "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.";
+            return RedirectToAction("Index");
         }
     }
 }

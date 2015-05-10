@@ -197,26 +197,27 @@ namespace doStuff.Services
         }
         public bool SendFriendRequest(int userId, int friendId)
         {
-            //if user1 sends a friend request to user2 and user2 already sent a request, then they become friends
-            if (db.ExistsUserToUserRelation(friendId, userId))
+            //part of the request system if it will be implemented
+            /*if (db.ExistsUserToUserRelation(friendId, userId))
             {
 
                 UserToUserRelation relation = db.GetUserToUserRelation(friendId, userId);
                 
-                //this will be needed if/when friend requests are up
-                //if (relation.Answer == null ||)
-                //{
+                if (relation.Answer == null )
+                {
                     AnswerFriendRequest(userId, friendId, true);
                     return true;
-                //}
+                }
             }
-            else if (!db.ExistsUserToUserRelation(userId, friendId))
+            else */
+            if (!(db.ExistsUserToUserRelation(userId, friendId) || db.ExistsUserToUserRelation(friendId, userId) ))
             {
                 UserToUserRelation relation = new UserToUserRelation();
                 relation.Active = true;
                 relation.SenderId = userId;
                 relation.ReceiverId = friendId;
-                relation.Answer = null;
+                //should be null with request system
+                relation.Answer = true;
                 return db.CreateUserToUserRelation(ref relation);
             }
             return false;
@@ -376,6 +377,7 @@ namespace doStuff.Services
         {
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
+            List<CommentViewModel> commentViews = new List<CommentViewModel>();
             List<Event> events = db.GetGroupEvents(groupId);
 
             foreach (Event eachEvent in events)
@@ -394,7 +396,15 @@ namespace doStuff.Services
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
                 eventView.Attending = attending;
-                eventView.Comments = db.GetComments(eachEvent.EventID);
+                List<Comment> comments = db.GetComments(eachEvent.EventID);
+                foreach (Comment comment in comments)
+                {
+                    CommentViewModel commentViewModel = new CommentViewModel();
+                    commentViewModel.Comment = comment;
+                    commentViewModel.Owner = db.GetUser(comment.OwnerId);
+                    commentViews.Add(commentViewModel);
+                }
+                eventView.CommentsViewModels = commentViews;
                 eventViews.Add(eventView);
             }
 
@@ -462,10 +472,20 @@ namespace doStuff.Services
         private EventViewModel CastEventToViewModel(Event e, bool? attending)
         {
             EventViewModel eventViewModel = new EventViewModel();
+            List<CommentViewModel> commentViews = new List<CommentViewModel>();
             eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
             eventViewModel.Event = e;
             eventViewModel.Attending = attending;
-            eventViewModel.Comments = db.GetComments(e.EventID);
+            List<Comment> comments = db.GetComments(e.EventID);
+            foreach (Comment comment in comments)
+            {
+                CommentViewModel commentViewModel = new CommentViewModel();
+                commentViewModel.Comment = comment;
+                commentViewModel.Owner = db.GetUser(comment.OwnerId);
+                commentViews.Add(commentViewModel);
+            }
+            eventViewModel.CommentsViewModels = commentViews;
+            //eventViewModel.Comments = db.GetComments(e.EventID);
             return eventViewModel;
         }
         private List<Event> GetEventsFromFriends(List<User> friends)

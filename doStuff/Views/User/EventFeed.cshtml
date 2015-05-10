@@ -1,5 +1,4 @@
-﻿@using doStuff.Services;
-@model doStuff.ViewModels.EventFeedViewModel
+﻿@model doStuff.ViewModels.EventFeedViewModel
 
 @foreach (var item in Model.Events)
     {
@@ -67,13 +66,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 event-comments">
-            @foreach (var c in @item.Comments)
-            {
-                <p>@c.OwnerId</p>
-                <p>@c.Content</p>
-            }
-        </div>
+        @foreach (var comment in item.CommentsViewModels)
+        {
+            <div>@comment.Owner</div>
+            <div>@comment.Comment</div>
+        }
+        <a class="btn btn-default" href="@Url.Action("Comment", "User")"></a>
     </div>
     }
 
