@@ -67,10 +67,14 @@
                 </div>
             </div>
         </div>
+        <div class="comment-title">comments</div>
         @foreach (var comment in item.CommentsViewModels)
         {
-            <div>@comment.Owner.DisplayName</div>
-            <div>@comment.Comment.Content</div>
+            <div class="row comment">
+                <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
+                <div class="col-md-8 comment-content">@comment.Comment.Content</div>
+                <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+            </div>
         }
         <a class="btn btn-default" href="@Url.Action("Comment", "User", new { @eventId = item.Event.EventID })"></a>
     </div>
