@@ -141,6 +141,9 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult Comment(int eventId, Comment myComment)
         {
+            myComment.Active = true;
+            myComment.OwnerId = service.GetUserId(User.Identity.Name);
+            myComment.CreationTime = DateTime.Now;
             service.CreateComment(eventId, myComment);
             return View();
         }
