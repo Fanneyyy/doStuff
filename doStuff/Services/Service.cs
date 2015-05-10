@@ -30,7 +30,8 @@ namespace doStuff.Services
         public DateTime NewTime(Event time, DateTime Now)
         {
             DateTime newt = new DateTime();
-            newt.Subtract(time.CreationTime.AddMinutes(time.Minutes));
+            time.CreationTime.AddMinutes(time.Minutes);
+            newt.Subtract(time.CreationTime);
 
             return newt;
         }
