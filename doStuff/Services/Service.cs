@@ -526,5 +526,12 @@ namespace doStuff.Services
         }
         #endregion
         #endregion
+
+        public static double DateTimeToMillis(DateTime created)
+        {
+            return created
+               .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+               .TotalMilliseconds;
+        }
     }
 }
