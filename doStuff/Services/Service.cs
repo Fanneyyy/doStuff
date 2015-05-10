@@ -27,15 +27,19 @@ namespace doStuff.Services
             return db.GetUser(userName);
         }
 
-        public DateTime NewTime(Event time, DateTime now)
+        public TimeSpan NewTime(Event time, DateTime now)
         {
+            TimeSpan check = new TimeSpan(0, 0, 0);
             TimeSpan addMinutes = new TimeSpan(0, 0, time.Minutes, 0, 0);
-            TimeSpan difference = now.Subtract(time.TimeOfEvent);
             DateTime timeOfDecision = time.CreationTime;
             timeOfDecision = timeOfDecision.Add(addMinutes);
-            timeOfDecision = timeOfDecision.Subtract(difference);
+            TimeSpan timeToDecision = timeOfDecision.Subtract(now);
 
-            return timeOfDecision;
+            if (timeToDecision <= check)
+            {
+                return check;
+            }
+            return timeToDecision;
 
         }
 
