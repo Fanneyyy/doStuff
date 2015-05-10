@@ -8,36 +8,37 @@
     </div>
     <ul>
         @foreach (var group in Model.Groups)
+{
+    if (group.GroupID == Model.groupId)
+    {
+        if (Model.SideBar.User.UserID == group.OwnerId)
         {
-            if (group.GroupID == Model.groupId)
+            foreach (var user in Model.SideBar.UserList)
             {
-                 if (Model.SideBar.User.UserID == group.OwnerId)
+                if (user.UserID != Model.SideBar.User.UserID)
                 {
-                    foreach (var user in Model.SideBar.UserList)
+                    <li class ="eventfeed-friend">
+                        @user.DisplayName
+                    @using (Html.BeginForm("RemoveMember", "Group"))
                     {
-                        if (user.UserID != Model.SideBar.User.UserID)
-                        {
-                            <li>@user.DisplayName
-                             @using (Html.BeginForm("RemoveMember", "Group"))
-                             {
-                                 @Html.Hidden("memberId", user.UserID)
-                                 @Html.Hidden("groupId", group.GroupID)
-                                 <button type="submit" class="btn btn-primary">
-                                     <i class="glyphicon glyphicon-remove right"></i>
-                                 </button>
-                                 @Html.ValidationSummary(false)
-                             }
-                            </li>
-                        }
+                        @Html.Hidden("memberId", user.UserID)
+                        @Html.Hidden("groupId", group.GroupID)
+                        <button type="submit" class="btn btn-primary remove-button">
+                            <i class="glyphicon glyphicon-remove right"></i>
+                        </button>
+                        @Html.ValidationSummary(false)
                     }
-                    break;
+                </li>
                 }
-                else
+            }
+            break;
+        }
+        else
+        {
+            foreach (var user in Model.SideBar.UserList)
+            {
+                if (user.UserID != Model.SideBar.User.UserID)
                 {
-                    foreach (var user in Model.SideBar.UserList)
-                    {
-                        if (user.UserID != Model.SideBar.User.UserID)
-                        {
                             <li>@user.DisplayName</li>
                         }
                     }
