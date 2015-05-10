@@ -320,6 +320,7 @@
     <Content Include="Views\Group\AddMember.cshtml" />
     <Content Include="Views\Group\SideBar.cshtml" />
     <Content Include="Views\Group\Banner.cshtml" />
+    <Content Include="Views\Shared\Feedback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
