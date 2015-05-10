@@ -27,6 +27,14 @@ namespace doStuff.Services
             return db.GetUser(userName);
         }
 
+        private DateTime newTime(Event time)
+        {
+            DateTime newT = new DateTime();
+            newT.Subtract(time.CreationTime.AddMinutes(time.Minutes));
+
+            return newT;
+        }
+
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
