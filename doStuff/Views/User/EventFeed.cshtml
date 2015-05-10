@@ -41,9 +41,10 @@
                     <div class="row">
                         @using (Html.BeginForm("AnswerEvent", "User"))
                         {
+                            @Html.Hidden("eventId", item.Event.EventID)
                             <div class="col-md-12 btn-group">
-                                <button type="submit" class="btn btn-primary" id="event-join" name="Yes" value="@item.Event.EventID">join</button>
-                                <button type="submit" class="btn btn-primary" id="event-decline" name="No" value="@item.Event.EventID">decline</button>
+                                <button type="submit" class="btn btn-primary" name="answer" id="event-join" value="True">join</button>
+                                <button type="submit" class="btn btn-primary" name="answer" id="event-decline" value="False">decline</button>
                             </div>
                             @Html.ValidationSummary(false)
                         }

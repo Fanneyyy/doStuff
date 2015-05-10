@@ -147,35 +147,20 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AnswerEvent(FormCollection collection)
+        public ActionResult AnswerEvent(int eventId, bool answer)
         {
-            //apologies for very spooky code, but it should work
-            //feel free to change
-            int eventId;
-            bool answer = "Yes" == collection.AllKeys[0];
-            if (answer)
+            User user = service.GetUser(User.Identity.Name);
+
+            if(service.IsInvitedToEvent(user.UserID, eventId))
             {
-                string id = collection.GetValue("Yes").AttemptedValue;
-                eventId = Int32.Parse(id);
-            }
-            else
-            {
-                string id = collection.GetValue("No").AttemptedValue;
-                eventId = Int32.Parse(id);
+                if(service.AnswerEvent(user.UserID, eventId, answer))
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Error", "An error occured when processing your request, please try again later.");
             }
 
-            int myId = service.GetUserId(User.Identity.Name);
-
-            try
-            {
-                service.AnswerEvent(myId, eventId, answer);
-                return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-                //should return an error window here (you most likely dont have access to this event)
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Error", "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.");
         }
     }
 }
