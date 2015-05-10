@@ -39,25 +39,26 @@ namespace doStuff.Controllers
         public ActionResult AddMember(int groupId)
         {
             User user = service.GetUser(User.Identity.Name);
-            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            if (service.IsOwnerOfGroup(user.UserID, groupId))
             {
-                return RedirectToAction("Index", "User");
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                return View(feed);
             }
-            return View();
+            return RedirectToAction("Index", "User");
         }
 
         [HttpPost]
-        public ActionResult AddMember(int groupId, User newMember)
+        public ActionResult AddMember(int groupId, string username)
         {
             User user = service.GetUser(User.Identity.Name);
-            User member = service.GetUser(newMember.UserName);
+            User member = service.GetUser(username);
             if(service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
                 return View("Index", "User");
             }
             if(member == null)
             {
-                ModelState.AddModelError("Error", "The username " + newMember.UserName + " could not be found.");
+                ModelState.AddModelError("Error", "The username " + member.UserName + " could not be found.");
                 return View();
             }
             if(User.Identity.Name == member.UserName)
@@ -67,15 +68,15 @@ namespace doStuff.Controllers
             }
             if(service.IsMemberOfGroup(member.UserID, groupId))
             {
-                ModelState.AddModelError("Error", newMember.UserName + " is already in the group.");
+                ModelState.AddModelError("Error", member.UserName + " is already in the group.");
                 return View();
             }
             if(service.AddMember(member.UserID, groupId))
             {
                 Group group = service.GetGroupById(groupId);
                 ViewBag.SuccessMessage = "Success, " + member.UserName + " was added to " + group.Name;
-                ModelState.Clear();
-                return View();
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                return View("Index", feed);
             }
             return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
         }
