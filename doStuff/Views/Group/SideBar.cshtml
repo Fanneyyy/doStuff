@@ -9,7 +9,7 @@
     <ul>
         @foreach (var user in Model.SideBar.UserList)
         {
-            <li>@user.DisplayName</li>
+            <li>@user.DisplayName<span class="glyphicon glyphicon-remove right" aria-hidden="true"></span></li>
         }
     </ul>
 </div>
