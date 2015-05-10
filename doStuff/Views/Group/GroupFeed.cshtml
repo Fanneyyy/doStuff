@@ -38,7 +38,9 @@
                         <div class="col-md-12 event-description">@item.Event.Description</div>
                     </div>
                     <div class="row">
-                        @using (Html.BeginForm("AnswerEvent", "Group"))
+                        @if (item.Attending == null)
+                        {
+                            using (Html.BeginForm("AnswerEvent", "Group"))
                         {
                             @Html.Hidden("groupid", item.Event.GroupId)
                             @Html.Hidden("eventId", item.Event.EventID)
@@ -47,6 +49,19 @@
                                 <button type="submit" class="btn btn-primary" name="answer" id="event-decline" value="False">decline</button>
                             </div>
                             @Html.ValidationSummary(false)
+                        }
+                        }
+                        else if (item.Attending == true)
+                        {
+                            <div class="row event-join-decline">
+                                <div class="col-md-12 event-joined">You Have Joined!</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row event-join-decline">
+                                <div class="col-md-12 event-declined">You Have Declined!</div>
+                            </div>
                         }
                     </div>
                 </div>
