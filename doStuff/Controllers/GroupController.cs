@@ -10,6 +10,8 @@ using ErrorHandler;
 
 namespace doStuff.Controllers
 {
+    //TODO:
+    //1. Fix Redirect from commentview to GroupFeed..
     [Authorize]
     public class GroupController : ParentController
     {
@@ -150,7 +152,6 @@ namespace doStuff.Controllers
                 newEvent.OwnerId = user.UserID;
                 newEvent.Minutes = 23;
                 newEvent.Active = true;
-                service.CreateEvent(newEvent);
                 if (service.CreateEvent(newEvent))
                 {
                     return RedirectToAction("Index", new { groupId = groupId });
