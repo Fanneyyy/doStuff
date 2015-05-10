@@ -363,16 +363,22 @@ namespace doStuff.Services
             List<EventViewModel> eventViews = new List<EventViewModel>();
             List<Event> events = db.GetGroupEvents(groupId);
 
-            if (events == null)
-            {
-                throw new EventNotFoundException();
-            }
-
             foreach (Event eachEvent in events)
             {
+                bool? attending;
+                EventToUserRelation eventToUser = db.GetEventToUserRelation(eachEvent.EventID, userId);
+                if (eventToUser == null)
+                {
+                    attending = null;
+                }
+                else
+                {
+                    attending = eventToUser.Answer;
+                }
                 EventViewModel eventView = new EventViewModel();
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
+                eventView.Attending = attending;
                 eventView.Comments = db.GetComments(eachEvent.EventID);
                 eventViews.Add(eventView);
             }
@@ -390,20 +396,6 @@ namespace doStuff.Services
 
             return feed;
         }
-        public FriendProfileViewModel GetFriendFeed(int friendId)
-        {
-            FriendProfileViewModel profile = new FriendProfileViewModel();
-
-            profile.Profile = db.GetUser(friendId);
-            profile.Friends = db.GetFriends(friendId);
-            List<Event> events = db.GetEvents(friendId);
-            foreach(Event e in events)
-            {
-                profile.Events.Add(CastEventToViewModel(e));
-            }
-
-            return profile;
-        }
         public EventFeedViewModel GetEventFeed(int userId)
         {
             EventFeedViewModel eventFeed = new EventFeedViewModel();
@@ -416,7 +408,19 @@ namespace doStuff.Services
             eventFeed.Events = new List<EventViewModel>();
             foreach(Event e in events)
             {
-                eventFeed.Events.Add(CastEventToViewModel(e));
+                bool? attending;
+                EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
+                if (eventToUser == null)
+                {
+                    attending = null;
+                }
+                else
+                {
+                    attending = eventToUser.Answer;
+                }
+
+                eventFeed.Events.Add(CastEventToViewModel(e, attending));
+
             }
             return eventFeed;
         }
@@ -440,11 +444,12 @@ namespace doStuff.Services
 
             return SideBar;
         }
-        private EventViewModel CastEventToViewModel(Event e)
+        private EventViewModel CastEventToViewModel(Event e, bool? attending)
         {
             EventViewModel eventViewModel = new EventViewModel();
             eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
             eventViewModel.Event = e;
+            eventViewModel.Attending = attending;
             eventViewModel.Comments = db.GetComments(e.EventID);
             return eventViewModel;
         }
