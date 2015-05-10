@@ -38,22 +38,32 @@
                     <div class="row">
                         <div class="col-md-12 event-description">@item.Event.Description</div>
                     </div>
-                    <div class="row">
-                        @if(item.Attending == null) {
+                        @if (item.Attending == null)
+                        {
                             using (Html.BeginForm("AnswerEvent", "User"))
                             {
-                                <div class="col-md-12 btn-group">
-                                    <button type="submit" class="btn btn-primary" id="event-join" name="Yes" value="@item.Event.EventID">join</button>
-                                    <button type="submit" class="btn btn-primary" id="event-decline" name="No" value="@item.Event.EventID">decline</button>
+                                @Html.Hidden("eventId", item.Event.EventID)
+                                <div class="row">
+                                    <div class="col-md-12 btn-group">
+                                        <button type="submit" class="btn btn-primary" name="answer" id="event-join" value="True">join</button>
+                                        <button type="submit" class="btn btn-primary" name="answer" id="event-decline" value="False">decline</button>
+                                    </div>
                                 </div>
                                 @Html.ValidationSummary(false)
                             }
-                        } else if(item.Attending == true) {
-                            <div class="col-md-12 event-joined">You Have Joined!</div> 
-                        } else {
-                            <div class="col-md-12 event-declined">You Have Declined!</div> 
                         }
-                    </div>
+                        else if (item.Attending == true)
+                        {
+                            <div class="row event-join-decline">
+                                <div class="col-md-12 event-joined">You Have Joined!</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row event-join-decline">
+                                <div class="col-md-12 event-declined">You Have Declined!</div>
+                            </div>
+                        }
                 </div>
             </div>
         </div>

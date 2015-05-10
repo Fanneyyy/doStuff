@@ -213,15 +213,16 @@ namespace doStuff.Controllers
         {
             User user = service.GetUser(User.Identity.Name);
 
-            if(service.IsInvitedToEvent(user.UserID, eventId))
+            if (service.IsInvitedToEvent(user.UserID, eventId))
             {
-                if(service.AnswerEvent(user.UserID, eventId, answer))
+                if (service.AnswerEvent(user.UserID, eventId, answer))
                 {
-                    return RedirectToAction("Index", new { groupId = groupId });
+                    return RedirectToAction("Index", groupId);
                 }
+                return RedirectToAction("Error", "An error occured when processing your request, please try again later.");
             }
 
-            return View();
+            return RedirectToAction("Error", "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.");
         }
 
         [HttpGet]
