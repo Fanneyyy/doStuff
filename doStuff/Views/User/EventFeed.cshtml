@@ -71,20 +71,7 @@
             <div>@comment.Owner</div>
             <div>@comment.Comment</div>
         }
-        @using (Html.BeginForm("Comment", "User"))
-        {
-            @Html.Hidden("eventId", item.Event.EventID)
-            <div class="form-horizontal">
-                <div class="form-group">
-                    
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Submit" class="btn btn-default" />
-                    </div>
-                </div>
-            </div>
-        }
+        <a class="btn btn-default" href="@Url.Action("Comment", "User")"></a>
     </div>
     }
 
