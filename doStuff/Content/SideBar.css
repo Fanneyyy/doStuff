@@ -32,7 +32,19 @@
     margin-top: 100px;
 }
 
+.remove-button {
+    background: none;
+    border: none;
+    float: right;
+    display: inline;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 .right {
     color: #333;
-    float: right;
+}
+
+.eventfeed-friend form {
+    display: inline;
 }
