@@ -31,3 +31,8 @@
 .pull-down {
     margin-top: 100px;
 }
+
+.right {
+    color: #333;
+    float: right;
+}

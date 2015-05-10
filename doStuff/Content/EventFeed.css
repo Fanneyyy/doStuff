@@ -68,7 +68,7 @@
     min-height: 0px;
 }
 
-#event-join, #event-decline {
+#event-join, #event-decline, .event-joined, .event-declined {
     font-size: 26px;
     border-radius: 0px;
     letter-spacing: 3px;
@@ -89,4 +89,21 @@
     color: white;
     min-height: 100%;
     min-width: 40%;
+}
+
+.event-joined, .event-declined {
+    padding-left: 0px;
+    padding-right: 0px;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.event-joined {
+    background-color: white;
+    color: #26727f; 
+}
+
+.event-declined {
+    background-color: #26727f;
+    color: white;
 }
