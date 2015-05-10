@@ -39,7 +39,7 @@
                         <div class="col-md-12 event-description">@item.Event.Description</div>
                     </div>
                     <div class="row">
-                        @if(false) {
+                        @if(item.Attending == null) {
                             using (Html.BeginForm("AnswerEvent", "User"))
                             {
                                 <div class="col-md-12 btn-group">
@@ -48,7 +48,7 @@
                                 </div>
                                 @Html.ValidationSummary(false)
                             }
-                        } else if(false) {
+                        } else if(item.Attending == true) {
                             <div class="col-md-12 event-joined">You Have Joined!</div> 
                         } else {
                             <div class="col-md-12 event-declined">You Have Declined!</div> 
