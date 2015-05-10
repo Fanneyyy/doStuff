@@ -735,25 +735,27 @@ namespace doStuff.Tests.DbTest
         [TestMethod]
         public void ServiceNewTime()
         {
-            Event test1 = new Event(true, null, 1, "", "", "", new DateTime(1, 2, 3, 4, 5, 6), new DateTime(1, 2, 3, 4, 5, 6), 10, "", 0, 0, 0);
-            DateTime CurrentTime1 = new DateTime(1, 2, 3, 4, 5, 6);
-            Assert.AreEqual(new DateTime(0, 0, 0, 0, 10, 0), ServiceTest.NewTime(test1, CurrentTime1));
+            
+            Event test1 = new Event(true, null, 1, "", "", "", new DateTime(15, 2, 3, 4, 5, 6), new DateTime(15, 2, 3, 4, 5, 6), 10, "", 0, 0, 0);
+            DateTime CurrentTime1 = new DateTime(15, 2, 3, 4, 5, 6);
+            Assert.AreEqual(new TimeSpan(0, 10, 0), ServiceTest.NewTime(test1, CurrentTime1));
 
-            Event test2 = new Event(true, null, 1, "", "", "", new DateTime(1, 2, 3, 4, 5, 6), new DateTime(1, 2, 3, 4, 5, 6), 20, "", 0, 0, 0);
-            DateTime CurrentTime2 = new DateTime(1, 2, 3, 4, 5, 7);
-            Assert.AreEqual(new DateTime(0, 0, 0, 0, 19, 59), ServiceTest.NewTime(test2, CurrentTime2));
+            Event test2 = new Event(true, null, 1, "", "", "", new DateTime(15, 2, 3, 4, 5, 6), new DateTime(15, 2, 3, 4, 5, 6), 20, "", 0, 0, 0);
+            DateTime CurrentTime2 = new DateTime(15, 2, 3, 4, 5, 7);
+            Assert.AreEqual(new TimeSpan(0, 19, 59), ServiceTest.NewTime(test2, CurrentTime2));
 
-            Event test3 = new Event(true, null, 1, "", "", "", new DateTime(1, 2, 3, 4, 5, 6), new DateTime(1, 2, 3, 4, 5, 6), 30, "", 0, 0, 0);
-            DateTime CurrentTime3 = new DateTime(1, 2, 3, 4, 5, 66);
-            Assert.AreEqual(new DateTime(0, 0, 0, 0, 29, 0), ServiceTest.NewTime(test3, CurrentTime3));
+            Event test3 = new Event(true, null, 1, "", "", "", new DateTime(15, 2, 3, 4, 5, 6), new DateTime(15, 2, 3, 4, 5, 6), 30, "", 0, 0, 0);
+            DateTime CurrentTime3 = new DateTime(15, 2, 3, 4, 6, 6);
+            Assert.AreEqual(new TimeSpan(0, 29, 0), ServiceTest.NewTime(test3, CurrentTime3));
 
-            Event test4 = new Event(true, null, 1, "", "", "", new DateTime(1, 2, 5, 4, 8, 7), new DateTime(1, 2, 3, 4, 5, 6), 40, "", 0, 0, 0);
-            DateTime CurrentTime4 = new DateTime(1, 2, 30, 4, 5, 6);
-            Assert.AreEqual(null, ServiceTest.NewTime(test4, CurrentTime4));
-
-            Event test5 = new Event(true, null, 1, "", "", "", new DateTime(1, 2, 3, 4, 22, 6), new DateTime(1, 2, 3, 4, 5, 6), 50, "", 0, 0, 0);
-            DateTime CurrentTime5 = new DateTime(1, 2, 3, 4, 5, 6);
-            Assert.AreEqual(new DateTime(0, 0, 0, 0, 23, 0), ServiceTest.NewTime(test5, CurrentTime5));
+            Event test4 = new Event(true, null, 1, "", "", "", new DateTime(15, 2, 5, 4, 8, 7), new DateTime(15, 2, 3, 4, 5, 6), 40, "", 0, 0, 0);
+            DateTime CurrentTime4 = new DateTime(15, 3, 2, 4, 48, 07);
+            Assert.AreEqual(new TimeSpan(0, 0, 0), ServiceTest.NewTime(test4, CurrentTime4));
+            
+            Event test5 = new Event(true, null, 1, "", "", "", new DateTime(15, 2, 3, 4, 22, 6), new DateTime(15, 2, 3, 4, 5, 6), 50, "", 0, 0, 0);
+            DateTime CurrentTime5 = new DateTime(15, 2, 3, 4, 49, 6);
+            Assert.AreEqual(new TimeSpan(0, 23, 0), ServiceTest.NewTime(test5, CurrentTime5));
+          
         }
         #endregion
     }
