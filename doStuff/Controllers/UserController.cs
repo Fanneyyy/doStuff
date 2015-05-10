@@ -145,7 +145,7 @@ namespace doStuff.Controllers
             myComment.OwnerId = service.GetUserId(User.Identity.Name);
             myComment.CreationTime = DateTime.Now;
             service.CreateComment(eventId, myComment);
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
