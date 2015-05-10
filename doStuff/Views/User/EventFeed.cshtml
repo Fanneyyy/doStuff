@@ -69,8 +69,8 @@
         </div>
         @foreach (var comment in item.CommentsViewModels)
         {
-            <div>@comment.Owner</div>
-            <div>@comment.Comment</div>
+            <div>@comment.Owner.DisplayName</div>
+            <div>@comment.Comment.Content</div>
         }
         <a class="btn btn-default" href="@Url.Action("Comment", "User", new { @eventId = item.Event.EventID })"></a>
     </div>
