@@ -39,43 +39,44 @@ namespace doStuff.Controllers
         public ActionResult AddMember(int groupId)
         {
             User user = service.GetUser(User.Identity.Name);
-            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            if (service.IsOwnerOfGroup(user.UserID, groupId))
             {
-                return RedirectToAction("Index", "User");
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                return View(feed);
             }
-            return View();
+            return RedirectToAction("Index", "User");
         }
 
         [HttpPost]
-        public ActionResult AddMember(int groupId, User newMember)
+        public ActionResult AddMember(int groupId, string username)
         {
             User user = service.GetUser(User.Identity.Name);
-            User member = service.GetUser(newMember.UserName);
             if(service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
                 return View("Index", "User");
             }
+            GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+            User member = service.GetUser(username);
             if(member == null)
             {
-                ModelState.AddModelError("Error", "The username " + newMember.UserName + " could not be found.");
-                return View();
+                ViewBag.ErrorMessage = "The username " + username + " could not be found.";
+                return View(feed);
             }
             if(User.Identity.Name == member.UserName)
             {
-                ModelState.AddModelError("Error", "You are already in the group.");
-                return View();
+                ViewBag.ErrorMessage = "You are already in the group.";
+                return View(feed);
             }
             if(service.IsMemberOfGroup(member.UserID, groupId))
             {
-                ModelState.AddModelError("Error", newMember.UserName + " is already in the group.");
-                return View();
+                ViewBag.ErrorMessage = username + " is already in the group.";
+                return View(feed);
             }
             if(service.AddMember(member.UserID, groupId))
             {
                 Group group = service.GetGroupById(groupId);
                 ViewBag.SuccessMessage = "Success, " + member.UserName + " was added to " + group.Name;
-                ModelState.Clear();
-                return View();
+                return View("Index", feed);
             }
             return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
         }
