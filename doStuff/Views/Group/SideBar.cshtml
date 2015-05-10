@@ -17,7 +17,17 @@
                     {
                         if (user.UserID != Model.SideBar.User.UserID)
                         {
-                            <li>@user.DisplayName<span class="glyphicon glyphicon-remove right" aria-hidden="true"></span></li>
+                            <li>@user.DisplayName
+                             @using (Html.BeginForm("RemoveMember", "Group"))
+                             {
+                                 @Html.Hidden("userId", user.UserID)
+                                 @Html.Hidden("groupId", group.GroupID)
+                                 <button type="submit" class="btn btn-primary">
+                                     <i class="glyphicon glyphicon-remove right"></i>
+                                 </button>
+                                 @Html.ValidationSummary(false)
+                             }
+                            </li>
                         }
                     }
                     break;
