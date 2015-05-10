@@ -27,13 +27,16 @@ namespace doStuff.Services
             return db.GetUser(userName);
         }
 
-        public DateTime NewTime(Event time, DateTime Now)
+        public DateTime NewTime(Event time, DateTime now)
         {
-            DateTime newt = new DateTime();
-            time.CreationTime.AddMinutes(time.Minutes);
-            newt.Subtract(time.CreationTime);
+            TimeSpan addMinutes = new TimeSpan(0, 0, time.Minutes, 0, 0);
+            TimeSpan difference = now.Subtract(time.TimeOfEvent);
+            DateTime timeOfDecision = time.CreationTime;
+            timeOfDecision = timeOfDecision.Add(addMinutes);
+            timeOfDecision = timeOfDecision.Subtract(difference);
 
-            return newt;
+            return timeOfDecision;
+
         }
 
         #region AccessRights
