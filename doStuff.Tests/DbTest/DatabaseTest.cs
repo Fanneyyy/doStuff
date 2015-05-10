@@ -732,6 +732,13 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(null, comment);
         }
 
+        [TestMethod]
+        public void ServiceNewTime()
+        {
+            Event test1 = new Event(true, null, 1, "", "", "", new DateTime(1, 2, 3, 4, 5, 6), new DateTime(1, 2, 3, 4, 5, 6), 10, "", 0, 0, 0);
+            DateTime CurrentTime1 = new DateTime(1, 2, 3, 4, 5, 6);
+            Assert.AreEqual(new DateTime(0, 0, 0, 0, 30, 0), ServiceTest.NewTime(test1, CurrentTime1));
+        }
         #endregion
     }
 }
