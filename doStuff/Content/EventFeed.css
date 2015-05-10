@@ -42,7 +42,7 @@
 }
 
 .event-photo-space {
-    min-height: 100px;
+    min-height: 150px;
 }
 
 .event-time-place {
@@ -60,15 +60,16 @@
 }
 
 .event-description {
-    min-height: 100px;
+    min-height: 150px;
     padding: 5px 25px 5px 25px;
 }
 
-.event-comments {
-    min-height: 0px;
+.event-join-decline {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-#event-join, #event-decline {
+#event-join, #event-decline, .event-joined, .event-declined {
     font-size: 26px;
     border-radius: 0px;
     letter-spacing: 3px;
@@ -89,4 +90,26 @@
     color: white;
     min-height: 100%;
     min-width: 40%;
+}
+
+.event-joined, .event-declined {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.event-joined {
+    background-color: white;
+    color: #26727f; 
+}
+
+.event-declined {
+    background-color: #26727f;
+    color: white;
+}
+
+.event-comments {
+    min-height: 0px;
 }
