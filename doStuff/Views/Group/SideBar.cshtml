@@ -6,16 +6,19 @@
     <div>
         @foreach (var group in Model.Groups)
         {
-           if (Model.SideBar.User.UserID == group.OwnerId && group.GroupID == Model.groupId)
+           if (group.GroupID == Model.groupId)
            {
-                @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
-               break;
-           }
-           else
-           {
-               <p>Members</p>
-               break;
-           }
+               if (Model.SideBar.User.UserID == group.OwnerId)
+               {
+                    @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
+                    break;
+               }
+               else
+               {
+                    <p>Members</p>
+                    break;
+               }
+            }
         }
     </div>
     <ul>
