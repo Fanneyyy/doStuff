@@ -10,6 +10,7 @@ namespace doStuff.ViewModels
     {
         public string Owner;
         public Event Event;
+        public bool? Attending;
         public List<Comment> Comments;
     }
 }
