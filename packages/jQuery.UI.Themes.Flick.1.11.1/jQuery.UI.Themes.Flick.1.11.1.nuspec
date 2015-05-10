@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>jQuery.UI.Themes.Flick</id>
+    <version>1.11.1</version>
+    <title>jQuery UI Themes: Flick</title>
+    <authors>Meysam Khoshbakht, Ali Kouroshfar</authors>
+    <owners>Meysam Khoshbakht, Ali Kouroshfar</owners>
+    <licenseUrl>https://jquery.org/license/</licenseUrl>
+    <projectUrl>http://jqueryui.com/</projectUrl>
+    <iconUrl>http://kouroshfar.com/jquery-ui-black.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>jQuery UI is an open source library of interface components — interactions, full-featured widgets, and animation effects — based on the stellar jQuery javascript library . Each component is built according to jQuery's event-driven architecture (find something, manipulate it) and is themeable, making it easy for developers of any skill level to integrate and extend into their own code.</description>
+    <tags>jQuery jQueryUI plugins themes Flick</tags>
+    <dependencies>
+      <dependency id="jQuery.UI.Combined" version="1.11.1" />
+    </dependencies>
+  </metadata>
+</package>
