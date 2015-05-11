@@ -43,23 +43,23 @@ namespace doStuff.Controllers
             User friend = service.GetUser(username);
             if (friend == null)
             {
-                message = new Message("The username " + username + " could not be found.", MessageType.Error);
+                message = new Message("The username " + username + " could not be found.", MessageType.INFORMATION);
             }
             else if (User.Identity.Name == friend.UserName)
             {
-                message = new Message("You can't add yourself to your friend list.", MessageType.Error);
+                message = new Message("You can't add yourself to your friend list.", MessageType.INFORMATION);
             }
             else if (service.IsFriendsWith(user.UserID, friend.UserID))
             {
-                message = new Message(username + " is already your friend.", MessageType.Error);
+                message = new Message(username + " is already your friend.", MessageType.INFORMATION);
             }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
-                message = new Message(friend.UserName + " is now you friend.", MessageType.Success);
+                message = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
             }
             else
             {
-                message = new Message("Could not process Add Friend request please try again later.", MessageType.Error);
+                message = new Message("Could not process Add Friend request please try again later.", MessageType.ERROR);
             }
             return Index(message);
         }
@@ -161,27 +161,42 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult ChangeName(User myUser)
         {
-            int myId = service.GetUserId(User.Identity.Name);
-            service.ChangeDisplayName(myId, myUser.DisplayName);
-            return RedirectToAction("Index");
+            User user = service.GetUser(User.Identity.Name);
+            if (ModelState.IsValid)
+            {
+                service.ChangeDisplayName(user.UserID, myUser.DisplayName);
+                Message message = new Message("Your name has been changed to " + myUser.DisplayName, MessageType.SUCCESS);
+                return Index(message);
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Please enter a valid name.");
+                return View();
+            }
         }
 
         [HttpPost]
         public ActionResult AnswerEvent(int eventId, bool answer)
         {
+            Message message;
             User user = service.GetUser(User.Identity.Name);
-
-            if(service.IsInvitedToEvent(user.UserID, eventId))
+            if (service.IsInvitedToEvent(user.UserID, eventId))
             {
-                if(service.AnswerEvent(user.UserID, eventId, answer))
+                if (service.AnswerEvent(user.UserID, eventId, answer))
                 {
-                    return RedirectToAction("Index");
+                    Event theEvent = service.GetEventById(eventId);
+                    message = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
                 }
-                ViewBag.ErrorMessage = "An error occured when processing your request, please try again later.";
-                return RedirectToAction("Index");
+                else
+                {
+                    message = new Message("An error occured when processing your request, please try again later.", MessageType.ERROR);
+                }
             }
-            ViewBag.ErrorMessage = "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.";
-            return RedirectToAction("Index");
+            else
+            {
+                message = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
+            }
+            return Index(message);
         }
 
         private void SetUserFeedback(Message message)
