@@ -16,9 +16,9 @@ namespace doStuff.Controllers
     {
 
         [HttpGet]
-        public ActionResult Index(Message message = null)
+        public ActionResult Index()
         {
-            SetUserFeedback(message);
+            SetUserFeedback();
             EventFeedViewModel feed;
             // Gets userId of the user viewing the site
             int userId = service.GetUserId(User.Identity.Name);
@@ -37,20 +37,19 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AddFriend(string username)
         {
-            Message message = null;
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(username);
             if (friend == null)
             {
-                message = new Message("The username " + username + " could not be found.", MessageType.INFORMATION);
+                TempData["message"] = new Message("The username " + username + " could not be found.", MessageType.INFORMATION);
             }
             else if (User.Identity.Name == friend.UserName)
             {
-                message = new Message("You can't add yourself to your friend list.", MessageType.INFORMATION);
+                TempData["message"] = new Message("You can't add yourself to your friend list.", MessageType.INFORMATION);
             }
             else if (service.IsFriendsWith(user.UserID, friend.UserID))
             {
-                message = new Message(username + " is already your friend.", MessageType.INFORMATION);
+                TempData["message"] = new Message(username + " is already your friend.", MessageType.INFORMATION);
             }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
@@ -58,13 +57,13 @@ namespace doStuff.Controllers
                 {
                     return Json(friend, JsonRequestBehavior.AllowGet);
                 }
-                message = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
+                TempData["message"] = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
             }
             else
             {
-                message = new Message("Could not process Add Friend request please try again later.", MessageType.ERROR);
+                TempData["message"] = new Message("Could not process Add Friend request please try again later.", MessageType.ERROR);
             }
-            return Index(message);
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Banner()
@@ -91,16 +90,20 @@ namespace doStuff.Controllers
         public ActionResult RemoveFriend(int friendId)
         {
             User user = service.GetUser(User.Identity.Name);
+            User friend = service.GetUser(friendId);
 
             if (service.IsFriendsWith(user.UserID, friendId))
             {
-                User friend = service.GetUser(friendId);
-                ViewBag.SuccessMessage = "You are no longer friends with " + friend.DisplayName;
+                TempData["message"] = new Message("You are no longer friends with " + friend.DisplayName, MessageType.SUCCESS);
                 service.RemoveFriend(user.UserID, friendId);
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(friend, JsonRequestBehavior.AllowGet);
+                }
                 return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Error", "An error occured when handeling your request, please try again later.");
+            TempData["message"] = new Message("You are not friends with " + friend.DisplayName, MessageType.ERROR);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -172,8 +175,8 @@ namespace doStuff.Controllers
             if (ModelState.IsValid)
             {
                 service.ChangeDisplayName(user.UserID, myUser.DisplayName);
-                Message message = new Message("Your name has been changed to " + myUser.DisplayName, MessageType.SUCCESS);
-                return Index(message);
+                TempData["message"] = new Message("Your name has been changed to " + myUser.DisplayName, MessageType.SUCCESS);
+                return Index();
             }
             else
             {
@@ -185,7 +188,6 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AnswerEvent(int eventId, bool answer)
         {
-            Message message;
             User user = service.GetUser(User.Identity.Name);
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
@@ -194,28 +196,29 @@ namespace doStuff.Controllers
                     Event theEvent = service.GetEventById(eventId);
                     if (answer)
                     {
-                        message = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
+                        TempData["message"] = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
                     }
                     else
                     {
-                        message = new Message("You have successfully declined " + theEvent.Name, MessageType.SUCCESS);
+                        TempData["message"] = new Message("You have successfully declined " + theEvent.Name, MessageType.SUCCESS);
                     }
                 }
                 else
                 {
-                    message = new Message("An error occured when processing your request, please try again later.", MessageType.ERROR);
+                    TempData["message"] = new Message("An error occured when processing your request, please try again later.", MessageType.ERROR);
                 }
             }
             else
             {
-                message = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
+                TempData["message"] = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
             }
-            return Index(message);
+            return RedirectToAction("Index");
         }
 
-        private void SetUserFeedback(Message message)
+        private void SetUserFeedback()
         {
-            if(message != null)
+            Message message = TempData["message"] as Message;
+            if (message != null)
             {
                 ViewBag.ErrorMessage = message.ErrorMessage;
                 ViewBag.WarningMessage = message.WarningMessage;
