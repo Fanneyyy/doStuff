@@ -22,11 +22,11 @@
                 @{
                     if (item.State == State.ON)
                     {
-                        <div class="col-md-2">ITS ON</div>
+                        <div class="col-md-2 event-countdown">ITS ON</div>
                     }
                     else if (item.State == State.OFF)
                     {
-                        <div class="col-md-2">ITS OFF</div>
+                        <div class="col-md-2 event-countdown">ITS OFF</div>
                     }
                     else
                     {
@@ -55,11 +55,11 @@
                         {
                             using (Html.BeginForm("AnswerEvent", "User"))
                             {
-                                @Html.Hidden("eventId", item.Event.EventID)
+                                <input name="eventId" type="hidden" value="@item.Event.EventID" />
                                 <div class="row">
                                     <div class="col-md-12 btn-group">
-                                        <button type="submit" class="btn btn-primary" name="answer" id="event-join" value="True">join</button>
-                                        <button type="submit" class="btn btn-primary" name="answer" id="event-decline" value="False">decline</button>
+                                        <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
+                                        <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
                                     </div>
                                 </div>
                                 @Html.ValidationSummary(false)
@@ -86,25 +86,32 @@
                 <div class="row comment">
                     <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
                     <div class="col-md-8 comment-content">@comment.Comment.Content</div>
-                    <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                    @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
+                    {
+                        <div class="col-md-2 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                    }
                 </div>
             }
             @using (Html.BeginForm("Comment", "User"))
             {
-                @Html.Hidden("eventId", item.Event.EventID)
+                <input name="eventId" type="hidden" value="@item.Event.EventID" />
                 <div class="row comment">
-                    <div class="col-md-2 comment-owner">comment:</div>
+                    <div class="col-md-2 comment-owner comment-comment">comment:</div>
                     <div class="form-group">
-                        <span class="col-md-10">
+                        <span class="col-md-8 comment-text-field">
                             <input type="text" name="content" placeholder="write something clever..." />
                         </span>
+                        <div class="col-md-2 comment-button">
+                            <input type="submit" value="post" class="btn btn-default" />
+                        </div>
                     </div>
-                    </div>
+                </div>
                 @Html.ValidationSummary(false)
             }
-            @*<a class="btn btn-default" href="@Url.Action("Comment", "User", new { @eventId = item.Event.EventID })">
-                Comment if you don't use javascript!
-            </a>*@
     </div>
     }
 

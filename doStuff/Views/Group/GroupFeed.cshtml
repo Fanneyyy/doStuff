@@ -7,16 +7,6 @@
             <div class="row">
                 <div class="col-md-4 event-owner">@item.Owner</div>
                 <div class="col-md-3 event-group">
-                    @*if (item.Event.GroupId != null)
-                        {
-                            foreach (var i in Model.Groups)
-                            {
-                                if (i.GroupID == item.Event.GroupId)
-                                { <!-- Gets groupname if Event has group-->
-                                @i.Name
-                                }
-                            }
-                        }*@
                 </div>
                 <div class="col-md-2 event-countdown">@item.Event.Minutes</div>
                 <div class="col-md-3 event-name">@item.Event.Name</div>
@@ -41,12 +31,12 @@
                     {
                         using (Html.BeginForm("AnswerEvent", "Group"))
                         {
-                            @Html.Hidden("groupid", item.Event.GroupId)
-                            @Html.Hidden("eventId", item.Event.EventID)
+                            <input name="groupid" type="hidden" value="@item.Event.GroupId">
+                            <input name="eventId" type="hidden" value="@item.Event.EventID">
                             <div class="row">
                                 <div class="col-md-12 btn-group">
-                                    <button type="submit" class="btn btn-primary" name="answer" id="event-join" value="True">join</button>
-                                    <button type="submit" class="btn btn-primary" name="answer" id="event-decline" value="False">decline</button>
+                                    <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
+                                    <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
                                 </div>
                             </div>
                             @Html.ValidationSummary(false)
@@ -78,13 +68,16 @@
         }
         @using (Html.BeginForm("Comment", "Group"))
         {
-            @Html.Hidden("eventId", item.Event.EventID)
+            <input name="eventId" type="hidden" value="@item.Event.EventID" />
             <div class="row comment">
-                <div class="col-md-2 comment-owner">comment:</div>
+                <div class="col-md-2 comment-owner comment-comment">comment:</div>
                 <div class="form-group">
-                    <span class="col-md-10">
+                    <span class="col-md-8 comment-text-field">
                         <input type="text" name="content" placeholder="write something clever..." />
                     </span>
+                    <div class="col-md-2 comment-button">
+                        <input type="submit" value="post" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
             @Html.ValidationSummary(false)

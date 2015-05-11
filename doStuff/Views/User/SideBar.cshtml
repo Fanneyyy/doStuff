@@ -10,7 +10,7 @@
                     @user.DisplayName
                 @using (Html.BeginForm("RemoveFriend", "User"))
                 {
-                    @Html.Hidden("friendId", user.UserID)
+                    <input name="friendId" type="hidden" value="@user.UserID">
                     <button type="submit" class="btn btn-primary remove-button">
                         <i class="glyphicon glyphicon-remove right"></i>
                     </button>

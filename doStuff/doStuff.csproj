@@ -315,17 +315,13 @@
     <Content Include="Views\Shared\LoginRegisterBase.cshtml" />
     <Content Include="Views\User\SideBar.cshtml" />
     <Content Include="Views\User\CreateEvent.cshtml" />
-    <Content Include="Views\User\AddFriend.cshtml" />
     <Content Include="Views\Group\CreateGroup.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Group\GroupFeed.cshtml" />
     <Content Include="Views\Group\CreateEvent.cshtml" />
-    <Content Include="Views\Group\AddMember.cshtml" />
     <Content Include="Views\Group\SideBar.cshtml" />
     <Content Include="Views\Group\Banner.cshtml" />
     <Content Include="Views\Shared\Feedback.cshtml" />
-    <Content Include="Views\User\Comment.cshtml" />
-    <Content Include="Views\Group\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

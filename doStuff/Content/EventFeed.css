@@ -72,16 +72,16 @@
     padding-right: 15px;
 }
 
-#event-join, #event-decline, .event-joined, .event-declined {
+.join-event, .decline-event, .event-joined, .event-declined {
     font-size: 26px;
     border-radius: 0px;
     letter-spacing: 3px;
-    padding-top: 10px;
+    padding-top: 9px;
     padding-bottom: 10px;
     border: 0px;
 }
 
-#event-join {
+.join-event {
     background-color: #aee239;
     letter-spacing: 3px;
     color: #26727f;
@@ -89,11 +89,19 @@
     min-width: 60%;
 }
 
-#event-decline {
+.join-event:hover {
+    background-color: rgba(174,226,57,0.70);
+}
+
+.decline-event {
     background-color: #26727f;
     color: white;
     min-height: 100%;
     min-width: 40%;
+}
+
+.decline-event:hover {
+    background-color: rgba(38,114,127,0.70);
 }
 
 .event-joined, .event-declined {
@@ -152,4 +160,38 @@
 .comment-time {
     font-size: 13px;
     text-align: center;
+}
+
+.comment-comment {
+    padding-top: 4px;
+}
+
+.comment-text-field {
+    padding-left: 0px;
+    padding-right: 4px;
+}
+
+.comment-text-field input[type="text"] {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.comment-button {
+    padding-left: 0px;
+    padding-right: 4px;
+}
+
+.comment-button input[type="submit"] {
+    background-color: white;
+    color: #26727f;
+    border: 1px solid #26727f;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.comment-button input[type="submit"]:hover {
+    background-color: #eee;
 }
