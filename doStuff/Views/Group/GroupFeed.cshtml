@@ -80,11 +80,14 @@
         {
             @Html.Hidden("eventId", item.Event.EventID)
             <div class="row comment">
-                <div class="col-md-2 comment-owner">comment:</div>
+                <div class="col-md-2 comment-owner comment-comment">comment:</div>
                 <div class="form-group">
-                    <span class="col-md-10">
+                    <span class="col-md-8 comment-text-field">
                         <input type="text" name="content" placeholder="write something clever..." />
                     </span>
+                    <div class="col-md-2 comment-button">
+                        <input type="submit" value="post" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
             @Html.ValidationSummary(false)

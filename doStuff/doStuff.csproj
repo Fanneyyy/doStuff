@@ -315,7 +315,6 @@
     <Content Include="Views\Shared\LoginRegisterBase.cshtml" />
     <Content Include="Views\User\SideBar.cshtml" />
     <Content Include="Views\User\CreateEvent.cshtml" />
-    <Content Include="Views\User\AddFriend.cshtml" />
     <Content Include="Views\Group\CreateGroup.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Group\GroupFeed.cshtml" />
