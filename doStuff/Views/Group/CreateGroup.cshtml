@@ -1,30 +1,25 @@
-﻿@model doStuff.Models.DatabaseModels.Group
+﻿@model doStuff.ViewModels.EventFeedViewModel
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Group</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+<div class="navbar navbar-inverse navbar-fixed-top">
+    @RenderPage("Banner.cshtml")
+</div>
 
+<div class="col-md-8 main pull-down">
+    @RenderPage("~/Views/Shared/Feedback.cshtml")
+    @using (Html.BeginForm("AddMember", "Group"))
+    {
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name)
-                @Html.ValidationMessageFor(model => model.Name)
-            </div>
+            <span class="col-md-10">
+                <input type="text" name="name" placeholder="Group name" />
+                <button type="submit" class="btn btn-primary remove-button">
+                    <i class="glyphicon glyphicon-plus right"></i>
+                </button>
+            </span>
         </div>
+        @Html.ValidationSummary(false)
+    }
+</div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "User")
+<div class="col-md-3 side-bar pull-down">
+    @RenderPage("SideBar.cshtml")
 </div>

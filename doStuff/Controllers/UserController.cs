@@ -14,7 +14,6 @@ namespace doStuff.Controllers
     [Authorize]
     public class UserController : ParentController
     {
-        private static Database db = new Database(null);
 
         [HttpGet]
         public ActionResult Index(Message message = null)
@@ -117,7 +116,7 @@ namespace doStuff.Controllers
                 newEvent.Active = true;
                 newEvent.Min = 2;
                 newEvent.Max = 4;
-                service.CreateEvent(newEvent);
+                service.CreateEvent(ref newEvent);
                 return RedirectToAction("Index");
             }
 
@@ -152,7 +151,7 @@ namespace doStuff.Controllers
             myComment.Active = true;
             myComment.OwnerId = service.GetUserId(User.Identity.Name);
             myComment.CreationTime = DateTime.Now;
-            service.CreateComment(eventId, myComment);
+            service.CreateComment(eventId, ref myComment);
             return RedirectToAction("Index");
         }
 

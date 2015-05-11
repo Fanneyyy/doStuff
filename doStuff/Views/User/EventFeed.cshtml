@@ -1,4 +1,5 @@
-﻿@model doStuff.ViewModels.EventFeedViewModel
+﻿@using doStuff.ViewModels
+@model doStuff.ViewModels.EventFeedViewModel
 
 @foreach (var item in Model.Events)
     {
@@ -19,17 +20,17 @@
                     }
                 </div>
                 @{
-                    if (item.State.Equals(0) == true)
+                    if (item.State == State.ON)
                     {
                         <div class="col-md-2">ITS ON</div>
                     }
-                    else if (item.State.Equals(1) == true)
+                    else if (item.State == State.OFF)
                     {
                         <div class="col-md-2">ITS OFF</div>
                     }
                     else
                     {
-                        <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-created="@item.TimeCreated"></span></div>
+                        <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated"></span></div>
                     }
                 }
                 <div class="col-md-3 event-name">@item.Event.Name</div>

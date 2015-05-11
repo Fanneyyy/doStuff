@@ -92,7 +92,7 @@ namespace doStuff.Controllers
                     register.Email = model.Email;
                     register.Gender = model.Gender;
                     register.UserName = model.UserName;
-                    service.CreateUser(register);
+                    service.CreateUser(ref register);
 
                     return RedirectToAction("Index", "User");
                 }

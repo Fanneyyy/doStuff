@@ -11,7 +11,7 @@ namespace doStuff.Services
 {
     public class Service
     {
-        private static Database db = null;
+        private static Database db;
         public Service(Database database = null)
         {
             db = database ?? new Database(null);
@@ -283,11 +283,11 @@ namespace doStuff.Services
         }
         #endregion
         #region Create
-        public bool CreateUser(User user)
+        public bool CreateUser(ref User user)
         {
             return db.CreateUser(ref user);
         }
-        public bool CreateGroup(Group group)
+        public bool CreateGroup(ref Group group)
         {
             if (db.CreateGroup(ref group))
             {
@@ -300,7 +300,7 @@ namespace doStuff.Services
             }
             return false;
         }
-        public bool CreateEvent(Event newEvent)
+        public bool CreateEvent(ref Event newEvent)
         {
             if (db.CreateEvent(ref newEvent))
             {
@@ -329,7 +329,7 @@ namespace doStuff.Services
             }
             return false;
         }
-        public bool CreateComment(int eventId, Comment comment)
+        public bool CreateComment(int eventId, ref Comment comment)
         {
             if (IsInvitedToEvent(comment.OwnerId, eventId))
             {

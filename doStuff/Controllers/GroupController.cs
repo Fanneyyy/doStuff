@@ -151,7 +151,7 @@ namespace doStuff.Controllers
                 newEvent.Min = 2;
                 newEvent.Max = 4;
                 newEvent.Active = true;
-                if (service.CreateEvent(newEvent))
+                if (service.CreateEvent(ref newEvent))
                 {
                     return RedirectToAction("Index", new { groupId = groupId });
                 }
@@ -189,7 +189,7 @@ namespace doStuff.Controllers
                     newComment.Active = true;
                     newComment.OwnerId = user.UserID;
                     newComment.CreationTime = DateTime.Now;
-                    if (service.CreateComment(eventId, newComment))
+                    if (service.CreateComment(eventId, ref newComment))
                     {
                         return RedirectToAction("Index", "User");
                     }
@@ -247,20 +247,20 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateGroup(Group newGroup)
+        public ActionResult CreateGroup(string name, Message message = null)
         {
+            SetUserFeedback(message);
             User user = service.GetUser(User.Identity.Name);
-            Message message;
-            if (String.IsNullOrEmpty(newGroup.Name))
+            if (String.IsNullOrEmpty(name))
             {
-                message = new Message("Enter a Groupname please... Dick.", MessageType.ERROR);
+                message = new Message("Group name can not be empty.", MessageType.ERROR);
                 return View();
             }
-            newGroup.Active = true;
-            newGroup.OwnerId = user.UserID;
-            if (service.CreateGroup(newGroup))
+            Group group = new Group(true, user.UserID, name, 0);
+            if (service.CreateGroup(ref group))
             {
-                return RedirectToAction("Index", new { groupId = newGroup.GroupID });
+                message = new Message("Your group was created!", MessageType.SUCCESS);
+                return Index(group.GroupID, message);
             }
             return View();
         }
