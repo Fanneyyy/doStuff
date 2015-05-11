@@ -14,8 +14,12 @@ function countdown() {
         }
         var initialTime = new Date(created);
         var timeDifference = 1380000 - (Date.now() - initialTime);
-        var formatted = convertTime(timeDifference);
-        element.innerHTML = '' + formatted;
+        if (timeDifference < 0) {
+            element.innerHTML = "ITS ON!";
+        } else {
+            var formatted = convertTime(timeDifference);
+            element.innerHTML = '' + formatted;
+        }
     }
 
     function convertTime(miliseconds) {
