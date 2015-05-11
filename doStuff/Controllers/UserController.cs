@@ -115,6 +115,8 @@ namespace doStuff.Controllers
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Minutes = 23;
                 newEvent.Active = true;
+                newEvent.Min = 2;
+                newEvent.Max = 4;
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
             }
