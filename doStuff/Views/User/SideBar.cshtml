@@ -37,7 +37,7 @@
         <p class="sidebar-title">Events</p>
     </div>
     <div class="event-list">
-        @if (Model.SideBar.EventList != null)
+        @if (Model.SideBar.EventList.Count != 0)
         {
             <ul>
                 @foreach (var thisEvent in Model.SideBar.EventList)

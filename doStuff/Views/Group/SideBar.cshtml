@@ -61,9 +61,9 @@
         <p class="sidebar-title">Events</p>
     </div>
     <div class="event-list">
-        @if (Model.SideBar.EventList != null)
-            {
-                <ul>
+        @if (Model.SideBar.EventList.Count != 0)
+        {
+            <ul>
                 @foreach (var thisEvent in Model.SideBar.EventList)
                 {
 
@@ -75,11 +75,11 @@
                         <li class="divider"></li>
                     }
                 }
-        </ul>
+            </ul>
         }
         else
         {
             <p>You have no events</p>
-        }      
+        }
     </div>
 </div>
