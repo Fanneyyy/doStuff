@@ -23,7 +23,10 @@ namespace doStuff.Databases
             List<User> friends = new List<User>();
 
             List<UserToUserRelation> relations = (from f in db.UserToUserRelations
-                                                  where (f.ReceiverId == userId || f.SenderId == userId) && f.Answer.HasValue && f.Answer == true && f.Active == true
+                                                  where (f.ReceiverId == userId || f.SenderId == userId) 
+                                                  && f.Answer.HasValue 
+                                                  && f.Answer == true 
+                                                  && f.Active == true
                                                   select f).ToList();
 
             foreach(var relation in relations)
@@ -55,76 +58,65 @@ namespace doStuff.Databases
         }
         public List<User> GetMembers(int groupId)
         {
-            List<User> members = new List<User>();
+            List<User> members = (from g in db.GroupToUserRelations
+                                  from u in db.Users
+                                  where g.GroupId == groupId 
+                                  && g.Active == true
+                                  && u.UserID == g.GroupId
+                                  && u.Active == true
+                                  select u).ToList();
+            return members;
+        }
+        public List<User> GetAttendees(int eventId)
+        {
+            List<User> attendees = new List<User>();
 
-            List<int> memberIds = (from g in db.GroupToUserRelations
-                                   where g.GroupId == groupId && g.Active == true
-                                   select g.MemberId).ToList();
+            List<int> attendeeIds = (from r in db.EventToUserRelations
+                                     where r.EventId == eventId && r.Active == true
+                                     select r.AttendeeId).ToList();
 
-            foreach(var id in memberIds)
+            foreach(var id in attendeeIds)
             {
-                User user = (from u in db.Users
-                                  where u.UserID == id && u.Active == true
-                                  select u).SingleOrDefault();
-                if (user != null)
-                {
-                    members.Add(user);
-                }
+                attendees.Add(GetUser(id));
             }
 
-            return members;
+            return attendees;
         }
         public List<Group> GetGroups(int userId)
         {
-            List<Group> groups = new List<Group>();
-
-            var groupIDs = (from g in db.GroupToUserRelations
-                            where g.MemberId == userId && g.Active == true
-                            select g.GroupId);
-
-            foreach(var id in groupIDs)
-            {
-                Group group = (from g in db.Groups
-                                    where g.GroupID == id && g.Active == true
-                                    select g).SingleOrDefault();
-                if (group != null)
-                {
-                    groups.Add(group);
-                }
-            }
+            List<Group> groups = (from r in db.GroupToUserRelations
+                                  from g in db.Groups
+                                  where r.MemberId == userId 
+                                  && r.Active == true 
+                                  && r.GroupId == g.GroupID
+                                  && g.Active == true 
+                                  select g).ToList();
             return groups;
         }
         public List<Event> GetEvents(int userId)
         {
             return (from e in db.Events
-                    where e.OwnerId == userId && e.GroupId == null && e.Active == true
+                    where e.OwnerId == userId 
+                    && e.GroupId == null 
+                    && e.Active == true
                     select e).ToList();
         }
         public List<Event> GetGroupEvents(int groupId)
         {
             return (from e in db.Events
-                    where e.GroupId == groupId && e.Active == true
+                    where e.GroupId == groupId 
+                    && e.Active == true
                     select e).ToList();
         }
         public List<Comment> GetComments(int eventId)
         {
-            List<Comment> comments = new List<Comment>();
-
-            List<int> commentIDs = (from c in db.EventToCommentRelations
-                                    where c.EventId == eventId && c.Active == true
-                                    select c.CommentId).ToList();
-
-            foreach (var id in commentIDs)
-            {
-                Comment comment = (from c in db.Comments 
-                                   where c.CommentID == id && c.Active == true 
-                                   select c).SingleOrDefault();
-
-                if (comment != null)
-                {
-                    comments.Add(comment);
-                }
-            }
+            List<Comment> comments = (from r in db.EventToCommentRelations
+                                      from c in db.Comments
+                                      where r.EventId == eventId 
+                                      && r.Active == true
+                                      && c.CommentID == r.CommentId
+                                      && c.Active == true
+                                      select c).ToList();
             return comments;
         }
         #endregion

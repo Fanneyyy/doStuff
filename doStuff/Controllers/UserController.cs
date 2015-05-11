@@ -143,6 +143,10 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult Comment(int eventId, string content)
         {
+            if (String.IsNullOrEmpty(content))
+            {
+                return RedirectToAction("Index");
+            }
             Comment myComment = new Comment();
             myComment.Content = content;
             myComment.Active = true;

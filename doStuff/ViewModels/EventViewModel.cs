@@ -6,14 +6,16 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.ViewModels
 {
-    public enum StateOfEvent { CONDITIONSNOTREACHED, CONDITIONSREACHED, EVENTFULL, EVENTON, EVENTOFF };
+    public enum State { ON, OFF, REACED, NOTREACHED, FULL };
 
     public class EventViewModel
     {
         public string Owner;
         public Event Event;
         public bool? Attending;
+        public double TimeCreated;
         public List<CommentViewModel> CommentsViewModels;
         public List<User> Attendees;
+        public State State;
     }
 }
