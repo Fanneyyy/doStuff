@@ -6,15 +6,13 @@
         <ul id="FriendList">
             @foreach (var user in Model.SideBar.UserList)
             {
-                <li class="eventfeed-friend">
-                    @user.DisplayName
+                <li class="eventfeed-friend">@user.DisplayName
                 @using (Html.BeginForm("RemoveFriend", "User"))
                 {
                     <input name="friendId" type="hidden" value="@user.UserID">
                     <button type="submit" class="btn btn-primary remove-button">
                         <i class="glyphicon glyphicon-remove right"></i>
                     </button>
-                    @Html.ValidationSummary(false)
                 }
                 </li>
             }

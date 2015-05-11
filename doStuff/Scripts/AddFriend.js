@@ -12,7 +12,8 @@
             url: url,
             data: data,
             success: function (friend) {
-                var li = $("<li></li>").append(friend.DisplayName);
+                var li = $("<li class=\"eventfeed-friend\"></li>");
+                li.append(friend.DisplayName + "<form action=\"/User/RemoveFriend\" method=\"post\"><input name=\"friendId\" type=\"hidden\" value=\"" + friend.UserID + "\"><button type=\"submit\" class=\"btn btn-primary remove-button\"><i class=\"glyphicon glyphicon-remove right\"></i></button></form>");
                 $("#FriendList").append(li);
                 FriendList("#FriendList")
             },
@@ -25,11 +26,11 @@
     function FriendList(id) {
         var mylist = $(id);
         var listitems = mylist.children('li').get();
-        $("#FriendList").empty();
-        listitems.sort(function (a, b) { return a.innerText <= b.innerText });
+        mylist.empty();
+        listitems.sort(function (a, b) { return a.innerText.localeCompare(b.innerText) === 1 });
         for(var i = 0; i < listitems.length; i++)
         {
-            $("#FriendList").append(listitems[i]);
+            mylist.append(listitems[i]);
         }
     }
 });
