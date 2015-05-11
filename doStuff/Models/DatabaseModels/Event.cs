@@ -26,14 +26,14 @@ namespace doStuff.Models.DatabaseModels
         public int Minutes { get; set; }
         [Required(ErrorMessage = "Please add a location to the event")]
         public string Location { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
+        public int? Min { get; set; }
+        public int? Max { get; set; }
 
         public Event()
         {
 
         }
-        public Event(bool active, int? groupId, int ownerId, string name, string photo, string description, DateTime creationTime, DateTime timeOfEvent, int minutes, string location, int min, int max, int id = 0)
+        public Event(bool active, int? groupId, int ownerId, string name, string photo, string description, DateTime creationTime, DateTime timeOfEvent, int minutes, string location, int? min, int? max, int id = 0)
         {
             EventID = id;
             Active = active;

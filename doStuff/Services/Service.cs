@@ -14,7 +14,7 @@ namespace doStuff.Services
         private static Database db = null;
         public Service(Database database = null)
         {
-            db = database ?? new Database(null); 
+            db = database ?? new Database(null);
         }
 
         public User GetUser(int id)
@@ -49,14 +49,14 @@ namespace doStuff.Services
             UserToUserRelation r1 = db.GetUserToUserRelation(userId, friendId);
             UserToUserRelation r2 = db.GetUserToUserRelation(friendId, userId);
 
-            if(r1 != null)
+            if (r1 != null)
             {
-                if(r1.Answer.HasValue && r1.Answer.Value)
+                if (r1.Answer.HasValue && r1.Answer.Value)
                 {
                     return true;
                 }
             }
-            if(r2 != null)
+            if (r2 != null)
             {
                 if (r2.Answer.HasValue && r2.Answer.Value)
                 {
@@ -97,7 +97,7 @@ namespace doStuff.Services
         public bool IsEventInGroup(int groupId, int eventId)
         {
             List<Event> events = db.GetEvents(groupId);
-            foreach(Event eventt in events)
+            foreach (Event eventt in events)
             {
                 if (eventId == eventt.EventID)
                 {
@@ -120,7 +120,7 @@ namespace doStuff.Services
         public bool IsAttendingEvent(int userId, int eventId)
         {
             EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
-            if(relation == null || relation.Answer.HasValue == false)
+            if (relation == null || relation.Answer.HasValue == false)
             {
                 return false;
             }
@@ -129,15 +129,15 @@ namespace doStuff.Services
         public bool IsInvitedToEvent(int userId, int eventId)
         {
             Event theEvent = db.GetEvent(eventId);
-            if(theEvent == null)
+            if (theEvent == null)
             {
                 return false;
-            } 
+            }
             if (userId == theEvent.OwnerId)
             {
                 return true;
             }
-            if(theEvent.GroupId.HasValue)
+            if (theEvent.GroupId.HasValue)
             {
                 return IsMemberOfGroup(userId, theEvent.GroupId.Value);
             }
@@ -184,7 +184,7 @@ namespace doStuff.Services
         public bool AnswerFriendRequest(int userId, int senderId, bool answer)
         {
             UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
-            if(relation != null && relation.Active)
+            if (relation != null && relation.Active)
             {
                 relation.Answer = answer;
                 return db.SetUserToUserRelation(relation);
@@ -221,7 +221,7 @@ namespace doStuff.Services
                 }
             }
             else */
-            if (!(db.ExistsUserToUserRelation(userId, friendId) || db.ExistsUserToUserRelation(friendId, userId) ))
+            if (!(db.ExistsUserToUserRelation(userId, friendId) || db.ExistsUserToUserRelation(friendId, userId)))
             {
                 UserToUserRelation relation = new UserToUserRelation();
                 relation.Active = true;
@@ -237,7 +237,7 @@ namespace doStuff.Services
         #region GroupRelations
         public bool AddMember(int userId, int groupId)
         {
-            
+
             if (!db.ExistsGroupToUserRelation(groupId, userId))
             {
                 GroupToUserRelation relation = new GroupToUserRelation();
@@ -302,22 +302,22 @@ namespace doStuff.Services
         }
         public bool CreateEvent(Event newEvent)
         {
-            if(db.CreateEvent(ref newEvent))
+            if (db.CreateEvent(ref newEvent))
             {
                 EventToUserRelation relation = new EventToUserRelation();
                 relation.EventId = newEvent.EventID;
                 relation.AttendeeId = newEvent.OwnerId;
                 relation.Active = true;
                 relation.Answer = true;
-                if(db.CreateEventToUserRelation(ref relation))
+                if (db.CreateEventToUserRelation(ref relation))
                 {
-                    if(newEvent.GroupId.HasValue)
+                    if (newEvent.GroupId.HasValue)
                     {
                         GroupToEventRelation relation2 = new GroupToEventRelation();
                         relation2.EventId = newEvent.EventID;
                         relation2.GroupId = newEvent.GroupId.Value;
                         relation2.Active = true;
-                        if(db.CreateGroupToEventRelation(ref relation2))
+                        if (db.CreateGroupToEventRelation(ref relation2))
                         {
                             return true;
                         }
@@ -442,7 +442,7 @@ namespace doStuff.Services
             events = events.Concat(GetEventsFromGroups(eventFeed.Groups)).ToList();
             events = GetSortedEventList(events);
             eventFeed.Events = new List<EventViewModel>();
-            foreach(Event e in events)
+            foreach (Event e in events)
             {
                 bool? attending;
                 EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
@@ -494,10 +494,10 @@ namespace doStuff.Services
                 commentViews.Add(CastToViewModel(comment));
             }
             eventViewModel.CommentsViewModels = commentViews;
-            if(TimeLeft(e, DateTime.Now).TotalSeconds < 0)
+            if (TimeLeft(e, DateTime.Now).TotalSeconds < 0)
             {
                 eventViewModel.State = State.OFF;
-                if(e.Min <= eventViewModel.Attendees.Count)
+                if (!e.Min.HasValue || e.Min <= eventViewModel.Attendees.Count)
                 {
                     eventViewModel.State = State.ON;
                 }
@@ -505,11 +505,11 @@ namespace doStuff.Services
             else
             {
                 eventViewModel.State = State.NOTREACHED;
-                if(e.Max == eventViewModel.Attendees.Count)
+                if (e.Max.HasValue && e.Max == eventViewModel.Attendees.Count)
                 {
                     eventViewModel.State = State.FULL;
                 }
-                else if (e.Min <= eventViewModel.Attendees.Count)
+                else if (!e.Min.HasValue || e.Min <= eventViewModel.Attendees.Count)
                 {
                     eventViewModel.State = State.REACHED;
                 }
@@ -549,17 +549,17 @@ namespace doStuff.Services
         private List<Event> GetSortedEventList(List<Event> list)
         {
             list.Sort(delegate(Event e1, Event e2)
-                      {
-                          return e2.CreationTime.CompareTo(e1.CreationTime);
-                      });
+            {
+                return e2.CreationTime.CompareTo(e1.CreationTime);
+            });
             return list;
         }
         private List<User> GetSortedUserList(List<User> list)
         {
             list.Sort(delegate(User u1, User u2)
-                      {
-                          return u1.DisplayName.CompareTo(u2.DisplayName);
-                      });
+            {
+                return u1.DisplayName.CompareTo(u2.DisplayName);
+            });
             return list;
         }
         #endregion
