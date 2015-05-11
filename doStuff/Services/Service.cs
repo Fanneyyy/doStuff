@@ -471,6 +471,9 @@ namespace doStuff.Services
             SideBarViewModel SideBar = new SideBarViewModel();
 
             SideBar.User = db.GetUser(userId);
+            SideBar.EventList = new List<EventViewModel>();
+
+            
             if (groupId.HasValue)
             {
                 SideBar.UserList = db.GetMembers(groupId.Value);
@@ -482,6 +485,34 @@ namespace doStuff.Services
             }
 
             SideBar.UserList = GetSortedUserList(SideBar.UserList);
+
+            List<Event> events = GetEventsFromFriends(SideBar.UserList);
+            events = events.Concat(db.GetEvents(userId)).ToList();
+            events = events.Concat(GetEventsFromGroups(db.GetGroups(userId))).ToList();
+            events = GetSortedByDateOfEvent(events);
+            
+
+            foreach (Event e in events)
+            {
+                bool? attending;
+                EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
+                if (eventToUser == null)
+                {
+                    attending = null;
+                }
+                else
+                {
+                    attending = eventToUser.Answer;
+                }
+                // Checks if to add this to eventFeed
+                EventViewModel temp = CastToViewModel(e, attending);
+                // Adds all events to feed if user is attending or if the event has not expired.
+                if ((temp.Attending == true && (temp.State == State.ON )))
+                {
+                    SideBar.EventList.Add(temp);
+                }
+            }
+
 
             return SideBar;
         }
@@ -556,6 +587,14 @@ namespace doStuff.Services
             list.Sort(delegate(Event e1, Event e2)
             {
                 return e2.CreationTime.CompareTo(e1.CreationTime);
+            });
+            return list;
+        }
+        public List<Event> GetSortedByDateOfEvent(List<Event> list)
+        {
+            list.Sort(delegate(Event e1, Event e2)
+            {
+                return e1.TimeOfEvent.CompareTo(e2.TimeOfEvent);
             });
             return list;
         }

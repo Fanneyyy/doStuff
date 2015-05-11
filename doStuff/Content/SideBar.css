@@ -124,3 +124,17 @@
     width: 90%;
     padding-left: 7px;
 }
+
+.right-sidebar .event-list {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: visible;
+
+}
+
+.divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
