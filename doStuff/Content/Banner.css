@@ -148,6 +148,10 @@
     width:100%;
 }
 
+#logout-logo:hover {
+    background-image:url(logOut.png);
+}
+
 .user-index {
     min-height: 1000px;
     background-size: cover;

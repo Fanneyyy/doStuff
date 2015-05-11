@@ -22,11 +22,11 @@
                 @{
                     if (item.State == State.ON)
                     {
-                        <div class="col-md-2">ITS ON</div>
+                        <div class="col-md-2 event-countdown">ITS ON</div>
                     }
                     else if (item.State == State.OFF)
                     {
-                        <div class="col-md-2">ITS OFF</div>
+                        <div class="col-md-2 event-countdown">ITS OFF</div>
                     }
                     else
                     {
@@ -86,7 +86,14 @@
                 <div class="row comment">
                     <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
                     <div class="col-md-8 comment-content">@comment.Comment.Content</div>
-                    <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                    @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
+                    {
+                        <div class="col-md-2 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                    }
                 </div>
             }
             @using (Html.BeginForm("Comment", "User"))
@@ -99,7 +106,7 @@
                             <input type="text" name="content" placeholder="write something clever..." />
                         </span>
                         <div class="col-md-2 comment-button">
-                            <input type="submit" value="comment" class="btn btn-default" />
+                            <input type="submit" value="post" class="btn btn-default" />
                         </div>
                     </div>
                 </div>

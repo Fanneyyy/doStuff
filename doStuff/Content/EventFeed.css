@@ -76,7 +76,7 @@
     font-size: 26px;
     border-radius: 0px;
     letter-spacing: 3px;
-    padding-top: 10px;
+    padding-top: 9px;
     padding-bottom: 10px;
     border: 0px;
 }
@@ -89,11 +89,19 @@
     min-width: 60%;
 }
 
+join-event:hover {
+    background-color: rgba(174,226,57,0.70);
+}
+
 .decline-event {
     background-color: #26727f;
     color: white;
     min-height: 100%;
     min-width: 40%;
+}
+
+#event-decline:hover {
+    background-color: rgba(38,114,127,0.70);
 }
 
 .event-joined, .event-declined {
@@ -174,9 +182,16 @@
 }
 
 .comment-button input[type="submit"] {
-    color: black;
+    background-color: white;
+    color: #26727f;
+    border: 1px solid #26727f;
+    font-weight: bold;
     width: 100%;
     border-radius: 0px;
     padding-top: 3px;
     padding-bottom: 3px;
+}
+
+.comment-button input[type="submit"]:hover {
+    background-color: #eee;
 }
