@@ -6,17 +6,24 @@
 });
 
 function countdown() {
-    var countdownElements = $(".countdown");
-    var created = "";
-    for (var i = 0; i < countdownElements.length; i++) {
-        created = $(countdownElements[i]).data("created");
+    function checkTime() {
+        var element = document.getElementById('time');
+        created = $(element).data("created");
         if (typeof created === "string") {
             created = parseInt(created.split(",")[0]);
         }
-        var date = new Date(created);
-        var dateNow = new Date();
-        var diff = Math.abs(dateNow - date);
-        var minutes = Math.floor(diff / 1000 / 60);
-        $(countdownElements[i]).text(23 - minutes);
+        var initialTime = new Date(created);
+        var timeDifference = 1380000 - (Date.now() - initialTime);
+        var formatted = convertTime(timeDifference);
+        element.innerHTML = '' + formatted;
     }
+
+    function convertTime(miliseconds) {
+        var totalSeconds = Math.floor(miliseconds / 1000);
+        var minutes = Math.floor(totalSeconds / 60);
+        var seconds = totalSeconds - minutes * 60;
+        return minutes + ':' + seconds;
+    }
+    window.setInterval(checkTime, 1000);
 }
+
