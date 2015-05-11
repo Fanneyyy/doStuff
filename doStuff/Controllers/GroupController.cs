@@ -246,8 +246,9 @@ namespace doStuff.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateGroup()
+        public ActionResult CreateGroup(Message message = null)
         {
+            SetUserFeedback(message);
             return View();
         }
 
@@ -255,9 +256,10 @@ namespace doStuff.Controllers
         public ActionResult CreateGroup(Group newGroup)
         {
             User user = service.GetUser(User.Identity.Name);
+            Message message;
             if (newGroup.Name == null)
             {
-                ViewBag.ErrorMessage = "You must insert a Groupname,,, DICK"; 
+                message = new Message("Enter a Groupname please... Dick.", MessageType.ERROR);
                 return View();
             }
             newGroup.Active = true;
@@ -267,6 +269,16 @@ namespace doStuff.Controllers
                 return RedirectToAction("Index", new { groupId = newGroup.GroupID });
             }
             return View();
+        }
+        private void SetUserFeedback(Message message)
+        {
+            if (message != null)
+            {
+                ViewBag.ErrorMessage = message.ErrorMessage;
+                ViewBag.WarningMessage = message.WarningMessage;
+                ViewBag.InformationMessage = message.InformationMessage;
+                ViewBag.SuccessMessage = message.SuccessMessage;
+            }
         }
     }
 }
