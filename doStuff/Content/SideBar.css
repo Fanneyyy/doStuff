@@ -59,6 +59,9 @@
 
 .sidebar-title {
     background-color: #26727f;
+    margin: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .add-friend {
