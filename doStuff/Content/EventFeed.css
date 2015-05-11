@@ -89,11 +89,19 @@
     min-width: 60%;
 }
 
+#event-join:hover {
+    background-color: rgba(174,226,57,0.70);
+}
+
 #event-decline {
     background-color: #26727f;
     color: white;
     min-height: 100%;
     min-width: 40%;
+}
+
+#event-decline:hover {
+    background-color: rgba(38,114,127,0.70);
 }
 
 .event-joined, .event-declined {
@@ -182,4 +190,8 @@
     border-radius: 0px;
     padding-top: 3px;
     padding-bottom: 3px;
+}
+
+.comment-button input[type="submit"]:hover {
+    background-color: #eee;
 }
