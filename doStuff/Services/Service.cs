@@ -454,7 +454,12 @@ namespace doStuff.Services
                 {
                     attending = eventToUser.Answer;
                 }
-                eventFeed.Events.Add(CastToViewModel(e, attending));
+                // Checks if to add this to eventFeed
+                EventViewModel temp = CastToViewModel(e, attending);
+                if (!(temp.Attending == false && (temp.State == State.ON || temp.State == State.OFF)))
+                {
+                    eventFeed.Events.Add(temp);
+                }
 
             }
             return eventFeed;
@@ -500,11 +505,6 @@ namespace doStuff.Services
                 {
                     eventViewModel.State = State.ON;
                 }
-                /*if (attending == false)
-                {
-                    return null;
-                }
-                 */
             }
             else
             {
