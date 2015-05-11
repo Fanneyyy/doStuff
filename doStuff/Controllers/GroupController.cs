@@ -257,7 +257,7 @@ namespace doStuff.Controllers
         {
             User user = service.GetUser(User.Identity.Name);
             Message message;
-            if (newGroup.Name == null)
+            if (String.IsNullOrEmpty(newGroup.Name))
             {
                 message = new Message("Enter a Groupname please... Dick.", MessageType.ERROR);
                 return View();
