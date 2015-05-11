@@ -3,7 +3,7 @@
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
     <div class="friend-list">
-        <ul>
+        <ul id="FriendList">
             @foreach (var user in Model.SideBar.UserList)
             {
                 <li class="eventfeed-friend">
@@ -16,18 +16,19 @@
                     </button>
                     @Html.ValidationSummary(false)
                 }
-            </li>
+                </li>
             }
         </ul>
     </div>
     <div>
-        @using (Html.BeginForm("AddFriend", "User"))
+        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { id = "AddFriend" }))
         {
             <div class="row add-friend">
                 <div class="col-md-12 add-friend-title">add friend</div>
                 <div class="form-group">
                     <span class="col-md-12">
                         <input type="text" name="username" placeholder="insert username..." />
+                        <input type="submit" id="AddFriendButton" />
                     </span>
                 </div>
             </div>

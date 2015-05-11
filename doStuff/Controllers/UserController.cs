@@ -54,6 +54,10 @@ namespace doStuff.Controllers
             }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(friend, JsonRequestBehavior.AllowGet);
+                }
                 message = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
             }
             else
