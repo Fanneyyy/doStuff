@@ -55,11 +55,11 @@
                         {
                             using (Html.BeginForm("AnswerEvent", "User"))
                             {
-                                @Html.Hidden("eventId", item.Event.EventID)
+                                <input id="eventId" name="eventId" type="hidden" value="@item.Event.EventID" />
                                 <div class="row">
                                     <div class="col-md-12 btn-group">
-                                        <button type="submit" class="btn btn-primary" name="answer" id="event-join" value="True">join</button>
-                                        <button type="submit" class="btn btn-primary" name="answer" id="event-decline" value="False">decline</button>
+                                        <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
+                                        <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
                                     </div>
                                 </div>
                                 @Html.ValidationSummary(false)
@@ -98,7 +98,7 @@
             }
             @using (Html.BeginForm("Comment", "User"))
             {
-                @Html.Hidden("eventId", item.Event.EventID)
+                <input name="eventId" type="hidden" value="@item.Event.EventID" />
                 <div class="row comment">
                     <div class="col-md-2 comment-owner comment-comment">comment:</div>
                     <div class="form-group">

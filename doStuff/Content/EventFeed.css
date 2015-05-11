@@ -72,7 +72,7 @@
     padding-right: 15px;
 }
 
-#event-join, #event-decline, .event-joined, .event-declined {
+.join-event, .decline-event, .event-joined, .event-declined {
     font-size: 26px;
     border-radius: 0px;
     letter-spacing: 3px;
@@ -81,7 +81,7 @@
     border: 0px;
 }
 
-#event-join {
+.join-event {
     background-color: #aee239;
     letter-spacing: 3px;
     color: #26727f;
@@ -89,18 +89,18 @@
     min-width: 60%;
 }
 
-#event-join:hover {
+join-event:hover {
     background-color: rgba(174,226,57,0.70);
 }
 
-#event-decline {
+.decline-event {
     background-color: #26727f;
     color: white;
     min-height: 100%;
     min-width: 40%;
 }
 
-#event-decline:hover {
+.decline-event:hover {
     background-color: rgba(38,114,127,0.70);
 }
 
