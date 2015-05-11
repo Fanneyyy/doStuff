@@ -511,7 +511,7 @@ namespace doStuff.Services
                 }
                 else if (e.Min <= eventViewModel.Attendees.Count)
                 {
-                    eventViewModel.State = State.REACED;
+                    eventViewModel.State = State.REACHED;
                 }
             }
             eventViewModel.TimeCreated = DateTimeToMillis(e.CreationTime);
