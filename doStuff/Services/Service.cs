@@ -11,7 +11,7 @@ namespace doStuff.Services
 {
     public class Service
     {
-        private static Database db = null;
+        private static Database db;
         public Service(Database database = null)
         {
             db = database ?? new Database(null); 

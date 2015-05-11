@@ -13,7 +13,7 @@ namespace doStuff.Controllers
     [Authorize]
     public class HomeController : ParentController
     {
-        private DatabaseContext db = new DatabaseContext();
+
         public ActionResult Index()
         {
             return RedirectToAction("Index", "User");

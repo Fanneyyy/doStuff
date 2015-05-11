@@ -14,7 +14,6 @@ namespace doStuff.Controllers
     [Authorize]
     public class UserController : ParentController
     {
-        private static Database db = new Database(null);
 
         [HttpGet]
         public ActionResult Index(Message message = null)
