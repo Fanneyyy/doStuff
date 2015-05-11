@@ -148,7 +148,7 @@ namespace doStuff.Controllers
             {
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = user.UserID;
-                newEvent.Minutes = 23;
+                newEvent.Minutes = 1;
                 newEvent.Min = 2;
                 newEvent.Max = 4;
                 newEvent.Active = true;
