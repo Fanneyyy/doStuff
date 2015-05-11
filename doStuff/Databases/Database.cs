@@ -72,7 +72,7 @@ namespace doStuff.Databases
             List<User> attendees = new List<User>();
 
             List<int> attendeeIds = (from r in db.EventToUserRelations
-                                     where r.EventId == eventId && r.Active == true
+                                     where r.EventId == eventId && r.Active == true && r.Answer == true
                                      select r.AttendeeId).ToList();
 
             foreach(var id in attendeeIds)
