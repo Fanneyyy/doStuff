@@ -494,7 +494,7 @@ namespace doStuff.Services
                 commentViews.Add(CastToViewModel(comment));
             }
             eventViewModel.CommentsViewModels = commentViews;
-            if (TimeLeft(e, DateTime.Now).TotalSeconds < 0)
+            if (TimeLeft(e, DateTime.Now).TotalSeconds <= 0)
             {
                 eventViewModel.State = State.OFF;
                 if (!e.Min.HasValue || e.Min <= eventViewModel.Attendees.Count)
