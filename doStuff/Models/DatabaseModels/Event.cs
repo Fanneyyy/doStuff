@@ -14,13 +14,17 @@ namespace doStuff.Models.DatabaseModels
         public bool Active { get; set; }
         public int? GroupId { get; set; }
         public int OwnerId { get; set; }
+        [Required(ErrorMessage = "Please add a name to the event")]
         public string Name { get; set; }
         public string Photo { get; set; }
+        [Required(ErrorMessage = "Please add a description to the event")]
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
         [DataType(DataType.DateTime)]
+        [Required(ErrorMessage = "Please add a time to the event")]
         public DateTime TimeOfEvent { get; set; }
         public int Minutes { get; set; }
+        [Required(ErrorMessage = "Please add a location to the event")]
         public string Location { get; set; }
         public int Min { get; set; }
         public int Max { get; set; }

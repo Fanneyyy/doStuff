@@ -189,7 +189,14 @@ namespace doStuff.Controllers
                 if (service.AnswerEvent(user.UserID, eventId, answer))
                 {
                     Event theEvent = service.GetEventById(eventId);
-                    message = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
+                    if (answer)
+                    {
+                        message = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
+                    }
+                    else
+                    {
+                        message = new Message("You have successfully declined " + theEvent.Name, MessageType.SUCCESS);
+                    }
                 }
                 else
                 {
