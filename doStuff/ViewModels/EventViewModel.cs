@@ -13,6 +13,7 @@ namespace doStuff.ViewModels
         public string Owner;
         public Event Event;
         public bool? Attending;
+        public double TimeCreated;
         public List<CommentViewModel> CommentsViewModels;
         public List<User> Attendees;
         public State State;

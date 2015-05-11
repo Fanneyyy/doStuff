@@ -514,6 +514,7 @@ namespace doStuff.Services
                     eventViewModel.State = State.REACED;
                 }
             }
+            eventViewModel.TimeCreated = DateTimeToMillis(e.CreationTime);
             return eventViewModel;
         }
 
