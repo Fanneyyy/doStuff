@@ -141,6 +141,10 @@
     padding-left: 7px;
 }
 
+.comment-owner {
+    overflow: hidden;
+}
+
 .comment-content {
     overflow: hidden;
 }
