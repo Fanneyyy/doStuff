@@ -17,15 +17,16 @@ namespace doStuff.Controllers
     public class GroupController : ParentController
     {
         [HttpGet]
-        public ActionResult Index(int? groupId)
+        public ActionResult Index(int? groupId, Message message = null)
         {
-            if(groupId == null)
+            if (groupId == null)
             {
                 return RedirectToAction("Index", "User");
             }
             User user = service.GetUser(User.Identity.Name);
-            if(service.IsMemberOfGroup(user.UserID, groupId.Value))
+            if (service.IsMemberOfGroup(user.UserID, groupId.Value))
             {
+                SetUserFeedback(message);
                 GroupFeedViewModel feed = service.GetGroupFeed(groupId.Value, service.GetUserId(User.Identity.Name));
                 return View(feed);
             }
@@ -38,7 +39,7 @@ namespace doStuff.Controllers
             return RedirectToAction("Index", "User");
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult AddMember(int groupId)
         {
             User user = service.GetUser(User.Identity.Name);
@@ -48,42 +49,35 @@ namespace doStuff.Controllers
                 return View(feed);
             }
             return RedirectToAction("Index", "User");
-        }
+        }*/
 
         [HttpPost]
         public ActionResult AddMember(int groupId, string username)
         {
+            Message message = null;
             User user = service.GetUser(User.Identity.Name);
             User member = service.GetUser(username);
-            if(service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                return View("Index", "User");
+                return Index(groupId, message);
             }
-            if(member == null)
+            else if (member == null)
             {
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
-                ViewBag.ErrorMessage = "The username " + username + " could not be found.";
-                return View(feed);
+                message = new Message("The username " + username + " could not be found.", MessageType.INFORMATION);
             }
-            if(User.Identity.Name == member.UserName)
+            else if (User.Identity.Name == member.UserName)
             {
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
-                ViewBag.ErrorMessage = "You are already in the group.";
-                return View(feed);
+                message = new Message("You are already in the group.", MessageType.INFORMATION);
             }
-            if(service.IsMemberOfGroup(member.UserID, groupId))
+            else if (service.IsMemberOfGroup(member.UserID, groupId))
             {
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
-                ViewBag.ErrorMessage = username + " is already in the group.";
-                return View(feed);
+                message = new Message(username + " is already in the group.", MessageType.INFORMATION);
             }
-            if(service.AddMember(member.UserID, groupId))
+            else if (service.AddMember(member.UserID, groupId))
             {
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
-                ViewBag.SuccessMessage = member.UserName + " was added to the group.";
-                return View("Index", feed);
+                message = new Message(member.UserName + " was added to the group.", MessageType.SUCCESS);
             }
-            return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
+            return Index(groupId, message);
         }
 
         [HttpPost]
@@ -157,7 +151,7 @@ namespace doStuff.Controllers
                 newEvent.Min = 2;
                 newEvent.Max = 4;
                 newEvent.Active = true;
-                if (service.CreateEvent(newEvent))
+                if (service.CreateEvent(ref newEvent))
                 {
                     return RedirectToAction("Index", new { groupId = groupId });
                 }
@@ -172,7 +166,7 @@ namespace doStuff.Controllers
         public ActionResult RemoveEvent(int groupId, int eventId)
         {
             User user = service.GetUser(User.Identity.Name);
-            if((service.IsOwnerOfGroup(user.UserID, groupId) && service.IsEventInGroup(groupId, eventId)) || service.IsOwnerOfEvent(user.UserID, eventId))
+            if ((service.IsOwnerOfGroup(user.UserID, groupId) && service.IsEventInGroup(groupId, eventId)) || service.IsOwnerOfEvent(user.UserID, eventId))
             {
                 return RedirectToAction("Index", new { groupId = groupId });
             }
@@ -188,14 +182,14 @@ namespace doStuff.Controllers
         public ActionResult Comment(int eventId, Comment newComment)
         {
             User user = service.GetUser(User.Identity.Name);
-            if(service.IsInvitedToEvent(user.UserID, eventId))
+            if (service.IsInvitedToEvent(user.UserID, eventId))
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     newComment.Active = true;
                     newComment.OwnerId = user.UserID;
                     newComment.CreationTime = DateTime.Now;
-                    if(service.CreateComment(eventId, newComment))
+                    if (service.CreateComment(eventId, ref newComment))
                     {
                         return RedirectToAction("Index", "User");
                     }
@@ -253,20 +247,20 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateGroup(Group newGroup)
+        public ActionResult CreateGroup(string name, Message message = null)
         {
+            SetUserFeedback(message);
             User user = service.GetUser(User.Identity.Name);
-            Message message;
-            if (String.IsNullOrEmpty(newGroup.Name))
+            if (String.IsNullOrEmpty(name))
             {
-                message = new Message("Enter a Groupname please... Dick.", MessageType.ERROR);
+                message = new Message("Group name can not be empty.", MessageType.ERROR);
                 return View();
             }
-            newGroup.Active = true;
-            newGroup.OwnerId = user.UserID;
-            if (service.CreateGroup(newGroup))
+            Group group = new Group(true, user.UserID, name, 0);
+            if (service.CreateGroup(ref group))
             {
-                return RedirectToAction("Index", new { groupId = newGroup.GroupID });
+                message = new Message("Your group was created!", MessageType.SUCCESS);
+                return Index(group.GroupID, message);
             }
             return View();
         }

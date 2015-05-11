@@ -112,11 +112,11 @@ namespace doStuff.Controllers
             {
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
-                newEvent.Minutes = 23;
+                newEvent.Minutes = 1;
                 newEvent.Active = true;
                 newEvent.Min = 2;
                 newEvent.Max = 4;
-                service.CreateEvent(newEvent);
+                service.CreateEvent(ref newEvent);
                 return RedirectToAction("Index");
             }
 
@@ -151,7 +151,7 @@ namespace doStuff.Controllers
             myComment.Active = true;
             myComment.OwnerId = service.GetUserId(User.Identity.Name);
             myComment.CreationTime = DateTime.Now;
-            service.CreateComment(eventId, myComment);
+            service.CreateComment(eventId, ref myComment);
             return RedirectToAction("Index");
         }
 
