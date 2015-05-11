@@ -16,17 +16,14 @@ namespace doStuff.Services
         {
             db = database ?? new Database(null); 
         }
-
         public User GetUser(int id)
         {
             return db.GetUser(id);
         }
-
         public User GetUser(string userName)
         {
             return db.GetUser(userName);
         }
-
         public DateTime NewTime(Event time, DateTime Now)
         {
             DateTime newt = new DateTime();
@@ -35,7 +32,6 @@ namespace doStuff.Services
 
             return newt;
         }
-
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {

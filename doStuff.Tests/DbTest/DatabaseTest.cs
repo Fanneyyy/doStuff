@@ -437,6 +437,7 @@ namespace doStuff.Tests.DbTest
             catch (ErrorHandler.GroupNotFoundException) { }
             Assert.AreEqual(newName, groupWithNewName.Name);
         }
+        /* will be used if friend requests are implemented
         [TestMethod]
         public void ServiceSendFriendRequest()
         {
@@ -460,7 +461,7 @@ namespace doStuff.Tests.DbTest
             Assert.AreEqual(true, success2);
             Assert.AreEqual(true, success3);
 
-        }
+        }*/
         [TestMethod]
         public void ServiceCreateComment()
         {
