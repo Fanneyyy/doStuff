@@ -153,3 +153,30 @@
     font-size: 13px;
     text-align: center;
 }
+
+.comment-comment {
+    padding-top: 4px;
+}
+
+.comment-text-field {
+    padding-left: 0px;
+    padding-right: 4px;
+}
+
+.comment-text-field input[type="text"] {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.comment-button {
+    padding-left: 0px;
+    padding-right: 4px;
+}
+
+.comment-button input[type="submit"] {
+    color: black;
+    width: 100%;
+    border-radius: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
