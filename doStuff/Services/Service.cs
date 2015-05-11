@@ -456,7 +456,8 @@ namespace doStuff.Services
                 }
                 // Checks if to add this to eventFeed
                 EventViewModel temp = CastToViewModel(e, attending);
-                if (!(temp.Attending == false && (temp.State == State.ON || temp.State == State.OFF)))
+                // Adds all events to feed if user is attending or if the event has not expired.
+                if (!(temp.Attending != true && (temp.State == State.ON || temp.State == State.OFF)))
                 {
                     eventFeed.Events.Add(temp);
                 }
