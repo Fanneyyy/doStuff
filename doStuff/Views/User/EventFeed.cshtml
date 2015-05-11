@@ -1,5 +1,4 @@
-﻿@using doStuff.Services
-@model doStuff.ViewModels.EventFeedViewModel
+﻿@model doStuff.ViewModels.EventFeedViewModel
 
 @foreach (var item in Model.Events)
     {
@@ -19,7 +18,7 @@
                         }
                     }
                 </div>
-                <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-created="@Service.DateTimeToMillis(item.Event.CreationTime)"></span></div>
+                <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-created="@item.TimeCreated"></span></div>
                 <div class="col-md-3 event-name">@item.Event.Name</div>
             </div>
         </div>

@@ -254,7 +254,7 @@ namespace doStuff.Controllers
         public ActionResult CreateGroup(Group newGroup)
         {
             User user = service.GetUser(User.Identity.Name);
-            if (newGroup.Name == null)
+            if (String.IsNullOrEmpty(newGroup.Name))
             {
                 ModelState.AddModelError("Error", "Name of the group can not be empty");
                 return View();

@@ -67,6 +67,21 @@ namespace doStuff.Databases
                                   select u).ToList();
             return members;
         }
+        public List<User> GetAttendees(int eventId)
+        {
+            List<User> attendees = new List<User>();
+
+            List<int> attendeeIds = (from r in db.EventToUserRelations
+                                     where r.EventId == eventId && r.Active == true
+                                     select r.AttendeeId).ToList();
+
+            foreach(var id in attendeeIds)
+            {
+                attendees.Add(GetUser(id));
+            }
+
+            return attendees;
+        }
         public List<Group> GetGroups(int userId)
         {
             List<Group> groups = (from r in db.GroupToUserRelations
