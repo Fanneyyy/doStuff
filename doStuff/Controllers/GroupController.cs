@@ -53,31 +53,33 @@ namespace doStuff.Controllers
         public ActionResult AddMember(int groupId, string username)
         {
             User user = service.GetUser(User.Identity.Name);
+            User member = service.GetUser(username);
             if(service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
                 return View("Index", "User");
             }
-            GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
-            User member = service.GetUser(username);
             if(member == null)
             {
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
                 ViewBag.ErrorMessage = "The username " + username + " could not be found.";
                 return View(feed);
             }
             if(User.Identity.Name == member.UserName)
             {
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
                 ViewBag.ErrorMessage = "You are already in the group.";
                 return View(feed);
             }
             if(service.IsMemberOfGroup(member.UserID, groupId))
             {
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
                 ViewBag.ErrorMessage = username + " is already in the group.";
                 return View(feed);
             }
             if(service.AddMember(member.UserID, groupId))
             {
-                Group group = service.GetGroupById(groupId);
-                ViewBag.SuccessMessage = "Success, " + member.UserName + " was added to " + group.Name;
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                ViewBag.SuccessMessage = member.UserName + " was added to the group.";
                 return View("Index", feed);
             }
             return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");

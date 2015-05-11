@@ -1,65 +1,54 @@
-﻿
-@model doStuff.ViewModels.GroupFeedViewModel
+﻿@model doStuff.ViewModels.GroupFeedViewModel
 
 <div class="pull-right right-sidebar">
-    <h3>@Model.SideBar.User.DisplayName</h3>
+    <h2>@Model.Group.Name</h2>
     <div>
-        @foreach (var group in Model.Groups)
-        {
-           if (group.GroupID == Model.groupId)
-           {
-               if (Model.SideBar.User.UserID == group.OwnerId)
-               {
-                    @Html.ActionLink("add member", "AddMember", new { groupId = Model.groupId }, new { @class = "btn btn-default btn-sidebar" })
-                    break;
-               }
-               else
-               {
-                    <p>Members</p>
-                    break;
-               }
-            }
-        }
+        <p>Members</p>
     </div>
     <ul>
-        @foreach (var group in Model.Groups)
-{
-    if (group.GroupID == Model.groupId)
-    {
-        if (Model.SideBar.User.UserID == group.OwnerId)
+        @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
         {
             foreach (var user in Model.SideBar.UserList)
             {
-                if (user.UserID != Model.SideBar.User.UserID)
-                {
-                    <li class ="eventfeed-friend">
-                        @user.DisplayName
-                    @using (Html.BeginForm("RemoveMember", "Group"))
+                <li class ="eventfeed-friend">
+                    @user.DisplayName
+                    @if(user.UserID != Model.Group.OwnerId)
                     {
-                        @Html.Hidden("memberId", user.UserID)
-                        @Html.Hidden("groupId", group.GroupID)
-                        <button type="submit" class="btn btn-primary remove-button">
-                            <i class="glyphicon glyphicon-remove right"></i>
-                        </button>
-                        @Html.ValidationSummary(false)
+                        using (Html.BeginForm("RemoveMember", "Group"))
+                        {
+                            @Html.Hidden("memberId", user.UserID)
+                            @Html.Hidden("groupId", Model.Group.GroupID)
+                            <button type="submit" class="btn btn-primary remove-button">
+                                <i class="glyphicon glyphicon-remove right"></i>
+                            </button>
+                            @Html.ValidationSummary(false)
+                        }
                     }
                 </li>
-                }
             }
-            break;
         }
         else
         {
             foreach (var user in Model.SideBar.UserList)
             {
-                if (user.UserID != Model.SideBar.User.UserID)
-                {
-                            <li>@user.DisplayName</li>
-                        }
-                    }
-                    break;
-                }
+                <li>@user.DisplayName</li>
             }
         }        
     </ul>
+    <div>
+        @using (Html.BeginForm("AddMember", "Group"))
+        {
+            @Html.Hidden("groupId", Model.Group.GroupID)
+
+            <div class="form-group">
+                <span class="col-md-10">
+                    <input type="text" name="username" placeholder="Your friends username" />
+                    <button type="submit" class="btn btn-primary remove-button">
+                        <i class="glyphicon glyphicon-plus right"></i>
+                    </button>
+                </span>
+            </div>
+            @Html.ValidationSummary(false)
+        }
+    </div>
 </div>

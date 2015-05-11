@@ -417,7 +417,7 @@ namespace doStuff.Services
             sidebar.UserList = db.GetMembers(groupId);
             feed.Events = eventViews;
             feed.SideBar = sidebar;
-            feed.groupId = groupId;
+            feed.Group = db.GetGroup(groupId);
 
 
             List<Group> groups = db.GetGroups(userId);

@@ -11,6 +11,6 @@ namespace doStuff.ViewModels
         public SideBarViewModel SideBar;
         public List<EventViewModel> Events;
         public List<Group> Groups;
-        public int groupId;
+        public Group Group;
     }
 }

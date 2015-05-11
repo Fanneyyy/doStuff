@@ -2,20 +2,6 @@
 
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
-    <div>
-        @using (Html.BeginForm("AddFriend", "User"))
-        {
-            <div class="row add-friend">
-                <div class="col-md-12 add-friend-title">add friend</div>
-                <div class="form-group">
-                    <span class="col-md-12">
-                        <input type="text" name="username" placeholder="insert username..." />
-                    </span>
-                </div>
-            </div>
-            @Html.ValidationSummary(false)
-        }
-    </div>
     <div class="friend-list">
         <ul>
             @foreach (var user in Model.SideBar.UserList)
@@ -33,5 +19,19 @@
             </li>
             }
         </ul>
+    </div>
+    <div>
+        @using (Html.BeginForm("AddFriend", "User"))
+        {
+            <div class="row add-friend">
+                <div class="col-md-12 add-friend-title">add friend</div>
+                <div class="form-group">
+                    <span class="col-md-12">
+                        <input type="text" name="username" placeholder="insert username..." />
+                    </span>
+                </div>
+            </div>
+            @Html.ValidationSummary(false)
+        }
     </div>
 </div>
