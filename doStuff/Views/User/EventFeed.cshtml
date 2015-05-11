@@ -22,7 +22,15 @@
                 @{
                     if (item.State == State.ON)
                     {
-                        <div class="col-md-2 event-countdown">ITS ON</div>
+                        if (item.Event.TimeOfEvent <= DateTime.Now)
+                        {
+                            <div class="col-md-2 event-countdown">You did this!! :)</div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-2 event-countdown">ITS ON</div>
+                        }
                     }
                     else if (item.State == State.OFF)
                     {
