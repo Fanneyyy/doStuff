@@ -6,7 +6,7 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.ViewModels
 {
-    public enum State { ON, OFF, REACED, NOTREACHED, FULL };
+    public enum State { ON, OFF, REACHED, NOTREACHED, FULL };
 
     public class EventViewModel
     {
