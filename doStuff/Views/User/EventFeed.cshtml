@@ -18,7 +18,20 @@
                         }
                     }
                 </div>
-                <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-created="@item.TimeCreated"></span></div>
+                @{
+                    if (item.State.Equals(0) == true)
+                    {
+                        <div class="col-md-2">ITS ON</div>
+                    }
+                    else if (item.State.Equals(1) == true)
+                    {
+                        <div class="col-md-2">ITS OFF</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-created="@item.TimeCreated"></span></div>
+                    }
+                }
                 <div class="col-md-3 event-name">@item.Event.Name</div>
             </div>
         </div>

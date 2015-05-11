@@ -1,7 +1,9 @@
 ﻿$(function () {
 
     $("#datepicker").datetimepicker({ dateFormat: 'dd/mm/yy' });
+
     countdown();
+
 });
 
 function countdown() {
