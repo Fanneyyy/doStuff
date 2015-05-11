@@ -76,9 +76,19 @@
                 <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
             </div>
         }
-        <a class="btn btn-default" href="@Url.Action("Comment", "Group", new { @eventId = item.Event.EventID })">
-            Comment if you don't use javascript!
-        </a>
+        @using (Html.BeginForm("Comment", "Group"))
+        {
+            @Html.Hidden("eventId", item.Event.EventID)
+            <div class="row comment">
+                <div class="col-md-2 comment-owner">comment:</div>
+                <div class="form-group">
+                    <span class="col-md-10">
+                        <input type="text" name="content" placeholder="write something clever..." />
+                    </span>
+                </div>
+            </div>
+            @Html.ValidationSummary(false)
+        }
    </div>
 }
 

@@ -35,33 +35,33 @@ namespace doStuff.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFriend(User newFriend)
+        public ActionResult AddFriend(string username)
         {
             User user = service.GetUser(User.Identity.Name);
-            User friend = service.GetUser(newFriend.UserName);
+            User friend = service.GetUser(username);
             if (friend == null)
             {
-                ModelState.AddModelError("Error", "The username " + newFriend.UserName + " could not be found.");
-                return View();
+                ModelState.AddModelError("Error", "The username " + username + " could not be found.");
+                return RedirectToAction("Index");
             }
             if (User.Identity.Name == friend.UserName)
             {
                 ModelState.AddModelError("Error", "You can't add yourself to your friend list.");
-                return View();
+                return RedirectToAction("Index");
             }
             if (service.IsFriendsWith(user.UserID, friend.UserID))
             {
-                ModelState.AddModelError("Error", newFriend.UserName + " is already your friend.");
-                return View();
+                ModelState.AddModelError("Error", username + " is already your friend.");
+                return RedirectToAction("Index");
             }
             if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
                 ViewBag.SuccessMessage = "Success, " + friend.UserName + " is now you friend.";
                 ModelState.Clear();
-                return View();
+                return RedirectToAction("Index");
             }
             ViewBag.ErrorMessage = "An error occured when processing your request, please try again later.";
-            return View("Index", service.GetEventFeed(user.UserID));
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Banner()

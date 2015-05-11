@@ -3,7 +3,18 @@
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
     <div>
-        @Html.ActionLink("add friend", "AddFriend", null, new { @class = "btn btn-default btn-sidebar" })
+        @using (Html.BeginForm("AddFriend", "User"))
+        {
+            <div class="row add-friend">
+                <div class="col-md-12 add-friend-title">add friend</div>
+                <div class="form-group">
+                    <span class="col-md-12">
+                        <input type="text" name="username" placeholder="insert username..." />
+                    </span>
+                </div>
+            </div>
+            @Html.ValidationSummary(false)
+        }
     </div>
     <div class="friend-list">
         <ul>

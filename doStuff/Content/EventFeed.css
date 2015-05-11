@@ -5,6 +5,7 @@
 .event-box {
     background-color:white;
     color: #90BC25;
+    border: 1px solid #C8C8C8;
     margin-bottom: 30px;
     font-size: 16px;
     letter-spacing: 2px;
