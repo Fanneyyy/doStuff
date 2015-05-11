@@ -113,7 +113,7 @@ namespace doStuff.Controllers
             {
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
-                newEvent.Minutes = 23;
+                newEvent.Minutes = 1;
                 newEvent.Active = true;
                 newEvent.Min = 2;
                 newEvent.Max = 4;
