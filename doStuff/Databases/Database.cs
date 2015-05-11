@@ -62,7 +62,7 @@ namespace doStuff.Databases
                                   from u in db.Users
                                   where g.GroupId == groupId 
                                   && g.Active == true
-                                  && u.UserID == g.GroupId
+                                  && u.UserID == g.MemberId
                                   && u.Active == true
                                   select u).ToList();
             return members;
