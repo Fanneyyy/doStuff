@@ -100,7 +100,7 @@ join-event:hover {
     min-width: 40%;
 }
 
-#event-decline:hover {
+.decline-event:hover {
     background-color: rgba(38,114,127,0.70);
 }
 
