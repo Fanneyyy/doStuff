@@ -12,7 +12,7 @@ using doStuff.ViewModels;
 namespace doStuff.Tests.DbTest
 {
     [TestClass]
-    public class DatabaseTest
+    public class Testset1
     {
         private Database DbTest;
         private Service ServiceTest;
