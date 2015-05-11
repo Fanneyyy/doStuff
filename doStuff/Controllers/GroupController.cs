@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Services;
+using doStuff.Models;
 using ErrorHandler;
 
 namespace doStuff.Controllers
@@ -256,7 +257,7 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             if (newGroup.Name == null)
             {
-                ModelState.AddModelError("Error", "Name of the group can not be empty");
+                ViewBag.ErrorMessage = "You must insert a Groupname,,, DICK"; 
                 return View();
             }
             newGroup.Active = true;
