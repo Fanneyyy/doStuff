@@ -17,6 +17,10 @@
     margin-top: 4px;
 }
 
+.right-sidebar ul {
+    padding-top: 15px;
+}
+
 .btn-sidebar {
     border-radius: 0px;
     background-color: #aee239;
@@ -62,6 +66,41 @@
     margin: 0px;
     padding-top: 3px;
     padding-bottom: 3px;
+}
+
+.add-member-title {
+    padding-top: 15px;
+}
+
+.add-member-button {
+    padding: 0px;
+}
+
+.add-member-button input {
+    border-radius: 0px;
+    width: 100%;
+    color: #26727f;
+    border: solid 1px #26727f;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.add-friend-field-button {
+    margin: 0px;
+    padding: 0px;
+    border: solid 1px #26727f;
+}
+
+.add-friend-field {
+    padding: 0px;
+}
+
+.add-friend-field input {
+    width: 100%;
+    font-size: 16px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 4px;
 }
 
 .add-friend {

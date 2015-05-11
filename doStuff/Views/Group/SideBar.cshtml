@@ -9,14 +9,17 @@
     {
     <div>
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">add a member:</div>
+            <div class="col-md-10 col-md-offset-1 add-member-title">add a member:</div>
         </div>
         @using (Html.BeginForm("AddMember", "Group"))
         {
             @Html.Hidden("groupId", Model.Group.GroupID)
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+            <div class="row add-friend-field-button">
+                <div class="col-md-10 add-friend-field">
                     <input type="text" name="username" placeholder="Your friends username" />
+                </div>
+                <div class="col-md-2 add-member-button">
+                    <input type="submit" value="add" class="btn btn-default" />
                 </div>
             </div>
             @Html.ValidationSummary(false)
