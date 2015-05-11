@@ -486,8 +486,8 @@ namespace doStuff.Tests.DbTest
                 CreationTime = new DateTime(2015, 5, 6, 16, 35, 1)
             };
 
-            ServiceTest.CreateComment(event1Id, newComment1);
-            ServiceTest.CreateComment(event2Id, newComment2);
+            ServiceTest.CreateComment(event1Id, ref newComment1);
+            ServiceTest.CreateComment(event2Id, ref newComment2);
             List<Comment> commentsEvent1 = DbTest.GetComments(event1Id);
             List<Comment> commentsEvent2 = DbTest.GetComments(event2Id);
 
