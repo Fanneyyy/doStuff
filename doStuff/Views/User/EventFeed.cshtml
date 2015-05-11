@@ -75,15 +75,30 @@
                         }
                         else if (item.Attending == true)
                         {
+                            if (item.State == State.OFF)
+                            {
+                                <div class="row event-join-decline">
+                                    @using (Html.BeginForm("AnswerEvent", "User"))
+                                    {
+                                    <input name="eventId" type="hidden" value="@item.Event.EventID" />
+                                    <!--<div class="row event-join-decline">-->
+                                        <button type="submit" class="btn btn-primary event-declined" name="answer" value="False">OK, Remove this :(</button>
+                                    @Html.ValidationSummary(false)
+                                    }
+                                </div>
+                            }
+                            else
+                            {
                             <div class="row event-join-decline">
                                 <div class="col-md-12 event-joined">You Have Joined!</div>
                             </div>
+                            }
                         }
                         else
                         {
                             <div class="row event-join-decline">
                                 <div class="col-md-12 event-declined">You Have Declined!</div>
-                            </div>
+                            </div>       
                         }
                 </div>
             </div>
