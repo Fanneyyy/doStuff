@@ -135,6 +135,11 @@
     border-bottom: solid 1px #26727f;
 }
 
+.comment input {
+    width: 100%;
+    padding-left: 7px;
+}
+
 .comment-content {
     overflow: hidden;
 }
