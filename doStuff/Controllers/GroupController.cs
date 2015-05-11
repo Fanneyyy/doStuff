@@ -77,7 +77,8 @@ namespace doStuff.Controllers
             {
                 message = new Message(member.UserName + " was added to the group.", MessageType.SUCCESS);
             }
-            return Index(groupId, message);
+            return RedirectToAction("Index", "Group", new { groupId = groupId });
+            // return Index(groupId, message);
         }
 
         [HttpPost]

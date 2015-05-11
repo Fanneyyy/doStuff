@@ -13,13 +13,15 @@
         </div>
         @using (Html.BeginForm("AddMember", "Group"))
         {
-            @Html.Hidden("groupId", Model.Group.GroupID)
+            <input name="groupId" type="hidden" value="@Model.Group.GroupID" />
             <div class="row add-friend-field-button">
-                <div class="col-md-10 add-friend-field">
-                    <input type="text" name="username" placeholder="Your friends username" />
-                </div>
-                <div class="col-md-2 add-member-button">
-                    <input type="submit" value="add" class="btn btn-default" />
+                <div class="form-group">
+                    <div class="col-md-10 add-friend-field">
+                        <input type="text" name="username" placeholder="Your friends username" />
+                    </div>
+                    <div class="col-md-2 add-member-button">
+                        <input type="submit" value="add" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
             @Html.ValidationSummary(false)
