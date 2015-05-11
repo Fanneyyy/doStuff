@@ -52,6 +52,7 @@ input[type="checkbox"].input-validation-error {
     margin-top: 20px;
     padding: 0px;
     border-radius: 50%;
+    border: 1px solid #C8C8C8;
     float: left;
     font-size:22px;
 }

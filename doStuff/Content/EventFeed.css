@@ -3,16 +3,18 @@
 }
 
 .event-box {
-    background-color: #90BC25;
-    margin-bottom: 20px;
+    background-color:white;
+    color: #90BC25;
+    border: 1px solid #C8C8C8;
+    margin-bottom: 30px;
     font-size: 16px;
     letter-spacing: 2px;
     padding: 0px;
 }
 
 .event-banner {
-    background-color: rgba(255,255,255,0.86);
-    color: #26727f;
+    background-color: #90BC25;
+    color: white;
 }
 
 .event-owner, .event-group, .event-countdown, .event-name {
@@ -60,6 +62,7 @@
 }
 
 .event-description {
+    color: #26727f;
     min-height: 150px;
     padding: 5px 25px 5px 25px;
 }
@@ -79,7 +82,8 @@
 }
 
 #event-join {
-    background-color: #f1c40f;
+    background-color: #aee239;
+    letter-spacing: 3px;
     color: #26727f;
     min-height: 100%;
     min-width: 60%;
@@ -101,8 +105,9 @@
 }
 
 .event-joined {
-    background-color: white;
-    color: #26727f; 
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
 }
 
 .event-declined {
@@ -112,4 +117,35 @@
 
 .event-comments {
     min-height: 0px;
+}
+
+.comment-title {
+    color:#26727f;
+    letter-spacing: 2px;
+    font-size: 20px;
+    text-align: center;
+    border-bottom: solid 1px #26727f;
+}
+
+.comment {
+    background-color: white;
+    color: #26727f;
+    margin: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: solid 1px #26727f;
+}
+
+.comment input {
+    width: 100%;
+    padding-left: 7px;
+}
+
+.comment-content {
+    overflow: hidden;
+}
+
+.comment-time {
+    font-size: 13px;
+    text-align: center;
 }

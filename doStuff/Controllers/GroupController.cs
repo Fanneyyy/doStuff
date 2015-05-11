@@ -10,6 +10,8 @@ using ErrorHandler;
 
 namespace doStuff.Controllers
 {
+    //TODO:
+    //1. Fix Redirect from commentview to GroupFeed..
     [Authorize]
     public class GroupController : ParentController
     {
@@ -39,43 +41,46 @@ namespace doStuff.Controllers
         public ActionResult AddMember(int groupId)
         {
             User user = service.GetUser(User.Identity.Name);
-            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            if (service.IsOwnerOfGroup(user.UserID, groupId))
             {
-                return RedirectToAction("Index", "User");
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                return View(feed);
             }
-            return View();
+            return RedirectToAction("Index", "User");
         }
 
         [HttpPost]
-        public ActionResult AddMember(int groupId, User newMember)
+        public ActionResult AddMember(int groupId, string username)
         {
             User user = service.GetUser(User.Identity.Name);
-            User member = service.GetUser(newMember.UserName);
+            User member = service.GetUser(username);
             if(service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
                 return View("Index", "User");
             }
             if(member == null)
             {
-                ModelState.AddModelError("Error", "The username " + newMember.UserName + " could not be found.");
-                return View();
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                ViewBag.ErrorMessage = "The username " + username + " could not be found.";
+                return View(feed);
             }
             if(User.Identity.Name == member.UserName)
             {
-                ModelState.AddModelError("Error", "You are already in the group.");
-                return View();
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                ViewBag.ErrorMessage = "You are already in the group.";
+                return View(feed);
             }
             if(service.IsMemberOfGroup(member.UserID, groupId))
             {
-                ModelState.AddModelError("Error", newMember.UserName + " is already in the group.");
-                return View();
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                ViewBag.ErrorMessage = username + " is already in the group.";
+                return View(feed);
             }
             if(service.AddMember(member.UserID, groupId))
             {
-                Group group = service.GetGroupById(groupId);
-                ViewBag.Message = "Success, " + member.UserName + " was added to " + group.Name;
-                ModelState.Clear();
-                return View();
+                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
+                ViewBag.SuccessMessage = member.UserName + " was added to the group.";
+                return View("Index", feed);
             }
             return RedirectToAction("Error", "Something went horribly wrong while processing your request, please try again later.");
         }
@@ -87,14 +92,14 @@ namespace doStuff.Controllers
 
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                ViewBag.Message = "You are not the owner of this group.";
+                ViewBag.ErrorMessage = "You are not the owner of this group.";
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
 
             if (service.RemoveMember(memberId, groupId))
             {
                 User member = service.GetUser(memberId);
-                ViewBag.Message = member.DisplayName + " has been removed from the group";
+                ViewBag.SuccessMessage = member.DisplayName + " has been removed from the group";
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
 
@@ -145,6 +150,10 @@ namespace doStuff.Controllers
 
             if (ModelState.IsValid)
             {
+                newEvent.CreationTime = DateTime.Now;
+                newEvent.OwnerId = user.UserID;
+                newEvent.Minutes = 23;
+                newEvent.Active = true;
                 if (service.CreateEvent(newEvent))
                 {
                     return RedirectToAction("Index", new { groupId = groupId });
@@ -166,9 +175,14 @@ namespace doStuff.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public ActionResult Comment()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public ActionResult Comment(int groupId, int eventId, Comment newComment)
+        public ActionResult Comment(int eventId, Comment newComment)
         {
             User user = service.GetUser(User.Identity.Name);
             if(service.IsInvitedToEvent(user.UserID, eventId))
@@ -180,7 +194,7 @@ namespace doStuff.Controllers
                     newComment.CreationTime = DateTime.Now;
                     if(service.CreateComment(eventId, newComment))
                     {
-                        return RedirectToAction("Index", new { groupId = groupId });
+                        return RedirectToAction("Index", "User");
                     }
                     ModelState.AddModelError("Error", "Something went wrong when creating your comment, please try again later.");
                     return View();

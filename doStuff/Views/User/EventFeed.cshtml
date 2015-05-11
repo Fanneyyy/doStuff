@@ -1,4 +1,4 @@
-﻿@using doStuff.Services;
+﻿@using doStuff.Services
 @model doStuff.ViewModels.EventFeedViewModel
 
 @foreach (var item in Model.Events)
@@ -19,7 +19,7 @@
                         }
                     }
                 </div>
-                <div class="col-md-2 event-countdown">@item.Event.Minutes</div>
+                <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-created="@Service.DateTimeToMillis(item.Event.CreationTime)"></span></div>
                 <div class="col-md-3 event-name">@item.Event.Name</div>
             </div>
         </div>
@@ -67,13 +67,31 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 event-comments">
-            @foreach (var c in @item.Comments)
+        <div class="comment-title">comments</div>
+            @foreach (var comment in item.CommentsViewModels)
             {
-                <p>@c.OwnerId</p>
-                <p>@c.Content</p>
+                <div class="row comment">
+                    <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
+                    <div class="col-md-8 comment-content">@comment.Comment.Content</div>
+                    <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                </div>
             }
-        </div>
+            @using (Html.BeginForm("Comment", "User"))
+            {
+                @Html.Hidden("eventId", item.Event.EventID)
+                <div class="row comment">
+                    <div class="col-md-2 comment-owner">comment:</div>
+                    <div class="form-group">
+                        <span class="col-md-10">
+                            <input type="text" name="content" placeholder="write something clever..." />
+                        </span>
+                    </div>
+                    </div>
+                @Html.ValidationSummary(false)
+            }
+            @*<a class="btn btn-default" href="@Url.Action("Comment", "User", new { @eventId = item.Event.EventID })">
+                Comment if you don't use javascript!
+            </a>*@
     </div>
     }
 

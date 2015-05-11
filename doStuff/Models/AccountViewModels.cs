@@ -60,13 +60,17 @@ namespace doStuff.Models
         [Display(Name = "confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
+        [Required]
+        [Display(Name = "display name")]
         public string DisplayName { get; set; }
-
+        [Required]
+        [Display(Name = "birth year")]
         public int BirthYear { get; set; }
-
+        [Required]
+        [Display(Name = "gender")]
         public Gender Gender { get; set; }
-
+        [Required]
+        [Display(Name = "email")]
         public string Email { get; set; }
     }
 }

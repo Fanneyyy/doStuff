@@ -16,22 +16,33 @@ namespace doStuff.Services
         {
             db = database ?? new Database(null); 
         }
+
         public User GetUser(int id)
         {
             return db.GetUser(id);
         }
+
         public User GetUser(string userName)
         {
             return db.GetUser(userName);
         }
-        public DateTime NewTime(Event time, DateTime Now)
-        {
-            DateTime newt = new DateTime();
-            time.CreationTime.AddMinutes(time.Minutes);
-            newt.Subtract(time.CreationTime);
 
-            return newt;
+        public TimeSpan NewTime(Event time, DateTime now)
+        {
+            TimeSpan check = new TimeSpan(0, 0, 0);
+            TimeSpan addMinutes = new TimeSpan(0, 0, time.Minutes, 0, 0);
+            DateTime timeOfDecision = time.CreationTime;
+            timeOfDecision = timeOfDecision.Add(addMinutes);
+            TimeSpan timeToDecision = timeOfDecision.Subtract(now);
+
+            if (timeToDecision <= check)
+            {
+                return check;
+            }
+            return timeToDecision;
+
         }
+
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
@@ -370,6 +381,7 @@ namespace doStuff.Services
         {
             GroupFeedViewModel feed = new GroupFeedViewModel();
             List<EventViewModel> eventViews = new List<EventViewModel>();
+            List<CommentViewModel> commentViews = new List<CommentViewModel>();
             List<Event> events = db.GetGroupEvents(groupId);
 
             foreach (Event eachEvent in events)
@@ -388,7 +400,15 @@ namespace doStuff.Services
                 eventView.Owner = db.GetUser(eachEvent.OwnerId).UserName;
                 eventView.Event = eachEvent;
                 eventView.Attending = attending;
-                eventView.Comments = db.GetComments(eachEvent.EventID);
+                List<Comment> comments = db.GetComments(eachEvent.EventID);
+                foreach (Comment comment in comments)
+                {
+                    CommentViewModel commentViewModel = new CommentViewModel();
+                    commentViewModel.Comment = comment;
+                    commentViewModel.Owner = db.GetUser(comment.OwnerId);
+                    commentViews.Add(commentViewModel);
+                }
+                eventView.CommentsViewModels = commentViews;
                 eventViews.Add(eventView);
             }
 
@@ -397,7 +417,7 @@ namespace doStuff.Services
             sidebar.UserList = db.GetMembers(groupId);
             feed.Events = eventViews;
             feed.SideBar = sidebar;
-            feed.groupId = groupId;
+            feed.Group = db.GetGroup(groupId);
 
 
             List<Group> groups = db.GetGroups(userId);
@@ -456,10 +476,20 @@ namespace doStuff.Services
         private EventViewModel CastEventToViewModel(Event e, bool? attending)
         {
             EventViewModel eventViewModel = new EventViewModel();
+            List<CommentViewModel> commentViews = new List<CommentViewModel>();
             eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
             eventViewModel.Event = e;
             eventViewModel.Attending = attending;
-            eventViewModel.Comments = db.GetComments(e.EventID);
+            List<Comment> comments = db.GetComments(e.EventID);
+            foreach (Comment comment in comments)
+            {
+                CommentViewModel commentViewModel = new CommentViewModel();
+                commentViewModel.Comment = comment;
+                commentViewModel.Owner = db.GetUser(comment.OwnerId);
+                commentViews.Add(commentViewModel);
+            }
+            eventViewModel.CommentsViewModels = commentViews;
+            //eventViewModel.Comments = db.GetComments(e.EventID);
             return eventViewModel;
         }
         private List<Event> GetEventsFromFriends(List<User> friends)
@@ -500,5 +530,12 @@ namespace doStuff.Services
         }
         #endregion
         #endregion
+
+        public static double DateTimeToMillis(DateTime created)
+        {
+            return created
+               .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+               .TotalMilliseconds;
+        }
     }
 }

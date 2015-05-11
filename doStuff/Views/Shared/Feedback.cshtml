@@ -1,0 +1,30 @@
+﻿@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        @ViewBag.ErrorMessage
+    </div>
+}
+@if (ViewBag.WarningMessage != null)
+{
+    <div class="alert alert-warning" role="alert">
+        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+        <span class="sr-only">Warning:</span>
+        @ViewBag.WarningMessage
+    </div>
+}
+@if (ViewBag.InformationMessage != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span class="sr-only">Information:</span>
+        @ViewBag.InformationMessage
+    </div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        <span class="sr-only">Success:</span>
+        @ViewBag.SuccessMessage
+    </div>
+}
