@@ -27,7 +27,7 @@ namespace doStuff.Services
             return db.GetUser(userName);
         }
 
-        public TimeSpan NewTime(Event time, DateTime now)
+        public TimeSpan TimeLeft(Event time, DateTime now)
         {
             TimeSpan check = new TimeSpan(0, 0, 0);
             TimeSpan addMinutes = new TimeSpan(0, 0, time.Minutes, 0, 0);
@@ -46,16 +46,23 @@ namespace doStuff.Services
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
-            List<User> friends = db.GetFriends(userId);
+            UserToUserRelation r1 = db.GetUserToUserRelation(userId, friendId);
+            UserToUserRelation r2 = db.GetUserToUserRelation(friendId, userId);
 
-            foreach (User friend in friends)
+            if(r1 != null)
             {
-                if (friend.UserID == friendId)
+                if(r1.Answer.HasValue && r1.Answer.Value)
                 {
                     return true;
                 }
             }
-
+            if(r2 != null)
+            {
+                if (r2.Answer.HasValue && r2.Answer.Value)
+                {
+                    return true;
+                }
+            }
             return false;
         }
         public bool IsOwnerOfGroup(int userId, int groupId)
@@ -448,7 +455,7 @@ namespace doStuff.Services
                     attending = eventToUser.Answer;
                 }
 
-                eventFeed.Events.Add(CastEventToViewModel(e, attending));
+                eventFeed.Events.Add(CastToViewModel(e, attending));
 
             }
             return eventFeed;
@@ -473,25 +480,52 @@ namespace doStuff.Services
 
             return SideBar;
         }
-        private EventViewModel CastEventToViewModel(Event e, bool? attending)
+        private EventViewModel CastToViewModel(Event e, bool? attending)
         {
             EventViewModel eventViewModel = new EventViewModel();
             List<CommentViewModel> commentViews = new List<CommentViewModel>();
             eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
             eventViewModel.Event = e;
             eventViewModel.Attending = attending;
+            eventViewModel.Attendees = db.GetAttendees(e.EventID);
             List<Comment> comments = db.GetComments(e.EventID);
             foreach (Comment comment in comments)
             {
-                CommentViewModel commentViewModel = new CommentViewModel();
-                commentViewModel.Comment = comment;
-                commentViewModel.Owner = db.GetUser(comment.OwnerId);
-                commentViews.Add(commentViewModel);
+                commentViews.Add(CastToViewModel(comment));
             }
             eventViewModel.CommentsViewModels = commentViews;
-            //eventViewModel.Comments = db.GetComments(e.EventID);
+            if(TimeLeft(e, DateTime.Now).TotalSeconds < 0)
+            {
+                eventViewModel.State = State.OFF;
+                if(e.Min <= eventViewModel.Attendees.Count)
+                {
+                    eventViewModel.State = State.ON;
+                }
+            }
+            else
+            {
+                eventViewModel.State = State.NOTREACHED;
+                if(e.Max == eventViewModel.Attendees.Count)
+                {
+                    eventViewModel.State = State.FULL;
+                }
+                else if (e.Min <= eventViewModel.Attendees.Count)
+                {
+                    eventViewModel.State = State.REACED;
+                }
+            }
+            eventViewModel.TimeCreated = DateTimeToMillis(e.CreationTime);
             return eventViewModel;
         }
+
+        private CommentViewModel CastToViewModel(Comment c)
+        {
+            CommentViewModel commentViewModel = new CommentViewModel();
+            commentViewModel.Comment = c;
+            commentViewModel.Owner = db.GetUser(c.OwnerId);
+            return commentViewModel;
+        }
+
         private List<Event> GetEventsFromFriends(List<User> friends)
         {
             List<Event> list = new List<Event>();
