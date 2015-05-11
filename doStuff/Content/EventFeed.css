@@ -89,7 +89,7 @@
     min-width: 60%;
 }
 
-join-event:hover {
+.join-event:hover {
     background-color: rgba(174,226,57,0.70);
 }
 
