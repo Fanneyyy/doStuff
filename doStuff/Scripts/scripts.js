@@ -38,7 +38,7 @@ function countdown() {
             var initialTime = new Date(created);
             var timeDifference = (numberOfMinutes * 60000) - (Date.now() - initialTime);
             if (timeDifference < 0) {
-                element.innerHTML = " ";
+                location.reload();
             } else {
                 var formatted = convertTime(timeDifference);
                 element.innerHTML = '' + formatted;
