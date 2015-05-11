@@ -3,8 +3,23 @@
 <div class="pull-right right-sidebar">
     <h2>@Model.Group.Name</h2>
     <div>
-        <p>Members</p>
+        <p class="sidebar-title">Members</p>
     </div>
+    @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
+    {
+    <div>
+        @using (Html.BeginForm("AddMember", "Group"))
+        {
+            @Html.Hidden("groupId", Model.Group.GroupID)
+            <div class="form-group">
+                <span class="col-md-10">
+                    <input type="text" name="username" placeholder="Your friends username" />
+                </span>
+            </div>
+            @Html.ValidationSummary(false)
+        }
+    </div>
+    }
     <ul>
         @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
         {
@@ -35,20 +50,4 @@
             }
         }        
     </ul>
-    <div>
-        @using (Html.BeginForm("AddMember", "Group"))
-        {
-            @Html.Hidden("groupId", Model.Group.GroupID)
-
-            <div class="form-group">
-                <span class="col-md-10">
-                    <input type="text" name="username" placeholder="Your friends username" />
-                    <button type="submit" class="btn btn-primary remove-button">
-                        <i class="glyphicon glyphicon-plus right"></i>
-                    </button>
-                </span>
-            </div>
-            @Html.ValidationSummary(false)
-        }
-    </div>
 </div>

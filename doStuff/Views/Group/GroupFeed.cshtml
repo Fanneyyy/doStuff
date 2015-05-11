@@ -7,16 +7,6 @@
             <div class="row">
                 <div class="col-md-4 event-owner">@item.Owner</div>
                 <div class="col-md-3 event-group">
-                    @*if (item.Event.GroupId != null)
-                        {
-                            foreach (var i in Model.Groups)
-                            {
-                                if (i.GroupID == item.Event.GroupId)
-                                { <!-- Gets groupname if Event has group-->
-                                @i.Name
-                                }
-                            }
-                        }*@
                 </div>
                 <div class="col-md-2 event-countdown">@item.Event.Minutes</div>
                 <div class="col-md-3 event-name">@item.Event.Name</div>
