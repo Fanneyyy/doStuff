@@ -8,13 +8,16 @@
     @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
     {
     <div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">add a member:</div>
+        </div>
         @using (Html.BeginForm("AddMember", "Group"))
         {
             @Html.Hidden("groupId", Model.Group.GroupID)
-            <div class="form-group">
-                <span class="col-md-10">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
                     <input type="text" name="username" placeholder="Your friends username" />
-                </span>
+                </div>
             </div>
             @Html.ValidationSummary(false)
         }
