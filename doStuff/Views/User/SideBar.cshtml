@@ -33,20 +33,30 @@
             </div>
         }
     </div>
-    <div class="event-list">
-        <ul>
-            
-            @foreach (var thisEvent in Model.SideBar.EventList)
-            {
-                
-                if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
-                {
-                    <li>Name: @thisEvent.Event.Name</li>
-                    <li>Time: @thisEvent.Event.TimeOfEvent</li>
-                    <li>Location: @thisEvent.Event.Location</li>
-                    <li class="divider"></li>                
-                }
-            }
-        </ul>
+    <div>
+        <p class="sidebar-title">Events</p>
     </div>
+    <div class="event-list">
+        @if (Model.SideBar.EventList != null)
+        {
+            <ul>
+                @foreach (var thisEvent in Model.SideBar.EventList)
+                {
+
+                    if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
+                    {
+                        <li>Name: @thisEvent.Event.Name</li>
+                        <li>Time: @thisEvent.Event.TimeOfEvent</li>
+                        <li>Location: @thisEvent.Event.Location</li>
+                        <li class="divider"></li>
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+            <p>You have no events</p>
+        }
+    </div>
+
 </div>
