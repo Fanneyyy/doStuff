@@ -17,15 +17,16 @@ namespace doStuff.Controllers
         private static Database db = new Database(null);
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(Message message = null)
         {
+            SetUserFeedback(message);
             EventFeedViewModel feed;
             // Gets userId of the user viewing the site
             int userId = service.GetUserId(User.Identity.Name);
             // Gets the correct feed for the userId
             feed = service.GetEventFeed(userId);
             // Returns the feed to the view
-            return View(feed);
+            return View("Index", feed);
         }
 
         [HttpGet]
@@ -37,31 +38,30 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AddFriend(string username)
         {
+            Message message = null;
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(username);
             if (friend == null)
             {
-                ModelState.AddModelError("Error", "The username " + username + " could not be found.");
-                return RedirectToAction("Index");
+                message = new Message("The username " + username + " could not be found.", MessageType.Error);
             }
-            if (User.Identity.Name == friend.UserName)
+            else if (User.Identity.Name == friend.UserName)
             {
-                ModelState.AddModelError("Error", "You can't add yourself to your friend list.");
-                return RedirectToAction("Index");
+                message = new Message("You can't add yourself to your friend list.", MessageType.Error);
             }
-            if (service.IsFriendsWith(user.UserID, friend.UserID))
+            else if (service.IsFriendsWith(user.UserID, friend.UserID))
             {
-                ModelState.AddModelError("Error", username + " is already your friend.");
-                return RedirectToAction("Index");
+                message = new Message(username + " is already your friend.", MessageType.Error);
             }
-            if (service.SendFriendRequest(user.UserID, friend.UserID))
+            else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
-                ViewBag.SuccessMessage = "Success, " + friend.UserName + " is now you friend.";
-                ModelState.Clear();
-                return RedirectToAction("Index");
+                message = new Message(friend.UserName + " is now you friend.", MessageType.Success);
             }
-            ViewBag.ErrorMessage = "An error occured when processing your request, please try again later.";
-            return RedirectToAction("Index");
+            else
+            {
+                message = new Message("Could not process Add Friend request please try again later.", MessageType.Error);
+            }
+            return Index(message);
         }
         [HttpGet]
         public ActionResult Banner()
@@ -180,6 +180,17 @@ namespace doStuff.Controllers
             }
             ViewBag.ErrorMessage = "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.";
             return RedirectToAction("Index");
+        }
+
+        private void SetUserFeedback(Message message)
+        {
+            if(message != null)
+            {
+                ViewBag.ErrorMessage = message.ErrorMessage;
+                ViewBag.WarningMessage = message.WarningMessage;
+                ViewBag.InformationMessage = message.InformationMessage;
+                ViewBag.SuccessMessage = message.SuccessMessage;
+            }
         }
     }
 }
