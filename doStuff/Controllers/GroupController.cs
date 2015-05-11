@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Services;
+using doStuff.Models;
 using ErrorHandler;
 
 namespace doStuff.Controllers
@@ -245,8 +246,9 @@ namespace doStuff.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateGroup()
+        public ActionResult CreateGroup(Message message = null)
         {
+            SetUserFeedback(message);
             return View();
         }
 
@@ -254,9 +256,10 @@ namespace doStuff.Controllers
         public ActionResult CreateGroup(Group newGroup)
         {
             User user = service.GetUser(User.Identity.Name);
+            Message message;
             if (String.IsNullOrEmpty(newGroup.Name))
             {
-                ModelState.AddModelError("Error", "Name of the group can not be empty");
+                message = new Message("Enter a Groupname please... Dick.", MessageType.ERROR);
                 return View();
             }
             newGroup.Active = true;
@@ -266,6 +269,16 @@ namespace doStuff.Controllers
                 return RedirectToAction("Index", new { groupId = newGroup.GroupID });
             }
             return View();
+        }
+        private void SetUserFeedback(Message message)
+        {
+            if (message != null)
+            {
+                ViewBag.ErrorMessage = message.ErrorMessage;
+                ViewBag.WarningMessage = message.WarningMessage;
+                ViewBag.InformationMessage = message.InformationMessage;
+                ViewBag.SuccessMessage = message.SuccessMessage;
+            }
         }
     }
 }
