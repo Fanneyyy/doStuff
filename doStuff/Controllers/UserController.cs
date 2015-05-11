@@ -115,6 +115,8 @@ namespace doStuff.Controllers
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Minutes = 23;
                 newEvent.Active = true;
+                newEvent.Min = 2;
+                newEvent.Max = 4;
                 service.CreateEvent(newEvent);
                 return RedirectToAction("Index");
             }
@@ -141,6 +143,10 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult Comment(int eventId, string content)
         {
+            if (String.IsNullOrEmpty(content))
+            {
+                return RedirectToAction("Index");
+            }
             Comment myComment = new Comment();
             myComment.Content = content;
             myComment.Active = true;

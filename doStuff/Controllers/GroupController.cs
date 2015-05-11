@@ -153,6 +153,8 @@ namespace doStuff.Controllers
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = user.UserID;
                 newEvent.Minutes = 23;
+                newEvent.Min = 2;
+                newEvent.Max = 4;
                 newEvent.Active = true;
                 if (service.CreateEvent(newEvent))
                 {
@@ -252,7 +254,7 @@ namespace doStuff.Controllers
         public ActionResult CreateGroup(Group newGroup)
         {
             User user = service.GetUser(User.Identity.Name);
-            if (newGroup.Name == null)
+            if (String.IsNullOrEmpty(newGroup.Name))
             {
                 ModelState.AddModelError("Error", "Name of the group can not be empty");
                 return View();
