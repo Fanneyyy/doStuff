@@ -70,7 +70,6 @@
                 SetFeedback(data.message);
                 if (data.friend != null) {
                     var selector = "#friend" + data.friend.UserID;
-                    alert(selector);
                     $(selector).remove();
                     $form.find("input[type=text]").val("");
                     var li = $("<li class=\"eventfeed-friend\" id=\"friend" + data.friend.UserID + "\"></li>");
@@ -135,17 +134,24 @@
         });
     }
 
-    $(".join-event").click(JoinEvent);
-    $(".decline-event").click(AnswerEvent);
+    $(".join-event").click(function (event) {
+        var form = $(this).closest("form");
+        AnswerEvent(true, form, event);
+    });
+    $(".decline-event").click(function (event) {
+        var form = $(this).closest("form");
+        AnswerEvent(false, form, event);
+    });
 
-    function JoinEvent(event)
+    function AnswerEvent(answer, form, event)
     {
+        alert("prevent");
         event.preventDefault();
 
-        var $form = $(this);
-        var url = $form.attr('action');
-        var data = $form.serialize();
-        data.push({ answer: answer});
+        var url = form.attr('action');
+        var data = form.serialize() + "&answer=" + answer;
+
+        alert(data);
 
         $.ajax({
             type: "POST",
@@ -153,11 +159,12 @@
             url: url,
             data: data,
             success: function (data) {
+                alert("ola");
                 SetFeedback(data.message);
                 if (data.theevent != null) {
                     $form.addClass("hidden");
-                    $("#form-result" + data.theevent.EventID).removeClass("hidden");
-                    $("#form-result" + data.theevent.EventID).children("decline-event").addClass("hidden");
+                    $("form-result" + data.theevent.EventID).removeClass("hidden");
+                    $("form-result" + data.theevent.EventID).children("decline-event").addClass("hidden");
                 }
             },
             error: function (xhr, err) {
