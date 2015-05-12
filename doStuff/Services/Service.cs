@@ -181,16 +181,21 @@ namespace doStuff.Services
         }
         #endregion
         #region FriendRelations
-        public bool AnswerFriendRequest(int userId, int senderId, bool answer)
+        public bool AnswerFriendRequest(int senderId, int receiverId, bool answer)
         {
-            UserToUserRelation relation = db.GetUserToUserRelation(senderId, userId);
+            UserToUserRelation relation = db.GetUserToUserRelation(senderId, receiverId);
             if (relation != null && relation.Active)
             {
+                if (!answer)
+                {
+                    relation.Active = false;
+                }
                 relation.Answer = answer;
                 return db.SetUserToUserRelation(relation);
             }
             return false;
         }
+
         public bool RemoveFriend(int userId, int friendId)
         {
             if (IsFriendsWith(userId, friendId))
@@ -206,32 +211,20 @@ namespace doStuff.Services
             //TODO REMOVE IF STATEMENT
             throw new Exception("You Tried To Remove A Friend Without Checking IsFriendsWith(userId, friendId) In The Controller First!!!");
         }
+
+        public bool FriendRequestExists(int senderId, int receiverId)
+        {
+            return db.ExistsUserToUserRelation(senderId, receiverId);
+        }
+
         public bool SendFriendRequest(int userId, int friendId)
         {
-            //part of the request system if it will be implemented
-            /*if (db.ExistsUserToUserRelation(friendId, userId))
-            {
-
-                UserToUserRelation relation = db.GetUserToUserRelation(friendId, userId);
-                
-                if (relation.Answer == null )
-                {
-                    AnswerFriendRequest(userId, friendId, true);
-                    return true;
-                }
-            }
-            else */
-            if (!(db.ExistsUserToUserRelation(userId, friendId) || db.ExistsUserToUserRelation(friendId, userId)))
-            {
-                UserToUserRelation relation = new UserToUserRelation();
-                relation.Active = true;
-                relation.SenderId = userId;
-                relation.ReceiverId = friendId;
-                //should be null with request system
-                relation.Answer = true;
-                return db.CreateUserToUserRelation(ref relation);
-            }
-            return false;
+            UserToUserRelation relation = new UserToUserRelation();
+            relation.Active = true;
+            relation.SenderId = userId;
+            relation.ReceiverId = friendId;
+            relation.Answer = null;
+            return db.CreateUserToUserRelation(ref relation);       
         }
         #endregion
         #region GroupRelations
@@ -465,6 +458,7 @@ namespace doStuff.Services
             else
             {
                 SideBar.UserList = db.GetFriends(userId);
+                SideBar.UserRequestList = db.GetFriendRequests(userId);
             }
 
             SideBar.UserList = GetSortedUserList(SideBar.UserList);

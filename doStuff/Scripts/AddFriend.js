@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    $(".add-friend").submit(Add);
+   /* $(".add-friend").submit(Add);
 
     $(".remove-friend").submit(Remove);
 
@@ -16,8 +16,8 @@
             mylist.append(listitems[i]);
         }
         return;
-    }
-
+    }*/
+    /*
     function SetFeedback(message)
     {
         $("#Error").addClass("hidden");
@@ -53,7 +53,7 @@
             $("#SuccessMessage").text(message.SuccessMessage)
         }
     }
-
+    */
     function Add(event) {
         event.preventDefault();
 
