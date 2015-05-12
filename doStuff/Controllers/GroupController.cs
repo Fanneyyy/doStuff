@@ -261,10 +261,10 @@ namespace doStuff.Controllers
             if (service.CreateGroup(ref group))
             {
                 TempData["message"] = new Message("Your group was created!", MessageType.SUCCESS);
-                return RedirectToAction("CreateGroup");
+                return RedirectToAction("Index", new { groupId = group.GroupID });
             }
             TempData["message"] = new Message("Your group could not be created, please try again later.", MessageType.ERROR);
-            return RedirectToAction("CreateGroup");
+            return RedirectToAction("Index");
         }
         private void SetUserFeedback()
         {
