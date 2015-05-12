@@ -408,53 +408,12 @@ namespace doStuff.Services
                 // Checks if to add this to eventFeed
                 EventViewModel temp = CastToViewModel(e, attending);
                 // Adds all events to feed if user is attending or if the event has not expired.
-                if (!(temp.Attending != true && (temp.State == State.ON || temp.State == State.OFF)))
+                if (!(temp.Attending != true && (temp.State != State.REACHED ||temp.State == State.NOTREACHED)))
                 {
                     groupFeed.Events.Add(temp);
                 }
             }
             return groupFeed;
-
-            /*
-            GroupFeedViewModel feed = new GroupFeedViewModel();
-            List<EventViewModel> eventViews = new List<EventViewModel>();
-            List<CommentViewModel> commentViews = new List<CommentViewModel>();
-            List<Event> events = db.GetGroupEvents(groupId);
-
-            foreach (Event e in events)
-            {
-                bool? attending;
-                EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
-                if (eventToUser == null)
-                {
-                    attending = null;
-                }
-                else
-                {
-                    attending = eventToUser.Answer;
-                }
-                // Checks if to add this to eventFeed
-                EventViewModel temp = CastToViewModel(e, attending);
-                // Adds all events to feed if user is attending or if the event has not expired.
-                if (!(temp.Attending != true && (temp.State == State.ON || temp.State == State.OFF)) && temp != null)
-                {
-                    feed.Events.Add(temp);
-                }
-            }
-
-            SideBarViewModel sidebar = new SideBarViewModel();
-            sidebar.User = db.GetUser(userId);
-            sidebar.UserList = db.GetMembers(groupId);
-            feed.Events = eventViews;
-            feed.SideBar = sidebar;
-            feed.Group = db.GetGroup(groupId);
-
-
-            List<Group> groups = db.GetGroups(userId);
-            feed.Groups = groups;
-
-            return feed;
-             * */
         }
         public EventFeedViewModel GetEventFeed(int userId)
         {
@@ -481,7 +440,7 @@ namespace doStuff.Services
                 // Checks if to add this to eventFeed
                 EventViewModel temp = CastToViewModel(e, attending);
                 // Adds all events to feed if user is attending or if the event has not expired.
-                if (!(temp.Attending != true && (temp.State == State.ON || temp.State == State.OFF)))
+                if (!(temp.Attending != true && (temp.State != State.REACHED || temp.State == State.NOTREACHED)))
                 {
                     eventFeed.Events.Add(temp);
                 }
