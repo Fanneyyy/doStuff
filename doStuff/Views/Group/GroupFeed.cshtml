@@ -39,7 +39,24 @@
             <div class="row">
                 <div class="col-md-6 event-photo-time-location">
                     <div class="row">
-                        <div class="col-md-12 event-photo-space"></div>
+                        @if (item.State == State.ON)
+                        {
+                            <div class="col-md-12 event-photo-space">
+                                <ul>
+                                    @foreach (var i in item.Attendees)
+                                    {
+                                        <li>
+                                            @i.DisplayName
+                                        </li>
+                                    }
+                        
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12 event-photo-space"></div>
+                        }
                     </div>
                     <div class="row event-time-place">
                         <div class="col-md-6 event-time">@String.Format("{0:d MMM yyyy}", item.Event.TimeOfEvent) <br /> @String.Format("{0:HH:mm}", item.Event.TimeOfEvent)</div>

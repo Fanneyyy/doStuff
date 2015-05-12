@@ -32,6 +32,13 @@
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Minutes, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Minutes)
+                @Html.ValidationMessageFor(model => model.Minutes)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.TimeOfEvent, new { @class = "control-label col-md-2" })
@@ -48,7 +55,7 @@
                 @Html.ValidationMessageFor(model => model.Location)
             </div>
         </div>
-        <!--
+        
         <div class="form-group">
             @Html.LabelFor(model => model.Min, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -56,7 +63,7 @@
                 @Html.ValidationMessageFor(model => model.Min)
             </div>
         </div>
-
+        <!--
         <div class="form-group">
             @Html.LabelFor(model => model.Max, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
