@@ -10,6 +10,7 @@ namespace doStuff.ViewModels
     {
         public User User;
         public List<User> UserList;
+        public List<User> UserRequestList;
         public List<EventViewModel> EventList;
     }
 }

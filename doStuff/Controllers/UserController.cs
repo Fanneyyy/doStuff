@@ -34,7 +34,7 @@ namespace doStuff.Controllers
             return View();
         }
 
-        [HttpPost]
+        /* old , may be revisited [HttpPost]
         public ActionResult AddFriend(string username)
         {
             User user = service.GetUser(User.Identity.Name);
@@ -67,6 +67,31 @@ namespace doStuff.Controllers
             }
             return RedirectToAction("Index");
         }
+        */
+        public ActionResult AddFriend(string username)
+        {
+            User user = service.GetUser(User.Identity.Name);
+            User friend = service.GetUser(username);
+            //TODO if friend does not exist notify the user
+            if (friend != null)
+            {
+                //TODO if he is already friends notify user
+                if (!service.IsFriendsWith(user.UserID, friend.UserID))
+                {
+                    //if the other user has already sent a request answer it
+                    if (!service.AnswerFriendRequest(friend.UserID, user.UserID, true))
+                    {
+                        //TODO notify user request has already been sent
+                        if (!service.FriendRequestExists(user.UserID, friend.UserID))
+                        {
+                            service.SendFriendRequest(user.UserID, friend.UserID);
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public ActionResult Banner()
         {
@@ -86,6 +111,24 @@ namespace doStuff.Controllers
             int myId = service.GetUserId(User.Identity.Name);
             service.AnswerFriendRequest(userId, myId, answer);
             return RedirectToAction("ViewFriendRequests");
+        }
+
+        [HttpPost]
+        public ActionResult AcceptFriendRequest(int requesterId)
+        {
+            //TODO
+            int myId = service.GetUserId(User.Identity.Name);
+            service.AnswerFriendRequest(requesterId, myId, true);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult DeclineFriendRequest(int requesterId)
+        {
+            //TODO
+            int myId = service.GetUserId(User.Identity.Name);
+            service.AnswerFriendRequest(requesterId, myId, false);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -128,6 +171,7 @@ namespace doStuff.Controllers
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Active = true;
+                newEvent.Max = 100;
                 service.CreateEvent(ref newEvent);
                 return RedirectToAction("Index");
             }
