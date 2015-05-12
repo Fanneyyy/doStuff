@@ -1,9 +1,15 @@
 ﻿$(function () {
 
+    // The datepicker
     $("#datepicker").datetimepicker({ dateFormat: 'dd/mm/yy' });
 
+    // Countdown for events
     countdown();
 
+    // To stop the dropdown from closing when clicking the text input box
+    $(".banner-dropdown").click(function (e) {
+        e.stopPropagation();
+    });
 });
 
 function countdown() {
