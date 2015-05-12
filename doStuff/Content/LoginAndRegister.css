@@ -26,6 +26,12 @@
     .login-register-box {
         margin-top: 20%;
     }
+    .login-register-box .control-label {
+        font-size: 1.4em;
+    }
+    .login, .register, .confirm, .cancel {
+        font-size: 1.4em;
+    }
 }
 
 @media (min-width: 991px) {
@@ -35,12 +41,24 @@
     .login-register-box {
         margin-top: 40%;
     }
+    .login-register-box .control-label {
+        font-size: 1.1em;
+    }
+    .login, .register, .confirm, .cancel {
+        font-size: 1.1em;
+    }
 }
 
 @media (min-width: 1200px) {
     .login-register-logo {
         width: 50%;
         margin-top: 10%;
+    }
+    .login-register-box .control-label {
+        font-size: 1.4em;
+    }
+    .login, .register, .confirm, .cancel {
+        font-size: 1.5em;
     }
 }
 
@@ -57,7 +75,6 @@
 }
 
 .login-register-box .control-label {
-    font-size: 22px;
     text-align: left;
 }
 
@@ -90,7 +107,6 @@
 .login, .register, .confirm, .cancel {
     border-radius: 0px;
     width: 100%;
-    font-size:22px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
