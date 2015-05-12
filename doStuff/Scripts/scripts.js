@@ -10,7 +10,6 @@ function countdown() {
     function checkTime() {
         var elements = $(".countdown");
         for (var i = 0; i < elements.length; i++) {
-            debugger;
             created = $(elements[i]).data("created");
             var numberOfMinutes = $(elements[i]).data("minutes");
             if (typeof created === "string") {
@@ -18,8 +17,10 @@ function countdown() {
             }
             var initialTime = new Date(created);
             var timeDifference = (numberOfMinutes * 60000) - (Date.now() - initialTime);
-            if (timeDifference < 0) {
-                //location.reload();
+            if (timeDifference <= 0) {
+                var selector = "#event" + $(elements[i]).data("eventid").toString();
+                var eventbox = $(selector);
+                eventbox.addClass("hidden");
             } else {
                 var formatted = convertTime(timeDifference);
                 $(elements[i]).text('' + formatted);
@@ -43,6 +44,3 @@ function countdown() {
 
     window.setInterval(checkTime, 1000);
 }
-
-
-
