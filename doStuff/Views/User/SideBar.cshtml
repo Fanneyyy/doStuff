@@ -39,20 +39,38 @@
             }
         </ul>
     </div>
+    <!--
     <div>
-        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend"}))
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 add-member-title">add a friend:</div>
+        </div>
+        using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { class = "add-friend" }))
         {
-            <div class="row add-friend">
-                <div class="col-md-12 add-friend-title">add friend</div>
                 <div class="form-group">
-                    <span class="col-md-12">
+                    <div class="col-md-10 add-friend-field">
                         <input type="text" name="username" placeholder="insert username..." />
-                        <input type="submit"/>
-                    </span>
+                    </div>
+                    <div class="col-md-2 add-member-button">
+                        <input type="submit" />
+                    </div>
+                </div>
+        }
+    </div>
+        -->
+        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
+        {
+            <!--<input name="groupId" type="hidden" value="Model.Group.GroupID" />-->
+            <div class="row add-friend-field-button">
+                <div class="form-group">
+                    <div class="col-md-10 add-friend-field">
+                        <input type="text" name="username" placeholder="Your friends username" />
+                    </div>
+                    <div class="col-md-2 add-member-button">
+                        <input type="submit" value="add" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
         }
-    </div>
     <div>
         <p class="sidebar-title">Events</p>
     </div>

@@ -83,7 +83,13 @@ namespace doStuff.Controllers
         public ActionResult RemoveMember(int groupId, int memberId)
         {
             User user = service.GetUser(User.Identity.Name);
-
+            
+            // Special for if user removes himself, i.e. removes group from the banner
+            if (memberId == user.UserID)
+            {
+                service.RemoveMember(memberId, groupId);
+                return RedirectToAction("Index", "User");
+            }
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
                 ViewBag.ErrorMessage = "You are not the owner of this group.";
@@ -238,7 +244,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult CreateGroup()
         {
-            SetUserFeedback();
+            //SetUserFeedback();
             return View();
         }
 

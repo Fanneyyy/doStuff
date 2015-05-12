@@ -28,7 +28,7 @@
     }
     else
     {
-        <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated"></span></div>
+        <div class="col-md-2 event-countdown"><span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated"></span></div>
     }
                 }
                 <!--<div class="col-md-2 event-countdown">item.Event.Minutes</div>-->
@@ -41,7 +41,7 @@
                     <div class="row">
                         @if (item.State == State.ON)
                         {
-                            <div class="col-md-12 event-photo-space">
+                            <div class="col-md-12 event-photo-space-attendees">
                                 <ul>
                                     @foreach (var i in item.Attendees)
                                     {

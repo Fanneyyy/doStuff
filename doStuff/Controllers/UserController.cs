@@ -171,6 +171,7 @@ namespace doStuff.Controllers
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Active = true;
+                newEvent.Max = 100;
                 service.CreateEvent(ref newEvent);
                 return RedirectToAction("Index");
             }
@@ -237,11 +238,12 @@ namespace doStuff.Controllers
         public ActionResult AnswerEvent(int eventId, bool answer)
         {
             User user = service.GetUser(User.Identity.Name);
+            Event theEvent = null;
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
                 if (service.AnswerEvent(user.UserID, eventId, answer))
                 {
-                    Event theEvent = service.GetEventById(eventId);
+                    theEvent = service.GetEventById(eventId);
                     if (answer)
                     {
                         TempData["message"] = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
@@ -259,6 +261,10 @@ namespace doStuff.Controllers
             else
             {
                 TempData["message"] = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { theevent = theEvent, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }

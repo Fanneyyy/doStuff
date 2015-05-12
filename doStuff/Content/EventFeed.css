@@ -46,6 +46,10 @@
 .event-photo-space {
     min-height: 150px;
 }
+.event-photo-space-attendees {
+    min-height: 150px;
+    overflow: hidden;
+}
 
 .event-time-place {
     background-color: rgba(0,168,198,0.86);
@@ -65,6 +69,7 @@
     color: #26727f;
     min-height: 150px;
     padding: 5px 25px 5px 25px;
+    overflow: hidden;
 }
 
 .event-join-decline {
