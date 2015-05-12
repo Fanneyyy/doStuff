@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-   /* $(".add-friend").submit(Add);
+    $(".add-friend").submit(Add);
 
     $(".remove-friend").submit(Remove);
 
@@ -16,8 +16,8 @@
             mylist.append(listitems[i]);
         }
         return;
-    }*/
-    /*
+    }
+    
     function SetFeedback(message)
     {
         $("#Error").addClass("hidden");
@@ -53,7 +53,7 @@
             $("#SuccessMessage").text(message.SuccessMessage)
         }
     }
-    */
+    
     function Add(event) {
         event.preventDefault();
 
@@ -69,6 +69,9 @@
             success: function (data) {
                 SetFeedback(data.message);
                 if (data.friend != null) {
+                    var selector = "#friend" + data.friend.UserID;
+                    alert(selector);
+                    $(selector).remove();
                     $form.find("input[type=text]").val("");
                     var li = $("<li class=\"eventfeed-friend\" id=\"friend" + data.friend.UserID + "\"></li>");
                     li.append(data.friend.DisplayName + "<form action=\"/User/RemoveFriend\" class=\"remove-friend\" method=\"post\"><input name=\"friendId\" type=\"hidden\" value=" + data.friend.UserID + "><button type=\"submit\" class=\"btn btn-primary remove-button\"><i class=\"glyphicon glyphicon-remove right\"></i></button></form>");
@@ -119,60 +122,6 @@
             dataType: "json",
             url: url,
             data: data,
-            success: function (data) {
-                SetFeedback(data.message);
-                if (data.theevent != null) {
-                    $("#event" + data.theevent.EventID).remove();
-                }
-            },
-            error: function (xhr, err) {
-                alert(xhr);
-                alert(err);
-            }
-        });
-    }
-
-    $(".remove-event").submit(RemoveEvent);
-
-    function RemoveEvent(event) {
-        event.preventDefault();
-
-        var $form = $(this);
-        var url = $form.attr('action');
-        var data = $form.serialize();
-
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: url,
-            data: data,
-            success: function (data) {
-                SetFeedback(data.message);
-                if (data.theevent != null) {
-                    $("#event" + data.theevent.EventID).remove();
-                }
-            },
-            error: function (xhr, err) {
-                alert(xhr);
-                alert(err);
-            }
-        });
-    }
-
-    $(".answer-event").submit(JoinEvent);
-
-    function JoinEvent(event) {
-        event.preventDefault();
-
-        var $form = $(this);
-        var url = $form.attr('action');
-        var data = $form.serialize();
-
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: url,
-            data: (data + "&answer=True"),
             success: function (data) {
                 SetFeedback(data.message);
                 if (data.theevent != null) {
