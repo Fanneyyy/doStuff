@@ -131,4 +131,58 @@
             }
         });
     }
+
+    $(".remove-event").submit(RemoveEvent);
+
+    function RemoveEvent(event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: url,
+            data: data,
+            success: function (data) {
+                SetFeedback(data.message);
+                if (data.theevent != null) {
+                    $("#event" + data.theevent.EventID).remove();
+                }
+            },
+            error: function (xhr, err) {
+                alert(xhr);
+                alert(err);
+            }
+        });
+    }
+
+    $(".answer-event").submit(JoinEvent);
+
+    function JoinEvent(event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: url,
+            data: (data + "&answer=True"),
+            success: function (data) {
+                SetFeedback(data.message);
+                if (data.theevent != null) {
+                    $("#event" + data.theevent.EventID).remove();
+                }
+            },
+            error: function (xhr, err) {
+                alert(xhr);
+                alert(err);
+            }
+        });
+    }
 });
