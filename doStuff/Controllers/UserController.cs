@@ -58,7 +58,7 @@ namespace doStuff.Controllers
             }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
-                TempData["message"] = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
+                TempData["message"] = new Message(friend.UserName + " has received your friend request.", MessageType.SUCCESS);
                 parameter = friend;
             }
             else
@@ -120,6 +120,14 @@ namespace doStuff.Controllers
                 {
                     parameter = friend;
                 }
+            }
+            else if(service.FriendRequestExists(user.UserID, friendId))
+            {
+                if (service.FriendRequestAbort(user.UserID, friendId))
+                {
+                    parameter = friend;
+                }
+                TempData["message"] = new Message("Friend request to " + friend.DisplayName + " has been aborted", MessageType.SUCCESS);
             }
             else
             {
