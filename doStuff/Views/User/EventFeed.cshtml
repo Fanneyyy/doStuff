@@ -14,7 +14,7 @@
                         {
                             if (i.GroupID == item.Event.GroupId)
                             { <!-- Gets groupname if Event has group-->
-                    @i.Name
+                                @i.Name
                             }
                         }
                     }
@@ -58,7 +58,6 @@
                                             @i.DisplayName
                                         </li>
                                     }
-
                                 </ul>
                             </div>
                         }
@@ -79,9 +78,13 @@
                             @item.Event.Description
                         </div>
                     </div>
+                    <div class="form-result hidden">
+                        <div class="col-md-12 event-joined hidden">You Have Joined!</div>
+                        <div class="col-md-12 event-declined hidden">You Have Declined!</div>
+                    </div>
                     @if (item.Attending == null)
                     {
-                        using (Html.BeginForm("AnswerEvent", "User"))
+                        using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @class = "answer-event" }))
                         {
                             <input name="eventId" type="hidden" value="@item.Event.EventID" />
                             <div class="row">
