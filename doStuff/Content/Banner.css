@@ -151,9 +151,3 @@
 #logout-logo:hover {
     background-image:url(logOut.png);
 }
-
-.user-index {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: #eee;
-}

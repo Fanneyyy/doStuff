@@ -16,7 +16,14 @@
             <li>@Html.ActionLink(i.Name, "Index" , "Group" , new { groupId = i.GroupID }, null)</li>
             }
             <li class="divider"></li>
-            <li>@Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })</li>
+            <li>@using (Html.BeginForm("CreateGroup", "Group"))
+                {
+                <span>create group:</span>
+                <input type="text" name="content" placeholder="name your new group..." />
+                <input type="submit" value="post" class="btn btn-default" />
+                }
+            </li>
+            @*<li>@Html.ActionLink("create group", "CreateGroup", "Group", null, new { @class = "btn btn-default cancel" })</li>*@
         </ul>
     </div>
 </div>

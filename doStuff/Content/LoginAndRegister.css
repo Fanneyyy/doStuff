@@ -54,6 +54,9 @@
         width: 50%;
         margin-top: 10%;
     }
+    .login-register-box {
+        margin-top: 35%;
+    }
     .login-register-box .control-label {
         font-size: 1.4em;
     }
@@ -137,6 +140,22 @@
     margin-bottom: 25px;
     background-color: #8fbe00;
     color: white;
+}
+
+.login:hover {
+    background-color: rgba(174,226,57,0.70);
+}
+
+.register:hover {
+    background-color: rgba(174,226,57,0.70);
+}
+
+.confirm:hover {
+    background-color: rgba(174,226,57,0.70);
+}
+
+.cancel:hover {
+    background-color: rgba(174,226,57,0.70);
 }
 
 input:-webkit-autofill {

@@ -25,21 +25,20 @@
         if (item.Event.TimeOfEvent <= DateTime.Now)
         {
             <div class="col-md-2 event-countdown">You did this!! :)</div>
-
-        }
-        else
-        {
-            <div class="col-md-2 event-countdown">ITS ON</div>
-        }
-    }
-    else if (item.State == State.OFF)
-    {
-        <div class="col-md-2 event-countdown">ITS OFF</div>
-    }
-    else
-    {
-        <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span></div>
-    }
+                        }
+                        else
+                        {
+                            <div class="col-md-2 event-countdown">ITS ON</div>
+                        }
+                    }
+                    else if (item.State == State.OFF)
+                    {
+                        <div class="col-md-2 event-countdown">ITS OFF</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 event-countdown"><span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span></div>
+                    }
                 }
                 <div class="col-md-3 event-name">@item.Event.Name</div>
             </div>
@@ -50,7 +49,7 @@
                     <div class="row">
                         @if (item.State == State.ON)
                         {
-                            <div class="event-photo-space">
+                            <div class="event-photo-space-attendees">
                                 <ul>
                                     @foreach (var i in item.Attendees)
                                     {
