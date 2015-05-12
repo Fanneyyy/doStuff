@@ -87,6 +87,8 @@
 .banner-dropdown {
     background-color: #26727f;
     color: white;
+    max-height: 400px;
+    overflow-y: auto;
     font-size: 30px;
     font-variant: small-caps;
     border-radius: 0px;
@@ -153,12 +155,18 @@
 }
 
 .create-group-label {
-    font-size: 20px;
+    font-size: 18px;
+    text-align: right;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .create-group-field {
     font-size: 18px;
     padding: 2px 2px 2px 4px;
+    border: 1px solid #26727f;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .create-group-button {
@@ -169,4 +177,6 @@
     display: inline;
     border-radius: 0px;
     padding: 0px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
