@@ -1,9 +1,5 @@
 ﻿$(document).ready(function () {
 
-    $(".add-friend").submit(Add);
-
-    $(".remove-friend").submit(Remove);
-
     function FriendList(id) {
         var mylist = $(id);
         var listitems = mylist.children('li').get();
@@ -17,44 +13,40 @@
         }
         return;
     }
-    
-    function SetFeedback(message)
-    {
+
+    function SetFeedback(message) {
         $("#Error").addClass("hidden");
         $("#Warning").addClass("hidden");
         $("#Information").addClass("hidden");
         $("#Success").addClass("hidden");
-        if(message == null)
-        {
+        if (message == null) {
             return;
         }
-        if(message.ErrorMessage != null)
-        {
+        if (message.ErrorMessage != null) {
             $("#ErrorMessage").empty();
             $("#Error").removeClass("hidden");
             $("#ErrorMessage").text(message.ErrorMessage)
         }
-        if (message.WarningMessage != null)
-        {
+        if (message.WarningMessage != null) {
             $("#WarningMessage").empty();
             $("#Warning").removeClass("hidden");
             $("#WarningMessage").text(message.WarningMessage)
         }
-        if (message.InformationMessage != null)
-        {
+        if (message.InformationMessage != null) {
             $("#InformationMessage").empty();
             $("#Information").removeClass("hidden");
             $("#InformationMessage").text(message.InformationMessage)
         }
-        if (message.SuccessMessage != null)
-        {
+        if (message.SuccessMessage != null) {
             $("#SuccessMessage").empty();
             $("#Success").removeClass("hidden");
             $("#SuccessMessage").text(message.SuccessMessage)
         }
     }
-    
-    function Add(event) {
+
+    $(".add-friend").submit(AddFriend);
+
+    function AddFriend(event) {
         event.preventDefault();
 
         var $form = $(this);
@@ -85,7 +77,9 @@
         });
     }
 
-    function Remove(event) {
+    $(".remove-friend").submit(RemoveFriend);
+
+    function RemoveFriend(event) {
         event.preventDefault();
 
         var $form = $(this);
@@ -143,15 +137,11 @@
         AnswerEvent(false, form, event);
     });
 
-    function AnswerEvent(answer, form, event)
-    {
-        alert("prevent");
+    function AnswerEvent(answer, form, event) {
         event.preventDefault();
 
         var url = form.attr('action');
         var data = form.serialize() + "&answer=" + answer;
-
-        alert(data);
 
         $.ajax({
             type: "POST",
@@ -159,12 +149,17 @@
             url: url,
             data: data,
             success: function (data) {
-                alert("ola");
                 SetFeedback(data.message);
                 if (data.theevent != null) {
-                    $form.addClass("hidden");
-                    $("form-result" + data.theevent.EventID).removeClass("hidden");
-                    $("form-result" + data.theevent.EventID).children("decline-event").addClass("hidden");
+                    form.addClass("hidden");
+                    var selector = "#form-result" + data.theevent.EventID;
+                    $(selector).removeClass("hidden");
+                    if (answer === true) {
+                        $(selector).children(".event-declined").addClass("hidden");
+                    }
+                    else {
+                        $(selector).children(".event-joined").addClass("hidden");
+                    }
                 }
             },
             error: function (xhr, err) {
@@ -173,4 +168,4 @@
             }
         });
     }
-});
+});

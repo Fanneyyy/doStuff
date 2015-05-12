@@ -599,7 +599,6 @@ namespace doStuff.Services
         }
         #endregion
         #endregion
-
         public static double DateTimeToMillis(DateTime created)
         {
             return created
