@@ -1,4 +1,19 @@
-﻿.navbar-fixed-top {
+﻿::-webkit-scrollbar
+{
+  width: 12px;
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-fixed-top {
     background-color: #26727f;
     border: 0px;
 }
