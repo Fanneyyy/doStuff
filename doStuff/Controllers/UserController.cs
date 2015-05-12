@@ -39,6 +39,7 @@ namespace doStuff.Controllers
         {
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(username);
+            User parameter = null;
             if (friend == null)
             {
                 TempData["message"] = new Message("The username " + username + " could not be found.", MessageType.INFORMATION);
@@ -53,15 +54,16 @@ namespace doStuff.Controllers
             }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(friend, JsonRequestBehavior.AllowGet);
-                }
                 TempData["message"] = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
+                parameter = friend;
             }
             else
             {
                 TempData["message"] = new Message("Could not process Add Friend request please try again later.", MessageType.ERROR);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { friend = parameter, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
@@ -91,18 +93,24 @@ namespace doStuff.Controllers
         {
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(friendId);
+            User parameter = null;
 
             if (service.IsFriendsWith(user.UserID, friendId))
             {
                 TempData["message"] = new Message("You are no longer friends with " + friend.DisplayName, MessageType.SUCCESS);
-                service.RemoveFriend(user.UserID, friendId);
-                if (Request.IsAjaxRequest())
+                if (service.RemoveFriend(user.UserID, friendId))
                 {
-                    return Json(friend, JsonRequestBehavior.AllowGet);
+                    parameter = friend;
                 }
-                return RedirectToAction("Index");
             }
-            TempData["message"] = new Message("You are not friends with " + friend.DisplayName, MessageType.ERROR);
+            else
+            {
+                TempData["message"] = new Message("You are not friends with " + friend.DisplayName, MessageType.ERROR);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { friend = parameter, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
             return RedirectToAction("Index");
         }
 

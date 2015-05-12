@@ -1,49 +1,8 @@
 ﻿$(document).ready(function () {
-    $(".add-friend").submit(function (event) {
-        event.preventDefault();
 
-        var $form = $(this);
-        var url = $form.attr('action');
-        var data = $form.serialize();
+    $(".add-friend").submit(Add);
 
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: url,
-            data: data,
-            success: function (friend) {
-                var li = $("<li class=\"eventfeed-friend\" id=\"friend" + friend.UserID + "\"></li>");
-                li.append(friend.DisplayName + "<a href=\"/User/Index\"><button class=\"btn btn-primary remove-button\" id=\"button" + friend.UserID + "\"><i class=\"glyphicon glyphicon-remove right\"></i></button></a>");
-                li.children("form").addClass("remove-friend");
-                $("#FriendList").append(li);
-                FriendList("#FriendList")
-            },
-            error: function (xhr, err) {
-                alert("SOME ERROR OCCURED");
-            }
-        });
-    })
- 
-    $(".remove-friend").submit(function (event) {
-        event.preventDefault();
-
-        var $form = $(this);
-        var url = $form.attr('action');
-        var data = $form.serialize();
-
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: url,
-            data: data,
-            success: function (friend) {
-                $("#friend" + friend.UserID).remove();
-            },
-            error: function (xhr, err) {
-                alert("SOME ERROR OCCURED");
-            }
-        });
-    })
+    $(".remove-friend").submit(Remove);
 
     function FriendList(id) {
         var mylist = $(id);
@@ -54,5 +13,91 @@
             mylist.append(listitems[i]);
         }
         return;
+    }
+
+    function SetFeedback(message)
+    {
+        $("#Error").addClass("hidden");
+        $("#Warning").addClass("hidden");
+        $("#Information").addClass("hidden");
+        $("#Success").addClass("hidden");
+        if(message == null)
+        {
+            return;
+        }
+        if(message.ErrorMessage != null)
+        {
+            $("#ErrorMessage").empty();
+            $("#Error").removeClass("hidden");
+            $("#ErrorMessage").text(message.ErrorMessage)
+        }
+        if (message.WarningMessage != null)
+        {
+            $("#WarningMessage").empty();
+            $("#Warning").removeClass("hidden");
+            $("#WarningMessage").text(message.WarningMessage)
+        }
+        if (message.InformationMessage != null)
+        {
+            $("#InformationMessage").empty();
+            $("#Information").removeClass("hidden");
+            $("#InformationMessage").text(message.InformationMessage)
+        }
+        if (message.SuccessMessage != null)
+        {
+            $("#SuccessMessage").empty();
+            $("#Success").removeClass("hidden");
+            $("#SuccessMessage").text(message.SuccessMessage)
+        }
+    }
+
+    function Add(event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: url,
+            data: data,
+            success: function (data) {
+                SetFeedback(data.message);
+                if (data.friend != null) {
+                    var li = $("<li class=\"eventfeed-friend\" id=\"friend" + data.friend.UserID + "\"></li>");
+                    li.append(data.friend.DisplayName + "<form action=\"/User/RemoveFriend\" class=\"remove-friend\" method=\"post\"><input name=\"friendId\" type=\"hidden\" value=" + data.friend.UserID + "><button type=\"submit\" class=\"btn btn-primary remove-button\"><i class=\"glyphicon glyphicon-remove right\"></i></button></form>");
+                    $("#FriendList").append(li);
+                    FriendList("#FriendList")
+                    $(".remove-friend").submit(Remove);
+                }
+            },
+            error: function (xhr, err) {
+                alert("SOME ERROR OCCURED");
+            }
+        });
+    }
+
+    function Remove(event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: url,
+            data: data,
+            success: function (data) {
+                $("#friend" + data.friend.UserID).remove();
+                SetFeedback(data.message);
+            },
+            error: function (xhr, err) {
+                alert("SOME ERROR OCCURED");
+            }
+        });
     }
 });
