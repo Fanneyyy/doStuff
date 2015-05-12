@@ -8,7 +8,10 @@
         var mylist = $(id);
         var listitems = mylist.children('li').get();
         mylist.empty();
-        listitems.sort(function (a, b) { return a.innerText.localeCompare(b.innerText) === 1 });
+        listitems.sort(function (a, b) {
+            var str1 = a.innerText.toLowerCase(), str2 = b.innerText.toLowerCase();
+            return str1 == str2 ? 0 : str1 < str2 ? -1 : 1;
+        });
         for (var i = 0; i < listitems.length; i++) {
             mylist.append(listitems[i]);
         }
@@ -66,6 +69,7 @@
             success: function (data) {
                 SetFeedback(data.message);
                 if (data.friend != null) {
+                    $form.find("input[type=text]").val("");
                     var li = $("<li class=\"eventfeed-friend\" id=\"friend" + data.friend.UserID + "\"></li>");
                     li.append(data.friend.DisplayName + "<form action=\"/User/RemoveFriend\" class=\"remove-friend\" method=\"post\"><input name=\"friendId\" type=\"hidden\" value=" + data.friend.UserID + "><button type=\"submit\" class=\"btn btn-primary remove-button\"><i class=\"glyphicon glyphicon-remove right\"></i></button></form>");
                     $("#FriendList").append(li);
