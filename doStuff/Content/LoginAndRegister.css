@@ -54,6 +54,9 @@
         width: 50%;
         margin-top: 10%;
     }
+    .login-register-box {
+        margin-top: 35%;
+    }
     .login-register-box .control-label {
         font-size: 1.4em;
     }
@@ -130,6 +133,10 @@
     background-color: #aee239;
     letter-spacing: 3px;
     color: #26727f;
+}
+
+.confirm:hover {
+    background-color: rgba(174,226,57,0.70);
 }
 
 .login-register-buttons .cancel {
