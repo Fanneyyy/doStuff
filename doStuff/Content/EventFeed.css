@@ -47,7 +47,7 @@
     min-height: 150px;
 }
 .event-photo-space-attendees {
-    min-height: 140px;
+    min-height: 150px;
     overflow: hidden;
 }
 
@@ -69,6 +69,7 @@
     color: #26727f;
     min-height: 150px;
     padding: 5px 25px 5px 25px;
+    overflow: hidden;
 }
 
 .event-join-decline {
