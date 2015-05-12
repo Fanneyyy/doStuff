@@ -43,13 +43,15 @@
                         {
                             <div class="col-md-12 event-photo-space-attendees">
                                 <ul>
+                                    <li>
+                                        <h4>Attendees:</h4>
+                                    </li>
                                     @foreach (var i in item.Attendees)
                                     {
                                         <li>
                                             @i.DisplayName
                                         </li>
                                     }
-                        
                                 </ul>
                             </div>
                         }

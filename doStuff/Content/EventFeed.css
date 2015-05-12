@@ -49,6 +49,9 @@
 .event-photo-space-attendees {
     min-height: 150px;
     overflow: hidden;
+    background-color: rgba(128, 128, 128, 0.65);
+    overflow-y: auto;
+
 }
 
 .event-time-place {
