@@ -134,4 +134,36 @@
             }
         });
     }
+
+    $(".join-event").click(JoinEvent);
+    $(".decline-event").click(AnswerEvent);
+
+    function JoinEvent(event)
+    {
+        event.preventDefault();
+
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+        data.push({ answer: answer});
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: url,
+            data: data,
+            success: function (data) {
+                SetFeedback(data.message);
+                if (data.theevent != null) {
+                    $form.addClass("hidden");
+                    $("#form-result" + data.theevent.EventID).removeClass("hidden");
+                    $("#form-result" + data.theevent.EventID).children("decline-event").addClass("hidden");
+                }
+            },
+            error: function (xhr, err) {
+                alert(xhr);
+                alert(err);
+            }
+        });
+    }
 });
