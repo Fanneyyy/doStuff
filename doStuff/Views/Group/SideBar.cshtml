@@ -2,7 +2,15 @@
 @using doStuff.ViewModels
 
 <div class="pull-right right-sidebar">
-    <h2>@Model.Group.Name</h2>
+    @using (Html.BeginForm("RemoveMember", "Group"))
+    {
+        @Html.Hidden("memberId", Model.SideBar.User.UserID)
+        @Html.Hidden("groupId", Model.Group.GroupID)
+        <h2>@Model.Group.Name</h2>
+        <button type="submit" class="btn btn-primary remove-button">
+            <i class="glyphicon glyphicon-remove right"></i>
+        </button>
+    }
     <div>
         <p class="sidebar-title">Members</p>
     </div>
