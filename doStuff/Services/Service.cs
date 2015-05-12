@@ -217,6 +217,13 @@ namespace doStuff.Services
             return db.ExistsUserToUserRelation(senderId, receiverId);
         }
 
+        public bool FriendRequestAbort(int senderId, int receiverId)
+        {
+            UserToUserRelation relation = db.GetUserToUserRelation(senderId, receiverId);
+            relation.Active = false;
+            return db.SetUserToUserRelation(relation);
+        }
+
         public bool SendFriendRequest(int userId, int friendId)
         {
             UserToUserRelation relation = new UserToUserRelation();
@@ -599,7 +606,6 @@ namespace doStuff.Services
         }
         #endregion
         #endregion
-
         public static double DateTimeToMillis(DateTime created)
         {
             return created
