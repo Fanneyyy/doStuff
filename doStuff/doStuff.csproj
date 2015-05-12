@@ -193,18 +193,18 @@
     <Compile Include="ViewModels\SideBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\balloonBackground.jpg" />
     <Content Include="Content\Banner.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DatePicker.css" />
-    <Content Include="Content\doStufflogo.png" />
     <Content Include="Content\EventFeed.css" />
     <Content Include="Content\grayBackground.jpg" />
-    <Content Include="Content\Login.css" />
+    <Content Include="Content\LoginAndRegister.css" />
     <Content Include="Content\LogoGray.png" />
     <Content Include="Content\logOut.png" />
     <Content Include="Content\magnific-popup.css" />
+    <Content Include="Content\pictures\balloonBackground.jpg" />
+    <Content Include="Content\pictures\doStufflogo.png" />
     <Content Include="Content\pictures\stockPhoto01.jpg" />
     <Content Include="Content\plus.png" />
     <Content Include="Content\Reset.css" />
@@ -312,7 +312,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\User\EventFeed.cshtml" />
-    <Content Include="Views\Shared\LoginRegisterBase.cshtml" />
     <Content Include="Views\User\SideBar.cshtml" />
     <Content Include="Views\User\CreateEvent.cshtml" />
     <Content Include="Views\Group\CreateGroup.cshtml" />

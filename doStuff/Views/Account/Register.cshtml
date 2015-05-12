@@ -2,86 +2,98 @@
 @{
     ViewBag.Title = "register";
 }
-
-<h2 class="text-center login-title">@ViewBag.Title</h2>
-
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-10 control-label col-md-offset-1" })
-        <div class="col-md-10 col-md-offset-1">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-        </div>
+<div class="row">
+    <!--doStuff Logo-->
+    <div class="col-md-4 col-sm-12">
+        <img class="login-register-logo" src="@Url.Content("../Content/pictures/doStufflogo.png")" alt="doStuffLogo" />
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-10 control-label col-md-offset-1" })
-        <div class="col-md-10 col-md-offset-1">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-10 control-label col-md-offset-1" })
-        <div class="col-md-10 col-md-offset-1">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, new { @class = "col-md-10 control-label col-md-offset-1" })
-        <div class="col-md-10 col-md-offset-1">
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email)
-        </div>
-    </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.DisplayName, new { @class = "col-md-10 control-label col-md-offset-1" })
-            <div class="col-md-10 col-md-offset-1">
-                @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DisplayName)
-            </div>
-        </div>
-    <div class="row">
-        <div class="col-md-5 form-group" id="register-birth-year">
-            <div class="row">
-                @Html.LabelFor(model => model.BirthYear, new { @class = "control-label col-md-12" })
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <select id="BirthYear" name="BirthYear" class="form-control">
-                        @for (var i = 2015; i > 1900; i--)
-                        {
-                            <option value="@i">@i</option>
-                        }
-                        @Html.ValidationMessageFor(model => model.BirthYear)
-                    </select>
+    <!--Register Box-->
+    <div class="col-md-4 col-md-offset-0 col-sm-10 col-sm-offset-1">
+        <div class="col-md-12 login-register-box">
+            <h2 class="text-center login-register-title">@ViewBag.Title</h2>
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <!--Username-->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-10 control-label col-md-offset-1" })
+                    <div class="col-md-10 col-md-offset-1">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserName)
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-5 form-group" id="register-gender">
-            <div class="row">
-                @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-12" })
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <select id="Gender" name="Gender" class="form-control">
-                        <option value="0">male</option>
-                        <option value="1">female</option>
-                        @Html.ValidationMessageFor(model => model.Gender)
-                    </select>
+                <!--Password-->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-10 control-label col-md-offset-1" })
+                    <div class="col-md-10 col-md-offset-1">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
                 </div>
-            </div>
+                <!--Confirm Password-->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-10 control-label col-md-offset-1" })
+                    <div class="col-md-10 col-md-offset-1">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                    </div>
+                </div>
+                <!--Email-->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "col-md-10 control-label col-md-offset-1" })
+                    <div class="col-md-10 col-md-offset-1">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+                <!--Display Name-->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DisplayName, new { @class = "col-md-10 control-label col-md-offset-1" })
+                    <div class="col-md-10 col-md-offset-1">
+                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DisplayName)
+                    </div>
+                </div>
+                <!--Birth Year and Gender-->
+                <div class="form-group">
+                    <!--Birth Year-->
+                    <div class="col-md-5 col-md-offset-1">
+                        @Html.LabelFor(model => model.BirthYear, new { @class = "control-label col-md-12 birth-year-label" })
+                        <div class="col-md-12 register-birth-year">
+                            <select name="BirthYear" class="form-control birth-year">
+                                @for (var i = 2015; i > 1900; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                                @Html.ValidationMessageFor(model => model.BirthYear)
+                            </select>
+                        </div>
+                    </div>
+                    <!--Gender-->
+                    <div class="col-md-5">
+                        @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-12 gender-label" })
+                        <div class="col-md-12 register-gender">
+                            <select name="Gender" class="form-control gender">
+                                <option value="0">male</option>
+                                <option value="1">female</option>
+                                @Html.ValidationMessageFor(model => model.Gender)
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--Register and Cancel Buttons-->
+                <div class="form-group login-register-buttons">
+                    <div class="col-md-5 col-md-offset-1">
+                        <input type="submit" class="btn btn-default confirm" value="register" />
+                    </div>
+                    <div class="col-md-5">
+                        @Html.ActionLink("cancel", "Login", null, new { @class = "btn btn-default cancel" })
+                    </div>
+                </div>
+            }
         </div>
     </div>
-    <div class="form-group login-buttons">
-        <div class="col-md-5 col-md-offset-1">
-            <input type="submit" class="btn btn-default confirm" value="register" />
-        </div>
-        <div class="col-md-5">
-            @Html.ActionLink("cancel", "Login", null, new { @class = "btn btn-default cancel" })
-        </div>
-    </div>
-}
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

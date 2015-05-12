@@ -3,6 +3,25 @@
 
 <div class="pull-right right-sidebar">
     <h3>@Model.SideBar.User.DisplayName</h3>
+    <div>
+        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { id = "AddFriend" }))
+        {
+            <div class="row add-friend">
+                <div class="col-md-12 add-friend-title">add friend</div>
+                <div class="row add-friend-field-button">
+                    <div class="form-group">
+                        <div class="col-md-10 add-friend-field">
+                            <input type="text" name="username" placeholder="Your friends username" />
+                        </div>
+                        <div class="col-md-2 add-member-button">
+                            <input type="submit" value="add" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.ValidationSummary(false)
+        }
+    </div>
     <div class="friend-list">
         <ul id="FriendList">
             @foreach (var user in Model.SideBar.UserList)
@@ -19,21 +38,7 @@
             }
         </ul>
     </div>
-    <div>
-        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { id = "AddFriend" }))
-        {
-            <div class="row add-friend">
-                <div class="col-md-12 add-friend-title">add friend</div>
-                <div class="form-group">
-                    <span class="col-md-12">
-                        <input type="text" name="username" placeholder="insert username..." />
-                        <input type="submit" id="AddFriendButton" />
-                    </span>
-                </div>
-            </div>
-            @Html.ValidationSummary(false)
-        }
-    </div>
+    <div>my events</div>
     <div class="event-list">
         <ul>
             
