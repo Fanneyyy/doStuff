@@ -153,12 +153,12 @@
 }
 
 .create-group-label {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .create-group-field {
     font-size: 18px;
-    padding: 0px;
+    padding: 2px 2px 2px 4px;
 }
 
 .create-group-button {

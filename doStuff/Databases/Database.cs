@@ -406,9 +406,11 @@ namespace doStuff.Databases
             #region Get
             public UserToUserRelation GetUserToUserRelation(int senderId, int receiverId)
             {
-                var table = (from t in db.UserToUserRelations
-                             where t.SenderId == senderId && t.ReceiverId == receiverId && t.Active == true
-                             select t).SingleOrDefault();
+                var table = (from r in db.UserToUserRelations
+                             where r.SenderId == senderId
+                             && r.ReceiverId == receiverId
+                             && r.Active == true
+                             select r).SingleOrDefault();
                 return table;
             }
             public GroupToUserRelation GetGroupToUserRelation(int groupId, int userId)
