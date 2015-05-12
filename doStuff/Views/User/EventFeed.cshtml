@@ -78,13 +78,13 @@
                             @item.Event.Description
                         </div>
                     </div>
-                    <div class="form-result hidden">
-                        <div class="col-md-12 event-joined hidden">You Have Joined!</div>
-                        <div class="col-md-12 event-declined hidden">You Have Declined!</div>
+                    <div class="hidden" id=@Html.Raw("form-result" + item.Event.EventID)>
+                        <div class="col-md-12 event-joined">You Have Joined!</div>
+                        <div class="col-md-12 event-declined">You Have Declined!</div>
                     </div>
                     @if (item.Attending == null)
                     {
-                        using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @class = "answer-event" }))
+                        using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @id = @Html.Raw("eventform" + item.Event.EventID) }))
                         {
                             <input name="eventId" type="hidden" value="@item.Event.EventID" />
                             <div class="row">
