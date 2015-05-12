@@ -244,7 +244,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult CreateGroup()
         {
-            SetUserFeedback();
+            //SetUserFeedback();
             return View();
         }
 

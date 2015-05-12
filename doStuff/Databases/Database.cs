@@ -41,20 +41,15 @@ namespace doStuff.Databases
             
             return friends;
         }
-        public List<UserToUserRelation> GetFriendRequests(int userId, RequestType request)
+        public List<User> GetFriendRequests(int userId)
         {
-            if (request == RequestType.Sent)
-            {
-                return (from u in db.UserToUserRelations
-                        where u.SenderId == userId
-                        select u).ToList();
-            }
-            else
-            {
-                return (from u in db.UserToUserRelations
-                        where u.ReceiverId == userId
-                        select u).ToList();
-            }
+
+            return (from r in db.UserToUserRelations
+                    from u in db.Users
+                    where r.ReceiverId == userId
+                    && !r.Answer.HasValue
+                    && u.UserID == r.SenderId
+                    select u).ToList();
         }
         public List<User> GetMembers(int groupId)
         {
