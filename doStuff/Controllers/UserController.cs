@@ -52,6 +52,10 @@ namespace doStuff.Controllers
             {
                 TempData["message"] = new Message(username + " is already your friend.", MessageType.INFORMATION);
             }
+            else if (service.FriendRequestExists(user.UserID, friend.UserID))
+            {
+                TempData["message"] = new Message(username + " still has a pending friend request", MessageType.INFORMATION);
+            }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
                 TempData["message"] = new Message(friend.UserName + " is now you friend.", MessageType.SUCCESS);
