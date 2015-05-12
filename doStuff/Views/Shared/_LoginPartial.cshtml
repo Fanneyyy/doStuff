@@ -5,7 +5,9 @@
     {
     @Html.AntiForgeryToken()
     <div class="logout-box">
-        <a id="logout-logo" href="javascript:document.getElementById('logoutForm').submit()"></a>
+        <a href="javascript:document.getElementById('logoutForm').submit()">
+            <img class="banner-logout-logo" src="@Url.Content("../Content/pictures/logOut.png")" alt="logOut" />
+        </a>
     </div>
     }
 }

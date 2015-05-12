@@ -2,9 +2,9 @@
 @model doStuff.ViewModels.GroupFeedViewModel
 
  <div class="col-md-4">
-     <div class="banner-logo-box">
-         <a id="banner-logo" href="@Url.Action("Index", "User")"></a>
-     </div>
+     <a href="@Url.Action("Index", "User")">
+         <img class="banner-logo" src="@Url.Content("../Content/pictures/doStufflogoGray.png")" alt="doStuffLogo" />
+     </a>
  </div>
  <div class="col-md-4">
     <div class="btn-group">

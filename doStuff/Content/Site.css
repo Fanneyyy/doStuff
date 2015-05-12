@@ -1,4 +1,9 @@
-﻿html, body {
+﻿@font-face {
+    font-family: OpenSansRegular;
+    src: url(OpenSans/OpenSans-Regular.ttf);
+}
+
+html, body {
     margin: 0;
     height: 100%;
 }

@@ -22,13 +22,19 @@
     padding: 0px;
 }
 
-#banner-logo {
-    height: 90px;
-    background-image: url("LogoGray.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    display:block;
-    margin: 0px;
+.banner-logo {
+    max-width: 100%;
+    display: block;
+}
+
+.banner-logout-logo {
+    max-width: 100%;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.banner-logo-box, .banner-dropdown-box {
     padding: 0px;
 }
 
@@ -39,11 +45,10 @@
 .feed-chooser {
     background-color: #26727f;
     color: white;
-    font-size: 50px;
+    max-height: 90px;
+    width: 100%;
     font-variant: small-caps;
     border-radius: 0px;
-    height: 90px;
-    width: 100%;
 }
 
 .green {
@@ -51,52 +56,13 @@
     font-size: 30px;
 }
 
-#main-title {
+.btn:hover, .btn:focus {
+    color: white;
     outline: none;
-  border: none !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
-
-#main-title:link {
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
     box-shadow: none !important;
-}
-
-#main-title:visited {
-    box-shadow: none !important;
-}
-
-#main-title:hover {
-    box-shadow: none !important;
-}
-
-#main-title:active {
-    box-shadow: none !important;
-}
-
-#main-title:focus {
-    outline: none;
-  border: none !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
-
-.feed-chooser:link {
-    color: white;
-}
-
-.feed-chooser:visited {
-    color: white;
-}
-
-.feed-chooser:hover {
-    color: white;
-}
-
-.feed-chooser:active {
-    color: white;
 }
 
 .banner-dropdown {
@@ -132,69 +98,27 @@
     background-color: #eee;
 }
 
-.banner-dropdown .cancel {
-    background-color: #aee239;
-    font-size: 28px;
-    letter-spacing: 3px;
-    color: #26727f;
-    height: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.banner-dropdown .cancel:visited {
-    background-color: #aee239;
-    color: #26727f;
-}
-
-.banner-dropdown .cancel:hover {
-    color: #26727f;
-    background-color: #eee;
-}
-
-.logout-box {
-    margin-right: 10px;
-}
-
-#logout-logo {
-    background-image:url(logOut.png);
-    background-repeat: no-repeat;
-    background-size:170px;
-    background-position: right;
-    display:block;
-    height:90px;
-    width:100%;
-}
-
-#logout-logo:hover {
-    background-image:url(logOut.png);
-}
-
-.create-group-label {
-    font-size: 16px;
-    text-align: right;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    padding-left: 1px;
-    padding-right: 10px;
-}
-
 .create-group-field {
-    font-size: 18px;
-    padding: 2px 2px 1px 4px;
-    border: 1px solid #26727f;
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
-
-.create-group-button {
-    background-color: white;
-    color: #26727f;
-    border: 1px solid #26727f;
-    font-size: 20px;
+    width: 65%;
     display: inline;
     border-radius: 0px;
-    padding: 0px;
-    margin-top: 4px;
-    margin-bottom: 4px;
+}
+
+.banner-dropdown .create-group-button {
+    background-color: #aee239;
+    width: 30%;
+    display: inline;
+    border-radius: 0px;
+    letter-spacing: 3px;
+    color: #26727f;
+}
+
+.banner-dropdown .create-group-button:visited {
+    background-color: #aee239;
+    color: #26727f;
+}
+
+.banner-dropdown .create-group-button:hover {
+    color: #26727f;
+    background-color: #eee;
 }
