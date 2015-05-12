@@ -12,6 +12,8 @@
             @Model.Group.Name <span class="glyphicon glyphicon-chevron-down green" aria-hidden="true"></span>
         </button>
         <ul class="dropdown-menu banner-dropdown" role="menu">
+            <li>@Html.ActionLink("Event feed", "Index", "User")</li>
+            <li class="divider"></li>
             <li class="create-button-fields">
                 @using (Html.BeginForm("CreateGroup", "Group"))
                 {
@@ -20,7 +22,6 @@
                     <input type="submit" value="create" class=" col-md-2 btn btn-default create-group-button" />
                 }
             </li>
-            <li>@Html.ActionLink("Event feed", "Index", "User")</li>
             @foreach (var x in Model.Groups)
             {
                 if(x.GroupID != Model.Group.GroupID)
