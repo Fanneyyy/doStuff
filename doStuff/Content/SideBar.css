@@ -1,4 +1,20 @@
-﻿.right-sidebar {
+﻿::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.right-sidebar {
     background-color: #00a8c6;
     color: white;
     border: 1px solid #C8C8C8;
