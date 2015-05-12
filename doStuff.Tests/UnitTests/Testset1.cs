@@ -195,18 +195,9 @@ namespace doStuff.Tests.DbTest
                 Answer = true
             };
 
-            UserToUserRelation friendship3 = new UserToUserRelation
-            {
-                UserToUserRelationID = 3,
-                Active = true,
-                SenderId = 1,
-                ReceiverId = 3,
-                Answer = null
-            };
 
             mock.UserToUserRelations.Add(friendship1);
             mock.UserToUserRelations.Add(friendship2);
-            mock.UserToUserRelations.Add(friendship3);
 
             #endregion
             #region EventToUserRelations
@@ -437,7 +428,7 @@ namespace doStuff.Tests.DbTest
             catch (ErrorHandler.GroupNotFoundException) { }
             Assert.AreEqual(newName, groupWithNewName.Name);
         }
-        /* will be used if friend requests are implemented
+        
         [TestMethod]
         public void ServiceSendFriendRequest()
         {
@@ -447,21 +438,17 @@ namespace doStuff.Tests.DbTest
             ServiceTest.SendFriendRequest(user1Id, user2Id);
             bool fail1 = ServiceTest.IsFriendsWith(user1Id, user2Id);
             bool fail2 = ServiceTest.IsFriendsWith(user2Id, user1Id);
-            bool fail3 = ServiceTest.AnswerFriendRequest(user1Id, user2Id, true);
-            bool fail4 = ServiceTest.IsFriendsWith(user1Id, user2Id);
-            bool success1 = ServiceTest.SendFriendRequest(user2Id, user1Id);
+            bool success1 = ServiceTest.AnswerFriendRequest(user1Id, user2Id, true);
             bool success2 = ServiceTest.IsFriendsWith(user1Id, user2Id);
             bool success3 = ServiceTest.IsFriendsWith(user2Id, user1Id);
 
             Assert.AreEqual(false, fail1);
             Assert.AreEqual(false, fail2);
-            Assert.AreEqual(false, fail3);
-            Assert.AreEqual(false, fail4);
             Assert.AreEqual(true, success1);
             Assert.AreEqual(true, success2);
             Assert.AreEqual(true, success3);
 
-        }*/
+        }
         [TestMethod]
         public void ServiceCreateComment()
         {
