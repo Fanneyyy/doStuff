@@ -111,6 +111,7 @@
     text-align: center;
     padding: 0px;
     margin: 0px;
+    margin-top: -1px;
 }
 
 .banner-dropdown li>a:link {
@@ -170,15 +171,17 @@
 }
 
 .create-group-label {
-    font-size: 18px;
+    font-size: 16px;
     text-align: right;
     margin-top: 4px;
     margin-bottom: 4px;
+    padding-left: 1px;
+    padding-right: 10px;
 }
 
 .create-group-field {
     font-size: 18px;
-    padding: 2px 2px 2px 4px;
+    padding: 2px 2px 1px 4px;
     border: 1px solid #26727f;
     margin-top: 4px;
     margin-bottom: 4px;
