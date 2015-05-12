@@ -14,28 +14,7 @@
     <div>
         <p class="sidebar-title">Members</p>
     </div>
-    @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
-    {
-    <div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 add-member-title">add a member:</div>
-        </div>
-        @using (Html.BeginForm("AddMember", "Group"))
-        {
-            <input name="groupId" type="hidden" value="@Model.Group.GroupID" />
-            <div class="row add-friend-field-button">
-                <div class="form-group">
-                    <div class="col-md-10 add-friend-field">
-                        <input type="text" name="username" placeholder="Your friends username" />
-                    </div>
-                    <div class="col-md-2 add-member-button">
-                        <input type="submit" value="add" class="btn btn-default" />
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-    }
+    
     <ul>
         @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
         {
@@ -65,6 +44,28 @@
             }
         }        
     </ul>
+    @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
+    {
+    <div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 add-member-title">add a member:</div>
+        </div>
+        @using (Html.BeginForm("AddMember", "Group"))
+        {
+            <input name="groupId" type="hidden" value="@Model.Group.GroupID" />
+            <div class="row add-friend-field-button">
+                <div class="form-group">
+                    <div class="col-md-10 add-friend-field">
+                        <input type="text" name="username" placeholder="Your friends username" />
+                    </div>
+                    <div class="col-md-2 add-member-button">
+                        <input type="submit" value="add" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    }
     <div>
         <p class="sidebar-title">Events</p>
     </div>

@@ -128,6 +128,7 @@ namespace doStuff.Controllers
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Active = true;
+                newEvent.Max = 100;
                 service.CreateEvent(ref newEvent);
                 return RedirectToAction("Index");
             }
