@@ -37,6 +37,13 @@
     }
 }
 
+@media (min-width: 1200px) {
+    .login-register-logo {
+        width: 50%;
+        margin-top: 10%;
+    }
+}
+
 .login-register-box {
     background-color: rgba(0,168,198,0.86);
     color: white;
