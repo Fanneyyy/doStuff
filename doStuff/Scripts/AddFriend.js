@@ -68,7 +68,7 @@
                     li.append(data.friend.DisplayName + "<form action=\"/User/RemoveFriend\" class=\"remove-friend\" method=\"post\"><input name=\"friendId\" type=\"hidden\" value=" + data.friend.UserID + "><button type=\"submit\" class=\"btn btn-primary remove-button\"><i class=\"glyphicon glyphicon-remove right\"></i></button></form>");
                     $("#FriendList").append(li);
                     FriendList("#FriendList")
-                    $(".remove-friend").submit(Remove);
+                    $(".remove-friend").submit(RemoveFriend);
                 }
             },
             error: function (xhr, err) {
@@ -168,4 +168,4 @@
             }
         });
     }
-});
+});
