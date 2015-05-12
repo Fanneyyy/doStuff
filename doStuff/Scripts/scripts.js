@@ -7,41 +7,22 @@
 });
 
 function countdown() {
-    //function checkTime() {
-    //    debugger;
-    //    var elements = $(".countdown");
-    //    for (var item in elements) {
-    //        debugger;
-    //        created = $(elements[item]).data("created");
-    //        if (typeof created === "string") {
-    //            created = parseInt(created.split(",")[0]);
-    //        }
-    //        var initialTime = new Date(created);
-    //        var timeDifference = 1380000 - (Date.now() - initialTime);
-    //        if (timeDifference < 0) {
-    //            $(elements[item]).innerHTML = "ITS ON!";
-    //        } else {
-    //            var formatted = convertTime(timeDifference);
-    //            $(elements[item]).innerHTML = '' + formatted;
-    //        }
-    //    }
-    //}
-
     function checkTime() {
-        var element = document.getElementById('time');
-        if (element != null) {
-            var created = $(element).data("created");
-            var numberOfMinutes = $(element).data("minutes");
+        var elements = $(".countdown");
+        for (var i = 0; i < elements.length; i++) {
+            debugger;
+            created = $(elements[i]).data("created");
+            var numberOfMinutes = $(elements[i]).data("minutes");
             if (typeof created === "string") {
                 created = parseInt(created.split(",")[0]);
             }
             var initialTime = new Date(created);
             var timeDifference = (numberOfMinutes * 60000) - (Date.now() - initialTime);
             if (timeDifference < 0) {
-                location.reload();
+                //location.reload();
             } else {
                 var formatted = convertTime(timeDifference);
-                element.innerHTML = '' + formatted;
+                $(elements[i]).text('' + formatted);
             }
         }
     }
