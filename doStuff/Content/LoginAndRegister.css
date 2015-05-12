@@ -1,0 +1,132 @@
+﻿.login-register-body {
+    height: 100%;
+    background: url(pictures/balloonBackground.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.login-register-body .row {
+    margin: 0px;
+}
+
+.login-register-logo {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+    .login-register-logo {
+        width: 50%;
+    }
+    .login-register-box {
+        margin-top: 20%;
+    }
+}
+
+@media (min-width: 991px) {
+    .login-register-logo {
+        width: 70%;
+    }
+    .login-register-box {
+        margin-top: 40%;
+    }
+}
+
+.login-register-box {
+    background-color: rgba(0,168,198,0.86);
+    color: white;
+    border: 1px solid #797b7c;
+    letter-spacing: 3px;
+}
+
+.login-register-title {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+.login-register-box .control-label {
+    font-size: 22px;
+    text-align: left;
+}
+
+.login-register-box .form-control {
+    background-color: #4ce4ff;
+    color: #26727f;
+    font-size: 15px;
+    border-radius: 0px;
+    height: 40px;
+}
+
+.login-register-buttons {
+    letter-spacing: 3px;
+    margin-bottom: 0px;
+}
+
+.login-register-buttons .login {
+    margin-top: 20px;
+    margin-bottom: 4px;
+    background-color: #aee239;
+    color: #26727f;
+}
+
+.login-register-buttons .register {
+    margin-bottom: 70px;
+    background-color: #8fbe00;
+    color: white;
+}
+
+.login, .register, .confirm, .cancel {
+    border-radius: 0px;
+    width: 100%;
+    font-size:22px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.birth-year-label, .gender-label {
+    padding: 0px;
+}
+
+.register-birth-year, .register-gender {
+    padding: 0px;
+}
+
+.birth-year, .gender {
+    width: 100%;
+    font-size: 20px;
+}
+
+.login-register-buttons .confirm {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    background-color: #aee239;
+    letter-spacing: 3px;
+    color: #26727f;
+}
+
+.login-register-buttons .cancel {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    background-color: #8fbe00;
+    color: white;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
+    -webkit-text-fill-color: #26727f !important;
+}
+
+input:-webkit-autofill:hover {
+    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
+    -webkit-text-fill-color: #26727f !important;
+}
+
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
+    -webkit-text-fill-color: #26727f !important;
+}

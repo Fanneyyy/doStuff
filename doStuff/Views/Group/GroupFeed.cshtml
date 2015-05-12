@@ -1,4 +1,5 @@
 ﻿@model doStuff.ViewModels.GroupFeedViewModel
+@using doStuff.ViewModels;
 
 @foreach (var item in Model.Events)
 {
@@ -8,7 +9,29 @@
                 <div class="col-md-4 event-owner">@item.Owner</div>
                 <div class="col-md-3 event-group">
                 </div>
-                <div class="col-md-2 event-countdown">@item.Event.Minutes</div>
+                @{
+    if (item.State == State.ON)
+    {
+        if (item.Event.TimeOfEvent <= DateTime.Now)
+        {
+            <div class="col-md-2 event-countdown">You did this!! :)</div>
+
+        }
+        else
+        {
+            <div class="col-md-2 event-countdown">ITS ON</div>
+        }
+    }
+    else if (item.State == State.OFF)
+    {
+        <div class="col-md-2 event-countdown">ITS OFF</div>
+    }
+    else
+    {
+        <div class="col-md-2 event-countdown"><span id="time" class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated"></span></div>
+    }
+                }
+                <!--<div class="col-md-2 event-countdown">item.Event.Minutes</div>-->
                 <div class="col-md-3 event-name">@item.Event.Name</div>
             </div>
         </div>
@@ -44,9 +67,24 @@
                     }
                     else if (item.Attending == true)
                     {
-                        <div class="row event-join-decline">
-                            <div class="col-md-12 event-joined">You Have Joined!</div>
-                        </div>
+                        if (item.State == State.OFF)
+                        {
+                            <div class="row event-join-decline">
+                                @using (Html.BeginForm("AnswerEvent", "User"))
+                                {
+                                    <input name="eventId" type="hidden" value="@item.Event.EventID" />
+                                    <!--<div class="row event-join-decline">-->
+                                    <button type="submit" class="btn btn-primary event-declined" name="answer" value="False">OK, Remove this :(</button>
+                                    @Html.ValidationSummary(false)
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row event-join-decline">
+                                <div class="col-md-12 event-joined">You Have Joined!</div>
+                            </div>
+                        }
                     }
                     else
                     {
@@ -63,7 +101,14 @@
             <div class="row comment">
                 <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
                 <div class="col-md-8 comment-content">@comment.Comment.Content</div>
-                <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
+                {
+                    <div class="col-md-2 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
+                }
+                else
+                {
+                    <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                }
             </div>
         }
         @using (Html.BeginForm("Comment", "Group"))
@@ -82,7 +127,7 @@
             </div>
             @Html.ValidationSummary(false)
         }
-   </div>
+    </div>
 }
 
 

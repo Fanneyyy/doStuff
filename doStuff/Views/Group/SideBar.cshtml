@@ -1,4 +1,5 @@
 ﻿@model doStuff.ViewModels.GroupFeedViewModel
+@using doStuff.ViewModels
 
 <div class="pull-right right-sidebar">
     <h2>@Model.Group.Name</h2>
@@ -24,7 +25,6 @@
                     </div>
                 </div>
             </div>
-            @Html.ValidationSummary(false)
         }
     </div>
     }
@@ -44,7 +44,6 @@
                             <button type="submit" class="btn btn-primary remove-button">
                                 <i class="glyphicon glyphicon-remove right"></i>
                             </button>
-                            @Html.ValidationSummary(false)
                         }
                     }
                 </li>
@@ -58,4 +57,29 @@
             }
         }        
     </ul>
+    <div>
+        <p class="sidebar-title">Events</p>
+    </div>
+    <div class="event-list">
+        @if (Model.SideBar.EventList.Count != 0)
+        {
+            <ul>
+                @foreach (var thisEvent in Model.SideBar.EventList)
+                {
+
+                    if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
+                    {
+                        <li>Name: @thisEvent.Event.Name</li>
+                        <li>Time: @thisEvent.Event.TimeOfEvent</li>
+                        <li>Location: @thisEvent.Event.Location</li>
+                        <li class="divider"></li>
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+            <p>You have no events</p>
+        }
+    </div>
 </div>
