@@ -151,3 +151,22 @@
 #logout-logo:hover {
     background-image:url(logOut.png);
 }
+
+.create-group-label {
+    font-size: 18px;
+}
+
+.create-group-field {
+    font-size: 18px;
+    padding: 0px;
+}
+
+.create-group-button {
+    background-color: white;
+    color: #26727f;
+    border: 1px solid #26727f;
+    font-size: 20px;
+    display: inline;
+    border-radius: 0px;
+    padding: 0px;
+}

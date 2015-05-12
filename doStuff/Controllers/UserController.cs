@@ -34,7 +34,7 @@ namespace doStuff.Controllers
             return View();
         }
 
-        /* old , may be revisited [HttpPost]
+        [HttpPost]
         public ActionResult AddFriend(string username)
         {
             User user = service.GetUser(User.Identity.Name);
@@ -67,30 +67,6 @@ namespace doStuff.Controllers
             }
             return RedirectToAction("Index");
         }
-        */
-        public ActionResult AddFriend(string username)
-        {
-            User user = service.GetUser(User.Identity.Name);
-            User friend = service.GetUser(username);
-            //TODO if friend does not exist notify the user
-            if (friend != null)
-            {
-                //TODO if he is already friends notify user
-                if (!service.IsFriendsWith(user.UserID, friend.UserID))
-                {
-                    //if the other user has already sent a request answer it
-                    if (!service.AnswerFriendRequest(friend.UserID, user.UserID, true))
-                    {
-                        //TODO notify user request has already been sent
-                        if (!service.FriendRequestExists(user.UserID, friend.UserID))
-                        {
-                            service.SendFriendRequest(user.UserID, friend.UserID);
-                        }
-                    }
-                }
-            }
-            return RedirectToAction("Index");
-        }
 
         [HttpGet]
         public ActionResult Banner()
@@ -98,36 +74,31 @@ namespace doStuff.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public ActionResult ViewFriendRequests()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AnswerFriendRequests(int userId, bool answer)
-        {
-            //TODO
-            int myId = service.GetUserId(User.Identity.Name);
-            service.AnswerFriendRequest(userId, myId, answer);
-            return RedirectToAction("ViewFriendRequests");
-        }
-
         [HttpPost]
         public ActionResult AcceptFriendRequest(int requesterId)
         {
-            //TODO
-            int myId = service.GetUserId(User.Identity.Name);
-            service.AnswerFriendRequest(requesterId, myId, true);
+            User user = service.GetUser(User.Identity.Name);
+            service.AnswerFriendRequest(requesterId, user.UserID, true);
+            User friend = service.GetUser(requesterId);
+            TempData["message"] = new Message(friend.DisplayName + " is now your loyal friend", MessageType.SUCCESS);
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { friend = friend, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult DeclineFriendRequest(int requesterId)
         {
-            //TODO
-            int myId = service.GetUserId(User.Identity.Name);
-            service.AnswerFriendRequest(requesterId, myId, false);
+            User user = service.GetUser(User.Identity.Name);
+            service.AnswerFriendRequest(requesterId, user.UserID, false);
+            User friend = service.GetUser(requesterId);
+            TempData["message"] = new Message(friend.DisplayName + " is now your loyal friend", MessageType.SUCCESS);
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { friend = friend, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
             return RedirectToAction("Index");
         }
 
