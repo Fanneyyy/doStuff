@@ -79,6 +79,18 @@
     background-repeat: no-repeat;
 }
 
+.event-photo-time-location-beach {
+    background-image: url("pictures/Eventphotos/beach-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.event-photo-time-location-school {
+    background-image: url("pictures/Eventphotos/school-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .event-photo-space {
     min-height: 150px;
 }
