@@ -57,6 +57,16 @@
     padding-bottom: 10px;
 }
 
+.friend-requests-title {
+    background-color: #aee239;
+    font-variant: small-caps;
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
 .friend-list-box {
     background: white;
     color: #26727f;
@@ -65,10 +75,6 @@
     overflow-y: auto;
     overflow-x: visible;
     margin: 5px 5px 5px 5px;
-}
-
-.friend-list-box ul:first-child {
-    padding-top: 5px;
 }
 
 .sidebar-button {
