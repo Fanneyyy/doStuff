@@ -37,10 +37,11 @@
 
                     if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
                     {
-                        <li>Name: @thisEvent.Event.Name</li>
-                        <li>Time: @thisEvent.Event.TimeOfEvent</li>
-                        <li>Location: @thisEvent.Event.Location</li>
-                        <li class="divider"></li>
+                        <li class="uppcoming-event-name">@thisEvent.Event.Name</li>
+                        <li>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</li>
+                        <li>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</li>
+                        <li class="uppcoming-event-location">At @thisEvent.Event.Location</li>
+                        <li class="divider-event"></li>
                     }
                 }
             </ul>
