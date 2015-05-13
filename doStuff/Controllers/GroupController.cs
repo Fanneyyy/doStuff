@@ -29,18 +29,12 @@ namespace doStuff.Controllers
                 if (Request.IsAjaxRequest())
                 {
                     GroupFeedViewModel model = service.GetGroupFeed(groupId.Value, user.UserID);
-                    return Json(RenderPartialViewToString("EventFeed", model), JsonRequestBehavior.AllowGet);
+                    return Json(RenderPartialViewToString("GroupFeed", model), JsonRequestBehavior.AllowGet);
                 }
                 SetUserFeedback();
                 GroupFeedViewModel feed = service.GetGroupFeed(groupId.Value, service.GetUserId(User.Identity.Name));
                 return View(feed);
             }
-            return RedirectToAction("Index", "User");
-        }
-
-        [HttpGet]
-        public ActionResult Banner()
-        {
             return RedirectToAction("Index", "User");
         }
 
@@ -68,6 +62,10 @@ namespace doStuff.Controllers
             else if (service.AddMember(member.UserID, groupId))
             {
                 TempData["message"] = new Message(member.UserName + " was added to the group.", MessageType.SUCCESS);
+            }
+            else
+            {
+
             }
             if (Request.IsAjaxRequest())
             {
