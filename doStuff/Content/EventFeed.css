@@ -73,6 +73,12 @@
     background-repeat: no-repeat;
 }
 
+.event-photo-time-location-gaming {
+    background-image: url("pictures/Eventphotos/gaming-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .event-photo-space {
     min-height: 150px;
 }

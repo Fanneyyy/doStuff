@@ -208,6 +208,7 @@
     <Content Include="Content\pictures\doStufflogo.png" />
     <Content Include="Content\pictures\doStufflogoGray.png" />
     <Content Include="Content\pictures\Eventphotos\drinks-photo.jpg" />
+    <Content Include="Content\pictures\Eventphotos\gaming-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\theater-photo.jpg" />
     <Content Include="Content\pictures\logOut.png" />
     <Content Include="Content\pictures\stockPhoto01.jpg" />
