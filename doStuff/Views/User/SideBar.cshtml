@@ -14,6 +14,7 @@
                 @RenderPage("FriendList.cshtml")
         </ul>
     </div>
+    <!--Add friend field-->
     <div class="add-friend-box">
         @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
         {
@@ -26,9 +27,7 @@
             </form>
         }
     </div>
-    <div>
-        <p class="sidebar-title">Events</p>
-    </div>
+    <div class="events-title">Uppcoming Events</div>
     <div class="event-list">
         @if (Model.SideBar.EventList.Count != 0)
         {

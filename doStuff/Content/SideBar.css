@@ -70,7 +70,7 @@
     background: white;
     color: #26727f;
     font-size: 0.7em;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: visible;
     margin: 5px 5px 5px 5px;
@@ -147,12 +147,6 @@
     padding-left: 3px;
 }
 
-.right-sidebar .event-list {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: visible;
-}
-
 .add-button {
     background-color: white;
     color: #26727f;
@@ -161,9 +155,29 @@
     border-radius: 0px;
 }
 
+.events-title {
+    background-color: #26727f;
+    font-variant: small-caps;
+    font-size: 20px;
+    margin-top: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .divider {
   height: 1px;
   margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
+}
+
+.event-list {
+    background: white;
+    color: #26727f;
+    font-size: 0.7em;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: visible;
+    margin: 5px 5px 5px 5px;
+    padding-top: 6px;
 }
