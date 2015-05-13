@@ -20,7 +20,7 @@
         {
             foreach (var user in Model.SideBar.UserList)
             {
-                <li class ="eventfeed-friend">
+                <li class ="eventfeed-friend" id=@Html.Raw("member" + user.UserID)>
                     @user.DisplayName
                     @if(user.UserID != Model.Group.OwnerId)
                     {

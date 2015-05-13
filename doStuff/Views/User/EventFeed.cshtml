@@ -5,7 +5,7 @@
 <ul id="event-feed">
     @foreach (var item in Model.Events)
     {
-        <li>
+        <li class="event-list-item">
             <div class="row event-box" id=@Html.Raw("event" + item.Event.EventID)>
                 <div class="col-md-12 event-banner">
                     <div class="row">
