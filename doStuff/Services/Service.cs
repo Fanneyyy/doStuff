@@ -471,6 +471,7 @@ namespace doStuff.Services
             else
             {
                 SideBar.UserList = db.GetFriends(userId);
+                SideBar.UserPendingList = db.GetPendingRequests(userId);
                 SideBar.UserRequestList = db.GetFriendRequests(userId);
             }
 
