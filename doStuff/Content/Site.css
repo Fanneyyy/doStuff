@@ -73,3 +73,7 @@ input[type="checkbox"].input-validation-error {
     font-size:70px;
     margin-left: 7px;
 }
+
+#event {
+        margin-top: 5%;
+    }
