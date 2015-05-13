@@ -6,8 +6,6 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
 {
-    public enum RequestType {Sent, Received};
-
     public class Database
     {
         protected static IDataContext db;
@@ -24,7 +22,8 @@ namespace doStuff.Databases
 
             List<UserToUserRelation> relations = (from f in db.UserToUserRelations
                                                   where (f.ReceiverId == userId || f.SenderId == userId) 
-                                                  && (!f.Answer.HasValue || f.Answer.Value == true) 
+                                                  && f.Answer.HasValue 
+                                                  && f.Answer.Value == true
                                                   && f.Active == true
                                                   select f).ToList();
 
@@ -40,12 +39,25 @@ namespace doStuff.Databases
             
             return friends;
         }
+
+        public List<User> GetPendingRequests(int userId)
+        {
+            return (from r in db.UserToUserRelations
+                    from u in db.Users
+                    where r.SenderId == userId
+                    && r.Active
+                    && !r.Answer.HasValue
+                    && u.UserID == r.ReceiverId
+                    select u).ToList();
+        }
+
         public List<User> GetFriendRequests(int userId)
         {
 
             return (from r in db.UserToUserRelations
                     from u in db.Users
                     where r.ReceiverId == userId
+                    && r.Active
                     && !r.Answer.HasValue
                     && u.UserID == r.SenderId
                     select u).ToList();

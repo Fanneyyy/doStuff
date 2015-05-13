@@ -14,87 +14,24 @@
     {
         <div class="friend-requests-title">you Have unanswered Friend requests</div>
     }
-    <ul>
-            @foreach (var user in Model.SideBar.UserRequestList)
-            {
-            <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
-                @using (Html.BeginForm("DeclineFriendRequest", "User", FormMethod.Post, new { @class = "remove-friend" }))
-                {
-                    <input name="requesterId" type="hidden" value="@user.UserID">
-                    <button type="submit" class="btn btn-primary sidebar-button">
-                        <i class="glyphicon glyphicon-remove x-button"></i>
-                    </button>
-                }
-                @using (Html.BeginForm("AcceptFriendRequest", "User", FormMethod.Post, new { @class = "add-friend" }))
-                {
-                    <input name="requesterId" type="hidden" value="@user.UserID">
-                    <button type="submit" class="btn btn-primary sidebar-button">
-                        <i class="glyphicon glyphicon-ok v-button"></i>
-                    </button>
-                }
-                <div class="friend-display-name">@user.DisplayName</div>
-            </li>
-            }
-            @foreach (var user in Model.SideBar.UserList)
-            {
-            <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
-                @using (Html.BeginForm("RemoveFriend", "User", FormMethod.Post, new { @class = "remove-friend" }))
-                {
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary sidebar-button">
-                                <i class="glyphicon glyphicon-remove x-button"></i>
-                            </button>
-                            <input name="friendId" type="hidden" value="@user.UserID" />
-                            <div class="friend-display-name">@user.DisplayName</div>
-                        </div>
-                    </form>
-                }
-            </li>
-            }
-            @if (Model.SideBar.UserRequestList.Count > 0)
-            {
-                <li class="divider"></li>
-            }
-            @if (Model.SideBar.UserList.Count > 0)
-            {
-                foreach (var user in Model.SideBar.UserList)
-                {
-                    <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
-                        @using (Html.BeginForm("RemoveFriend", "User", FormMethod.Post, new { @class = "remove-friend" }))
-                        {
-                            <form class="form-inline">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary sidebar-button">
-                                        <i class="glyphicon glyphicon-remove x-button"></i>
-                                    </button>
-                                    <input name="friendId" type="hidden" value="@user.UserID" />
-                                    <div class="friend-display-name">@user.DisplayName</div>
-                                </div>
-                            </form>
-                        }
-                    </li>
-                }
-            }
-            else
-            {
-                <li><p class="friend-display-no-friends">
-                    you currently have no friends, you can add friends by inputing
-                    their username into the field below
-                </p></li>
-            }
-            </ul>
+    <ul id="friend-list">
+            @RenderPage("FriendList.cshtml")
+    </ul>
     </div>
     <div class="add-friend-box">
         @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
         {
-            <form class="form-inline">
-                <div class="form-group add-friend-form">
-                    <label class="sr-only" for="add-friend">add friend</label>
-                    <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username..."/>
-                    <button type="submit" class="btn btn-default add-friend-button">add friend</button>
+            <!--<input name="groupId" type="hidden" value="Model.Group.GroupID" />-->
+            <div class="row add-friend-field-button">
+                <div class="form-group">
+                    <div class="col-md-10 add-friend-field">
+                        <input type="text" name="username" placeholder="Your friends username" />
+                    </div>
+                    <div class="col-md-2 add-member-button">
+                        <input type="submit" value="add" class="btn btn-default" />
+                    </div>
                 </div>
-            </form>
+            </div>
         }
     </div>
     <div>
