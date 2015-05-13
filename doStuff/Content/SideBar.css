@@ -1,15 +1,12 @@
-﻿::-webkit-scrollbar
-{
+﻿::-webkit-scrollbar {
   width: 12px;
 }
 
-::-webkit-scrollbar-track
-{
+::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.5);
 }
 
@@ -159,8 +156,6 @@
     padding-left: 4px;
 }
 
-
-
 .add-friend .form-group {
     margin-bottom: 0px;
 }
@@ -169,7 +164,6 @@
     margin-top: 10px;
     margin-bottom: 5px;
 }
-
 
 .right-sidebar .event-list {
     max-height: 400px;
