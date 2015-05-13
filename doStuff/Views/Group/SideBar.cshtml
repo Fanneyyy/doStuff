@@ -24,16 +24,20 @@
                     foreach (var user in Model.SideBar.UserList)
                     {
                         <li class="eventfeed-friend" id=@Html.Raw("member" + user.UserID)>
-                            @user.DisplayName
                             @if (user.UserID != Model.Group.OwnerId)
                             {
                                 using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "remove-member" }))
                                 {
                                     @Html.Hidden("memberId", user.UserID)
                                     @Html.Hidden("groupId", Model.Group.GroupID)
-                                    <button type="submit" class="btn btn-primary remove-button">
-                                        <i class="glyphicon glyphicon-remove x-button"></i>
-                                    </button>
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary sidebar-button">
+                                                <i class="glyphicon glyphicon-remove x-button"></i>
+                                            </button>
+                                            <div class="friend-display-name">@user.DisplayName</div>
+                                        </div>
+                                    </form>
                                 }
                             }
                         </li>
@@ -75,6 +79,7 @@
                 <form class="form-inline">
                     <div class="form-group add-friend-form">
                         <label class="sr-only" for="add-friend">add friend</label>
+                        <input name="groupid" type="hidden" value="@Model.Group.GroupID">
                         <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
                         <button type="submit" class="btn btn-default add-button">add</button>
                     </div>
