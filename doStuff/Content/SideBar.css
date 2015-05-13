@@ -67,6 +67,16 @@
     padding-bottom: 6px;
 }
 
+.friend-requests-title-top {
+    background-color: #aee239;
+    font-variant: small-caps;
+    font-size: 18px;
+    margin-top: -6px;
+    margin-bottom: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
 .friend-list-box {
     background: white;
     color: #26727f;
@@ -195,14 +205,13 @@
     font-size: 18px;
 }
 
-.group-x-button {
+.group-sidebar-button {
     color: #333;
     float: right;
     font-size: 17px;
+    padding-top: 3px;
 }
 
-.group-x-button:hover {
-    background: none;
-    color: red;
-    float: right;
+.group-title {
+    padding-left: 8px;
 }

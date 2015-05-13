@@ -1,10 +1,10 @@
 ﻿@model doStuff.ViewModels.EventFeedViewModel
 @using doStuff.ViewModels;
 
-@if (Model.SideBar.UserRequestList.Count + Model.SideBar.UserPendingList.Count + Model.SideBar.UserPendingList.Count > 0) {
+@if (Model.SideBar.UserRequestList.Count + Model.SideBar.UserPendingList.Count + Model.SideBar.UserList.Count > 0) {
     if (Model.SideBar.UserRequestList.Count > 0 || Model.SideBar.UserPendingList.Count > 0)
     {
-        <li class="friend-requests-title">you have unanswered friend requests</li>
+        <li class="friend-requests-title-top">you have unanswered friend requests</li>
     }
     foreach (var user in Model.SideBar.UserRequestList)
     {

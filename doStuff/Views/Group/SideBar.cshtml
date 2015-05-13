@@ -4,71 +4,86 @@
 <div class="pull-right right-sidebar">
     <!--Group name-->
     <div class="sidebar-title-box">
-        <h3>@Model.Group.Name</h3>
+        <h3 class="group-title">@Model.Group.Name</h3>
         @using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "leave-group" }))
         {
             @Html.Hidden("memberId", Model.SideBar.User.UserID)
             @Html.Hidden("groupId", Model.Group.GroupID)
-            <button type="submit" class="btn btn-primary sidebar-button">
+            <button type="submit" class="btn btn-primary sidebar-button group-sidebar-button">
                 <i class="glyphicon glyphicon-remove x-button"></i>
             </button>
         }
     </div>
     <div class="friends-title">Members</div>
-    <ul>
+    <!--List of members-->
+    <div class="friend-list-box">
+        <ul>
+            @if (Model.SideBar.UserList.Count > 0) {
+                if (Model.SideBar.User.UserID == Model.Group.OwnerId)
+                {
+                    foreach (var user in Model.SideBar.UserList)
+                    {
+                        <li class="eventfeed-friend" id=@Html.Raw("member" + user.UserID)>
+                            @user.DisplayName
+                            @if (user.UserID != Model.Group.OwnerId)
+                            {
+                                using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "remove-member" }))
+                                {
+                                    @Html.Hidden("memberId", user.UserID)
+                                    @Html.Hidden("groupId", Model.Group.GroupID)
+                                    <button type="submit" class="btn btn-primary remove-button">
+                                        <i class="glyphicon glyphicon-remove right"></i>
+                                    </button>
+                                }
+                            }
+                        </li>
+                    }
+                }
+                else
+                {
+                    foreach (var user in Model.SideBar.UserList)
+                    {
+                        <li>@user.DisplayName</li>
+                    }
+                }
+            }
+            else
+            {
+                if (Model.SideBar.User.UserID == Model.Group.OwnerId)
+                {
+                    <li class="friend-display-no-friends">
+                        you currently have no other members in your group, 
+                        you can add your friends via the field below
+                    </li>
+                }
+                else
+                {
+                    <li class="friend-display-no-friends">
+                        you have been left stranded in this group, you can
+                         stay or leave by removing yourself from the group
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+    <!--Add Member if owner-->
         @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
         {
-            foreach (var user in Model.SideBar.UserList)
+            <div class="add-friend-box">
+            @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "add-friend" }))
             {
-                <li class ="eventfeed-friend" id=@Html.Raw("member" + user.UserID)>
-                    @user.DisplayName
-                    @if(user.UserID != Model.Group.OwnerId)
-                    {
-                        using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "remove-member" }))
-                        {
-                            @Html.Hidden("memberId", user.UserID)
-                            @Html.Hidden("groupId", Model.Group.GroupID)
-                            <button type="submit" class="btn btn-primary remove-button">
-                                <i class="glyphicon glyphicon-remove right"></i>
-                            </button>
-                        }
-                    }
-                </li>
-            }
-        }
-        else
-        {
-            foreach (var user in Model.SideBar.UserList)
-            {
-                <li>@user.DisplayName</li>
-            }
-        }        
-    </ul>
-    @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
-    {
-    <div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 add-member-title">add a member:</div>
-        </div>
-        @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "add-member" }))
-        {
-            <input name="groupId" type="hidden" value="@Model.Group.GroupID" />
-            <div class="row add-friend-field-button">
-                <div class="form-group">
-                    <div class="col-md-10 add-friend-field">
-                        <input type="text" name="username" placeholder="Your friends username" />
+                <form class="form-inline">
+                    <div class="form-group add-friend-form">
+                        <label class="sr-only" for="add-friend">add friend</label>
+                        <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
+                        <button type="submit" class="btn btn-default add-button">add</button>
                     </div>
-                    <div class="col-md-2 add-member-button">
-                        <input type="submit" value="add" class="btn btn-default" />
-                    </div>
-                </div>
+                </form>
+            }
             </div>
         }
-    </div>
-    }
-    <div>
-        <p class="sidebar-title">Events</p>
-    </div>
+        <div class="events-title">Upcoming Events</div>
+    <!--List of upcoming events-->
     <div class="event-list">
         @if (Model.SideBar.EventList.Count != 0)
         {
@@ -78,17 +93,18 @@
 
                     if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
                     {
-                        <li>Name: @thisEvent.Event.Name</li>
-                        <li>Time: @thisEvent.Event.TimeOfEvent</li>
-                        <li>Location: @thisEvent.Event.Location</li>
-                        <li class="divider"></li>
+                        <li class="uppcoming-event-name">@thisEvent.Event.Name</li>
+                        <li>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</li>
+                        <li>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</li>
+                        <li class="uppcoming-event-location">At @thisEvent.Event.Location</li>
+                        <li class="divider-event"></li>
                     }
                 }
             </ul>
         }
         else
         {
-            <p>You have no events</p>
+            <p>you currently have no upcoming events</p>
         }
     </div>
 </div>
