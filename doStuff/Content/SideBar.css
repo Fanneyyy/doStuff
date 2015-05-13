@@ -24,6 +24,8 @@
 .sidebar-title-box {
     background: white;
     letter-spacing: 2px;
+    display:table;
+    width:100%;
     min-height: 60px;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -37,12 +39,10 @@
     padding-bottom: 3px;
 }
 
-.sidebar-title {
-    display: inline;
-    text-align: left;
-    min-height: 60px;
+.sidebar-title-box h3 {
     color: #26727f;
-    padding-left: 0px;
+    display:table-cell; 
+    vertical-align:middle
 }
 
 .friends-title {
@@ -111,6 +111,9 @@
 
 .friend-display-no-friends {
     text-align: center;
+    font-size: 17px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .request-list {
@@ -137,18 +140,18 @@
 }
 
 .add-member-button input {
-    border-radius: 0px;
+    /*border-radius: 0px;
     width: 100%;
     color: #26727f;
     border: solid 1px #26727f;
     padding-top: 4px;
-    padding-bottom: 4px;
+    padding-bottom: 4px;*/
 }
 
 .add-friend-field-button {
-    margin: 0px;
+    /*margin: 0px;
     padding: 0px;
-    border: solid 1px #26727f;
+    border: solid 1px #26727f;*/
 }
 
 .add-friend-field {
@@ -156,11 +159,11 @@
 }
 
 .add-friend-field input {
-    width: 100%;
+    /*width: 100%;
     font-size: 16px;
     padding-top: 3px;
     padding-bottom: 3px;
-    padding-left: 4px;
+    padding-left: 4px;*/
 }
 
 .add-friend .form-group {
@@ -176,7 +179,6 @@
     max-height: 400px;
     overflow-y: auto;
     overflow-x: visible;
-
 }
 
 .divider {
