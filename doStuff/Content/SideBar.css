@@ -75,6 +75,7 @@
     overflow-y: auto;
     overflow-x: visible;
     margin: 5px 5px 5px 5px;
+    padding-top: 6px;
 }
 
 .sidebar-button {
@@ -109,6 +110,10 @@
 
 .friend-display-name {
     text-align: left;
+}
+
+.friend-display-no-friends {
+    text-align: center;
 }
 
 .pull-down {
