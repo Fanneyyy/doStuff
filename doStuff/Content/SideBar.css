@@ -25,14 +25,15 @@
     background: white;
     letter-spacing: 2px;
     display:table;
-    width:100%;
+    width:98%;
     min-height: 60px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-left: 4px;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
 .sidebar-avatar {
-    max-height: 70px;
+    max-height: 75px;
     float: left;
     display: inline;
     padding-top: 3px;
@@ -51,7 +52,7 @@
     background-color: #26727f;
     font-variant: small-caps;
     font-size: 20px;
-    margin-top: 15px;
+    margin-top: 6px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -85,12 +86,15 @@
     padding: 0px 6px 0px 4px;
 }
 
-.sidebar-button:hover, .sidebar-button:active {
+.sidebar-button:hover, .sidebar-button:active,
+.sidebar-button:focus, .sidebar-button:visited {
     background: none;
+    outline: none;
 }
 
 .x-button {
     color: #333;
+    font-size: 17px;
 }
 
 .x-button:hover {
@@ -100,6 +104,7 @@
 
 .v-button {
     color: #333;
+    font-size: 17px;
 }
 
 .v-button:hover {
@@ -109,6 +114,7 @@
 
 .friend-display-name {
     text-align: left;
+    font-size: 16px;
 }
 
 .friend-display-no-friends {
@@ -125,10 +131,7 @@
 .divider-event {
     height: 1px;
     background-color: #26727f;
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin: 2px 8px 2px 8px;
 }
 
 .pull-down {

@@ -4,7 +4,7 @@
 @if (Model.SideBar.UserRequestList.Count + Model.SideBar.UserPendingList.Count + Model.SideBar.UserPendingList.Count > 0) {
     if (Model.SideBar.UserRequestList.Count > 0 || Model.SideBar.UserPendingList.Count > 0)
     {
-        <li class="friend-requests-title">you Have unanswered Friend requests</li>
+        <li class="friend-requests-title">you have unanswered friend requests</li>
     }
     foreach (var user in Model.SideBar.UserRequestList)
     {
@@ -47,7 +47,7 @@
     }
     if (Model.SideBar.UserRequestList.Count > 0 || Model.SideBar.UserPendingList.Count > 0)
     {
-        <li class="friend-requests-title">Your Friends</li>
+        <li class="friend-requests-title">your friends</li>
         if (Model.SideBar.UserList.Count == 0)
         {
             <li class="friend-display-no-friends">
