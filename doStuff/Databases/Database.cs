@@ -6,8 +6,6 @@ using doStuff.Models.DatabaseModels;
 
 namespace doStuff.Databases
 {
-    public enum RequestType {Sent, Received};
-
     public class Database
     {
         protected static IDataContext db;
@@ -46,6 +44,7 @@ namespace doStuff.Databases
             return (from r in db.UserToUserRelations
                     from u in db.Users
                     where r.ReceiverId == userId
+                    && r.Active
                     && !r.Answer.HasValue
                     && u.UserID == r.SenderId
                     select u).ToList();

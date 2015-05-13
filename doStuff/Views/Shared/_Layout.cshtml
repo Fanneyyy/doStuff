@@ -1,41 +1,41 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/Reset.css")
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/LoginAndRegister.css")
-    @Styles.Render("~/Content/Banner.css")
-    @Styles.Render("~/Content/themes/base/base.css")
-    @Styles.Render("~/Content/themes/base/datepicker.css")
-    @Styles.Render("~/Content/DatePicker.css")
-    @Styles.Render("~/Content/themes/flick/jquery-ui.flick.css")
-    @Styles.Render("~/Content/SideBar.css")
-    @Styles.Render("~/Content/EventFeed.css")
-    @Scripts.Render("~/bundles/modernizr")
-
-</head>
-<body>
-    @if (Request.IsAuthenticated)
-    {
-        <div class="container body-content">
-            @RenderBody()
-        </div>
-    }
-    else
-    {
-        <div class="container-fluid login-register-body">
-             @RenderBody()
-        </div>
-    }
-</body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/Scripts/jquery-ui-1.11.4.js")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/timepicker.js")
-    @Scripts.Render("~/Scripts/scripts.js")
-    @Scripts.Render("~/Scripts/AddFriend.js")
-    @RenderSection("scripts", required: false)
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        @Styles.Render("~/Content/Reset.css")
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/LoginAndRegister.css")
+        @Styles.Render("~/Content/Banner.css")
+        @Styles.Render("~/Content/themes/base/base.css")
+        @Styles.Render("~/Content/themes/base/datepicker.css")
+        @Styles.Render("~/Content/DatePicker.css")
+        @Styles.Render("~/Content/themes/flick/jquery-ui.flick.css")
+        @Styles.Render("~/Content/SideBar.css")
+        @Styles.Render("~/Content/EventFeed.css")
+        @Scripts.Render("~/bundles/modernizr")
+    
+    </head>
+    <body>
+        @if (Request.IsAuthenticated)
+        {
+            <div class="container body-content">
+                @RenderBody()
+            </div>
+        }
+        else
+        {
+            <div class="container-fluid login-register-body">
+                 @RenderBody()
+            </div>
+        }
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/Scripts/jquery-ui-1.11.4.js")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/Scripts/timepicker.js")
+        @Scripts.Render("~/Scripts/scripts.js")
+        @Scripts.Render("~/Scripts/AddFriend.js")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
