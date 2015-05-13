@@ -212,6 +212,7 @@
     <Content Include="Content\pictures\Avatars\surprise.jpg" />
     <Content Include="Content\pictures\balloonBackground.jpg" />
     <Content Include="Content\pictures\Eventphotos\basketball-photo.jpg" />
+    <Content Include="Content\pictures\Eventphotos\beach-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\birthday-photo.jpg" />
     <Content Include="Content\pictures\bodyBackground.jpg" />
     <Content Include="Content\pictures\Eventphotos\concert-photo.png" />
@@ -219,6 +220,7 @@
     <Content Include="Content\pictures\doStufflogoGray.png" />
     <Content Include="Content\pictures\Eventphotos\drinks-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\gaming-photo.jpg" />
+    <Content Include="Content\pictures\Eventphotos\school-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\theater-photo.jpg" />
     <Content Include="Content\pictures\logOut.png" />
     <Content Include="Content\pictures\stockPhoto01.jpg" />
