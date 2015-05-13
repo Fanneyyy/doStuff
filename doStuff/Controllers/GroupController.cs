@@ -7,7 +7,7 @@ using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Services;
 using doStuff.Models;
-using ErrorHandler;
+using CustomErrors;
 
 namespace doStuff.Controllers
 {
@@ -17,6 +17,7 @@ namespace doStuff.Controllers
     public class GroupController : ParentController
     {
         [HttpGet]
+        [HandleError]
         public ActionResult Index(int? groupId)
         {
             if (groupId == null)

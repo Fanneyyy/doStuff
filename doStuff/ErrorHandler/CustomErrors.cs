@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ErrorHandler
+namespace CustomErrors
 {
     public enum LogType { None, TextFile, Email }
 

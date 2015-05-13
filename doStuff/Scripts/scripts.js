@@ -11,6 +11,10 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
+    InitializeSelectors();
+});
+
+function InitializeSelectors() {
     $(".add-friend").submit(AddFriend);
 
     $(".remove-friend").submit(RemoveFriend);
@@ -29,7 +33,7 @@ $(document).ready(function () {
         var form = $(this).closest("form");
         AnswerEvent(false, form, event);
     });
-});
+}
 
 function AddFriend(event) {
     event.preventDefault();
@@ -66,9 +70,8 @@ function RemoveFriend(event) {
         url: url,
         data: data,
         success: function (data) {
-            $("#friend" + data.member.UserID).remove();
+            $("#friend" + data.friend.UserID).remove();
             SetFeedback(data.message);
-            UpdateFriendList();
         },
         error: function (xhr, err) {
         }
@@ -112,41 +115,10 @@ function RemoveMember(event) {
         success: function (data) {
             $("#member" + data.member.UserID).remove();
             SetFeedback(data.message);
-            UpdateMemberList();
         },
         error: function (xhr, err) {
         }
     });
-}
-
-function SetFeedback(message) {
-    $("#Error").addClass("hidden");
-    $("#Warning").addClass("hidden");
-    $("#Information").addClass("hidden");
-    $("#Success").addClass("hidden");
-    if (message == null) {
-        return;
-    }
-    if (message.ErrorMessage != null) {
-        $("#ErrorMessage").empty();
-        $("#Error").removeClass("hidden");
-        $("#ErrorMessage").text(message.ErrorMessage)
-    }
-    if (message.WarningMessage != null) {
-        $("#WarningMessage").empty();
-        $("#Warning").removeClass("hidden");
-        $("#WarningMessage").text(message.WarningMessage)
-    }
-    if (message.InformationMessage != null) {
-        $("#InformationMessage").empty();
-        $("#Information").removeClass("hidden");
-        $("#InformationMessage").text(message.InformationMessage)
-    }
-    if (message.SuccessMessage != null) {
-        $("#SuccessMessage").empty();
-        $("#Success").removeClass("hidden");
-        $("#SuccessMessage").text(message.SuccessMessage)
-    }
 }
 
 function RemoveEvent(event) {
@@ -202,6 +174,7 @@ function UpdateFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -218,6 +191,7 @@ function UpdateGroupFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -234,6 +208,7 @@ function UpdateFriendList() {
         success: function (list) {
             $("#friend-list").empty();
             $("#friend-list").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -250,6 +225,7 @@ function UpdateMemberList() {
         success: function (list) {
             $("#member-list").empty();
             $("#member-list").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -289,4 +265,34 @@ function countdown() {
     }
 
     window.setInterval(checkTime, 1000);
+}
+
+function SetFeedback(message) {
+    $("#Error").addClass("hidden");
+    $("#Warning").addClass("hidden");
+    $("#Information").addClass("hidden");
+    $("#Success").addClass("hidden");
+    if (message == null) {
+        return;
+    }
+    if (message.ErrorMessage != null) {
+        $("#ErrorMessage").empty();
+        $("#Error").removeClass("hidden");
+        $("#ErrorMessage").text(message.ErrorMessage)
+    }
+    if (message.WarningMessage != null) {
+        $("#WarningMessage").empty();
+        $("#Warning").removeClass("hidden");
+        $("#WarningMessage").text(message.WarningMessage)
+    }
+    if (message.InformationMessage != null) {
+        $("#InformationMessage").empty();
+        $("#Information").removeClass("hidden");
+        $("#InformationMessage").text(message.InformationMessage)
+    }
+    if (message.SuccessMessage != null) {
+        $("#SuccessMessage").empty();
+        $("#Success").removeClass("hidden");
+        $("#SuccessMessage").text(message.SuccessMessage)
+    }
 }

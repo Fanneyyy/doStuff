@@ -5,7 +5,7 @@ using System.Web;
 using doStuff.Models.DatabaseModels;
 using doStuff.ViewModels;
 using doStuff.Databases;
-using ErrorHandler;
+using CustomErrors;
 
 namespace doStuff.Services
 {
@@ -474,9 +474,9 @@ namespace doStuff.Services
             }
             else
             {
-                SideBar.UserList = db.GetFriends(userId);
-                SideBar.UserPendingList = db.GetPendingRequests(userId);
-                SideBar.UserRequestList = db.GetFriendRequests(userId);
+                SideBar.UserList = GetSortedUserList(db.GetFriends(userId));
+                SideBar.UserPendingList = GetSortedUserList(db.GetPendingRequests(userId));
+                SideBar.UserRequestList = GetSortedUserList(db.GetFriendRequests(userId));
             }
 
             SideBar.UserList = GetSortedUserList(SideBar.UserList);

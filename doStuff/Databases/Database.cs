@@ -105,7 +105,7 @@ namespace doStuff.Databases
                     where e.OwnerId == userId 
                     && e.GroupId == null 
                     && e.Active == true
-                    orderby e.CreationTime
+                    orderby e.CreationTime descending
                     select e).Take(10).ToList();
         }
         public List<Event> GetGroupEvents(int groupId)
