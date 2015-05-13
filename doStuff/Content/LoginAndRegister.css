@@ -189,17 +189,17 @@
     background-color: rgba(174,226,57,0.70);
 }
 
-input:-webkit-autofill {
+.login-register-box input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
     -webkit-text-fill-color: #26727f !important;
 }
 
-input:-webkit-autofill:hover {
+.login-register-box input:-webkit-autofill:hover {
     -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
     -webkit-text-fill-color: #26727f !important;
 }
 
-input:-webkit-autofill:focus {
+.login-register-box input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
     -webkit-text-fill-color: #26727f !important;
 }

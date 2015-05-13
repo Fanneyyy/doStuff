@@ -37,12 +37,14 @@
     display: inline;
     padding-top: 3px;
     padding-bottom: 3px;
+    padding-left: 5px;
 }
 
 .sidebar-title-box h3 {
     color: #26727f;
     display:table-cell; 
-    vertical-align:middle
+    vertical-align:middle;
+    text-align: left;
 }
 
 .friends-title {
@@ -68,7 +70,7 @@
     background: white;
     color: #26727f;
     font-size: 0.7em;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: visible;
     margin: 5px 5px 5px 5px;
@@ -131,54 +133,35 @@
     margin-top: 100px;
 }
 
-.add-member-title {
-    padding-top: 15px;
-}
-
-.add-member-button {
-    padding: 0px;
-}
-
-.add-member-button input {
-    /*border-radius: 0px;
-    width: 100%;
-    color: #26727f;
-    border: solid 1px #26727f;
-    padding-top: 4px;
-    padding-bottom: 4px;*/
-}
-
-.add-friend-field-button {
-    /*margin: 0px;
-    padding: 0px;
-    border: solid 1px #26727f;*/
+.add-friend-form {
+    background-color: #90BC25;
+    margin: 0px;
+    padding-bottom: 6px;
+    padding-top: 6px;
 }
 
 .add-friend-field {
-    padding: 0px;
+    width: 65%;
+    display: inline;
+    border-radius: 0px;
+    padding-left: 3px;
 }
 
-.add-friend-field input {
-    /*width: 100%;
-    font-size: 16px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 4px;*/
+.add-button {
+    background-color: white;
+    color: #26727f;
+    width: 30%;
+    display: inline;
+    border-radius: 0px;
 }
 
-.add-friend .form-group {
-    margin-bottom: 0px;
-}
-
-.add-friend-title {
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.right-sidebar .event-list {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: visible;
+.events-title {
+    background-color: #26727f;
+    font-variant: small-caps;
+    font-size: 20px;
+    margin-top: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .divider {
@@ -186,4 +169,15 @@
   margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
+}
+
+.event-list {
+    background: white;
+    color: #26727f;
+    font-size: 0.7em;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: visible;
+    margin: 5px 5px 5px 5px;
+    padding-top: 6px;
 }
