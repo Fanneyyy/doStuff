@@ -224,7 +224,6 @@
     <Content Include="Content\pictures\Eventphotos\theater-photo.jpg" />
     <Content Include="Content\pictures\logOut.png" />
     <Content Include="Content\pictures\stockPhoto01.jpg" />
-    <Content Include="Content\plus.png" />
     <Content Include="Content\Reset.css" />
     <Content Include="Content\SideBar.css" />
     <Content Include="Content\themes\base\accordion.css" />

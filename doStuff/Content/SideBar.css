@@ -194,3 +194,15 @@
 .uppcoming-event-location {
     font-size: 18px;
 }
+
+.group-x-button {
+    color: #333;
+    float: right;
+    font-size: 17px;
+}
+
+.group-x-button:hover {
+    background: none;
+    color: red;
+    float: right;
+}

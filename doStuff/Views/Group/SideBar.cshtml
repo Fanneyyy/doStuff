@@ -2,19 +2,19 @@
 @using doStuff.ViewModels
 
 <div class="pull-right right-sidebar">
-    @using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "leave-group" }))
-    {
-        @Html.Hidden("memberId", Model.SideBar.User.UserID)
-        @Html.Hidden("groupId", Model.Group.GroupID)
-        <h2>@Model.Group.Name</h2>
-        <button type="submit" class="btn btn-primary remove-button">
-            <i class="glyphicon glyphicon-remove right"></i>
-        </button>
-    }
-    <div>
-        <p class="sidebar-title">Members</p>
+    <!--Group name-->
+    <div class="sidebar-title-box">
+        <h3>@Model.Group.Name</h3>
+        @using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "leave-group" }))
+        {
+            @Html.Hidden("memberId", Model.SideBar.User.UserID)
+            @Html.Hidden("groupId", Model.Group.GroupID)
+            <button type="submit" class="btn btn-primary sidebar-button">
+                <i class="glyphicon glyphicon-remove x-button"></i>
+            </button>
+        }
     </div>
-    
+    <div class="friends-title">Members</div>
     <ul>
         @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
         {
