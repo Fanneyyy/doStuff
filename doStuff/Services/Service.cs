@@ -459,7 +459,7 @@ namespace doStuff.Services
             return eventFeed;
         }
         #region ViewModelHelperFunctions
-        private SideBarViewModel GetSideBar(int userId, int? groupId = null)
+        public SideBarViewModel GetSideBar(int userId, int? groupId = null)
         {
             SideBarViewModel SideBar = new SideBarViewModel();
             SideBar.Avatar = "~/Content/pictures/Avatars/avatar0" + (userId % 9 + 1) + ".jpg";
