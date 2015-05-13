@@ -132,37 +132,39 @@
                 </div>
             </div>
             <div class="comment-title">comments</div>
-            @foreach (var comment in item.CommentsViewModels)
-            {
-                <div class="row comment">
-                    <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
-                    <div class="col-md-8 comment-content">@comment.Comment.Content</div>
-                    @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
+                <div class="all-comments">
+                    @foreach (var comment in item.CommentsViewModels)
                     {
-                        <div class="col-md-2 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
-                    }
-                    else
-                    {
-                        <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
-                    }
-                </div>
-            }
-            @using (Html.BeginForm("Comment", "User", FormMethod.Post, new { @class = "event-comment-form" }))
-            {
-                <input name="eventId" type="hidden" value="@item.Event.EventID" />
-                <div class="row comment">
-                    <div class="col-md-2 comment-owner comment-comment">comment:</div>
-                    <div class="form-group">
-                        <span class="col-md-8 comment-text-field">
-                            <input type="text" name="content" placeholder="write something clever..." />
-                        </span>
-                        <div class="col-md-2 comment-button">
-                            <input type="submit" value="post" class="btn btn-default" />
+                        <div class="row comment">
+                            <div class="col-md-2 comment-owner">@comment.Owner.DisplayName</div>
+                            <div class="col-md-8 comment-content">@comment.Comment.Content</div>
+                            @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
+                            {
+                                <div class="col-md-2 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
+                            }
+                            else
+                            {
+                                <div class="col-md-2 comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                            }
                         </div>
-                    </div>
+                    }
+                    @using (Html.BeginForm("Comment", "User", FormMethod.Post, new { @class = "event-comment-form" }))
+                    {
+                        <input name="eventId" type="hidden" value="@item.Event.EventID" />
+                        <div class="row comment">
+                            <div class="col-md-2 comment-owner comment-comment">comment:</div>
+                            <div class="form-group">
+                                <span class="col-md-8 comment-text-field">
+                                    <input type="text" name="content" placeholder="write something clever..." />
+                                </span>
+                                <div class="col-md-2 comment-button">
+                                    <input type="submit" value="post" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                        @Html.ValidationSummary(false)
+                    }
                 </div>
-                @Html.ValidationSummary(false)
-            }
         </div>
     </li>
     }
