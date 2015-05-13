@@ -458,7 +458,7 @@ namespace doStuff.Services
         private SideBarViewModel GetSideBar(int userId, int? groupId = null)
         {
             SideBarViewModel SideBar = new SideBarViewModel();
-            SideBar.Avatar = "~/Content/pictures/Avatars/avatar0" + (userId % 7 + 1) + ".jpg";
+            SideBar.Avatar = "~/Content/pictures/Avatars/avatar0" + (userId % 9 + 1) + ".jpg";
             SideBar.User = db.GetUser(userId);
             SideBar.EventList = new List<EventViewModel>();
 
