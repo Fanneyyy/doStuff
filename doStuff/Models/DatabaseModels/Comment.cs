@@ -13,6 +13,7 @@ namespace doStuff.Models.DatabaseModels
         public int CommentID { get; set; }
         public bool Active { get; set; }
         public int OwnerId { get; set; }
+        [Required(ErrorMessage = "This field can't be empty.")]
         public string Content { get; set; }
         public DateTime CreationTime { get; set; }
 

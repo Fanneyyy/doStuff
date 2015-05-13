@@ -147,7 +147,7 @@
                     }
                 </div>
             }
-            @using (Html.BeginForm("Comment", "User"))
+            @using (Html.BeginForm("Comment", "User", FormMethod.Post, new { @class = "event-comment-form" }))
             {
                 <input name="eventId" type="hidden" value="@item.Event.EventID" />
                 <div class="row comment">

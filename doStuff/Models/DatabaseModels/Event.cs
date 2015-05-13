@@ -23,6 +23,7 @@ namespace doStuff.Models.DatabaseModels
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Please add a time to the event")]
         public DateTime TimeOfEvent { get; set; }
+        [Required]
         public int Minutes { get; set; }
         [Required(ErrorMessage = "Please add a location to the event")]
         public string Location { get; set; }

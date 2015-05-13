@@ -185,11 +185,9 @@
     <Compile Include="Services\Service.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CommentViewModel.cs" />
-    <Compile Include="ViewModels\FriendProfileViewModel.cs" />
     <Compile Include="ViewModels\GroupFeedViewModel.cs" />
     <Compile Include="ViewModels\EventFeedViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
-    <Compile Include="ViewModels\FriendFeedViewModel.cs" />
     <Compile Include="ViewModels\SideBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

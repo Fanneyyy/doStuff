@@ -217,7 +217,7 @@ namespace doStuff.Services
             return db.ExistsUserToUserRelation(senderId, receiverId);
         }
 
-        public bool FriendRequestAbort(int senderId, int receiverId)
+        public bool FriendRequestCancel(int senderId, int receiverId)
         {
             UserToUserRelation relation = db.GetUserToUserRelation(senderId, receiverId);
             relation.Active = false;
