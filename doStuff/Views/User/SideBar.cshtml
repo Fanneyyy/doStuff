@@ -10,10 +10,6 @@
     <div class="friends-title">my Friends</div>
     <!--List of friends and friend requests-->
     <div class="friend-list-box">
-    @if (Model.SideBar.UserRequestList.Count > 0)
-    {
-        <div class="friend-requests-title">you Have unanswered Friend requests</div>
-    }
     <ul id="friend-list">
             @RenderPage("FriendList.cshtml")
     </ul>
