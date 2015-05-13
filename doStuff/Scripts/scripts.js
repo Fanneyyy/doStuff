@@ -111,7 +111,9 @@ function RemoveFriend(event) {
         url: url,
         data: data,
         success: function (data) {
-            $("#friend" + data.friend.UserID).remove();
+            if (data.friend != null) {
+                $("#friend" + data.friend.UserID).remove();
+            }
             SetFeedback(data.message);
         },
         error: function (xhr, err) {
@@ -154,7 +156,9 @@ function RemoveMember(event) {
         url: url,
         data: data,
         success: function (data) {
-            $("#member" + data.member.UserID).remove();
+            if (data.member != null) {
+                $("#member" + data.member.UserID).remove();
+            }
             SetFeedback(data.message);
         },
         error: function (xhr, err) {

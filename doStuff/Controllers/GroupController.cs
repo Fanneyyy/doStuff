@@ -17,7 +17,6 @@ namespace doStuff.Controllers
     public class GroupController : ParentController
     {
         [HttpGet]
-        [HandleError]
         public ActionResult Index(int? groupId)
         {
             if (groupId == null)
@@ -277,6 +276,7 @@ namespace doStuff.Controllers
                 {
                     GroupFeedViewModel model = new GroupFeedViewModel();
                     model.SideBar = service.GetSideBar(user.UserID, groupId);
+                    model.Group = service.GetGroupById(groupId);
                     return Json(RenderPartialViewToString("SideBar", model), JsonRequestBehavior.AllowGet);
                 }
             }
