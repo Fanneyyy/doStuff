@@ -6,7 +6,6 @@ using doStuff.Services;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using System.Collections.Generic;
-using ErrorHandler;
 using doStuff.ViewModels;
 
 namespace doStuff.Tests.DbTest

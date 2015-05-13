@@ -6,8 +6,9 @@ using doStuff.Services;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using System.Collections.Generic;
-using ErrorHandler;
+using CustomErrors;
 using doStuff.ViewModels;
+using System.Web.Configuration;
 
 namespace doStuff.Tests.DbTest
 {
@@ -404,7 +405,7 @@ namespace doStuff.Tests.DbTest
                 ServiceTest.ChangeDisplayName(noUserId, newName);
                 Assert.Fail();
             }
-            catch (ErrorHandler.UserNotFoundException) { }
+            catch (UserNotFoundException) { }
             Assert.AreEqual(newName, userWithNewName.DisplayName);
 
         }
@@ -425,7 +426,7 @@ namespace doStuff.Tests.DbTest
                 ServiceTest.ChangeGroupName(noGroupId, newName);
                 Assert.Fail();
             }
-            catch (ErrorHandler.GroupNotFoundException) { }
+            catch (GroupNotFoundException) { }
             Assert.AreEqual(newName, groupWithNewName.Name);
         }
         
