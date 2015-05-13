@@ -200,6 +200,7 @@
     <Content Include="Content\EventFeed.css" />
     <Content Include="Content\LoginAndRegister.css" />
     <Content Include="Content\magnific-popup.css" />
+    <Content Include="Content\pictures\Avatars\avatar01.jpg" />
     <Content Include="Content\pictures\balloonBackground.jpg" />
     <Content Include="Content\pictures\Eventphotos\basketball-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\birthday-photo.jpg" />

@@ -1,39 +1,42 @@
 ﻿@using doStuff.Services;
 @model doStuff.ViewModels.GroupFeedViewModel
 
- <div class="col-md-4">
-     <a href="@Url.Action("Index", "User")">
-         <img class="banner-logo" src="@Url.Content("../Content/pictures/doStufflogoGray.png")" alt="doStuffLogo" />
-     </a>
- </div>
- <div class="col-md-4">
+<!--doStuff Logo-->
+<div class="col-sm-4 col-xs-6 banner-logo-box">
+    <a href="@Url.Action("Index", "User")">
+        <img class="banner-logo" src="@Url.Content("../Content/pictures/doStufflogoGray.png")" alt="doStuffLogo" />
+    </a>
+</div>
+<!--Logout Section-->
+<div class="col-sm-4 col-xs-6 col-sm-push-4">
+    @Html.Partial("_LoginPartial")
+</div>
+<!--Dropdown Menu-->
+<div class="col-sm-4 col-xs-12 col-sm-pull-4 banner-dropdown-box">
     <div class="btn-group">
-        <button type="button" id="main-title" class="btn dropdown-toggle feed-chooser" data-toggle="dropdown" aria-expanded="false">
-            @Model.Group.Name <span class="glyphicon glyphicon-chevron-down green" aria-hidden="true"></span>
+        <button type="button" class="btn dropdown-toggle feed-chooser" data-toggle="dropdown" aria-expanded="false">
+            <span class="banner-title">@Model.Group.Name</span><span class="glyphicon glyphicon-chevron-down green" aria-hidden="true"></span>
         </button>
         <ul class="dropdown-menu banner-dropdown" role="menu">
-            <li>@Html.ActionLink("Event feed", "Index", "User")</li>
-            <li class="divider"></li>
-            <li class="create-button-fields">
-                @using (Html.BeginForm("CreateGroup", "Group"))
+            <li>
+                @using (Html.BeginForm("CreateGroup", "Group", FormMethod.Post, new { @class = "create-button-fields" }))
                 {
-                    <div class="col-md-3 create-group-label">create group:</div>
-                    <input type="text" name="name" class="col-md-6 create-group-field" placeholder="name your new group..." />
-                    <input type="submit" value="create" class=" col-md-2 btn btn-default create-group-button" />
+                    <form class="form-inline">
+                        <div class="form-group create-group-form">
+                            <label class="sr-only" for="create-group">Create new group</label>
+                            <input type="text" name="name" class="form-control create-group-field" id="create-group" placeholder="enter the name of your new group...">
+                            <button type="submit" class="btn btn-default create-group-button">Create Group</button>
+                        </div>
+                    </form>
                 }
             </li>
-            @foreach (var x in Model.Groups)
+            <li>@Html.ActionLink("Event feed", "Index", "User")</li>
+            <li class="divider"></li>
+            @foreach (var i in Model.Groups)
             {
-                if(x.GroupID != Model.Group.GroupID)
-                {
-                    <li>@Html.ActionLink(x.Name, "Index", "Group", new { groupId = x.GroupID }, null)</li>
-    
-                }
+                <li>@Html.ActionLink(i.Name, "Index", "Group", new { groupId = i.GroupID }, null)</li>
             }
         </ul>
     </div>
 </div>
 
-<div class="col-md-4">
-    @Html.Partial("_LoginPartial")
-</div>

@@ -2,42 +2,54 @@
 @using doStuff.ViewModels;
 
 <div class="pull-right right-sidebar">
-    <h3>@Model.SideBar.User.DisplayName</h3>
-    <div class="friend-list">
+    <!--Owner Username and Avatar-->
+    <div class="sidebar-title-box">
+        <div class="col-md-4"><img class="sidebar-avatar" src="@Url.Content("../Content/pictures/Avatars/avatar01.jpg")" alt="Avatar" /></div>
+        <div class="col-md-8 sidebar-title"><h3>@Model.SideBar.User.DisplayName</h3></div>
+    </div>
+    <div class="friends-title">my Friends</div>
+    <div class="friend-list-box">
         <ul id="FriendList">
             @foreach (var user in Model.SideBar.UserList)
             {
-                <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>@user.DisplayName
-                @using (Html.BeginForm("RemoveFriend", "User", FormMethod.Post, new { @class = "remove-friend" }))
-                {
-                    <input name="friendId" type="hidden" value="@user.UserID">
-                    <button type="submit" class="btn btn-primary remove-button">
-                        <i class="glyphicon glyphicon-remove right"></i>
-                    </button>
-                }
+                <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
+                    @using (Html.BeginForm("RemoveFriend", "User", FormMethod.Post, new { @class = "remove-friend" }))
+                    {
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary sidebar-button">
+                                    <i class="glyphicon glyphicon-remove x-button"></i>
+                                </button>
+                                <input name="friendId" type="hidden" value="@user.UserID" />
+                                <div class="friend-display-name">@user.DisplayName</div>
+                            </div>
+                        </form>
+                    }
                 </li>
             }
             @foreach (var user in Model.SideBar.UserRequestList)
             {
-                <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>@user.DisplayName
-                    @using (Html.BeginForm("DeclineFriendRequest", "User", FormMethod.Post, new { @class = "remove-friend" }))
-                    {
-                        <input name="requesterId" type="hidden" value="@user.UserID">
-                        <button type="submit" class="btn btn-primary remove-button">
-                            <i class="glyphicon glyphicon-remove right"></i>
-                        </button>
-                    }
-                    @using (Html.BeginForm("AcceptFriendRequest", "User", FormMethod.Post, new { @class = "add-friend" }))
-                    {
-                        <input name="requesterId" type="hidden" value="@user.UserID">
-                        <button type="submit" class="btn btn-primary remove-button">
-                            <i class="glyphicon glyphicon-ok right"></i>
-                        </button>
-                    }
+                <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
+                @using (Html.BeginForm("DeclineFriendRequest", "User", FormMethod.Post, new { @class = "remove-friend" }))
+                {
+                    <input name="requesterId" type="hidden" value="@user.UserID">
+    <button type="submit" class="btn btn-primary sidebar-button">
+        <i class="glyphicon glyphicon-remove x-button"></i>
+    </button>
+                }
+                @using (Html.BeginForm("AcceptFriendRequest", "User", FormMethod.Post, new { @class = "add-friend" }))
+                {
+                    <input name="requesterId" type="hidden" value="@user.UserID">
+    <button type="submit" class="btn btn-primary sidebar-button">
+        <i class="glyphicon glyphicon-ok v-button"></i>
+    </button>
+                }
+                    <div class="friend-display-name">@user.DisplayName</div>
                 </li>
             }
-        </ul>
-    </div>
+            </ul>
+        </div>
+
     <!--
     <div>
         <div class="row">
