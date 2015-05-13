@@ -1,60 +1,3 @@
-﻿function countdown() {
-    function checkTime() {
-        var elements = $(".countdown");
-        for (var i = 0; i < elements.length; i++) {
-            created = $(elements[i]).data("created");
-            var numberOfMinutes = $(elements[i]).data("minutes");
-            if (typeof created === "string") {
-                created = parseInt(created.split(",")[0]);
-            }
-            var initialTime = new Date(created);
-            var timeDifference = (numberOfMinutes * 60000) - (Date.now() - initialTime);
-            if (timeDifference <= 0) {
-                UpdateFeed();
-            } else {
-                var formatted = convertTime(timeDifference);
-                $(elements[i]).text('' + formatted);
-            }
-        }
-    }
-
-    function convertTime(miliseconds) {
-        var totalSeconds = Math.floor(miliseconds / 1000);
-        var minutes = leftPad(Math.floor(totalSeconds / 60), 2);
-        var seconds = leftPad(totalSeconds - minutes * 60, 2);
-        return minutes + ':' + seconds;
-    }
-
-    function leftPad(aNumber, aLength) {
-        if (aNumber.toString().length >= aLength) {
-            return aNumber;
-        }
-        return (Math.pow(10, aLength) + Math.floor(aNumber)).toString().substring(1);
-    }
-
-    window.setInterval(checkTime, 1000);
-}
-
-function popup() {
-    $('.popup-with-form').magnificPopup({
-        type: 'inline',
-        preloader: false,
-        focus: '#name',
-
-        // When elemened is focused, some mobile browsers in some cases zoom in
-        // It looks not nice, so we disable it:
-        callbacks: {
-            beforeOpen: function () {
-                if ($(window).width() < 700) {
-                    this.st.focus = false;
-                } else {
-                    this.st.focus = '#name';
-                }
-            }
-        }
-    });
-}
-
 $(document).ready(function () {
 
     // The datepicker
@@ -67,7 +10,6 @@ $(document).ready(function () {
     $(".banner-dropdown").click(function (e) {
         e.stopPropagation();
     });
-    popup();
 
     $(".add-friend").submit(AddFriend);
 
@@ -122,8 +64,8 @@ function AddFriend(event) {
                 $("#FriendList").append(li);
                 FriendList("#FriendList")
                 $(".remove-friend").submit(RemoveFriend);
-                UpdateFriendList();
             }
+            UpdateFriendList();
         },
         error: function (xhr, err) {
 
@@ -199,6 +141,7 @@ function RemoveEvent(event) {
             SetFeedback(data.message);
             if (data.theevent != null) {
                 $("#event" + data.theevent.EventID).remove();
+                UpdateFeed();
             }
         },
         error: function (xhr, err) {
@@ -230,6 +173,7 @@ function AnswerEvent(answer, form, event) {
                     $(selector).children(".event-joined").addClass("hidden");
                 }
             }
+            UpdateFeed();
         },
         error: function (xhr, err) {
         }
@@ -266,4 +210,41 @@ function UpdateFriendList() {
             $("#friend-list").append(list);
         }
     });
+}
+
+function countdown() {
+    function checkTime() {
+        var elements = $(".countdown");
+        for (var i = 0; i < elements.length; i++) {
+            created = $(elements[i]).data("created");
+            var numberOfMinutes = $(elements[i]).data("minutes");
+            if (typeof created === "string") {
+                created = parseInt(created.split(",")[0]);
+            }
+            var initialTime = new Date(created);
+            var timeDifference = (numberOfMinutes * 60000) - (Date.now() - initialTime);
+            if (timeDifference <= 0) {
+                UpdateFeed();
+            } else {
+                var formatted = convertTime(timeDifference);
+                $(elements[i]).text('' + formatted);
+            }
+        }
+    }
+
+    function convertTime(miliseconds) {
+        var totalSeconds = Math.floor(miliseconds / 1000);
+        var minutes = leftPad(Math.floor(totalSeconds / 60), 2);
+        var seconds = leftPad(totalSeconds - minutes * 60, 2);
+        return minutes + ':' + seconds;
+    }
+
+    function leftPad(aNumber, aLength) {
+        if (aNumber.toString().length >= aLength) {
+            return aNumber;
+        }
+        return (Math.pow(10, aLength) + Math.floor(aNumber)).toString().substring(1);
+    }
+
+    window.setInterval(checkTime, 1000);
 }
