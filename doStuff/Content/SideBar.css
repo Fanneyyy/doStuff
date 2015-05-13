@@ -111,6 +111,9 @@
 
 .friend-display-no-friends {
     text-align: center;
+    font-size: 17px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .request-list {
