@@ -1,18 +1,18 @@
 ﻿<div class="alert alert-danger@(@ViewBag.ErrorMessage == null ? " hidden" : "")" role="alert" id="Error">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Error:</span>
+    <strong>Error:</strong>
     <span id="ErrorMessage">@ViewBag.ErrorMessage</span>
 </div>
 <div class="alert alert-warning@(@ViewBag.WarningMessage == null ? " hidden" : "")" role="alert" id="Warning">
     <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-    <span class="sr-only">Warning:</span>
+    <strong>Warning:</strong>
     <span id="WarningMessage">@ViewBag.WarningMessage</span>
 </div>
 <div class="alert alert-info@(@ViewBag.InformationMessage == null ? " hidden" : "")" role="alert" id="Information">
-    <span class="sr-only">Information:</span>
+    <strong>Information:</strong>
     <span id="InformationMessage">@ViewBag.InformationMessage</span>
 </div>
 <div class="alert alert-success@(@ViewBag.SuccessMessage == null ? " hidden" : "")" role="alert" id="Success">
-    <span class="sr-only">Success:</span>
+    <strong>Success:</strong>
     <span id="SuccessMessage">@ViewBag.SuccessMessage</span>
 </div>

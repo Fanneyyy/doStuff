@@ -51,7 +51,7 @@ namespace doStuff.Controllers
             User member = service.GetUser(username);
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                
+                TempData["message"] = new Message("Only the owner of a group can add a member to it", MessageType.INFORMATION);
             }
             else if (member == null)
             {
