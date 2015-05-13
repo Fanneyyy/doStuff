@@ -276,6 +276,7 @@
     <Content Include="Content\themes\flick\jquery-ui.flick.css" />
     <Content Include="Content\themes\flick\jquery-ui.flick.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="favicon2.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\OpenSans\Apache License.txt" />
     <Content Include="Global.asax" />
