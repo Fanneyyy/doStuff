@@ -113,12 +113,12 @@
     text-align: center;
 }
 
-.pull-down {
-    margin-top: 100px;
+.request-list {
+    margin-bottom: 8px;
 }
 
-.eventfeed-friend form {
-    display: inline;
+.pull-down {
+    margin-top: 100px;
 }
 
 .add-member-title {
