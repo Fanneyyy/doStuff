@@ -8,9 +8,9 @@ namespace doStuff.ViewModels
 {
     public class GroupFeedViewModel
     {
-        public SideBarViewModel SideBar;
-        public List<EventViewModel> Events;
-        public List<Group> Groups;
-        public Group Group;
+        public SideBarViewModel SideBar { get; set; }
+        public List<EventViewModel> Events { get; set; }
+        public List<Group> Groups { get; set; }
+        public Group Group { get; set; }
     }
 }

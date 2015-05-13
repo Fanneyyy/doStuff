@@ -10,12 +10,12 @@ namespace doStuff.ViewModels
 
     public class EventViewModel
     {
-        public string Owner;
-        public Event Event;
-        public bool? Attending;
-        public double TimeCreated;
-        public List<CommentViewModel> CommentsViewModels;
-        public List<User> Attendees;
-        public State State;
+        public string Owner { get; set; }
+        public Event Event { get; set; }
+        public bool? Attending { get; set; }
+        public double TimeCreated { get; set; }
+        public List<CommentViewModel> CommentsViewModels { get; set; }
+        public List<User> Attendees { get; set; }
+        public State State { get; set; }
     }
 }

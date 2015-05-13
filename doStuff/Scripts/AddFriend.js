@@ -168,4 +168,109 @@
             }
         });
     }
+
+    /*var currentdate = new Date();
+    var lastrequest = currentdate.getDate() + "-"
+                    + (currentdate.getMonth() + 1) + "-"
+                    + currentdate.getFullYear() + " "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+
+    function UpdateFeed() {
+        var url = '/User/GetEvents';
+        var data = { time: lastrequest };
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: url,
+            data: data,
+            success: function (list) {
+                $("#event-feed").empty();
+                for(var i = 0; i < list.Events.length; i++)
+                {
+                    DisplayEvent(list.Events[i]);
+                }
+            },
+            error: function (xhr, err) {
+                alert(xhr);
+                alert(err);
+            },
+            complete: function (list) {
+                setInterval(UpdateFeed, 10000);
+            }
+        });
+    }
+
+    function DisplayEvent(item)
+    {
+        var li = $("<li></li>");
+        var eventbox = $('<div class="row event-box" id=event' + item.Event.EventID + '></div>');
+        var banner = CreateBanner(item);
+        var content = CreateContent(item);
+        var comments = CreateComments(item);
+        var commentform = CreateCommentForm(item);
+
+        eventbox.append(banner);
+        eventbox.append(content);
+        eventbox.append(comments);
+        eventbox.append(commentform);
+
+        li.append(eventbox);
+
+        $("#event-feed").append(li);
+    }
+
+    function CreateBanner(item)
+    {
+        var banner = $('<div class="col-md-12 event-banner"></div>');
+        var row = $('<div class="row"></div>');
+        row.append('<div class="col-md-4 event-owner">' + item.Owner + '</div>');
+        row.append('<div class="col-md-3 event-group"></div>');
+        row.append('<div class="col-md-2 event-countdown">' + "ITS ON" + '</div>');
+        row.append('<div class="col-md-3 event-name">' + item.Event.Name + '</div>');
+        banner.append(row);
+        return banner;
+    }
+
+    function CreateContent(item)
+    {
+        Parent = $('<div class="col-md-12 event-middle"></div>');
+        var Content = $('<div class="row"></div>');
+
+        var InformationParent = $('<div class="col-md-6 event-photo-time-location"></div>');
+        var Information = $('<div class="row"></div>');
+        var Attendees = $('<div class="event-photo-space-attendees"></div>');
+        var TimeAndPlace = $('<div class="row event-time-place"></div>');
+        var Time = $('<div class="col-md-6 event-time">' + item.Event.TimeOfEvent + '</div>');
+        var Location = $('<div class="col-md-6 event-location">' + item.Event.Location + '</div>');
+
+        var Description = $('<div class="col-md-6 event-description-buttons"><div class="row"><div class="col-md-12 event-description">fdsgsdfg</div></div><div class="hidden" id="form-result23"><div class="col-md-12 event-joined">You Have Joined!</div><div class="col-md-12 event-declined">You Have Declined!</div></div><div class="row event-join-decline"><div class="col-md-12 event-joined">You Have Joined!</div></div></div>');
+
+        Parent.append(Content);
+        Content.append(InformationParent);
+        InformationParent.append(Information);
+        Information.append(Attendees);
+        Information.append(TimeAndPlace);
+        TimeAndPlace.append(Time);
+        TimeAndPlace.append(Location);
+        Content.append(Description);
+
+        return Parent;
+    }
+
+    function CreateComments(item)
+    {
+        var Comments = $('<div class="comment-title">comments</div>');
+        return Comments;
+    }
+
+    function CreateCommentForm(item)
+    {
+        var CommentForm = $('<form action="/User/Comment" method="post"></form>');
+        return CommentForm;
+    }
+
+    UpdateFeed();*/
 });
