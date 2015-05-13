@@ -15,6 +15,6 @@
     @RenderPage("GroupFeed.cshtml")
 </div>
 
-<div class="col-md-3 side-bar pull-down">
+<div class="col-md-3 side-bar pull-down" id="member-list" data-groupid=@Model.Group.GroupID>
     @RenderPage("SideBar.cshtml")
 </div>

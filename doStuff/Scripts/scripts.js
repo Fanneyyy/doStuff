@@ -15,6 +15,10 @@ $(document).ready(function () {
 
     $(".remove-friend").submit(RemoveFriend);
 
+    $(".add-member").submit(AddMember);
+
+    $(".remove-member").submit(RemoveMember);
+
     $(".remove-event").submit(RemoveEvent);
 
     $(".join-event").click(function (event) {
@@ -26,20 +30,6 @@ $(document).ready(function () {
         AnswerEvent(false, form, event);
     });
 });
-
-function FriendList(id) {
-    var mylist = $(id);
-    var listitems = mylist.children('li').get();
-    mylist.empty();
-    listitems.sort(function (a, b) {
-        var str1 = a.innerText.toLowerCase(), str2 = b.innerText.toLowerCase();
-        return str1 == str2 ? 0 : str1 < str2 ? -1 : 1;
-    });
-    for (var i = 0; i < listitems.length; i++) {
-        mylist.append(listitems[i]);
-    }
-    return;
-}
 
 function AddFriend(event) {
     event.preventDefault();
@@ -55,16 +45,6 @@ function AddFriend(event) {
         data: data,
         success: function (data) {
             SetFeedback(data.message);
-            if (data.friend != null) {
-                var selector = "#friend" + data.friend.UserID;
-                $(selector).remove();
-                $form.find("input[type=text]").val("");
-                var li = $("<li class=\"eventfeed-friend\" id=\"friend" + data.friend.UserID + "\"></li>");
-                li.append(data.friend.DisplayName + "<form action=\"/User/RemoveFriend\" class=\"remove-friend\" method=\"post\"><input name=\"friendId\" type=\"hidden\" value=" + data.friend.UserID + "><button type=\"submit\" class=\"btn btn-primary remove-button\"><i class=\"glyphicon glyphicon-remove right\"></i></button></form>");
-                $("#FriendList").append(li);
-                FriendList("#FriendList")
-                $(".remove-friend").submit(RemoveFriend);
-            }
             UpdateFriendList();
         },
         error: function (xhr, err) {
@@ -86,9 +66,52 @@ function RemoveFriend(event) {
         url: url,
         data: data,
         success: function (data) {
-            $("#friend" + data.friend.UserID).remove();
             SetFeedback(data.message);
             UpdateFriendList();
+        },
+        error: function (xhr, err) {
+        }
+    });
+}
+
+function AddMember(event) {
+    event.preventDefault();
+
+    var $form = $(this);
+    var url = $form.attr('action');
+    var data = $form.serialize();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (data) {
+            SetFeedback(data.message);
+            UpdateMemberList();
+        },
+        error: function (xhr, err) {
+
+        }
+    });
+}
+
+function RemoveMember(event) {
+    event.preventDefault();
+
+    var $form = $(this);
+    var url = $form.attr('action');
+    var data = $form.serialize();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (data) {
+            $("#member" + data.member.UserID).remove();
+            SetFeedback(data.message);
+            UpdateMemberList();
         },
         error: function (xhr, err) {
         }
@@ -162,17 +185,6 @@ function AnswerEvent(answer, form, event) {
         data: data,
         success: function (data) {
             SetFeedback(data.message);
-            if (data.theevent != null) {
-                form.addClass("hidden");
-                var selector = "#form-result" + data.theevent.EventID;
-                $(selector).removeClass("hidden");
-                if (answer === true) {
-                    $(selector).children(".event-declined").addClass("hidden");
-                }
-                else {
-                    $(selector).children(".event-joined").addClass("hidden");
-                }
-            }
             UpdateFeed();
         },
         error: function (xhr, err) {
@@ -181,8 +193,24 @@ function AnswerEvent(answer, form, event) {
 }
 
 function UpdateFeed() {
-    var url = '/User/GetEvents';
+    var url = '/User/Index';
     var data = "";
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (list) {
+            $("#event-feed").empty();
+            $("#event-feed").append(list);
+        }
+    });
+}
+
+function UpdateGroupFeed() {
+    var url = '/Group/Index';
+    var data = "groupId=" + $("#member-list").data("groupid");
 
     $.ajax({
         type: "GET",
@@ -206,8 +234,25 @@ function UpdateFriendList() {
         url: url,
         data: data,
         success: function (list) {
+            alert(list);
             $("#friend-list").empty();
             $("#friend-list").append(list);
+        }
+    });
+}
+
+function UpdateMemberList() {
+    var url = '/Group/GetSideBar';
+    var data = "groupId=" + $("#member-list").data("groupid");
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (list) {
+            $("#member-list").empty();
+            $("#member-list").append(list);
         }
     });
 }

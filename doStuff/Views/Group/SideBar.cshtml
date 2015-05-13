@@ -2,7 +2,7 @@
 @using doStuff.ViewModels
 
 <div class="pull-right right-sidebar">
-    @using (Html.BeginForm("RemoveMember", "Group"))
+    @using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "leave-group" }))
     {
         @Html.Hidden("memberId", Model.SideBar.User.UserID)
         @Html.Hidden("groupId", Model.Group.GroupID)
@@ -24,7 +24,7 @@
                     @user.DisplayName
                     @if(user.UserID != Model.Group.OwnerId)
                     {
-                        using (Html.BeginForm("RemoveMember", "Group"))
+                        using (Html.BeginForm("RemoveMember", "Group", FormMethod.Post, new { @class = "remove-member" }))
                         {
                             @Html.Hidden("memberId", user.UserID)
                             @Html.Hidden("groupId", Model.Group.GroupID)
@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1 add-member-title">add a member:</div>
         </div>
-        @using (Html.BeginForm("AddMember", "Group"))
+        @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "add-member" }))
         {
             <input name="groupId" type="hidden" value="@Model.Group.GroupID" />
             <div class="row add-friend-field-button">
