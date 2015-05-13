@@ -8,6 +8,7 @@ namespace doStuff.ViewModels
 {
     public class SideBarViewModel
     {
+        public string Avatar { get; set; }
         public User User { get; set; }
         public List<User> UserList { get; set; }
         public List<User> UserPendingList { get; set; }
