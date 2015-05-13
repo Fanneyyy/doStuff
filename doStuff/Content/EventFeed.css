@@ -43,6 +43,36 @@
     background-repeat: no-repeat;
 }
 
+.event-photo-time-location-drinks {
+    background-image: url("pictures/Eventphotos/drinks-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.event-photo-time-location-sports {
+    background-image: url("pictures/Eventphotos/basketball-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.event-photo-time-location-concert {
+    background-image: url("pictures/Eventphotos/concert-photo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.event-photo-time-location-theater {
+    background-image: url("pictures/Eventphotos/theater-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.event-photo-time-location-birthday {
+    background-image: url("pictures/Eventphotos/birthday-photo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .event-photo-space {
     min-height: 150px;
 }
