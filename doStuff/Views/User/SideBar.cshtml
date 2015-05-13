@@ -8,12 +8,13 @@
         <div class="col-md-8 sidebar-title"><h3>@Model.SideBar.User.DisplayName</h3></div>
     </div>
     <div class="friends-title">my Friends</div>
+    <!--List of friends and friend requests-->
     <div class="friend-list-box">
     @if (Model.SideBar.UserRequestList.Count > 0)
     {
-        <div class="friend-requests-title">you Have unanswered friend requests</div>
+        <div class="friend-requests-title">you Have unanswered Friend requests</div>
     }
-        <ul>
+    <ul>
             @foreach (var user in Model.SideBar.UserRequestList)
             {
             <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
@@ -34,7 +35,10 @@
                 <div class="friend-display-name">@user.DisplayName</div>
             </li>
             }
-            <li class="divider"></li>
+            @if (Model.SideBar.UserRequestList.Count > 0)
+            {
+                <li class="divider"></li>
+            }
             @foreach (var user in Model.SideBar.UserList)
             {
                 <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
@@ -53,7 +57,8 @@
                 </li>
             }
             </ul>
-        </div>
+    </div>
+    <div class="add-friend-box">
         @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
         {
             <!--<input name="groupId" type="hidden" value="Model.Group.GroupID" />-->
@@ -68,6 +73,7 @@
                 </div>
             </div>
         }
+    </div>
     <div>
         <p class="sidebar-title">Events</p>
     </div>

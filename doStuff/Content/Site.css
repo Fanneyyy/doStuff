@@ -48,11 +48,10 @@ input[type="checkbox"].input-validation-error {
 }
 
 .plus-symbol {
-    height: 70px;
-    width: 70px;
-    background-image: url("plus.png");
-    background-size: contain;
-    background-repeat: no-repeat;
+    background: rgba(174,226,57,0.80);
+    height: 90px;
+    width: 90px;
+    z-index: 10;
     display: block;
     position: fixed;
     margin: 0px;
@@ -61,5 +60,16 @@ input[type="checkbox"].input-validation-error {
     border-radius: 50%;
     border: 1px solid #C8C8C8;
     float: left;
-    font-size:22px;
+}
+
+.plus-symbol:hover {
+    background: rgba(174,226,57,0.97);
+}
+
+.create-event {
+    color: #26727f;
+    text-align: center;
+    vertical-align: center;
+    font-size:70px;
+    margin-left: 7px;
 }
