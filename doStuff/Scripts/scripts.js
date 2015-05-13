@@ -25,6 +25,9 @@ function InitializeSelectors() {
 
     $(".remove-event").submit(RemoveEvent);
 
+    $(".event-comment-form").submit(Comment);
+    $(".group-comment-form").submit(CommentGroup);
+
     $(".join-event").click(function (event) {
         var form = $(this).closest("form");
         AnswerEvent(true, form, event);
@@ -32,6 +35,44 @@ function InitializeSelectors() {
     $(".decline-event").click(function (event) {
         var form = $(this).closest("form");
         AnswerEvent(false, form, event);
+    });
+}
+
+function Comment(event) {
+    event.preventDefault();
+
+    var $form = $(this);
+    var url = $form.attr('action');
+    var data = $form.serialize();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (data) {
+            SetFeedback(data.message);
+            UpdateFeed();
+        }
+    });
+}
+
+function CommentGroup(event) {
+    event.preventDefault();
+
+    var $form = $(this);
+    var url = $form.attr('action');
+    var data = $form.serialize();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (data) {
+            SetFeedback(data.message);
+            UpdateGroupFeed();
+        }
     });
 }
 

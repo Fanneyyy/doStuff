@@ -13,6 +13,7 @@ namespace doStuff.Models.DatabaseModels
         public int GroupID { get; set; }
         public bool Active { get; set; }
         public int OwnerId { get; set; }
+        [Required]
         public string Name { get; set; }
 
         public Group()

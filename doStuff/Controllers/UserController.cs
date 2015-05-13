@@ -40,7 +40,6 @@ namespace doStuff.Controllers
         {
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(username);
-            User parameter = null;
             if (friend == null)
             {
                 TempData["message"] = new Message("The username " + username + " could not be found.", MessageType.INFORMATION);
@@ -59,8 +58,7 @@ namespace doStuff.Controllers
             }
             else if (service.SendFriendRequest(user.UserID, friend.UserID))
             {
-                TempData["message"] = new Message(friend.UserName + " has received your friend request.", MessageType.SUCCESS);
-                parameter = friend;
+                TempData["message"] = new Message(username + " has received your friend request.", MessageType.SUCCESS);
             }
             else
             {
@@ -68,14 +66,8 @@ namespace doStuff.Controllers
             }
             if (Request.IsAjaxRequest())
             {
-                return Json(new { friend = parameter, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public ActionResult Banner()
-        {
             return RedirectToAction("Index");
         }
 
@@ -83,12 +75,22 @@ namespace doStuff.Controllers
         public ActionResult AcceptFriendRequest(int requesterId)
         {
             User user = service.GetUser(User.Identity.Name);
-            service.AnswerFriendRequest(requesterId, user.UserID, true);
             User friend = service.GetUser(requesterId);
-            TempData["message"] = new Message("You are now friends with " + friend.DisplayName, MessageType.SUCCESS);
+            if(service.IsFriendsWith(user.UserID, requesterId))
+            {
+                TempData["message"] = new Message(friend.DisplayName + " is already your friend", MessageType.INFORMATION);
+            }
+            else if(service.AnswerFriendRequest(friend.UserID, user.UserID, true))
+            {
+                TempData["message"] = new Message("You are now friends with " + friend.DisplayName, MessageType.SUCCESS);
+            }
+            else
+            {
+                TempData["message"] = new Message("The friend request you are trying to access no longer exists.", MessageType.SUCCESS);
+            }
             if (Request.IsAjaxRequest())
             {
-                return Json(new { friend = friend, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
@@ -100,7 +102,7 @@ namespace doStuff.Controllers
             User friend = service.GetUser(requesterId);
             if(service.AnswerFriendRequest(requesterId, user.UserID, false))
             {
-                TempData["message"] = new Message("You declined a friend request from" + friend.DisplayName, MessageType.SUCCESS);
+                TempData["message"] = new Message("You declined a friend request from " + friend.DisplayName, MessageType.SUCCESS);
             }
             else
             {
@@ -130,15 +132,22 @@ namespace doStuff.Controllers
             }
             else if(service.FriendRequestExists(user.UserID, friendId))
             {
-                if (service.FriendRequestAbort(user.UserID, friendId))
+                if (service.FriendRequestCancel(user.UserID, friendId))
                 {
                     parameter = friend;
                 }
-                TempData["message"] = new Message("Friend request to " + friend.DisplayName + " has been aborted", MessageType.SUCCESS);
+                TempData["message"] = new Message("Friend request to " + friend.DisplayName + " has been cancelled", MessageType.SUCCESS);
             }
             else
             {
-                TempData["message"] = new Message("You are not friends with " + friend.DisplayName, MessageType.ERROR);
+                if (friend != null)
+                {
+                    TempData["message"] = new Message("You are not friends with " + friend.DisplayName, MessageType.ERROR);
+                }
+                else
+                {
+                    TempData["message"] = new Message("User could not be found", MessageType.ERROR);
+                }
             }
             if (Request.IsAjaxRequest())
             {
@@ -162,27 +171,16 @@ namespace doStuff.Controllers
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
                 newEvent.Active = true;
                 newEvent.Max = 100;
-                service.CreateEvent(ref newEvent);
-                return RedirectToAction("Index");
+                if (service.CreateEvent(ref newEvent))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", "An error occured when creating your event, please try again later.");
+                }
             }
-
             return View(newEvent);
-        }
-
-        [HttpPost]
-        public ActionResult RemoveEvent(int eventId)
-        {
-            //TODO
-            if (service.RemoveEvent(eventId))
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-        [HttpGet]
-        public ActionResult Comment()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -192,55 +190,50 @@ namespace doStuff.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Comment myComment = new Comment();
-            myComment.Content = content;
-            myComment.Active = true;
-            myComment.OwnerId = service.GetUserId(User.Identity.Name);
-            myComment.CreationTime = DateTime.Now;
-            service.CreateComment(eventId, ref myComment);
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public ActionResult ChangeName()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult ChangeName(User myUser)
-        {
             User user = service.GetUser(User.Identity.Name);
-            if (ModelState.IsValid)
+            if(service.IsInvitedToEvent(user.UserID, eventId))
             {
-                service.ChangeDisplayName(user.UserID, myUser.DisplayName);
-                TempData["message"] = new Message("Your name has been changed to " + myUser.DisplayName, MessageType.SUCCESS);
-                return Index();
+                Comment myComment = new Comment();
+                myComment.Content = content;
+                myComment.Active = true;
+                myComment.OwnerId = service.GetUserId(User.Identity.Name);
+                myComment.CreationTime = DateTime.Now;
+                if (service.CreateComment(eventId, ref myComment))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = new Message("An Error occured when processing your event, please try again later", MessageType.ERROR);
+                }
             }
             else
             {
-                ModelState.AddModelError("Error", "Please enter a valid name.");
-                return View();
+                TempData["message"] = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
             }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult AnswerEvent(int eventId, bool answer)
         {
             User user = service.GetUser(User.Identity.Name);
-            Event theEvent = null;
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
                 if (service.AnswerEvent(user.UserID, eventId, answer))
                 {
-                    theEvent = service.GetEventById(eventId);
+                    Event theEvent = service.GetEventById(eventId);
                     if (answer)
                     {
-                        TempData["message"] = new Message("You are now an attendee of " + theEvent.Name, MessageType.SUCCESS);
+                        TempData["message"] = new Message("You are listed as an attendee of " + theEvent.Name, MessageType.SUCCESS);
                     }
                     else
                     {
-                        TempData["message"] = new Message("You have successfully declined " + theEvent.Name, MessageType.SUCCESS);
+                        TempData["message"] = new Message("You declined an invitation to " + theEvent.Name, MessageType.SUCCESS);
                     }
                 }
                 else
@@ -254,7 +247,7 @@ namespace doStuff.Controllers
             }
             if (Request.IsAjaxRequest())
             {
-                return Json(new { theevent = theEvent, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
