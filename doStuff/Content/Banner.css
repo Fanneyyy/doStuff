@@ -27,6 +27,10 @@
     display: block;
 }
 
+.banner-logout-logo:hover {
+    margin-top: 5px;
+}
+
 .banner-logout-logo {
     max-width: 100%;
     display: block;
@@ -56,13 +60,10 @@
     font-size: 30px;
 }
 
-.btn:hover, .btn:focus {
+.btn-group > .btn:hover, .btn-group > .btn:focus {
     color: white;
     outline: none;
-    border: none !important;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 .banner-dropdown {
@@ -97,6 +98,11 @@
     color: #26727f;
     background-color: #eee;
 }
+.create-group-form {
+    background-color: #90BC25;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+}
 
 .create-group-field {
     width: 65%;
@@ -105,12 +111,11 @@
 }
 
 .banner-dropdown .create-group-button {
-    background-color: #aee239;
+    background-color: white;
+    color: #26727f;
     width: 30%;
     display: inline;
     border-radius: 0px;
-    letter-spacing: 3px;
-    color: #26727f;
 }
 
 .banner-dropdown .create-group-button:visited {
