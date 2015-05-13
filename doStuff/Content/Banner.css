@@ -28,7 +28,7 @@
 }
 
 .banner-logout-logo:hover {
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 .banner-logout-logo {
@@ -53,6 +53,10 @@
     width: 100%;
     font-variant: small-caps;
     border-radius: 0px;
+}
+
+.banner-title {
+    overflow-x: hidden;
 }
 
 .green {
