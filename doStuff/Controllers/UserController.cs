@@ -17,7 +17,6 @@ namespace doStuff.Controllers
     {
 
         [HttpGet]
-        [HandleError]
         public ActionResult Index()
         {
             SetUserFeedback();
@@ -167,10 +166,9 @@ namespace doStuff.Controllers
         {
             if (ModelState.IsValid)
             {
+                newEvent.Active = true;
                 newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = service.GetUserId(User.Identity.Name);
-                newEvent.Active = true;
-                newEvent.Max = 100;
                 if (service.CreateEvent(ref newEvent))
                 {
                     return RedirectToAction("Index");
@@ -224,9 +222,18 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
-                if (service.AnswerEvent(user.UserID, eventId, answer))
+                Event theEvent = service.GetEventById(eventId);
+                EventViewModel model = service.CastToViewModel(theEvent, null);
+                if(model.State == State.FULL)
                 {
-                    Event theEvent = service.GetEventById(eventId);
+                    TempData["message"] = new Message("This event is already full", MessageType.INFORMATION);
+                }
+                else if(model.State == State.OFF || model.State == State.ON)
+                {
+                    TempData["message"] = new Message("This event has expired", MessageType.INFORMATION);
+                }
+                else if (service.AnswerEvent(user.UserID, eventId, answer))
+                {
                     if (answer)
                     {
                         TempData["message"] = new Message("You are listed as an attendee of " + theEvent.Name, MessageType.SUCCESS);

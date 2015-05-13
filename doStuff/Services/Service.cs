@@ -268,22 +268,18 @@ namespace doStuff.Services
         #region EventRelation
         public bool AnswerEvent(int userId, int eventId, bool answer)
         {
-            if (IsInvitedToEvent(userId, eventId))
+            EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+            if (relation == null)
             {
-                EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
-                if (relation == null)
-                {
-                    relation = new EventToUserRelation();
-                    relation.Active = true;
-                    relation.EventId = eventId;
-                    relation.AttendeeId = userId;
-                    relation.Answer = answer;
-                    return db.CreateEventToUserRelation(ref relation);
-                }
+                relation = new EventToUserRelation();
+                relation.Active = true;
+                relation.EventId = eventId;
+                relation.AttendeeId = userId;
                 relation.Answer = answer;
-                return db.SetEventToUserRelation(relation);
+                return db.CreateEventToUserRelation(ref relation);
             }
-            throw new Exception("You Tried To Answer An Event Without Checking IsInvitedToEvent(userId, eventId) In The Controller First!!!");
+            relation.Answer = answer;
+            return db.SetEventToUserRelation(relation);
         }
         #endregion
         #region Create
@@ -335,20 +331,16 @@ namespace doStuff.Services
         }
         public bool CreateComment(int eventId, ref Comment comment)
         {
-            if (IsInvitedToEvent(comment.OwnerId, eventId))
+            if (db.CreateComment(ref comment))
             {
-                if (db.CreateComment(ref comment))
+                EventToCommentRelation relation = new EventToCommentRelation(true, eventId, comment.CommentID);
+                if (db.CreateEventToCommentRelation(ref relation))
                 {
-                    EventToCommentRelation relation = new EventToCommentRelation(true, eventId, comment.CommentID);
-                    if (db.CreateEventToCommentRelation(ref relation))
-                    {
-                        return true;
-                    }
-                    throw new Exception("The comment was created but an error occured when creating the EventToCommentRelation");
+                    return true;
                 }
-                return false;
+                throw new Exception("The comment was created but an error occured when creating the EventToCommentRelation");
             }
-            throw new Exception("CreatedComment was called with out checking if IsInvitedToEvent in the controller first");
+            return false;
         }
         #endregion
         #region Remove
@@ -519,7 +511,7 @@ namespace doStuff.Services
 
             return SideBar;
         }
-        private EventViewModel CastToViewModel(Event e, bool? attending)
+        public EventViewModel CastToViewModel(Event e, bool? attending)
         {
             EventViewModel eventViewModel = new EventViewModel();
             List<CommentViewModel> commentViews = new List<CommentViewModel>();

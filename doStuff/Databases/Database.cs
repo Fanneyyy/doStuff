@@ -96,6 +96,7 @@ namespace doStuff.Databases
                                   && r.Active == true 
                                   && r.GroupId == g.GroupID
                                   && g.Active == true 
+                                  orderby g.Name ascending
                                   select g).ToList();
             return groups;
         }

@@ -17,7 +17,6 @@ namespace doStuff.Controllers
     public class GroupController : ParentController
     {
         [HttpGet]
-        [HandleError]
         public ActionResult Index(int? groupId)
         {
             if (groupId == null)
@@ -52,7 +51,7 @@ namespace doStuff.Controllers
             User member = service.GetUser(username);
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                
+                TempData["message"] = new Message("Only the owner of a group can add a member to it", MessageType.INFORMATION);
             }
             else if (member == null)
             {
@@ -277,6 +276,7 @@ namespace doStuff.Controllers
                 {
                     GroupFeedViewModel model = new GroupFeedViewModel();
                     model.SideBar = service.GetSideBar(user.UserID, groupId);
+                    model.Group = service.GetGroupById(groupId);
                     return Json(RenderPartialViewToString("SideBar", model), JsonRequestBehavior.AllowGet);
                 }
             }

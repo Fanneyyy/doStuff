@@ -74,10 +74,11 @@
         @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
         {
             <div class="add-friend-box">
-            @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "add-friend" }))
+            @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "add-member" }))
             {
                 <form class="form-inline">
                     <div class="form-group add-friend-form">
+                        @Html.Hidden("groupId", Model.Group.GroupID)
                         <label class="sr-only" for="add-friend">add friend</label>
                         <input name="groupid" type="hidden" value="@Model.Group.GroupID">
                         <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
