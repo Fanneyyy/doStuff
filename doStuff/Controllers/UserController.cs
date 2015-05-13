@@ -8,7 +8,8 @@ using doStuff.Services;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
 using doStuff.Databases;
-using ErrorHandler;
+using CustomErrors;
+
 namespace doStuff.Controllers
 {
     [Authorize]
@@ -16,6 +17,7 @@ namespace doStuff.Controllers
     {
 
         [HttpGet]
+        [HandleError]
         public ActionResult Index()
         {
             SetUserFeedback();
@@ -31,12 +33,6 @@ namespace doStuff.Controllers
             }
 
             return View("Index", feed);
-        }
-
-        [HttpGet]
-        public ActionResult AddFriend()
-        {
-            return View();
         }
 
         [HttpPost]

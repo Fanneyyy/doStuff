@@ -6,8 +6,8 @@ using System.Web.Mvc;
 using doStuff.ViewModels;
 using doStuff.Services;
 using doStuff.Models;
-using ErrorHandler;
 using System.IO;
+using System.Configuration;
 
 namespace doStuff.Controllers
 {
@@ -17,6 +17,15 @@ namespace doStuff.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             base.OnException(filterContext);
+            Exception ex = filterContext.Exception;
+            string LogFilePath = ConfigurationManager.AppSettings["LogFilePath"];
+            string LogFileName = ConfigurationManager.AppSettings["LogFileName"];
+            string message = string.Format("{0} and was thrown on the {1}.{4}For {2}{3}{4}", ex.Message, DateTime.Now, ex.Source, ex.StackTrace, Environment.NewLine);
+            if (Directory.Exists(LogFilePath) == false)
+            {
+                Directory.CreateDirectory(LogFilePath);
+            }
+            System.IO.File.AppendAllText(LogFilePath + LogFileName, message);
         }
 
         protected string RenderPartialViewToString(string viewName, object model)

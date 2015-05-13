@@ -11,6 +11,10 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
+    InitializeSelectors();
+});
+
+function InitializeSelectors() {
     $(".add-friend").submit(AddFriend);
 
     $(".remove-friend").submit(RemoveFriend);
@@ -29,7 +33,7 @@ $(document).ready(function () {
         var form = $(this).closest("form");
         AnswerEvent(false, form, event);
     });
-});
+}
 
 function AddFriend(event) {
     event.preventDefault();
@@ -170,6 +174,7 @@ function UpdateFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -186,6 +191,7 @@ function UpdateGroupFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -202,6 +208,7 @@ function UpdateFriendList() {
         success: function (list) {
             $("#friend-list").empty();
             $("#friend-list").append(list);
+            InitializeSelectors();
         }
     });
 }
@@ -218,6 +225,7 @@ function UpdateMemberList() {
         success: function (list) {
             $("#member-list").empty();
             $("#member-list").append(list);
+            InitializeSelectors();
         }
     });
 }
