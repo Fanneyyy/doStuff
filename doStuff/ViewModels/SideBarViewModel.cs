@@ -8,9 +8,9 @@ namespace doStuff.ViewModels
 {
     public class SideBarViewModel
     {
-        public User User;
-        public List<User> UserList;
-        public List<User> UserRequestList;
-        public List<EventViewModel> EventList;
+        public User User { get; set; }
+        public List<User> UserList { get; set; }
+        public List<User> UserRequestList { get; set; }
+        public List<EventViewModel> EventList { get; set; }
     }
 }

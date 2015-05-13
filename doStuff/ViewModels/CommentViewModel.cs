@@ -8,7 +8,7 @@ namespace doStuff.ViewModels
 {
     public class CommentViewModel
     {
-        public User Owner;
-        public Comment Comment;
+        public User Owner { get; set; }
+        public Comment Comment { get; set; }
     }
 }

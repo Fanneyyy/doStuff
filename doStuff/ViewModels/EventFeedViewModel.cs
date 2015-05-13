@@ -8,8 +8,8 @@ namespace doStuff.ViewModels
 {
     public class EventFeedViewModel
     {
-        public SideBarViewModel SideBar;
-        public List<EventViewModel> Events;
-        public List<Group> Groups;
+        public SideBarViewModel SideBar { get; set; }
+        public List<EventViewModel> Events { get; set; }
+        public List<Group> Groups { get; set; }
     }
 }

@@ -252,6 +252,18 @@ namespace doStuff.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult GetEvents(string time)
+        {
+            User user = service.GetUser(User.Identity.Name);
+            if(Request.IsAjaxRequest())
+            {
+                EventFeedViewModel Model = service.GetEventFeed(user.UserID);
+                return Json(Model, JsonRequestBehavior.AllowGet);
+            }
+            return View("Index");
+        }
+
         private void SetUserFeedback()
         {
             Message message = TempData["message"] as Message;
