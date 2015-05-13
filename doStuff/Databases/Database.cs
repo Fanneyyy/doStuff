@@ -105,14 +105,16 @@ namespace doStuff.Databases
                     where e.OwnerId == userId 
                     && e.GroupId == null 
                     && e.Active == true
-                    select e).ToList();
+                    orderby e.CreationTime
+                    select e).Take(10).ToList();
         }
         public List<Event> GetGroupEvents(int groupId)
         {
             return (from e in db.Events
                     where e.GroupId == groupId 
                     && e.Active == true
-                    select e).ToList();
+                    orderby e.CreationTime
+                    select e).Take(10).ToList();
         }
         public List<Comment> GetComments(int eventId)
         {

@@ -113,12 +113,19 @@
     text-align: center;
 }
 
-.pull-down {
-    margin-top: 100px;
+.request-list {
+    margin-bottom: 8px;
 }
 
-.eventfeed-friend form {
-    display: inline;
+.friend-list-box .divider {
+    height: 2px;
+    background-color: #26727f;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.pull-down {
+    margin-top: 100px;
 }
 
 .add-member-title {

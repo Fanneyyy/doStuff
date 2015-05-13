@@ -226,6 +226,10 @@ namespace doStuff.Services
 
         public bool SendFriendRequest(int userId, int friendId)
         {
+            if (FriendRequestExists(friendId, userId))
+            {
+                return AnswerFriendRequest(friendId, userId, true);
+            }
             UserToUserRelation relation = new UserToUserRelation();
             relation.Active = true;
             relation.SenderId = userId;

@@ -7,9 +7,8 @@
 }
 @foreach (var user in Model.SideBar.UserRequestList)
 {
-    <li class="eventfeed-friend" id=@Html.Raw("friend" + user.UserID)>
+    <li class="eventfeed-friend request-list" id=@Html.Raw("friend" + user.UserID)>
         <form class="form-inline">
-            <div class="form-group">
                 @using (Html.BeginForm("DeclineFriendRequest", "User", FormMethod.Post, new { @class = "remove-friend" }))
                 {
                     <input name="requesterId" type="hidden" value="@user.UserID">
@@ -25,7 +24,6 @@
                     </button>
                 }
                 <div class="friend-display-name">@user.DisplayName</div>
-            </div>
         </form>
     </li>
 }
@@ -48,7 +46,7 @@
 }
 @if (Model.SideBar.UserRequestList.Count > 0 || Model.SideBar.UserPendingList.Count > 0)
 {
-    <li class="divider"></li>
+    <li class="friend-requests-title">Your Friends</li>
 }
 @foreach (var user in Model.SideBar.UserList)
 {
