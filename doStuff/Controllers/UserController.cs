@@ -20,11 +20,16 @@ namespace doStuff.Controllers
         {
             SetUserFeedback();
             EventFeedViewModel feed;
-            // Gets userId of the user viewing the site
+
             int userId = service.GetUserId(User.Identity.Name);
-            // Gets the correct feed for the userId
+
             feed = service.GetEventFeed(userId);
-            // Returns the feed to the view
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json(RenderPartialViewToString("EventFeed", feed), JsonRequestBehavior.AllowGet);
+            }
+
             return View("Index", feed);
         }
 
@@ -253,19 +258,7 @@ namespace doStuff.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetEvents()
-        {
-            User user = service.GetUser(User.Identity.Name);
-            if(Request.IsAjaxRequest())
-            {
-                EventFeedViewModel model = service.GetEventFeed(user.UserID);
-                return Json(RenderPartialViewToString("EventFeed", model), JsonRequestBehavior.AllowGet);
-            }
-            return View("Index");
-        }
-
-        [HttpGet]
-        public ActionResult GetSidebar()
+        public ActionResult GetSideBar()
         {
             User user = service.GetUser(User.Identity.Name);
             if (Request.IsAjaxRequest())

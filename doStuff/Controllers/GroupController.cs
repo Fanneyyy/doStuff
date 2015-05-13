@@ -26,6 +26,11 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             if (service.IsMemberOfGroup(user.UserID, groupId.Value))
             {
+                if (Request.IsAjaxRequest())
+                {
+                    GroupFeedViewModel model = service.GetGroupFeed(groupId.Value, user.UserID);
+                    return Json(RenderPartialViewToString("EventFeed", model), JsonRequestBehavior.AllowGet);
+                }
                 SetUserFeedback();
                 GroupFeedViewModel feed = service.GetGroupFeed(groupId.Value, service.GetUserId(User.Identity.Name));
                 return View(feed);
@@ -38,18 +43,6 @@ namespace doStuff.Controllers
         {
             return RedirectToAction("Index", "User");
         }
-
-        /*[HttpGet]
-        public ActionResult AddMember(int groupId)
-        {
-            User user = service.GetUser(User.Identity.Name);
-            if (service.IsOwnerOfGroup(user.UserID, groupId))
-            {
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId, user.UserID);
-                return View(feed);
-            }
-            return RedirectToAction("Index", "User");
-        }*/
 
         [HttpPost]
         public ActionResult AddMember(int groupId, string username)
@@ -76,6 +69,10 @@ namespace doStuff.Controllers
             {
                 TempData["message"] = new Message(member.UserName + " was added to the group.", MessageType.SUCCESS);
             }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { member = member, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
             return RedirectToAction("Index", new { groupId = groupId });
         }
 
@@ -83,7 +80,7 @@ namespace doStuff.Controllers
         public ActionResult RemoveMember(int groupId, int memberId)
         {
             User user = service.GetUser(User.Identity.Name);
-            
+            User member = null;
             // Special for if user removes himself, i.e. removes group from the banner
             if (memberId == user.UserID)
             {
@@ -95,14 +92,16 @@ namespace doStuff.Controllers
                 ViewBag.ErrorMessage = "You are not the owner of this group.";
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
-
             if (service.RemoveMember(memberId, groupId))
             {
-                User member = service.GetUser(memberId);
+                member = service.GetUser(memberId);
                 ViewBag.SuccessMessage = member.DisplayName + " has been removed from the group";
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
-
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { member = member, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
             return RedirectToAction("Index", "User");
         }
 
@@ -266,6 +265,22 @@ namespace doStuff.Controllers
             TempData["message"] = new Message("Your group could not be created, please try again later.", MessageType.ERROR);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult GetSideBar(int groupId)
+        {
+            User user = service.GetUser(User.Identity.Name);
+            if (service.IsMemberOfGroup(user.UserID, groupId))
+            {
+                if (Request.IsAjaxRequest())
+                {
+                    GroupFeedViewModel model = service.GetGroupFeed(groupId, user.UserID);
+                    return Json(RenderPartialViewToString("SideBar", model), JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
         private void SetUserFeedback()
         {
             Message message = TempData["message"] as Message;
