@@ -21,9 +21,9 @@ namespace doStuff.Controllers
             SetUserFeedback();
             EventFeedViewModel feed;
 
-            int userId = service.GetUserId(User.Identity.Name);
+            User user = service.GetUser(User.Identity.Name);
 
-            feed = service.GetEventFeed(userId);
+            feed = service.GetEventFeed(user.UserID);
 
             if (Request.IsAjaxRequest())
             {
@@ -89,7 +89,7 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             service.AnswerFriendRequest(requesterId, user.UserID, true);
             User friend = service.GetUser(requesterId);
-            TempData["message"] = new Message(friend.DisplayName + " is now your loyal friend", MessageType.SUCCESS);
+            TempData["message"] = new Message("You are now friends with " + friend.DisplayName, MessageType.SUCCESS);
             if (Request.IsAjaxRequest())
             {
                 return Json(new { friend = friend, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
@@ -101,9 +101,15 @@ namespace doStuff.Controllers
         public ActionResult DeclineFriendRequest(int requesterId)
         {
             User user = service.GetUser(User.Identity.Name);
-            service.AnswerFriendRequest(requesterId, user.UserID, false);
             User friend = service.GetUser(requesterId);
-            TempData["message"] = new Message(friend.DisplayName + " is now your loyal friend", MessageType.SUCCESS);
+            if(service.AnswerFriendRequest(requesterId, user.UserID, false))
+            {
+                TempData["message"] = new Message("You declined a friend request from" + friend.DisplayName, MessageType.SUCCESS);
+            }
+            else
+            {
+                TempData["message"] = new Message("Could not find that specific friend request, maybe the other user withdrew it.", MessageType.ERROR);
+            }
             if (Request.IsAjaxRequest())
             {
                 return Json(new { friend = friend, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);

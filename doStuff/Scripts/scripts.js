@@ -66,9 +66,8 @@ function RemoveFriend(event) {
         url: url,
         data: data,
         success: function (data) {
-            $("#friend" + data.member.UserID).remove();
+            $("#friend" + data.friend.UserID).remove();
             SetFeedback(data.message);
-            UpdateFriendList();
         },
         error: function (xhr, err) {
         }
@@ -112,41 +111,10 @@ function RemoveMember(event) {
         success: function (data) {
             $("#member" + data.member.UserID).remove();
             SetFeedback(data.message);
-            UpdateMemberList();
         },
         error: function (xhr, err) {
         }
     });
-}
-
-function SetFeedback(message) {
-    $("#Error").addClass("hidden");
-    $("#Warning").addClass("hidden");
-    $("#Information").addClass("hidden");
-    $("#Success").addClass("hidden");
-    if (message == null) {
-        return;
-    }
-    if (message.ErrorMessage != null) {
-        $("#ErrorMessage").empty();
-        $("#Error").removeClass("hidden");
-        $("#ErrorMessage").text(message.ErrorMessage)
-    }
-    if (message.WarningMessage != null) {
-        $("#WarningMessage").empty();
-        $("#Warning").removeClass("hidden");
-        $("#WarningMessage").text(message.WarningMessage)
-    }
-    if (message.InformationMessage != null) {
-        $("#InformationMessage").empty();
-        $("#Information").removeClass("hidden");
-        $("#InformationMessage").text(message.InformationMessage)
-    }
-    if (message.SuccessMessage != null) {
-        $("#SuccessMessage").empty();
-        $("#Success").removeClass("hidden");
-        $("#SuccessMessage").text(message.SuccessMessage)
-    }
 }
 
 function RemoveEvent(event) {
@@ -289,4 +257,34 @@ function countdown() {
     }
 
     window.setInterval(checkTime, 1000);
+}
+
+function SetFeedback(message) {
+    $("#Error").addClass("hidden");
+    $("#Warning").addClass("hidden");
+    $("#Information").addClass("hidden");
+    $("#Success").addClass("hidden");
+    if (message == null) {
+        return;
+    }
+    if (message.ErrorMessage != null) {
+        $("#ErrorMessage").empty();
+        $("#Error").removeClass("hidden");
+        $("#ErrorMessage").text(message.ErrorMessage)
+    }
+    if (message.WarningMessage != null) {
+        $("#WarningMessage").empty();
+        $("#Warning").removeClass("hidden");
+        $("#WarningMessage").text(message.WarningMessage)
+    }
+    if (message.InformationMessage != null) {
+        $("#InformationMessage").empty();
+        $("#Information").removeClass("hidden");
+        $("#InformationMessage").text(message.InformationMessage)
+    }
+    if (message.SuccessMessage != null) {
+        $("#SuccessMessage").empty();
+        $("#Success").removeClass("hidden");
+        $("#SuccessMessage").text(message.SuccessMessage)
+    }
 }
