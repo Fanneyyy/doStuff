@@ -253,13 +253,25 @@ namespace doStuff.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetEvents(string time)
+        public ActionResult GetEvents()
         {
             User user = service.GetUser(User.Identity.Name);
             if(Request.IsAjaxRequest())
             {
-                EventFeedViewModel Model = service.GetEventFeed(user.UserID);
-                return Json(Model, JsonRequestBehavior.AllowGet);
+                EventFeedViewModel model = service.GetEventFeed(user.UserID);
+                return Json(RenderPartialViewToString("EventFeed", model), JsonRequestBehavior.AllowGet);
+            }
+            return View("Index");
+        }
+
+        [HttpGet]
+        public ActionResult GetSidebar()
+        {
+            User user = service.GetUser(User.Identity.Name);
+            if (Request.IsAjaxRequest())
+            {
+                EventFeedViewModel model = service.GetEventFeed(user.UserID);
+                return Json(RenderPartialViewToString("FriendList", model), JsonRequestBehavior.AllowGet);
             }
             return View("Index");
         }

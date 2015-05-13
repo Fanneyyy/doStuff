@@ -24,7 +24,8 @@ namespace doStuff.Databases
 
             List<UserToUserRelation> relations = (from f in db.UserToUserRelations
                                                   where (f.ReceiverId == userId || f.SenderId == userId) 
-                                                  && (!f.Answer.HasValue || f.Answer.Value == true) 
+                                                  && f.Answer.HasValue 
+                                                  && f.Answer.Value == true
                                                   && f.Active == true
                                                   select f).ToList();
 
