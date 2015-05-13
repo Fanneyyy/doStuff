@@ -60,7 +60,7 @@
 .friend-requests-title {
     background-color: #aee239;
     font-variant: small-caps;
-    font-size: 15px;
+    font-size: 18px;
     margin-top: 0px;
     margin-bottom: 8px;
     padding-top: 6px;
@@ -86,7 +86,7 @@
     padding: 0px 6px 0px 4px;
 }
 
-.sidebar-button:hover {
+.sidebar-button:hover, .sidebar-button:active {
     background: none;
 }
 
