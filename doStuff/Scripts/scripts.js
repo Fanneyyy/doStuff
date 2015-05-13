@@ -66,6 +66,7 @@ function RemoveFriend(event) {
         url: url,
         data: data,
         success: function (data) {
+            $("#friend" + data.member.UserID).remove();
             SetFeedback(data.message);
             UpdateFriendList();
         },
@@ -162,10 +163,7 @@ function RemoveEvent(event) {
         data: data,
         success: function (data) {
             SetFeedback(data.message);
-            if (data.theevent != null) {
-                $("#event" + data.theevent.EventID).remove();
-                UpdateFeed();
-            }
+            UpdateFeed();
         },
         error: function (xhr, err) {
         }
@@ -234,7 +232,6 @@ function UpdateFriendList() {
         url: url,
         data: data,
         success: function (list) {
-            alert(list);
             $("#friend-list").empty();
             $("#friend-list").append(list);
         }

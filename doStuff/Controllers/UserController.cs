@@ -263,8 +263,9 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             if (Request.IsAjaxRequest())
             {
-                EventFeedViewModel model = service.GetEventFeed(user.UserID);
-                return Json(RenderPartialViewToString("FriendList", model), JsonRequestBehavior.AllowGet);
+                EventFeedViewModel model = new EventFeedViewModel();
+                model.SideBar = service.GetSideBar(user.UserID, null);
+                return Json(RenderPartialViewToString("SideBar", model), JsonRequestBehavior.AllowGet);
             }
             return View("Index");
         }

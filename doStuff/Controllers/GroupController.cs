@@ -274,7 +274,8 @@ namespace doStuff.Controllers
             {
                 if (Request.IsAjaxRequest())
                 {
-                    GroupFeedViewModel model = service.GetGroupFeed(groupId, user.UserID);
+                    GroupFeedViewModel model = new GroupFeedViewModel();
+                    model.SideBar = service.GetSideBar(user.UserID, groupId);
                     return Json(RenderPartialViewToString("SideBar", model), JsonRequestBehavior.AllowGet);
                 }
             }
