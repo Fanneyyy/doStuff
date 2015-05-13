@@ -10,9 +10,9 @@
     <div class="friends-title">my Friends</div>
     <!--List of friends and friend requests-->
     <div class="friend-list-box">
-    <ul id="friend-list">
-            @RenderPage("FriendList.cshtml")
-    </ul>
+        <ul id="friend-list">
+                @RenderPage("FriendList.cshtml")
+        </ul>
     </div>
     <div class="add-friend-box">
         @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
@@ -52,7 +52,7 @@
         }
         else
         {
-            <p>You have no events</p>
+            <p>you currently have no uppcoming events</p>
         }
     </div>
 
