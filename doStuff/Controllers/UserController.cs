@@ -164,7 +164,11 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult CreateEvent(Event newEvent)
         {
-            if (ModelState.IsValid)
+            if (newEvent.Min.HasValue && newEvent.Max.HasValue && (newEvent.Max.Value <= newEvent.Min.Value))
+            {
+                ModelState.AddModelError("Error", "Max can't be higher than min");
+            }
+            else if (ModelState.IsValid)
             {
                 newEvent.Active = true;
                 newEvent.CreationTime = DateTime.Now;
