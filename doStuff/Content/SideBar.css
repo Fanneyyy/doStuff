@@ -1,15 +1,12 @@
-﻿::-webkit-scrollbar
-{
+﻿::-webkit-scrollbar {
   width: 12px;
 }
 
-::-webkit-scrollbar-track
-{
+::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.5);
 }
 
@@ -60,7 +57,7 @@
 .friend-requests-title {
     background-color: #aee239;
     font-variant: small-caps;
-    font-size: 15px;
+    font-size: 18px;
     margin-top: 0px;
     margin-bottom: 8px;
     padding-top: 6px;
@@ -75,6 +72,7 @@
     overflow-y: auto;
     overflow-x: visible;
     margin: 5px 5px 5px 5px;
+    padding-top: 6px;
 }
 
 .sidebar-button {
@@ -85,7 +83,7 @@
     padding: 0px 6px 0px 4px;
 }
 
-.sidebar-button:hover {
+.sidebar-button:hover, .sidebar-button:active {
     background: none;
 }
 
@@ -111,12 +109,23 @@
     text-align: left;
 }
 
-.pull-down {
-    margin-top: 100px;
+.friend-display-no-friends {
+    text-align: center;
 }
 
-.eventfeed-friend form {
-    display: inline;
+.request-list {
+    margin-bottom: 8px;
+}
+
+.friend-list-box .divider {
+    height: 2px;
+    background-color: #26727f;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.pull-down {
+    margin-top: 100px;
 }
 
 .add-member-title {
@@ -154,8 +163,6 @@
     padding-left: 4px;
 }
 
-
-
 .add-friend .form-group {
     margin-bottom: 0px;
 }
@@ -164,7 +171,6 @@
     margin-top: 10px;
     margin-bottom: 5px;
 }
-
 
 .right-sidebar .event-list {
     max-height: 400px;

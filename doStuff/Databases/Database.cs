@@ -39,6 +39,18 @@ namespace doStuff.Databases
             
             return friends;
         }
+
+        public List<User> GetPendingRequests(int userId)
+        {
+            return (from r in db.UserToUserRelations
+                    from u in db.Users
+                    where r.SenderId == userId
+                    && r.Active
+                    && !r.Answer.HasValue
+                    && u.UserID == r.ReceiverId
+                    select u).ToList();
+        }
+
         public List<User> GetFriendRequests(int userId)
         {
 

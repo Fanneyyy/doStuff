@@ -4,19 +4,15 @@
 <div class="pull-right right-sidebar">
     <!--Owner Username and Avatar-->
     <div class="sidebar-title-box">
-        <div class="col-md-3"><img class="sidebar-avatar" src="@Url.Content("../Content/pictures/Avatars/avatar01.jpg")" alt="Avatar" /></div>
+        <div class="col-md-3"><img class="sidebar-avatar" src="@Url.Content(Model.SideBar.Avatar)" alt="Avatar" /></div>
         <div class="col-md-9 sidebar-title"><h3>@Model.SideBar.User.DisplayName</h3></div>
     </div>
     <div class="friends-title">my Friends</div>
     <!--List of friends and friend requests-->
     <div class="friend-list-box">
-    @if (Model.SideBar.UserRequestList.Count > 0)
-    {
-        <div class="friend-requests-title">you Have unanswered Friend requests</div>
-    }
-    <ul id="friend-list">
-            @RenderPage("FriendList.cshtml")
-    </ul>
+        <ul id="friend-list">
+                @RenderPage("FriendList.cshtml")
+        </ul>
     </div>
     <div class="add-friend-box">
         @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
@@ -56,7 +52,7 @@
         }
         else
         {
-            <p>You have no events</p>
+            <p>you currently have no uppcoming events</p>
         }
     </div>
 

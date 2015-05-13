@@ -226,6 +226,10 @@ namespace doStuff.Services
 
         public bool SendFriendRequest(int userId, int friendId)
         {
+            if (FriendRequestExists(friendId, userId))
+            {
+                return AnswerFriendRequest(friendId, userId, true);
+            }
             UserToUserRelation relation = new UserToUserRelation();
             relation.Active = true;
             relation.SenderId = userId;
@@ -458,7 +462,7 @@ namespace doStuff.Services
         private SideBarViewModel GetSideBar(int userId, int? groupId = null)
         {
             SideBarViewModel SideBar = new SideBarViewModel();
-
+            SideBar.Avatar = "~/Content/pictures/Avatars/avatar0" + (userId % 9 + 1) + ".jpg";
             SideBar.User = db.GetUser(userId);
             SideBar.EventList = new List<EventViewModel>();
 
@@ -471,6 +475,7 @@ namespace doStuff.Services
             else
             {
                 SideBar.UserList = db.GetFriends(userId);
+                SideBar.UserPendingList = db.GetPendingRequests(userId);
                 SideBar.UserRequestList = db.GetFriendRequests(userId);
             }
 
