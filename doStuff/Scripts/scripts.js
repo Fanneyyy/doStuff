@@ -42,6 +42,8 @@ function InitializeSelectors() {
     });
 }
 
+var lastcomment;
+
 function Comment(event) {
     event.preventDefault();
 
@@ -59,6 +61,12 @@ function Comment(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateFeed();
+            if (data.id != null) {
+                lastcomment = "#comment-title" + data.id;
+            }
+        },
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -70,6 +78,8 @@ function CommentGroup(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -78,6 +88,12 @@ function CommentGroup(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateGroupFeed();
+            if (data.id != null) {
+                lastcomment = "#comment-title" + data.id;
+            }
+        },
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -89,6 +105,8 @@ function AddFriend(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -97,9 +115,10 @@ function AddFriend(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateFriendList();
+            UpdateFeed();
         },
-        error: function (xhr, err) {
-
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -111,6 +130,8 @@ function RemoveFriend(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -121,8 +142,10 @@ function RemoveFriend(event) {
                 $("#friend" + data.friend.UserID).remove();
             }
             SetFeedback(data.message);
+            UpdateFeed();
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -134,6 +157,8 @@ function AddMember(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -142,9 +167,10 @@ function AddMember(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateMemberList();
+            UpdateGroupFeed();
         },
-        error: function (xhr, err) {
-
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -156,6 +182,8 @@ function RemoveMember(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -166,8 +194,10 @@ function RemoveMember(event) {
                 $("#member" + data.member.UserID).remove();
             }
             SetFeedback(data.message);
+            UpdateGroupFeed();
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -178,6 +208,8 @@ function RemoveEvent(event) {
     var $form = $(this);
     var url = $form.attr('action');
     var data = $form.serialize();
+
+    $form.addClass("hidden");
 
     $.ajax({
         type: "POST",
@@ -191,7 +223,8 @@ function RemoveEvent(event) {
             SetFeedback(data.message);
             UpdateFeed();
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -202,6 +235,8 @@ function AnswerEvent(answer, form, event) {
     var url = form.attr('action');
     var data = form.serialize() + "&answer=" + answer;
 
+    form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -211,7 +246,8 @@ function AnswerEvent(answer, form, event) {
             SetFeedback(data.message);
             UpdateFeed();
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -228,6 +264,9 @@ function UpdateFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            if (lastcomment != null) {
+                toggleComment(lastcomment);
+            }
             InitializeSelectors();
         }
     });
@@ -245,6 +284,9 @@ function UpdateGroupFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            if (lastcomment != null) {
+                toggleComment(lastcomment);
+            }
             InitializeSelectors();
         }
     });

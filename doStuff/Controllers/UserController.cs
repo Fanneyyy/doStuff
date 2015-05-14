@@ -78,11 +78,11 @@ namespace doStuff.Controllers
             var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(requesterId);
-            if(service.IsFriendsWith(user.UserID, requesterId))
+            if (service.IsFriendsWith(user.UserID, requesterId))
             {
                 TempData["message"] = new Message(friend.DisplayName + " is already your friend", MessageType.INFORMATION);
             }
-            else if(service.AnswerFriendRequest(friend.UserID, user.UserID, true))
+            else if (service.AnswerFriendRequest(friend.UserID, user.UserID, true))
             {
                 TempData["message"] = new Message("You are now friends with " + friend.DisplayName, MessageType.SUCCESS);
             }
@@ -103,7 +103,7 @@ namespace doStuff.Controllers
             var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(requesterId);
-            if(service.AnswerFriendRequest(requesterId, user.UserID, false))
+            if (service.AnswerFriendRequest(requesterId, user.UserID, false))
             {
                 TempData["message"] = new Message("You declined a friend request from " + friend.DisplayName, MessageType.SUCCESS);
             }
@@ -134,7 +134,7 @@ namespace doStuff.Controllers
                     parameter = friend;
                 }
             }
-            else if(service.FriendRequestExists(user.UserID, friendId))
+            else if (service.FriendRequestExists(user.UserID, friendId))
             {
                 if (service.FriendRequestCancel(user.UserID, friendId))
                 {
@@ -174,6 +174,10 @@ namespace doStuff.Controllers
             {
                 ModelState.AddModelError("Error", "Max can't be higher than min");
             }
+            else if (!service.ValidationOfTimeOfEvent(newEvent))
+            {
+                ModelState.AddModelError("Time of event", "Date of event is not valid");
+            }
             else if (ModelState.IsValid)
             {
                 newEvent.Active = true;
@@ -195,21 +199,21 @@ namespace doStuff.Controllers
         public ActionResult Comment(int eventId, string content)
         {
             var service = new Service();
+            User user = service.GetUser(User.Identity.Name);
             if (String.IsNullOrEmpty(content))
             {
-                return RedirectToAction("Index");
+
             }
-            User user = service.GetUser(User.Identity.Name);
-            if (service.IsInvitedToEvent(user.UserID, eventId))
+            else if (service.IsInvitedToEvent(user.UserID, eventId))
             {
                 Comment myComment = new Comment();
                 myComment.Content = content;
                 myComment.Active = true;
-                myComment.OwnerId = service.GetUserId(User.Identity.Name);
+                myComment.OwnerId = user.UserID;
                 myComment.CreationTime = DateTime.Now;
                 if (service.CreateComment(eventId, ref myComment))
                 {
-                    return RedirectToAction("Index");
+
                 }
                 else
                 {
@@ -222,7 +226,7 @@ namespace doStuff.Controllers
             }
             if (Request.IsAjaxRequest())
             {
-                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { id = eventId, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
@@ -236,11 +240,11 @@ namespace doStuff.Controllers
             {
                 Event theEvent = service.GetEventById(eventId);
                 EventViewModel model = service.CastToViewModel(theEvent, null);
-                if(model.State == State.FULL)
+                if (model.State == State.FULL)
                 {
                     TempData["message"] = new Message("This event is already full", MessageType.INFORMATION);
                 }
-                else if(answer && (model.State == State.OFF || model.State == State.ON))
+                else if (answer && (model.State == State.OFF || model.State == State.ON))
                 {
                     TempData["message"] = new Message("This event has expired", MessageType.INFORMATION);
                 }

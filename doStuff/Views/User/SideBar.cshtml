@@ -11,22 +11,22 @@
     <!--List of friends and friend requests-->
     <div class="friend-list-box">
         <ul>
-                @RenderPage("FriendList.cshtml")
+            @RenderPage("FriendList.cshtml")
         </ul>
     </div>
     <!--Add friend field-->
     <div class="add-friend-box">
-                @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
+        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
         {
-                <form class="form-inline">
-                    <div class="form-group add-friend-form">
-                        <label class="sr-only" for="add-friend">add friend</label>
-                        <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
-                        <button type="submit" class="btn btn-default add-button">add</button>
-                    </div>
-                </form>
+            <form class="form-inline">
+                <div class="form-group add-friend-form">
+                    <label class="sr-only" for="add-friend">add friend</label>
+                    <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
+                    <button type="submit" class="btn btn-default add-button">add</button>
+                </div>
+            </form>
         }
-</div>
+    </div>
     <div class="events-title">Upcoming Events</div>
     <!--List of upcoming events-->
     <div class="event-list">
