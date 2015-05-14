@@ -11,6 +11,10 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
+    $(".comment-title").click(function () {
+        toggleComment(this);
+    });
+
     InitializeSelectors();
 });
 
@@ -340,4 +344,10 @@ function SetFeedback(message) {
         $("#Success").removeClass("hidden");
         $("#SuccessMessage").text(message.SuccessMessage)
     }
+}
+
+function toggleComment(element) {
+    $(element).siblings(".all-comments").toggle();
+    $(element).children(".comment-plus").toggle();
+    $(element).children(".comment-minus").toggle();
 }

@@ -6,46 +6,66 @@
     @foreach (var item in Model.Events)
     {
         <li class="event-list-item">
-            <div class="row event-box" id=@Html.Raw("event" + item.Event.EventID)>
-                <div class="col-md-12 event-banner">
-                    <div class="row">
-                        <div class="col-md-4 event-owner">@item.Owner</div>
-                        <div class="col-md-3 event-group">
+            <div class="event-box" id=@Html.Raw("event" + item.Event.EventID)>
+                <div class="event-banner">
+                    <!--Event owner and group (if is a part of)-->
+                    <div class="col-md-12 event-banner-upper">
+                        <div class="col-md-6 event-owner">@item.Owner</div>
+                        <div class="col-md-6 event-group">
                             @if (item.Event.GroupId != null)
                             {
                                 foreach (var i in Model.Groups)
                                 {
                                     if (i.GroupID == item.Event.GroupId)
-                                    { <!-- Gets groupname if Event has group-->
+                                    {
                                     @i.Name
                                     }
                                 }
                             }
                         </div>
-                        @{
-        if (item.State == State.ON)
-        {
-            if (item.Event.TimeOfEvent <= DateTime.Now)
-            {
-                <div class="col-md-2 event-countdown">You did this!! :)</div>
-            }
-            else
-            {
-                <div class="col-md-2 event-countdown">ITS ON</div>
-            }
-        }
-        else if (item.State == State.OFF)
-        {
-            <div class="col-md-2 event-countdown">ITS OFF</div>
-        }
-        else
-        {
-            <div class="col-md-2 event-countdown"><span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span></div>
-        }
-                        }
-                        <div class="col-md-3 event-name">@item.Event.Name</div>
                     </div>
-                </div>
+                    <!--Event Name and countdown or state-->
+                    @if (item.State == State.ON)
+                    {
+                        if (item.Event.TimeOfEvent <= DateTime.Now)
+                        {
+                            <div class="col-md-12 event-banner-lower event-banner-over">
+                                <div class="col-md-6 event-name">@item.Event.Name</div>
+                                <div class="col-md-6 event-state">This event has passed</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12 event-banner-lower event-banner-on">
+                                <div class="col-md-6 event-name">@item.Event.Name</div>
+                                <div class="col-md-6 event-state">This event is ON</div>
+                            </div>
+                        }
+                    }
+                    else if (item.State == State.OFF)
+                    {
+                        <div class="col-md-12 event-banner-lower event-banner-off">
+                            <div class="col-md-6 event-name">@item.Event.Name</div>
+                            <div class="col-md-6 event-state">This event was canceled</div>
+                        </div>
+                    }
+                    else if (item.State == State.FULL)
+                    {
+                        <div class="col-md-12 event-banner-lower event-banner-full">
+                            <div class="col-md-6 event-name">@item.Event.Name</div>
+                            <div class="col-md-6 event-state">This Event is FULL</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12 event-banner-lower event-banner-countdown">
+                            <div class="col-md-6 event-name">@item.Event.Name</div>
+                            <div class="col-md-6 event-state">
+                                <span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span>
+                            </div>
+                        </div>
+                    }
+                    </div>
                 <div class="col-md-12 event-middle">
                     <div class="row">
                       <div class="col-md-6 event-photo-time-location-@item.Event.Photo">
@@ -131,7 +151,11 @@
                     </div>
                 </div>
             </div>
-            <div class="comment-title">comments</div>
+            <div class="comment-title">comments 
+                <i class="glyphicon glyphicon-plus comment-plus"></i> 
+                <i class="glyphicon glyphicon-minus comment-minus"></i>
+                <span class="comments-number"> this event has @item.CommentsViewModels.Count comments</span>
+            </div>
                 <div class="all-comments">
                     @foreach (var comment in item.CommentsViewModels)
                     {
@@ -165,7 +189,7 @@
                         @Html.ValidationSummary(false)
                     }
                 </div>
-        </div>
-    </li>
+            </div>
+        </li>
     }
 </ul>

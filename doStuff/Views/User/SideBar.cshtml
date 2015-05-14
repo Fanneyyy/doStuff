@@ -16,17 +16,17 @@
     </div>
     <!--Add friend field-->
     <div class="add-friend-box">
-        @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
+                @using (Html.BeginForm("AddFriend", "User", FormMethod.Post, new { @class = "add-friend" }))
         {
-            <form class="form-inline">
-                <div class="form-group add-friend-form">
-                    <label class="sr-only" for="add-friend">add friend</label>
-                    <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
-                    <button type="submit" class="btn btn-default add-button">add</button>
-                </div>
-            </form>
+                <form class="form-inline">
+                    <div class="form-group add-friend-form">
+                        <label class="sr-only" for="add-friend">add friend</label>
+                        <input type="text" name="username" class="form-control add-friend-field" id="add-friend" placeholder="enter the username...">
+                        <button type="submit" class="btn btn-default add-button">add</button>
+                    </div>
+                </form>
         }
-    </div>
+</div>
     <div class="events-title">Upcoming Events</div>
     <!--List of upcoming events-->
     <div class="event-list">
@@ -38,11 +38,15 @@
 
                     if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
                     {
-                        <li class="uppcoming-event-name">@thisEvent.Event.Name</li>
-                        <li>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</li>
-                        <li>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</li>
-                        <li class="uppcoming-event-location">At @thisEvent.Event.Location</li>
-                        <li class="divider-event"></li>
+                        <li>
+                            <a href="@Html.Raw("#event" + thisEvent.Event.EventID)">
+                                <div class="uppcoming-event-name">@thisEvent.Event.Name</div>
+                                <div>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</div>
+                                <div>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</div>
+                                <div class="uppcoming-event-location">At @thisEvent.Event.Location</div>
+                                <div class="divider-event"></div>
+                            </a>
+                        </li>
                     }
                 }
             </ul>
