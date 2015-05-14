@@ -88,7 +88,7 @@ namespace doStuff.Controllers
             }
             else
             {
-                TempData["message"] = new Message("The friend request you are trying to access no longer exists.", MessageType.SUCCESS);
+                TempData["message"] = new Message("The friend request you are trying to access no longer exists.", MessageType.INFORMATION);
             }
             if (Request.IsAjaxRequest())
             {
@@ -211,11 +211,7 @@ namespace doStuff.Controllers
                 myComment.Active = true;
                 myComment.OwnerId = user.UserID;
                 myComment.CreationTime = DateTime.Now;
-                if (service.CreateComment(eventId, ref myComment))
-                {
-
-                }
-                else
+                if (!service.CreateComment(eventId, ref myComment))
                 {
                     TempData["Message"] = new Message("An Error occured when processing your event, please try again later", MessageType.ERROR);
                 }
@@ -256,7 +252,7 @@ namespace doStuff.Controllers
                     }
                     else
                     {
-                        TempData["message"] = new Message("You declined an invitation to " + theEvent.Name, MessageType.SUCCESS);
+                        TempData["message"] = new Message("You declined the invitation to " + theEvent.Name, MessageType.SUCCESS);
                     }
                 }
                 else
