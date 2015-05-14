@@ -31,6 +31,7 @@
     color: white;
     display: table;
     min-height: 30px;
+    border-bottom: 1px solid #444;
 }
 
 .event-owner {
@@ -52,10 +53,12 @@
   display: table;
   color: white;
   font-size: 23px;
+  font-variant: small-caps;
   min-height: 56px;
 }
 
 .event-banner-over {
+    background-image: url("pictures/bluebanner.png");
     background-color: #00A8C6;
 }
 
@@ -64,6 +67,7 @@
 }
 
 .event-banner-off {
+    background-image: url("pictures/redbanner.png");
     background-color: #6F1E10;
 }
 
@@ -72,6 +76,7 @@
 }
 
 .event-banner-countdown {
+    background-image: url("pictures/orangebanner.png");
     background-color: #ECEB1A;
     color: #444;
 }
