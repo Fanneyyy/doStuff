@@ -37,11 +37,11 @@ namespace doStuff.Models.DatabaseModels
 
         public static bool operator ==(User user1, User user2)
         {
-            if ((user1 == null) && (user2 == null))
+            if (((object)user1 == null) && ((object)user2 == null))
             {
                 return true;
             }
-            if (user1 == null || user2 == null)
+            if ((object)user1 == null || (object)user2 == null)
             {
                 return false;
             }
@@ -53,6 +53,10 @@ namespace doStuff.Models.DatabaseModels
                 && (user1.BirthYear == user2.BirthYear)
                 && (user1.Gender == user2.Gender)
                 && (user1.Email == user2.Email);
+        }
+        public static bool operator !=(User user1, User user2)
+        {
+            return !(user1 == user2);
         }
     }
 }

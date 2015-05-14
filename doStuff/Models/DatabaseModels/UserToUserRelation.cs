@@ -20,13 +20,21 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
+        public UserToUserRelation(bool active, int senderId, int receiverId, bool? answer, int id = 0)
+        {
+            UserToUserRelationID = id;
+            Active = active;
+            SenderId = senderId;
+            ReceiverId = receiverId;
+            Answer = answer;
+        }
         public static bool operator ==(UserToUserRelation relation1, UserToUserRelation relation2)
         {
-            if ((relation1 == null) && (relation2 == null))
+            if (((object)relation1 == null) && ((object)relation2 == null))
             {
                 return true;
             }
-            if (relation1 == null || relation2 == null)
+            if ((object)relation1 == null || (object)relation2 == null)
             {
                 return false;
             }
@@ -39,13 +47,9 @@ namespace doStuff.Models.DatabaseModels
                 && (relation1.Active == relation2.Active);
         }
 
-        public UserToUserRelation(bool active, int senderId, int receiverId, bool? answer, int id = 0)
+        public static bool operator !=(UserToUserRelation relation1, UserToUserRelation relation2)
         {
-            UserToUserRelationID = id;
-            Active = active;
-            SenderId = senderId;
-            ReceiverId = receiverId;
-            Answer = answer;
+            return !(relation1 == relation2);
         }
     }
 }
