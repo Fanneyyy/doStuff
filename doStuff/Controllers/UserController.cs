@@ -19,6 +19,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var service = new Service();
             SetUserFeedback();
             EventFeedViewModel feed;
 
@@ -37,6 +38,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AddFriend(string username)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(username);
             if (friend == null)
@@ -73,6 +75,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AcceptFriendRequest(int requesterId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(requesterId);
             if(service.IsFriendsWith(user.UserID, requesterId))
@@ -97,6 +100,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult DeclineFriendRequest(int requesterId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(requesterId);
             if(service.AnswerFriendRequest(requesterId, user.UserID, false))
@@ -117,6 +121,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveFriend(int friendId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User friend = service.GetUser(friendId);
             User parameter = null;
@@ -164,6 +169,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult CreateEvent(Event newEvent)
         {
+            var service = new Service();
             if (newEvent.Min.HasValue && newEvent.Max.HasValue && (newEvent.Max.Value < newEvent.Min.Value))
             {
                 ModelState.AddModelError("Error", "Max can't be higher than min");
@@ -188,12 +194,13 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult Comment(int eventId, string content)
         {
+            var service = new Service();
             if (String.IsNullOrEmpty(content))
             {
                 return RedirectToAction("Index");
             }
             User user = service.GetUser(User.Identity.Name);
-            if(service.IsInvitedToEvent(user.UserID, eventId))
+            if (service.IsInvitedToEvent(user.UserID, eventId))
             {
                 Comment myComment = new Comment();
                 myComment.Content = content;
@@ -223,6 +230,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AnswerEvent(int eventId, bool answer)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
@@ -266,6 +274,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult GetSideBar()
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if (Request.IsAjaxRequest())
             {
