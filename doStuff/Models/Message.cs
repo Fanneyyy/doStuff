@@ -5,7 +5,7 @@ using System.Web;
 
 namespace doStuff.Models
 {
-    public enum MessageType { ERROR, WARNING, INFORMATION, SUCCESS}
+    public enum MessageType { ERROR, WARNING, INFORMATION, SUCCESS }
     public class Message
     {
         public MessageType Type { get; private set; }
@@ -22,7 +22,7 @@ namespace doStuff.Models
         public Message(string message, MessageType type)
         {
             Type = type;
-            switch(type)
+            switch (type)
             {
                 case MessageType.ERROR:
                     ErrorMessage = message;
