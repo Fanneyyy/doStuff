@@ -111,8 +111,12 @@
                                         {
                                             <input name="eventId" type="hidden" value="@item.Event.EventID" />
                                             <div class="col-md-12 btn-group">
-                                                <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
-                                                <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
+                                                <div class="col-md-6 col-xs-12 event-buttons-box">
+                                                    <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
+                                                </div>
+                                                <div class="col-md-6 col-xs-12 event-buttons-box">
+                                                    <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
+                                                </div>
                                             </div>
                                             @Html.ValidationSummary(false)
                                         }

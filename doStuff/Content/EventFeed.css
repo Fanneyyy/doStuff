@@ -183,6 +183,14 @@
     padding: 0px;
 }
 
+.event-buttons .btn-group {
+    width: 100%;
+}
+
+.event-buttons-box {
+    padding: 0px;
+}
+
 .join-event, .decline-event, .event-joined, .event-declined {
     font-size: 26px;
     border-radius: 0px;
@@ -196,7 +204,7 @@
     letter-spacing: 3px;
     color: #444;
     min-height: 100%;
-    min-width: 60%;
+    width: 100%;
 }
 
 .join-event:hover {
@@ -207,7 +215,7 @@
     background-color: #26727f;
     color: white;
     min-height: 100%;
-    min-width: 40%;
+    width: 100%;
 }
 
 .decline-event:hover {

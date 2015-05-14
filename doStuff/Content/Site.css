@@ -82,6 +82,7 @@ input[type="checkbox"].input-validation-error {
 .alert  {
     border-radius: 0;
     text-align: center;
+    margin-top: 20px;
 }
 
 #event {
