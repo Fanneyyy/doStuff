@@ -20,6 +20,25 @@ namespace doStuff.Models.DatabaseModels
         {
 
         }
+        public static bool operator ==(UserToUserRelation relation1, UserToUserRelation relation2)
+        {
+            if ((relation1 == null) && (relation2 == null))
+            {
+                return true;
+            }
+            if (relation1 == null || relation2 == null)
+            {
+                return false;
+            }
+
+            return (relation1.UserToUserRelationID == relation2.UserToUserRelationID)
+                && (relation1.Active == relation2.Active)
+                && (relation1.SenderId == relation2.SenderId)
+                && (relation1.ReceiverId == relation2.ReceiverId)
+                && (relation1.Answer == relation2.Answer)
+                && (relation1.Active == relation2.Active);
+        }
+
         public UserToUserRelation(bool active, int senderId, int receiverId, bool? answer, int id = 0)
         {
             UserToUserRelationID = id;
