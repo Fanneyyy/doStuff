@@ -387,49 +387,7 @@ namespace doStuff.Tests.DbTest
         }
         #endregion
         #region Service tests
-        [TestMethod]
-        public void ServiceChangeDisplayName()
-        {
-            const int user1Id = 1;
-            const int noUserId = 999;
-            const string newName = "Gulli G";
-
-
-            bool success = ServiceTest.ChangeDisplayName(user1Id, newName);
-            User userWithNewName = DbTest.GetUser(user1Id);
-
-
-            Assert.AreEqual(true, success);
-            try
-            {
-                ServiceTest.ChangeDisplayName(noUserId, newName);
-                Assert.Fail();
-            }
-            catch (UserNotFoundException) { }
-            Assert.AreEqual(newName, userWithNewName.DisplayName);
-
-        }
-        [TestMethod]
-        public void ServiceChangeGroupName()
-        {
-            const int group1Id = 1;
-            const int noGroupId = 999;
-            const string newName = "Team Gulli & co";
-
-            bool success = ServiceTest.ChangeGroupName(group1Id, newName);
-            Group groupWithNewName = DbTest.GetGroup(group1Id);
-
-
-            Assert.AreEqual(true, success);
-            try
-            {
-                ServiceTest.ChangeGroupName(noGroupId, newName);
-                Assert.Fail();
-            }
-            catch (GroupNotFoundException) { }
-            Assert.AreEqual(newName, groupWithNewName.Name);
-        }
-        
+ 
         [TestMethod]
         public void ServiceSendFriendRequest()
         {
