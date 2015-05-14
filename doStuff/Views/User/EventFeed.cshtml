@@ -10,8 +10,9 @@
                 <div class="event-box" id=@Html.Raw("event" + item.Event.EventID)>
                     <div class="event-banner">
                         <!--Event owner and group (if is a part of)-->
-                            <div class="col-md-6 col-sm-12 event-banner-upper event-owner">@item.Owner</div>
-                            <div class="col-md-6 col-sm-12 event-banner-upper event-group">
+                        <div class="col-md-12 event-banner-upper">
+                            <p class="event-owner">@item.Owner</p>
+                            <p class="event-group">
                                 @if (item.Event.GroupId != null)
                                 {
                                     foreach (var i in Model.Groups)
@@ -22,6 +23,7 @@
                                         }
                                     }
                                 }
+                            </p>
                         </div>
                         <!--Event Name and countdown or state-->
                         @if (item.State == State.ON)
@@ -29,39 +31,39 @@
                             if (item.Event.TimeOfEvent <= DateTime.Now)
                             {
                                 <div class="col-md-12 event-banner-lower event-banner-over">
-                                    <div class="col-md-6 col-sm-12 event-name">@item.Event.Name</div>
-                                    <div class="col-md-6 col-sm-12 event-state">This event has passed</div>
+                                    <p class="event-name">@item.Event.Name</p>
+                                    <p class="event-state">This event has passed</p>
                                 </div>
                             }
                             else
                             {
                                 <div class="col-md-12 event-banner-lower event-banner-on">
-                                    <div class="col-md-6 col-sm-12 event-name">@item.Event.Name</div>
-                                    <div class="col-md-6 col-sm-12 event-state">This event is ON</div>
+                                    <p class="event-name">@item.Event.Name</p>
+                                    <p class="event-state">This event is ON</p>
                                 </div>
                             }
                         }
                         else if (item.State == State.OFF)
                         {
                             <div class="col-md-12 event-banner-lower event-banner-off">
-                                <div class="col-md-6 col-sm-6 col-sm-offset-3 event-name">@item.Event.Name</div>
-                                <div class="col-md-6 col-sm-6 col-sm-offset-3 event-state">This event was canceled</div>
+                                <p class="event-name">@item.Event.Name</p>
+                                <p class="event-state">This event was canceled</p>
                             </div>
                         }
                         else if (item.State == State.FULL)
                         {
                             <div class="col-md-12 event-banner-lower event-banner-full">
-                                <div class="col-md-6 col-sm-12 event-name">@item.Event.Name</div>
-                                <div class="col-md-6 col-sm-12 event-state">This Event is FULL</div>
+                                <p class="event-name">@item.Event.Name</p>
+                                <p class="event-state">This Event is FULL</p>
                             </div>
                         }
                         else
                         {
                             <div class="col-md-12 event-banner-lower event-banner-countdown">
-                                <div class="col-md-6 col-sm-6 col-sm-offset-2 event-name">@item.Event.Name</div>
-                                <div class="col-md-6 col-sm-6 col-sm-offset-2 event-state">
+                                <p class="event-name">@item.Event.Name</p>
+                                <p class="event-state">
                                     <span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span>
-                                </div>
+                                </p>
                             </div>
                         }
                     </div>
