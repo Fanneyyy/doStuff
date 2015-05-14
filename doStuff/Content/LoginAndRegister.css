@@ -31,6 +31,9 @@
         max-height: 80px;
         margin: 0 auto;
     }
+    #event-feed {
+        padding-top: 80px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -60,6 +63,9 @@
         max-height: 80px;
         margin-left: auto;
     }
+    #event-feed {
+        padding-top: 80px;
+    }
 }
 
 @media (min-width: 991px) {
@@ -77,6 +83,9 @@
     }
     .feed-chooser {
         font-size: 3em;
+    }
+    #event-feed {
+        padding-top: 0px;
     }
 }
 

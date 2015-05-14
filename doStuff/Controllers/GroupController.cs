@@ -178,35 +178,41 @@ namespace doStuff.Controllers
             }
             return View();
         }
-        [HttpGet]
-        public ActionResult Comment()
-        {
-            return View();
-        }
 
         [HttpPost]
-        public ActionResult Comment(int eventId, Comment newComment)
+        public ActionResult Comment(int eventId, string content)
         {
             var service = new Service();
             User user = service.GetUser(User.Identity.Name);
-            if (service.IsInvitedToEvent(user.UserID, eventId))
+            if (String.IsNullOrEmpty(content))
             {
-                if (ModelState.IsValid)
-                {
-                    newComment.Active = true;
-                    newComment.OwnerId = user.UserID;
-                    newComment.CreationTime = DateTime.Now;
-                    if (service.CreateComment(eventId, ref newComment))
-                    {
-                        return RedirectToAction("Index", "User");
-                    }
-                    ModelState.AddModelError("Error", "Something went wrong when creating your comment, please try again later.");
-                    return View();
-                }
-                return View();
+
             }
-            ModelState.AddModelError("Error", "Either the event doesn't exist or you do not have sufficient access to it.");
-            return View();
+            else if (service.IsInvitedToEvent(user.UserID, eventId))
+            {
+                Comment myComment = new Comment();
+                myComment.Content = content;
+                myComment.Active = true;
+                myComment.OwnerId = user.UserID;
+                myComment.CreationTime = DateTime.Now;
+                if (service.CreateComment(eventId, ref myComment))
+                {
+
+                }
+                else
+                {
+                    TempData["Message"] = new Message("An Error occured when processing your event, please try again later", MessageType.ERROR);
+                }
+            }
+            else
+            {
+                TempData["message"] = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { id = eventId, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

@@ -22,39 +22,35 @@
     background: white;
     width: 100%;
     letter-spacing: 2px;
-    display: table;
-    min-height: 60px;
+    min-height: 90px;
 }
 
 .event-banner-upper {
     background-color: #90BC25;
     color: white;
-    display: table;
-    min-height: 30px;
     border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .event-owner {
-    display: table-cell;
+    display: inline;
     text-align: left;
-    max-width: 50%;
-    padding-top: 5px;
+    vertical-align: middle;
 } 
 
 .event-group {
-    display: table-cell;
+    display: inline;
+    float: right;
     vertical-align: middle;
-    text-align: right;
-    max-width: 50%;
-    padding-top: 5px;
 }
 
 .event-banner-lower {
-  display: table;
   color: white;
   font-size: 23px;
   font-variant: small-caps;
-  min-height: 56px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .event-banner-over {
@@ -84,17 +80,16 @@
 }
 
 .event-name {
-    display: table-cell;
-    text-align: center;
-    max-width: 50%;
-    padding-top: 8px;
+    display: inline;
+    text-align: left;
+    vertical-align: middle;
 }
 
 .event-state {
-    display: table-cell;
-    text-align: center;
-    max-width: 50%;
-    padding-top: 8px;
+    display: inline;
+    float: right;
+    text-align: left;
+    vertical-align: middle;
 }
 
 .event-middle {

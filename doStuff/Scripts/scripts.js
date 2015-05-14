@@ -42,6 +42,8 @@ function InitializeSelectors() {
     });
 }
 
+var lastcomment;
+
 function Comment(event) {
     event.preventDefault();
 
@@ -59,6 +61,12 @@ function Comment(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateFeed();
+            if (data.id != null) {
+                 lastcomment = "#comment-title" + data.id;
+            }
+        },
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -70,6 +78,8 @@ function CommentGroup(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -78,6 +88,12 @@ function CommentGroup(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateGroupFeed();
+            if (data.id != null) {
+                lastcomment = "#comment-title" + data.id;
+            }
+        },
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -89,6 +105,8 @@ function AddFriend(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -98,8 +116,8 @@ function AddFriend(event) {
             SetFeedback(data.message);
             UpdateFriendList();
         },
-        error: function (xhr, err) {
-
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -110,6 +128,8 @@ function RemoveFriend(event) {
     var $form = $(this);
     var url = $form.attr('action');
     var data = $form.serialize();
+
+    $form.addClass("hidden");
 
     $.ajax({
         type: "POST",
@@ -122,7 +142,8 @@ function RemoveFriend(event) {
             }
             SetFeedback(data.message);
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -134,6 +155,8 @@ function AddMember(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -143,8 +166,8 @@ function AddMember(event) {
             SetFeedback(data.message);
             UpdateMemberList();
         },
-        error: function (xhr, err) {
-
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -155,6 +178,8 @@ function RemoveMember(event) {
     var $form = $(this);
     var url = $form.attr('action');
     var data = $form.serialize();
+
+    $form.addClass("hidden");
 
     $.ajax({
         type: "POST",
@@ -167,7 +192,8 @@ function RemoveMember(event) {
             }
             SetFeedback(data.message);
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -178,6 +204,8 @@ function RemoveEvent(event) {
     var $form = $(this);
     var url = $form.attr('action');
     var data = $form.serialize();
+
+    $form.addClass("hidden");
 
     $.ajax({
         type: "POST",
@@ -191,7 +219,8 @@ function RemoveEvent(event) {
             SetFeedback(data.message);
             UpdateFeed();
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -202,6 +231,8 @@ function AnswerEvent(answer, form, event) {
     var url = form.attr('action');
     var data = form.serialize() + "&answer=" + answer;
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -211,7 +242,8 @@ function AnswerEvent(answer, form, event) {
             SetFeedback(data.message);
             UpdateFeed();
         },
-        error: function (xhr, err) {
+        error: function () {
+            $form.removeClass("hidden");
         }
     });
 }
@@ -228,6 +260,9 @@ function UpdateFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            if (lastcomment != null) {
+                toggleComment(lastcomment);
+            }
             InitializeSelectors();
         }
     });
@@ -245,6 +280,9 @@ function UpdateGroupFeed() {
         success: function (list) {
             $("#event-feed").empty();
             $("#event-feed").append(list);
+            if (lastcomment != null) {
+                toggleComment(lastcomment);
+            }
             InitializeSelectors();
         }
     });
