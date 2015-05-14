@@ -99,11 +99,15 @@
 
                     if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
                     {
-                        <li class="uppcoming-event-name">@thisEvent.Event.Name</li>
-                        <li>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</li>
-                        <li>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</li>
-                        <li class="uppcoming-event-location">At @thisEvent.Event.Location</li>
-                        <li class="divider-event"></li>
+                        <li>
+                            <a href="@Html.Raw("#event-link" + thisEvent.Event.EventID)">
+                                <div class="uppcoming-event-name">@thisEvent.Event.Name</div>
+                                <div>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</div>
+                                <div>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</div>
+                                <div class="uppcoming-event-location">At @thisEvent.Event.Location</div>
+                                <div class="divider-event"></div>
+                            </a>
+                        </li>
                     }
                 }
             </ul>

@@ -24,7 +24,7 @@ namespace doStuff.Models.DatabaseModels
         [Required(ErrorMessage = "Please add a time to the event")]
         public DateTime TimeOfEvent { get; set; }
         [Required]
-        [Range(13, 60, ErrorMessage="Minutes must be between 13 and 60")]
+        [Range(10, 60, ErrorMessage="Minutes must be between 10 and 60")]
         public int Minutes { get; set; }
         [Required(ErrorMessage = "Please add a location to the event")]
         public string Location { get; set; }

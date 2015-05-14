@@ -209,6 +209,7 @@
     <Content Include="Content\pictures\Avatars\avatar09.jpg" />
     <Content Include="Content\pictures\Avatars\surprise.jpg" />
     <Content Include="Content\pictures\balloonBackground.jpg" />
+    <Content Include="Content\pictures\bluebanner.png" />
     <Content Include="Content\pictures\Eventphotos\basketball-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\beach-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\birthday-photo.jpg" />
@@ -220,8 +221,12 @@
     <Content Include="Content\pictures\Eventphotos\gaming-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\school-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\theater-photo.jpg" />
+    <Content Include="Content\pictures\greenbanner.png" />
     <Content Include="Content\pictures\logOut.png" />
+    <Content Include="Content\pictures\orangebanner.png" />
+    <Content Include="Content\pictures\redbanner.png" />
     <Content Include="Content\pictures\stockPhoto01.jpg" />
+    <Content Include="Content\pictures\yellowbanner.png" />
     <Content Include="Content\Reset.css" />
     <Content Include="Content\SideBar.css" />
     <Content Include="Content\themes\base\accordion.css" />

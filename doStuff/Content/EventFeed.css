@@ -12,6 +12,12 @@
     padding: 0px;
 }
 
+.event-list-item>span { 
+  margin-top: -300px;        /* Size of fixed header */
+  padding-bottom: 300px; 
+  display: block; 
+}
+
 .event-banner {
     background: white;
     width: 100%;
@@ -25,6 +31,7 @@
     color: white;
     display: table;
     min-height: 30px;
+    border-bottom: 1px solid #444;
 }
 
 .event-owner {
@@ -45,19 +52,24 @@
 .event-banner-lower {
   display: table;
   color: white;
-  font-size: 26px;
+  font-size: 23px;
+  font-variant: small-caps;
   min-height: 56px;
 }
 
 .event-banner-over {
+    background-image: url("pictures/bluebanner.png");
     background-color: #00A8C6;
 }
 
 .event-banner-on {
-    background-color: green;
+    background-image: url("pictures/greenbanner.png");
+    background-color: #aee239;
+    color: #444;
 }
 
 .event-banner-off {
+    background-image: url("pictures/redbanner.png");
     background-color: #6F1E10;
 }
 
@@ -66,6 +78,7 @@
 }
 
 .event-banner-countdown {
+    background-image: url("pictures/orangebanner.png");
     background-color: #ECEB1A;
     color: #444;
 }
