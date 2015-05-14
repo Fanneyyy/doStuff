@@ -183,6 +183,9 @@ function RemoveEvent(event) {
         url: url,
         data: data,
         success: function (data) {
+            if (data.id != null) {
+                $("#event" + data.id).remove();
+            }
             SetFeedback(data.message);
             UpdateFeed();
         },
