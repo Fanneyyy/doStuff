@@ -174,6 +174,10 @@ namespace doStuff.Controllers
             {
                 ModelState.AddModelError("Error", "Max can't be higher than min");
             }
+            else if (!service.ValidationOfTimeOfEvent(newEvent))
+            {
+                ModelState.AddModelError("Time of event", "Date of event is not valid");
+            }
             else if (ModelState.IsValid)
             {
                 newEvent.Active = true;

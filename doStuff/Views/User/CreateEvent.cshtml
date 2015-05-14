@@ -1,6 +1,8 @@
 ﻿@model doStuff.Models.DatabaseModels.Event
 @{
     ViewBag.Title = "Create Event";
+    @Html.ValidationMessage("error")
+
 }
 <div class="row">
     <!--doStuff Logo-->
@@ -62,12 +64,15 @@
                     </div>
                 </div>
                 <!--Time of event-->
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.TimeOfEvent, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
                         <input type="text" id="datepicker" name="TimeOfEvent" class="form-control birth-year">
                         @Html.ValidationMessageFor(model => model.TimeOfEvent)
+                        @Html.ValidationMessage("Time of event")
                     </div>
+                    
                 </div>
                 <!--Location-->
                 <div class="form-group">

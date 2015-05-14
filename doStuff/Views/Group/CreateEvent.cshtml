@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Create Event";
+    @Html.ValidationMessage("Error")
 }
 
 <div class="row">
@@ -70,6 +71,7 @@
                     <div class="col-md-10 col-md-offset-1">
                         <input type="text" id="datepicker" name="TimeOfEvent" class="form-control birth-year">
                         @Html.ValidationMessageFor(model => model.TimeOfEvent)
+                        @Html.ValidationMessage("Time of event")
                     </div>
                 </div>
                 <!--Location-->
