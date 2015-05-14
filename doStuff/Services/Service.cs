@@ -501,7 +501,7 @@ namespace doStuff.Services
                 {
                     attending = eventToUser.Answer;
                 }
-                // Checks if to add this to eventFeed
+                // Converts the event e to EventViewModel.
                 EventViewModel temp = CastToViewModel(e, attending);
                 // Adds all events to feed if user is attending or if the event has not expired.
                 if ((temp.Attending == true && (temp.State == State.ON)) && temp.Event.TimeOfEvent >= DateTime.Now)

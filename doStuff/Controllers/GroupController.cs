@@ -11,8 +11,7 @@ using CustomErrors;
 
 namespace doStuff.Controllers
 {
-    //TODO:
-    //1. Fix Redirect from commentview to GroupFeed..
+
     [Authorize]
     public class GroupController : ParentController
     {
