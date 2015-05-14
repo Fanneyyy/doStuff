@@ -26,27 +26,5 @@ namespace doStuff.Models.DatabaseModels
             EventId = eventId;
             CommentId = commentId;
         }
-
-        public static bool operator ==(EventToCommentRelation relation1, EventToCommentRelation relation2)
-        {
-            if (((object)relation1 == null) && ((object)relation2 == null))
-            {
-                return true;
-            }
-            if ((object)relation1 == null || (object)relation2 == null)
-            {
-                return false;
-            }
-
-            return (relation1.EventToCommentRelationID == relation2.EventToCommentRelationID)
-                && (relation1.Active == relation2.Active)
-                && (relation1.EventId == relation2.EventId)
-                && (relation1.CommentId == relation2.CommentId);
-        }
-
-        public static bool operator !=(EventToCommentRelation relation1, EventToCommentRelation relation2)
-        {
-            return !(relation1 == relation2);
-        }
     }
 }

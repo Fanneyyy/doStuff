@@ -8,11 +8,17 @@ namespace doStuff.Databases
 {
     public class Database
     {
-        protected static IDataContext db;
+        protected IDataContext db;
 
         public Database(IDataContext dbContext)
         {
             db = dbContext ?? new DatabaseContext();       
+        }
+
+        public bool Save()
+        {
+            db.SaveChanges();
+            return true;
         }
 
         #region GetRecordLists
@@ -53,7 +59,6 @@ namespace doStuff.Databases
 
         public List<User> GetFriendRequests(int userId)
         {
-
             return (from r in db.UserToUserRelations
                     from u in db.Users
                     where r.ReceiverId == userId
@@ -248,57 +253,6 @@ namespace doStuff.Databases
                         select c).SingleOrDefault();
             }
             #endregion
-            #region Set
-            public bool SetUser(User user)
-            {
-                var userTable = (from u in db.Users
-                                 where u.UserID == user.UserID
-                                 select u).SingleOrDefault();
-                if (user != userTable)
-                {
-                    userTable = user;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-            public bool SetGroup(Group group)
-            {
-                int groupId = group.GroupID;
-                var groupTable = (from g in db.Groups
-                                  where g.GroupID == groupId
-                                  select g).SingleOrDefault();
-                if (group != groupTable)
-                {
-                    groupTable = group;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-            public bool SetEvent(Event newEvent)
-            {
-                var eventTable = (from e in db.Events
-                                  where e.EventID == newEvent.EventID
-                                  select e).SingleOrDefault();
-                if (newEvent != eventTable)
-                {
-                    eventTable = newEvent;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-            public bool SetComment(Comment comment)
-            {
-                var commentTable = (from c in db.Comments
-                                    where c.CommentID == comment.CommentID
-                                    select c).SingleOrDefault();
-                if (comment != commentTable)
-                {
-                    commentTable = comment;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-            #endregion
         #endregion
         #region RelationTable
             #region Exists
@@ -483,71 +437,6 @@ namespace doStuff.Databases
                              where t.EventId == eventId && t.CommentId == commentId && t.Active == true
                              select t).SingleOrDefault();
                 return table;
-            }
-            #endregion    
-            #region Set
-            public bool SetUserToUserRelation(UserToUserRelation value)
-            {
-                var relation = (from t in db.UserToUserRelations
-                             where t.UserToUserRelationID == value.UserToUserRelationID
-                             select t).SingleOrDefault();
-                if (relation != value)
-                {
-                    relation = value;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-            public bool SetGroupToUserRelation(GroupToUserRelation value)
-            {
-                var relation = (from t in db.GroupToUserRelations
-                             where t.GroupToUserRelationID == value.GroupToUserRelationID
-                             select t).SingleOrDefault();
-                if (relation != value)
-                {
-                    relation = value;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-
-            public bool SetEventToUserRelation(EventToUserRelation value)
-            {
-                var relation = (from t in db.EventToUserRelations
-                             where t.EventToUserRelationID == value.EventToUserRelationID
-                             select t).SingleOrDefault();
-                if (relation != value)
-                {
-                    relation = value;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-
-            public bool SetGroupToEventRelation(GroupToEventRelation value)
-            {
-                var relation = (from t in db.GroupToEventRelations
-                             where t.GroupToEventRelationID == value.GroupToEventRelationID
-                             select t).SingleOrDefault();
-                if (relation != value)
-                {
-                    relation = value;
-                    db.SaveChanges();
-                }
-                return true;
-            }
-
-            public bool SetEventToCommentRelation(EventToCommentRelation value)
-            {
-                var relation = (from t in db.EventToCommentRelations
-                             where t.EventToCommentRelationID == value.EventToCommentRelationID
-                             select t).SingleOrDefault();
-                if (relation != value)
-                {
-                    relation = value;
-                    db.SaveChanges();
-                }
-                return true;
             }
             #endregion
         #endregion

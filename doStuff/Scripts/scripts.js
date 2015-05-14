@@ -49,6 +49,8 @@ function Comment(event) {
     var url = $form.attr('action');
     var data = $form.serialize();
 
+    $form.addClass("hidden");
+
     $.ajax({
         type: "POST",
         dataType: "json",

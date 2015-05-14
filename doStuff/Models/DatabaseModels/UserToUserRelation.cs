@@ -28,28 +28,5 @@ namespace doStuff.Models.DatabaseModels
             ReceiverId = receiverId;
             Answer = answer;
         }
-        public static bool operator ==(UserToUserRelation relation1, UserToUserRelation relation2)
-        {
-            if (((object)relation1 == null) && ((object)relation2 == null))
-            {
-                return true;
-            }
-            if ((object)relation1 == null || (object)relation2 == null)
-            {
-                return false;
-            }
-
-            return (relation1.UserToUserRelationID == relation2.UserToUserRelationID)
-                && (relation1.Active == relation2.Active)
-                && (relation1.SenderId == relation2.SenderId)
-                && (relation1.ReceiverId == relation2.ReceiverId)
-                && (relation1.Answer == relation2.Answer)
-                && (relation1.Active == relation2.Active);
-        }
-
-        public static bool operator !=(UserToUserRelation relation1, UserToUserRelation relation2)
-        {
-            return !(relation1 == relation2);
-        }
     }
 }

@@ -53,6 +53,5 @@ namespace doStuff.Models.DatabaseModels
             Min = min;
             Max = max;
         }
-
     }
 }

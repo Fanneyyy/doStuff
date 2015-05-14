@@ -23,6 +23,7 @@ namespace doStuff.Controllers
             {
                 return RedirectToAction("Index", "User");
             }
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if (service.IsMemberOfGroup(user.UserID, groupId.Value))
             {
@@ -41,6 +42,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult AddMember(int groupId, string username)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User member = service.GetUser(username);
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
@@ -77,6 +79,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveMember(int groupId, int memberId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User member = null;
             // Special for if user removes himself, i.e. removes group from the banner
@@ -106,6 +109,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveGroup(int groupId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
 
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
@@ -124,6 +128,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult CreateEvent(int groupId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
 
             if (service.IsMemberOfGroup(user.UserID, groupId) == false)
@@ -137,6 +142,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult CreateEvent(int groupId, Event newEvent)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
 
             if (service.IsMemberOfGroup(user.UserID, groupId) == false)
@@ -164,6 +170,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult RemoveEvent(int groupId, int eventId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if ((service.IsOwnerOfGroup(user.UserID, groupId) && service.IsEventInGroup(groupId, eventId)) || service.IsOwnerOfEvent(user.UserID, eventId))
             {
@@ -180,6 +187,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult Comment(int eventId, Comment newComment)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
@@ -201,29 +209,10 @@ namespace doStuff.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult ChangeName(int groupId)
-        {
-            SetUserFeedback();
-            return View(new { groupId = groupId });
-        }
-
-        [HttpPost]
-        public ActionResult ChangeName(int groupId, User myUser)
-        {
-            User user = service.GetUser(User.Identity.Name);
-
-            if (ModelState.IsValid)
-            {
-                service.ChangeDisplayName(user.UserID, myUser.DisplayName);
-            }
-
-            return RedirectToAction("Index", new { groupId = groupId });
-        }
-
         [HttpPost]
         public ActionResult AnswerEvent(int groupId, int eventId, bool answer)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
 
             if (service.IsInvitedToEvent(user.UserID, eventId))
@@ -238,16 +227,10 @@ namespace doStuff.Controllers
             return RedirectToAction("Error", "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.");
         }
 
-        [HttpGet]
-        public ActionResult CreateGroup()
-        {
-            //SetUserFeedback();
-            return View();
-        }
-
         [HttpPost]
         public ActionResult CreateGroup(string name)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if (String.IsNullOrEmpty(name))
             {
@@ -267,6 +250,7 @@ namespace doStuff.Controllers
         [HttpGet]
         public ActionResult GetSideBar(int groupId)
         {
+            var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             if (service.IsMemberOfGroup(user.UserID, groupId))
             {

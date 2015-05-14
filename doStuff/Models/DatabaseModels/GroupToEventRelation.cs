@@ -26,27 +26,5 @@ namespace doStuff.Models.DatabaseModels
             GroupId = groupId;
             EventId = eventId;
         }
-
-        public static bool operator ==(GroupToEventRelation relation1, GroupToEventRelation relation2)
-        {
-            if (((object)relation1 == null) && ((object)relation2 == null))
-            {
-                return true;
-            }
-            if ((object)relation1 == null || (object)relation2 == null)
-            {
-                return false;
-            }
-
-            return (relation1.GroupToEventRelationID == relation2.GroupToEventRelationID)
-                && (relation1.Active == relation2.Active)
-                && (relation1.GroupId == relation2.GroupId)
-                && (relation1.EventId == relation2.EventId);
-        }
-
-        public static bool operator !=(GroupToEventRelation relation1, GroupToEventRelation relation2)
-        {
-            return !(relation1 == relation2);
-        }
     }
 }

@@ -11,7 +11,7 @@ namespace doStuff.Services
 {
     public class Service
     {
-        private static Database db;
+        private Database db;
         public Service(Database database = null)
         {
             db = database ?? new Database(null);
@@ -175,7 +175,6 @@ namespace doStuff.Services
         }
         public Comment GetCommentById(int commentId)
         {
-            //TODO: Do Exception for Comment?
             Comment newComment = db.GetComment(commentId);
             return newComment;
         }
@@ -190,8 +189,11 @@ namespace doStuff.Services
                 {
                     relation.Active = false;
                 }
-                relation.Answer = answer;
-                return db.SetUserToUserRelation(relation);
+                if (relation.Answer != answer || relation.Active == false)
+                {
+                    relation.Answer = answer;
+                    return db.Save();
+                }
             }
             return false;
         }
@@ -203,10 +205,10 @@ namespace doStuff.Services
             {
                 relation = db.GetUserToUserRelation(friendId, userId);
             }
-            if (relation != null)
+            if (relation != null && relation.Active == true)
             {
                 relation.Active = false;
-                return db.SetUserToUserRelation(relation);
+                return db.Save();
             }
             return true;
         }
@@ -219,8 +221,12 @@ namespace doStuff.Services
         public bool FriendRequestCancel(int senderId, int receiverId)
         {
             UserToUserRelation relation = db.GetUserToUserRelation(senderId, receiverId);
-            relation.Active = false;
-            return db.SetUserToUserRelation(relation);
+            if (relation != null && relation.Active == true)
+            {
+                relation.Active = false;
+                return db.Save();
+            }
+            return true;
         }
 
         public bool SendFriendRequest(int userId, int friendId)
@@ -240,7 +246,6 @@ namespace doStuff.Services
         #region GroupRelations
         public bool AddMember(int userId, int groupId)
         {
-
             if (!db.ExistsGroupToUserRelation(groupId, userId))
             {
                 GroupToUserRelation relation = new GroupToUserRelation();
@@ -250,8 +255,12 @@ namespace doStuff.Services
                 return db.CreateGroupToUserRelation(ref relation);
             }
             GroupToUserRelation existingRelation = db.GetGroupToUserRelation(groupId, userId);
-            existingRelation.Active = true;
-            return db.SetGroupToUserRelation(existingRelation);
+            if (existingRelation.Active == false)
+            {
+                existingRelation.Active = true;
+                return db.Save();
+            }
+            return true;
         }
         public bool RemoveMember(int userId, int groupId)
         {
@@ -277,8 +286,12 @@ namespace doStuff.Services
                 relation.Answer = answer;
                 return db.CreateEventToUserRelation(ref relation);
             }
-            relation.Answer = answer;
-            return db.SetEventToUserRelation(relation);
+            if (relation.Answer != answer)
+            {
+                relation.Answer = answer;
+                return db.Save();
+            }
+            return true;
         }
         #endregion
         #region Create
@@ -354,28 +367,6 @@ namespace doStuff.Services
         public bool RemoveComment(int commentId)
         {
             return db.RemoveComment(commentId);
-        }
-        #endregion
-        #region Edit
-        public bool ChangeDisplayName(int userId, string newName)
-        {
-            if (db.ExistsUser(userId))
-            {
-                User user = db.GetUser(userId);
-                user.DisplayName = newName;
-                return db.SetUser(user);
-            }
-            throw new UserNotFoundException();
-        }
-        public bool ChangeGroupName(int groupId, string newName)
-        {
-            Group group = db.GetGroup(groupId);
-            if (group == null)
-            {
-                throw new GroupNotFoundException();
-            }
-            group.Name = newName;
-            return db.SetGroup(group);
         }
         #endregion
         #region GetViewModel

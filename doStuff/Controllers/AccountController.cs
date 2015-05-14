@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using doStuff.Models;
 using doStuff.Models.DatabaseModels;
+using doStuff.Services;
 
 namespace doStuff.Controllers
 {
@@ -85,6 +86,7 @@ namespace doStuff.Controllers
                 {
                     await SignInAsync(user, isPersistent: false);
 
+                    var service = new Service();
                     User register = new User();
                     register.Active = true;
                     register.BirthYear = model.BirthYear;
