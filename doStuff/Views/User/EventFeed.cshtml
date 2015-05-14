@@ -10,20 +10,18 @@
                 <div class="event-box" id=@Html.Raw("event" + item.Event.EventID)>
                     <div class="event-banner">
                         <!--Event owner and group (if is a part of)-->
-                        <div class="col-md-12 event-banner-upper">
-                            <div class="col-md-6 event-owner">@item.Owner</div>
-                            <div class="col-md-6 event-group">
+                            <div class="col-md-6 col-sm-12 event-banner-upper event-owner">@item.Owner</div>
+                            <div class="col-md-6 col-sm-12 event-banner-upper event-group">
                                 @if (item.Event.GroupId != null)
-                            {
-                                foreach (var i in Model.Groups)
                                 {
-                                    if (i.GroupID == item.Event.GroupId)
+                                    foreach (var i in Model.Groups)
                                     {
-                            @i.Name
+                                        if (i.GroupID == item.Event.GroupId)
+                                        {
+                                            @i.Name
+                                        }
                                     }
                                 }
-                            }
-                            </div>
                         </div>
                         <!--Event Name and countdown or state-->
                         @if (item.State == State.ON)
@@ -31,37 +29,37 @@
                             if (item.Event.TimeOfEvent <= DateTime.Now)
                             {
                                 <div class="col-md-12 event-banner-lower event-banner-over">
-                                    <div class="col-md-6 event-name">@item.Event.Name</div>
-                                    <div class="col-md-6 event-state">This event has passed</div>
+                                    <div class="col-md-6 col-sm-12 event-name">@item.Event.Name</div>
+                                    <div class="col-md-6 col-sm-12 event-state">This event has passed</div>
                                 </div>
                             }
                             else
                             {
                                 <div class="col-md-12 event-banner-lower event-banner-on">
-                                    <div class="col-md-6 event-name">@item.Event.Name</div>
-                                    <div class="col-md-6 event-state">This event is ON</div>
+                                    <div class="col-md-6 col-sm-12 event-name">@item.Event.Name</div>
+                                    <div class="col-md-6 col-sm-12 event-state">This event is ON</div>
                                 </div>
                             }
                         }
                         else if (item.State == State.OFF)
                         {
                             <div class="col-md-12 event-banner-lower event-banner-off">
-                                <div class="col-md-6 event-name">@item.Event.Name</div>
-                                <div class="col-md-6 event-state">This event was canceled</div>
+                                <div class="col-md-6 col-sm-6 col-sm-offset-3 event-name">@item.Event.Name</div>
+                                <div class="col-md-6 col-sm-6 col-sm-offset-3 event-state">This event was canceled</div>
                             </div>
                         }
                         else if (item.State == State.FULL)
                         {
                             <div class="col-md-12 event-banner-lower event-banner-full">
-                                <div class="col-md-6 event-name">@item.Event.Name</div>
-                                <div class="col-md-6 event-state">This Event is FULL</div>
+                                <div class="col-md-6 col-sm-12 event-name">@item.Event.Name</div>
+                                <div class="col-md-6 col-sm-12 event-state">This Event is FULL</div>
                             </div>
                         }
                         else
                         {
                             <div class="col-md-12 event-banner-lower event-banner-countdown">
-                                <div class="col-md-6 event-name">@item.Event.Name</div>
-                                <div class="col-md-6 event-state">
+                                <div class="col-md-6 col-sm-6 col-sm-offset-2 event-name">@item.Event.Name</div>
+                                <div class="col-md-6 col-sm-6 col-sm-offset-2 event-state">
                                     <span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span>
                                 </div>
                             </div>
