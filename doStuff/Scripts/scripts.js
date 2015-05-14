@@ -11,6 +11,11 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
+    $(".comment-title").click(function () {
+        debugger;
+        toggleComment(this);
+    });
+
     InitializeSelectors();
 });
 
@@ -340,4 +345,8 @@ function SetFeedback(message) {
         $("#Success").removeClass("hidden");
         $("#SuccessMessage").text(message.SuccessMessage)
     }
+}
+
+function toggleComment(element) {
+    $(element).siblings(".all-comments").toggle();
 }

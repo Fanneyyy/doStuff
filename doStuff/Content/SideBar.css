@@ -215,3 +215,7 @@
 .group-title {
     padding-left: 8px;
 }
+
+.event-list a:hover {
+    text-decoration: none;
+}
