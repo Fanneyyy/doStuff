@@ -1,15 +1,13 @@
-﻿.main {
-    margin-top: 110px;
-}
-
-.event-box {
+﻿.event-box {
     background-color:white;
     color: #90BC25;
-    border: 1px solid #C8C8C8;
-    margin-bottom: 30px;
     font-size: 16px;
     letter-spacing: 2px;
     padding: 0px;
+}
+
+.event-list-item {
+    margin-bottom: 20px;
 }
 
 .event-list-item>span { 
@@ -40,6 +38,7 @@
 } 
 
 .event-group {
+    margin-top: -5px;
     display: inline;
     float: right;
     vertical-align: middle;
@@ -93,116 +92,109 @@
 }
 
 .event-middle {
-    min-height: 0px;
     margin: 0px;
     color: white;
-    padding-right: 0px;
+    padding: 0px;
+}
+
+.event-photo {
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 300px;
+    padding: 0px;
 }
 
 .event-photo-time-location {
     background-image: url("pictures/stockPhoto01.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-drinks {
     background-image: url("pictures/Eventphotos/drinks-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-sports {
     background-image: url("pictures/Eventphotos/basketball-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-concert {
     background-image: url("pictures/Eventphotos/concert-photo.png");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-theater {
     background-image: url("pictures/Eventphotos/theater-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-birthday {
     background-image: url("pictures/Eventphotos/birthday-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-gaming {
     background-image: url("pictures/Eventphotos/gaming-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-beach {
     background-image: url("pictures/Eventphotos/beach-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .event-photo-time-location-school {
     background-image: url("pictures/Eventphotos/school-photo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
-.event-photo-space {
-    min-height: 150px;
-}
-.event-photo-space-attendees {
-    min-height: 150px;
+.event-attendees {
+    color: #444;
     overflow: hidden;
-    background-color: rgba(128, 128, 128, 0.65);
     overflow-y: auto;
-
+    background-color: rgba(255,255,255,0.70);
+    padding: 8px;
+    padding-top: 4px;
+    text-align: center;
 }
 
 .event-time-place {
     background-color: rgba(0,168,198,0.86);
     padding-top: 6px;
-    padding-bottom: 6px; 
+    padding-bottom: 6px;
+    font-size: 20px;
+    margin-top: 210px;
+}
+
+.event-time {
+    display: inline;
 }
 
 .event-location {
+    display: inline;
+    float: right;
     text-align: right;
-}
-
-.event-description-buttons {
-    padding-left: 0px;
+    font-variant: small-caps;
 }
 
 .event-description {
-    color: #26727f;
-    min-height: 150px;
-    padding: 5px 25px 5px 25px;
+    color: #444;
     overflow: hidden;
+    overflow-y: auto;
+    background-color: rgba(255,255,255,0.70);
+    padding: 8px;
+    padding-top: 4px;
+    text-align: center;
 }
 
-.event-join-decline {
-    padding-left: 15px;
-    padding-right: 15px;
+.event-buttons, .event-buttons form, .event-buttons .btn-group {
+    padding: 0px;
 }
 
 .join-event, .decline-event, .event-joined, .event-declined {
     font-size: 26px;
     border-radius: 0px;
     letter-spacing: 3px;
-    padding-top: 9px;
-    padding-bottom: 10px;
     border: 0px;
+    margin-top: -5px;
 }
 
 .join-event {
     background-color: #aee239;
     letter-spacing: 3px;
-    color: #26727f;
+    color: #444;
     min-height: 100%;
     min-width: 60%;
 }
@@ -224,10 +216,9 @@
 
 .event-joined, .event-declined {
     text-align: center;
-    padding-left: 15px;
-    padding-right: 15px;
     min-height: 100%;
     min-width: 100%;
+    padding: 6px 12px;
 }
 
 .event-joined {
@@ -246,11 +237,13 @@
 }
 
 .comment-title {
+    background: white;
     color:#26727f;
     letter-spacing: 2px;
     font-size: 20px;
     text-align: center;
     border-bottom: solid 1px #26727f;
+    padding-top: 6px;
 }
 
 .comment-title:hover {

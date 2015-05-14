@@ -17,6 +17,10 @@ body {
     min-height:800px;
 }
 
+.pull-down {
+    margin-top: 90px;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;

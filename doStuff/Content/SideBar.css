@@ -15,8 +15,8 @@
     color: white;
     border: 1px solid #00a8c6;
     font-size: 18px;
-    margin-top: 10px;
     text-align: center;
+    margin-top: 20px;
     position: fixed;
     width: 20%;
 }
@@ -142,10 +142,6 @@
     height: 1px;
     background-color: #26727f;
     margin: 2px 8px 2px 8px;
-}
-
-.pull-down {
-    margin-top: 100px;
 }
 
 .add-friend-form {
