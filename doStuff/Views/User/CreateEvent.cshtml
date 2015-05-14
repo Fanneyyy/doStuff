@@ -3,7 +3,7 @@
     ViewBag.Title = "Create Event";
 
 }
-<div class="row">
+<div class="row create-event-form">
     <!--doStuff Logo-->
     <div class="col-md-4 col-sm-12">
         <a href="@Url.Action("Index", "User")">
@@ -11,7 +11,7 @@
         </a>
     </div>
     <!--Event box-->
-    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+    <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
         <div class="col-md-12 login-register-box" id="event">
             <h2 class="text-center login-register-title">Create Event</h2>
             <h5 class="text-center">@Html.ValidationMessage("error")</h5>
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Name, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-conrol" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Name)
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Description, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
-                        @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Description)
                     </div>
                 </div>
@@ -64,7 +64,6 @@
                     </div>
                 </div>
                 <!--Time of event-->
-
                 <div class="form-group">
                     @Html.LabelFor(model => model.TimeOfEvent, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
@@ -83,7 +82,7 @@
                     </div>
                 </div>
                 <!--Min and max-->
-                <div class="form-group">
+                <div class="form-group min-max">
                     <!--Minimum attendance-->
                     <div class="col-md-5 col-md-offset-1">
                         @Html.LabelFor(model => model.Min, new { @class = "control-label col-md-12 birth-year-label" })

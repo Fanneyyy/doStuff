@@ -15,22 +15,30 @@ namespace doStuff.Models.DatabaseModels
         public int? GroupId { get; set; }
         public int OwnerId { get; set; }
         [Required(ErrorMessage = "Please add a name to the event")]
+        [Display(Name = "event name")]
         public string Name { get; set; }
+        [Display(Name = "category")]
         public string Photo { get; set; }
         [Required(ErrorMessage = "Please add a description to the event")]
+        [Display(Name = "description")]
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Please add a time to the event")]
+        [Display(Name = "time of event")]
         public DateTime TimeOfEvent { get; set; }
         [Required]
         [Range(10, 60, ErrorMessage = "Minutes must be between 10 and 60")]
+        [Display(Name = "how many minutes of response time")]
         public int Minutes { get; set; }
         [Required(ErrorMessage = "Please add a location to the event")]
+        [Display(Name = "location of event")]
         public string Location { get; set; }
         [Range(1, 100, ErrorMessage = "Min must be between 1 - 100")]
+        [Display(Name = "minimum number of people")]
         public int? Min { get; set; }
-        [Range(1, 100, ErrorMessage = "Max must be between 1 - 100")]
+        [Range(1, 100, ErrorMessage = "max")]
+        [Display(Name = "maximum number of people")]
         public int? Max { get; set; }
 
         public Event()
