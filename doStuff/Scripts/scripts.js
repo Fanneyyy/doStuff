@@ -62,7 +62,7 @@ function Comment(event) {
             SetFeedback(data.message);
             UpdateFeed();
             if (data.id != null) {
-                 lastcomment = "#comment-title" + data.id;
+                lastcomment = "#comment-title" + data.id;
             }
         },
         error: function () {
