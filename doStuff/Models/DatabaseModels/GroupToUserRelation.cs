@@ -26,5 +26,27 @@ namespace doStuff.Models.DatabaseModels
             GroupId = groupId;
             MemberId = memberId;
         }
+
+        public static bool operator ==(GroupToUserRelation relation1, GroupToUserRelation relation2)
+        {
+            if (((object)relation1 == null) && ((object)relation2 == null))
+            {
+                return true;
+            }
+            if ((object)relation1 == null || (object)relation2 == null)
+            {
+                return false;
+            }
+
+            return (relation1.GroupToUserRelationID == relation2.GroupToUserRelationID)
+                && (relation1.Active == relation2.Active)
+                && (relation1.GroupId == relation2.GroupId)
+                && (relation1.MemberId == relation2.MemberId);
+        }
+
+        public static bool operator !=(GroupToUserRelation relation1, GroupToUserRelation relation2)
+        {
+            return !(relation1 == relation2);
+        }
     }
 }

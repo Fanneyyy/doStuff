@@ -198,18 +198,17 @@ namespace doStuff.Services
 
         public bool RemoveFriend(int userId, int friendId)
         {
-            if (IsFriendsWith(userId, friendId))
+            UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            if (relation == null || relation.Active == false)
             {
-                UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
-                if (relation == null || relation.Active == false)
-                {
-                    relation = db.GetUserToUserRelation(friendId, userId);
-                }
+                relation = db.GetUserToUserRelation(friendId, userId);
+            }
+            if (relation != null)
+            {
                 relation.Active = false;
                 return db.SetUserToUserRelation(relation);
             }
-            //TODO REMOVE IF STATEMENT
-            throw new Exception("You Tried To Remove A Friend Without Checking IsFriendsWith(userId, friendId) In The Controller First!!!");
+            return true;
         }
 
         public bool FriendRequestExists(int senderId, int receiverId)

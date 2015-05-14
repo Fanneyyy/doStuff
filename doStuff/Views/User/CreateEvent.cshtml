@@ -14,44 +14,42 @@
         <div class="col-md-12 login-register-box" id="event">
             <h2 class="text-center login-register-title">Create Event</h2>
             @using (Html.BeginForm("CreateEvent", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
+{
+    @Html.AntiForgeryToken()
                 <!--Name of event-->
-                <div class="form-group">
+        <div class="form-group">
                     @Html.LabelFor(m => m.Name, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Name)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
                 <!--Photo-->
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Photo, new { @class = "col-md-10 control-label col-md-offset-1" })
-                    <div class="col-md-10 col-md-offset-1">
-                        <select name="Photo" class="form-control birth-year">
-                            <option value="sports">Sport Related</option>
-                            <option value="birthday">Birthday</option>
-                            <option value="concert">Concerts</option>
-                            <option value="drinks">Drinking!</option>
-                            <option value="gaming">Gaming!</option>
-                            <option value="theater">Theater or cinema!</option>
-                            <option value="beach">Beach / Swimming</option>
-                            <option value="school">School related!</option>
-                            @Html.ValidationMessageFor(model => model.Minutes)
-                        </select>
-                        @Html.ValidationMessageFor(model => model.Photo)
-                    </div>
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Photo, new { @class = "col-md-10 control-label col-md-offset-1" })
+            <div class="col-md-10 col-md-offset-1">
+                <!--Html.EditorFor(model => model.Photo)-->
+                <select name="Photo" class="form-control birth-year">
+                    <option value="birthday">Birthday</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="concert">Concert</option>
+                    <option value="sports">Sport related activity</option>
+                    <option value="theater">Theater / Cinema</option>
+                    <option value="gaming">Gaming</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Photo)
+            </div>
+        </div>
                 <!--Description-->
-                <div class="form-group">
+        <div class="form-group">
                     @Html.LabelFor(m => m.Description, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
                         @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Description)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
                 <!--Minutes-->
-                <div class="form-group">
+        <div class="form-group">
                     @Html.LabelFor(model => model.Minutes, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
                         <select name="Minutes" class="form-control birth-year">
@@ -59,55 +57,55 @@
                             <option value="23">23</option>
                             <option value="47">47</option>
                             <option value="59">59</option>
-                            @Html.ValidationMessageFor(model => model.Minutes)
+                @Html.ValidationMessageFor(model => model.Minutes)
                         </select>
-                    </div>
-                </div>
+            </div>
+        </div>
                 <!--Time of event-->
-                <div class="form-group">
+        <div class="form-group">
                     @Html.LabelFor(model => model.TimeOfEvent, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
-                        <input type="text" id="datepicker" name="TimeOfEvent">
-                        @Html.ValidationMessageFor(model => model.TimeOfEvent)
-                    </div>
-                </div>
+                <input type="text" id="datepicker" name="TimeOfEvent" class="form-control birth-year">
+                @Html.ValidationMessageFor(model => model.TimeOfEvent)
+            </div>
+        </div>
                 <!--Location-->
-                <div class="form-group">
+        <div class="form-group">
                     @Html.LabelFor(model => model.Location, new { @class = "col-md-10 control-label col-md-offset-1" })
                     <div class="col-md-10 col-md-offset-1">
                         @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Location)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.Location)
+            </div>
+        </div>
                 <!--Min and max-->
-                <div class="form-group">
+        <div class="form-group">
                     <!--Minimum attendance-->
                     <div class="col-md-5 col-md-offset-1">
                         @Html.LabelFor(model => model.Min, new { @class = "control-label col-md-12 birth-year-label" })
                         <div class="col-md-12 register-birth-year">
-                            @Html.EditorFor(model => model.Min)
-                            @Html.ValidationMessageFor(model => model.Min)
-                        </div>
-                    </div>
+                @Html.EditorFor(model => model.Min)
+                @Html.ValidationMessageFor(model => model.Min)
+            </div>
+        </div>
                     <!--Maximum attendance-->
                     <div class="col-md-5">
                         @Html.LabelFor(model => model.Max, new { @class = "control-label col-md-12 gender-label" })
                         <div class="col-md-12 register-gender">
-                            @Html.EditorFor(model => model.Max)
-                            @Html.ValidationMessageFor(model => model.Max)
-                        </div>
-                    </div>
+                @Html.EditorFor(model => model.Max)
+                @Html.ValidationMessageFor(model => model.Max)
+            </div>
+        </div>
                 </div>
                 <!--Register and Cancel Buttons-->
                 <div class="form-group login-register-buttons">
                     <div class="col-md-5 col-md-offset-1">
                         <input type="submit" class="btn btn-default confirm" value="register" />
-                    </div>
+            </div>
                     <div class="col-md-5">
                         @Html.ActionLink("cancel", "Index", "User", new { @class = "btn btn-default cancel" })
-                    </div>
-                </div>
-            }
+        </div>
+    </div>
+}
         </div>
     </div>
 </div>

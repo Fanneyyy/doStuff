@@ -27,5 +27,27 @@ namespace doStuff.Models.DatabaseModels
             OwnerId = ownerId;
             Name = name;
         }
+
+        public static bool operator ==(Group group1, Group group2)
+        {
+            if (((object)group1 == null) && ((object)group2 == null))
+            {
+                return true;
+            }
+            if ((object)group1 == null || (object)group2 == null)
+            {
+                return false;
+            }
+
+            return (group1.GroupID == group2.GroupID)
+                && (group1.Active == group2.Active)
+                && (group1.OwnerId == group2.OwnerId)
+                && (group1.Name == group2.Name);
+        }
+
+        public static bool operator !=(Group group1, Group group2)
+        {
+            return !(group1 == group2);
+        }
     }
 }

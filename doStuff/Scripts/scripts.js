@@ -11,10 +11,6 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
-    $(".comment-title").click(function () {
-        toggleComment(this);
-    });
-
     InitializeSelectors();
 });
 
@@ -39,6 +35,10 @@ function InitializeSelectors() {
     $(".decline-event").click(function (event) {
         var form = $(this).closest("form");
         AnswerEvent(false, form, event);
+    });
+
+    $(".comment-title").click(function () {
+        toggleComment(this);
     });
 }
 
