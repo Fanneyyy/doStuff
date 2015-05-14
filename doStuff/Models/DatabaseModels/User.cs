@@ -34,7 +34,6 @@ namespace doStuff.Models.DatabaseModels
             Gender = gender;
             Email = email;
         }
-
         public static bool operator ==(User user1, User user2)
         {
             if (((object)user1 == null) && ((object)user2 == null))
