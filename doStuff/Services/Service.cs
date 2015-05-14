@@ -43,6 +43,14 @@ namespace doStuff.Services
 
         }
 
+        public bool ValidationOfTimeOfEvent(Event thisEvent)
+        {
+            DateTime time = DateTime.Now;
+            TimeSpan minutes = new TimeSpan(0, thisEvent.Minutes, 0);
+            time = time.Add(minutes);
+            return thisEvent.TimeOfEvent >= time;
+        }
+
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
