@@ -63,7 +63,9 @@
 }
 
 .event-banner-on {
-    background-color: #26773D;
+    background-image: url("pictures/greenbanner.png");
+    background-color: #aee239;
+    color: #444;
 }
 
 .event-banner-off {
