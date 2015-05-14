@@ -12,6 +12,12 @@
     padding: 0px;
 }
 
+.event-list-item>span { 
+  margin-top: -300px;        /* Size of fixed header */
+  padding-bottom: 300px; 
+  display: block; 
+}
+
 .event-banner {
     background: white;
     width: 100%;
@@ -45,7 +51,7 @@
 .event-banner-lower {
   display: table;
   color: white;
-  font-size: 26px;
+  font-size: 23px;
   min-height: 56px;
 }
 

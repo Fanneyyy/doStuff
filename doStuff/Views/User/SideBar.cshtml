@@ -39,7 +39,7 @@
                     if ((bool)thisEvent.Attending && thisEvent.State == State.ON)
                     {
                         <li>
-                            <a href="@Html.Raw("#event" + thisEvent.Event.EventID)">
+                            <a href="@Html.Raw("#event-link" + thisEvent.Event.EventID)">
                                 <div class="uppcoming-event-name">@thisEvent.Event.Name</div>
                                 <div>@String.Format("{0:d MMM yyyy}", thisEvent.Event.TimeOfEvent)</div>
                                 <div>@String.Format("{0:HH:mm}", thisEvent.Event.TimeOfEvent)</div>
