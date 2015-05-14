@@ -59,7 +59,6 @@ namespace doStuff.Databases
 
         public List<User> GetFriendRequests(int userId)
         {
-
             return (from r in db.UserToUserRelations
                     from u in db.Users
                     where r.ReceiverId == userId
