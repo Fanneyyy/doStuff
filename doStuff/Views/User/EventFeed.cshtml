@@ -126,7 +126,7 @@
                                                 {
                                                     <input name="eventId" type="hidden" value="@item.Event.EventID" />
                                                     <input name="answer" type="hidden" value="False" />
-                                                    <button type="submit" class="btn btn-primary event-declined">OK, Remove this :(</button>
+                                                    <button type="submit" class="btn btn-primary event-declined">Remove this event</button>
                                                     @Html.ValidationSummary(false)
                                                 }
                                             </div>
@@ -140,7 +140,7 @@
                                     }
                                     else
                                     {
-                                        <div class="row event-join-decline">
+                                        <div class="event-join-decline">
                                             <div class="col-md-12 event-declined">You Have Declined!</div>
                                         </div>
                                     }
