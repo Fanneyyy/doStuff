@@ -198,17 +198,30 @@
     background-color: rgba(174,226,57,0.70);
 }
 
-/*.login-register-box input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
-    -webkit-text-fill-color: #26727f !important;
+.create-event-form .login-register-logo {
+    width: 70%;
 }
 
-.login-register-box input:-webkit-autofill:hover {
-    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
-    -webkit-text-fill-color: #26727f !important;
+.create-event-form .form-control {
+    width: 100%;
+    height: 34px;
+    font-size: 18px;
 }
 
-.login-register-box input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 1000px #4ce4ff inset;
-    -webkit-text-fill-color: #26727f !important;
-}*/
+.create-event-form h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.create-event-form .control-label {
+    font-size: 16px;
+}
+
+.create-event-form .min-max input {
+    width: 100%;
+    height: 34px;
+}
+
+.create-event-form #Description {
+    height: 60px;
+}
