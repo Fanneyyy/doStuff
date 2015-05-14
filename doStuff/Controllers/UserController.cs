@@ -164,7 +164,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult CreateEvent(Event newEvent)
         {
-            if (newEvent.Min.HasValue && newEvent.Max.HasValue && (newEvent.Max.Value <= newEvent.Min.Value))
+            if (newEvent.Min.HasValue && newEvent.Max.HasValue && (newEvent.Max.Value < newEvent.Min.Value))
             {
                 ModelState.AddModelError("Error", "Max can't be higher than min");
             }
@@ -232,7 +232,7 @@ namespace doStuff.Controllers
                 {
                     TempData["message"] = new Message("This event is already full", MessageType.INFORMATION);
                 }
-                else if(model.State == State.OFF || model.State == State.ON)
+                else if(answer && (model.State == State.OFF || model.State == State.ON))
                 {
                     TempData["message"] = new Message("This event has expired", MessageType.INFORMATION);
                 }
@@ -258,7 +258,7 @@ namespace doStuff.Controllers
             }
             if (Request.IsAjaxRequest())
             {
-                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { id = eventId, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
