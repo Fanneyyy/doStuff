@@ -43,9 +43,15 @@ function InitializeSelectors() {
 }
 
 var lastcomment;
+var iscommenting = false;
 
 function Comment(event) {
     event.preventDefault();
+
+    if (iscommenting) {
+        return;
+    }
+    iscommenting = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -67,12 +73,22 @@ function Comment(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            iscommenting = false;
         }
     });
 }
 
+var iscommentinggroup = false;
+
 function CommentGroup(event) {
     event.preventDefault();
+
+    if (iscommentinggroup) {
+        return;
+    }
+    iscommentinggroup = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -94,12 +110,22 @@ function CommentGroup(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            iscommentinggroup = false;
         }
     });
 }
 
+var isaddingfriend = false;
+
 function AddFriend(event) {
     event.preventDefault();
+
+    if (isaddingfriend) {
+        return;
+    }
+    isaddingfriend = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -119,12 +145,22 @@ function AddFriend(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            isaddingfriend = false;
         }
     });
 }
 
+var isremovingfriend = false;
+
 function RemoveFriend(event) {
     event.preventDefault();
+
+    if (isremovingfriend) {
+        return;
+    }
+    isremovingfriend = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -146,12 +182,22 @@ function RemoveFriend(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            isremovingfriend = false;
         }
     });
 }
 
+var isaddingmember = false;
+
 function AddMember(event) {
     event.preventDefault();
+
+    if (isaddingmember) {
+        return;
+    }
+    isaddingmember = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -171,12 +217,22 @@ function AddMember(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            isaddingmember = false;
         }
     });
 }
 
+var isremovingmember = false;
+
 function RemoveMember(event) {
     event.preventDefault();
+
+    if (isremovingmember) {
+        return;
+    }
+    isremovingmember = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -198,12 +254,22 @@ function RemoveMember(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            isremovingmember = false;
         }
     });
 }
 
+var isremovingevent = false;
+
 function RemoveEvent(event) {
     event.preventDefault();
+
+    if (isremovingevent) {
+        return;
+    }
+    isremovingevent = true;
 
     var $form = $(this);
     var url = $form.attr('action');
@@ -225,12 +291,22 @@ function RemoveEvent(event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            isremovingevent = false;
         }
     });
 }
 
+var isansweringevent = false;
+
 function AnswerEvent(answer, form, event) {
     event.preventDefault();
+
+    if (isansweringevent) {
+        return;
+    }
+    isansweringevent = true;
 
     var url = form.attr('action');
     var data = form.serialize() + "&answer=" + answer;
@@ -248,6 +324,9 @@ function AnswerEvent(answer, form, event) {
         },
         error: function () {
             $form.removeClass("hidden");
+        },
+        complete: function () {
+            isansweringevent = false;
         }
     });
 }
