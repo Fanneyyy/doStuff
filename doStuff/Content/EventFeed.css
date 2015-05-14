@@ -50,7 +50,7 @@
 }
 
 .event-banner-over {
-    background-color: blue;
+    background-color: #00A8C6;
 }
 
 .event-banner-on {
@@ -58,16 +58,16 @@
 }
 
 .event-banner-off {
-    background-color: darkblue;
+    background-color: #6F1E10;
 }
 
 .event-banner-full {
-    background-color: red;
+    background-color: #6F1E10;
 }
 
 .event-banner-countdown {
-    background-color: yellow;
-    color: black;
+    background-color: #ECEB1A;
+    color: #444;
 }
 
 .event-name {
