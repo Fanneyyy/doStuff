@@ -115,6 +115,7 @@ function AddFriend(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateFriendList();
+            UpdateFeed();
         },
         error: function () {
             $form.removeClass("hidden");
@@ -141,6 +142,7 @@ function RemoveFriend(event) {
                 $("#friend" + data.friend.UserID).remove();
             }
             SetFeedback(data.message);
+            UpdateFeed();
         },
         error: function () {
             $form.removeClass("hidden");
@@ -165,6 +167,7 @@ function AddMember(event) {
         success: function (data) {
             SetFeedback(data.message);
             UpdateMemberList();
+            UpdateGroupFeed();
         },
         error: function () {
             $form.removeClass("hidden");
@@ -191,6 +194,7 @@ function RemoveMember(event) {
                 $("#member" + data.member.UserID).remove();
             }
             SetFeedback(data.message);
+            UpdateGroupFeed();
         },
         error: function () {
             $form.removeClass("hidden");
