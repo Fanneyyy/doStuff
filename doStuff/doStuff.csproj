@@ -225,7 +225,7 @@
     <Content Include="Content\pictures\logOut.png" />
     <Content Include="Content\pictures\orangebanner.png" />
     <Content Include="Content\pictures\redbanner.png" />
-    <Content Include="Content\pictures\stockPhoto01.jpg" />
+    <Content Include="Content\pictures\Eventphotos\random-photo.jpg" />
     <Content Include="Content\pictures\yellowbanner.png" />
     <Content Include="Content\Reset.css" />
     <Content Include="Content\SideBar.css" />

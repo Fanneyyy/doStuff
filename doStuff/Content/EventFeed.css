@@ -140,6 +140,10 @@
     background-image: url("pictures/Eventphotos/school-photo.jpg");
 }
 
+.event-photo-time-location-random {
+    background-image: url("pictures/Eventphotos/random-photo.jpg");
+}
+
 .event-attendees {
     color: #444;
     overflow: hidden;

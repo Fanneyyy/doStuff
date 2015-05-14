@@ -96,6 +96,7 @@ namespace doStuff.Controllers
                     register.UserName = model.UserName;
                     service.CreateUser(ref register);
 
+                    DisplayWelcomeMessage(register);
                     return RedirectToAction("Index", "User");
                 }
                 else
@@ -336,6 +337,26 @@ namespace doStuff.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
+        private void DisplayWelcomeMessage(User user)
+        {
+            Service service = new Service();
+            Event welcomeMessage = new Event();
+            welcomeMessage.Active = true;
+            welcomeMessage.CreationTime = DateTime.Now;
+            welcomeMessage.Description = "Welcome to doStuff, We are a event based social media! "
+            + "You can make groups, events with friends! Here on the left is a plus sign which allows you to create a new event."
+            + "To create a new group, please select the dropdown menu above! HAVE FUN! :)";
+            welcomeMessage.Location = "doStuff();";
+            welcomeMessage.Max = 1;
+            welcomeMessage.Min = 1;
+            welcomeMessage.Minutes = 11;
+            welcomeMessage.Name = "Welcome!";
+            welcomeMessage.OwnerId = user.UserID;
+            welcomeMessage.Photo = "random";
+            welcomeMessage.TimeOfEvent = DateTime.Now + new TimeSpan(0, welcomeMessage.Minutes, 0);
+            service.CreateEvent(ref welcomeMessage);
+            service.AnswerEvent(user.UserID, welcomeMessage.EventID, false);
+        }
         private IAuthenticationManager AuthenticationManager
         {
             get

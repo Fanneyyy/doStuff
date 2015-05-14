@@ -27,14 +27,13 @@ namespace doStuff.Controllers
             User user = service.GetUser(User.Identity.Name);
             if (service.IsMemberOfGroup(user.UserID, groupId.Value))
             {
+                GroupFeedViewModel model = service.GetGroupFeed(groupId.Value, user.UserID);
                 if (Request.IsAjaxRequest())
                 {
-                    GroupFeedViewModel model = service.GetGroupFeed(groupId.Value, user.UserID);
                     return Json(RenderPartialViewToString("GroupFeed", model), JsonRequestBehavior.AllowGet);
                 }
                 SetUserFeedback();
-                GroupFeedViewModel feed = service.GetGroupFeed(groupId.Value, service.GetUserId(User.Identity.Name));
-                return View(feed);
+                return View(model);
             }
             return RedirectToAction("Index", "User");
         }
@@ -67,7 +66,7 @@ namespace doStuff.Controllers
             }
             else
             {
-
+                TempData["message"] = new Message("An error occured when trying to add " + username + "to the group, please try again later.", MessageType.ERROR);
             }
             if (Request.IsAjaxRequest())
             {
@@ -82,21 +81,21 @@ namespace doStuff.Controllers
             var service = new Service();
             User user = service.GetUser(User.Identity.Name);
             User member = null;
-            // Special for if user removes himself, i.e. removes group from the banner
             if (memberId == user.UserID)
             {
+                TempData["message"] = new Message("You left the group.", MessageType.SUCCESS);
                 service.RemoveMember(memberId, groupId);
                 return RedirectToAction("Index", "User");
             }
             if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                ViewBag.ErrorMessage = "You are not the owner of this group.";
+                TempData["message"] = new Message("You are not the owner of this group.", MessageType.ERROR);
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
             if (service.RemoveMember(memberId, groupId))
             {
                 member = service.GetUser(memberId);
-                ViewBag.SuccessMessage = member.DisplayName + " has been removed from the group";
+                TempData["message"] = new Message(member.DisplayName + " has been removed from the group", MessageType.ERROR);
                 return RedirectToAction("Index", "Group", new { groupId = groupId });
             }
             if (Request.IsAjaxRequest())
@@ -104,25 +103,6 @@ namespace doStuff.Controllers
                 return Json(new { member = member, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index", "User");
-        }
-
-        [HttpPost]
-        public ActionResult RemoveGroup(int groupId)
-        {
-            var service = new Service();
-            User user = service.GetUser(User.Identity.Name);
-
-            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
-            {
-                return View("Index", "User");
-            }
-
-            if (service.RemoveGroup(groupId))
-            {
-                return RedirectToAction("Index", "User");
-            }
-
-            return View();
         }
 
         [HttpGet]
@@ -135,6 +115,7 @@ namespace doStuff.Controllers
             {
                 return RedirectToAction("Index", "User");
             }
+
             ViewBag.groupId = groupId;
             return View();
         }
@@ -171,18 +152,6 @@ namespace doStuff.Controllers
                 return View();
             }
 
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult RemoveEvent(int groupId, int eventId)
-        {
-            var service = new Service();
-            User user = service.GetUser(User.Identity.Name);
-            if ((service.IsOwnerOfGroup(user.UserID, groupId) && service.IsEventInGroup(groupId, eventId)) || service.IsOwnerOfEvent(user.UserID, eventId))
-            {
-                return RedirectToAction("Index", new { groupId = groupId });
-            }
             return View();
         }
 
