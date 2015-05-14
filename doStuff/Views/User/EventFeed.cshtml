@@ -154,12 +154,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="comment-title">
-                    comments
-                    <i class="glyphicon glyphicon-plus comment-plus"></i>
-                    <i class="glyphicon glyphicon-minus comment-minus"></i>
-                    <span class="comments-number"> this event has @item.CommentsViewModels.Count comments</span>
-                </div>
+                    <div class="comment-title" id=@Html.Raw("comment-title" + item.Event.EventID) >
+                        comments
+                        <i class="glyphicon glyphicon-plus comment-plus"></i>
+                        <i class="glyphicon glyphicon-minus comment-minus"></i>
+                        <span class="comments-number"> this event has @item.CommentsViewModels.Count comments</span>
+                    </div>
                 <div class="all-comments">
                     @foreach (var comment in item.CommentsViewModels)
                     {

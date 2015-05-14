@@ -195,21 +195,21 @@ namespace doStuff.Controllers
         public ActionResult Comment(int eventId, string content)
         {
             var service = new Service();
+            User user = service.GetUser(User.Identity.Name);
             if (String.IsNullOrEmpty(content))
             {
-                return RedirectToAction("Index");
+
             }
-            User user = service.GetUser(User.Identity.Name);
-            if (service.IsInvitedToEvent(user.UserID, eventId))
+            else if (service.IsInvitedToEvent(user.UserID, eventId))
             {
                 Comment myComment = new Comment();
                 myComment.Content = content;
                 myComment.Active = true;
-                myComment.OwnerId = service.GetUserId(User.Identity.Name);
+                myComment.OwnerId = user.UserID;
                 myComment.CreationTime = DateTime.Now;
                 if (service.CreateComment(eventId, ref myComment))
                 {
-                    return RedirectToAction("Index");
+
                 }
                 else
                 {
@@ -222,7 +222,7 @@ namespace doStuff.Controllers
             }
             if (Request.IsAjaxRequest())
             {
-                return Json(new { message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { id = eventId, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
