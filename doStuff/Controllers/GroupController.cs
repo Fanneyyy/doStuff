@@ -135,7 +135,7 @@ namespace doStuff.Controllers
             {
                 return RedirectToAction("Index", "User");
             }
-
+            ViewBag.groupId = groupId;
             return View();
         }
 

@@ -1,7 +1,8 @@
 ﻿@model doStuff.ViewModels.EventFeedViewModel
 @using doStuff.ViewModels;
 
-@if (Model.SideBar.UserRequestList.Count + Model.SideBar.UserPendingList.Count + Model.SideBar.UserList.Count > 0) {
+@if (Model.SideBar.UserRequestList.Count + Model.SideBar.UserPendingList.Count + Model.SideBar.UserList.Count > 0)
+{
     if (Model.SideBar.UserRequestList.Count > 0 || Model.SideBar.UserPendingList.Count > 0)
     {
         <li class="friend-requests-title-top">you have unanswered friend requests</li>
@@ -10,21 +11,21 @@
     {
         <li class="eventfeed-friend request-list" id=@Html.Raw("friend" + user.UserID)>
             <form class="form-inline">
-                    @using (Html.BeginForm("DeclineFriendRequest", "User", FormMethod.Post, new { @class = "remove-friend" }))
-                    {
-                        <input name="requesterId" type="hidden" value="@user.UserID">
-                        <button type="submit" class="btn btn-primary sidebar-button">
-                            <i class="glyphicon glyphicon-remove x-button"></i>
-                        </button>
-                    }
-                    @using (Html.BeginForm("AcceptFriendRequest", "User", FormMethod.Post, new { @class = "add-friend" }))
-                    {
-                        <input name="requesterId" type="hidden" value="@user.UserID">
-                        <button type="submit" class="btn btn-primary sidebar-button">
-                            <i class="glyphicon glyphicon-ok v-button"></i>
-                        </button>
-                    }
-                    <div class="friend-display-name">@user.DisplayName</div>
+                @using (Html.BeginForm("DeclineFriendRequest", "User", FormMethod.Post, new { @class = "remove-friend" }))
+                {
+                    <input name="requesterId" type="hidden" value="@user.UserID">
+                    <button type="submit" class="btn btn-primary sidebar-button">
+                        <i class="glyphicon glyphicon-remove x-button"></i>
+                    </button>
+                }
+                @using (Html.BeginForm("AcceptFriendRequest", "User", FormMethod.Post, new { @class = "add-friend" }))
+                {
+                    <input name="requesterId" type="hidden" value="@user.UserID">
+                    <button type="submit" class="btn btn-primary sidebar-button">
+                        <i class="glyphicon glyphicon-ok v-button"></i>
+                    </button>
+                }
+                <div class="friend-display-name">@user.DisplayName</div>
             </form>
         </li>
     }
@@ -51,8 +52,8 @@
         if (Model.SideBar.UserList.Count == 0)
         {
             <li class="friend-display-no-friends">
-            you currently have no friends, you might need to answer friend requests, wait for
-            responses or add more friends
+                you currently have no friends, you might need to answer friend requests, wait for
+                responses or add more friends
             </li>
         }
     }
@@ -77,6 +78,7 @@
 else
 {
     <li class="friend-display-no-friends">
-    you currently have no friends, input a friend's username
-     into the field below to send a friend request</li>
+        you currently have no friends, input a friend's username
+        into the field below to send a friend request
+    </li>
 }

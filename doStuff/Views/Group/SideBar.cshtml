@@ -18,7 +18,8 @@
     <!--List of members-->
     <div class="friend-list-box">
         <ul>
-            @if (Model.SideBar.UserList.Count > 0) {
+            @if (Model.SideBar.UserList.Count > 0)
+            {
                 if (Model.SideBar.User.UserID == Model.Group.OwnerId)
                 {
                     foreach (var user in Model.SideBar.UserList)
@@ -56,7 +57,7 @@
                 if (Model.SideBar.User.UserID == Model.Group.OwnerId)
                 {
                     <li class="friend-display-no-friends">
-                        you currently have no other members in your group, 
+                        you currently have no other members in your group,
                         you can add your friends via the field below
                     </li>
                 }
@@ -64,16 +65,16 @@
                 {
                     <li class="friend-display-no-friends">
                         you have been left stranded in this group, you can
-                         stay or leave by removing yourself from the group
+                        stay or leave by removing yourself from the group
                     </li>
                 }
             }
         </ul>
     </div>
     <!--Add Member if owner-->
-        @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
-        {
-            <div class="add-friend-box">
+    @if (Model.SideBar.User.UserID == Model.Group.OwnerId)
+    {
+        <div class="add-friend-box">
             @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "add-member" }))
             {
                 <form class="form-inline">
@@ -86,9 +87,9 @@
                     </div>
                 </form>
             }
-            </div>
-        }
-        <div class="events-title">Upcoming Events</div>
+        </div>
+    }
+    <div class="events-title">Upcoming Events</div>
     <!--List of upcoming events-->
     <div class="event-list">
         @if (Model.SideBar.EventList.Count != 0)
