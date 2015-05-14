@@ -453,6 +453,10 @@ namespace doStuff.Services
         {
             SideBarViewModel SideBar = new SideBarViewModel();
             SideBar.Avatar = "~/Content/pictures/Avatars/avatar0" + (userId % 9 + 1) + ".jpg";
+            if (userId == 1337) 
+            {
+                SideBar.Avatar = "~/Content/pictures/Avatars/surprise.jpg";
+            }
             SideBar.User = db.GetUser(userId);
             SideBar.EventList = new List<EventViewModel>();
 
