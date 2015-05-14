@@ -235,7 +235,7 @@ function AnswerEvent(answer, form, event) {
     var url = form.attr('action');
     var data = form.serialize() + "&answer=" + answer;
 
-    $form.addClass("hidden");
+    form.addClass("hidden");
 
     $.ajax({
         type: "POST",
