@@ -221,6 +221,7 @@
     <Content Include="Content\pictures\Eventphotos\gaming-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\school-photo.jpg" />
     <Content Include="Content\pictures\Eventphotos\theater-photo.jpg" />
+    <Content Include="Content\pictures\greenbanner.png" />
     <Content Include="Content\pictures\logOut.png" />
     <Content Include="Content\pictures\orangebanner.png" />
     <Content Include="Content\pictures\redbanner.png" />
