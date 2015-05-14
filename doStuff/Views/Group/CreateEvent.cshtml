@@ -34,12 +34,15 @@
                     <div class="col-md-10 col-md-offset-1">
                         <!--Html.EditorFor(model => model.Photo)-->
                         <select name="Photo" class="form-control birth-year">
+                            <option value="random">Not defined</option>
                             <option value="birthday">Birthday</option>
                             <option value="drinks">Drinks</option>
                             <option value="concert">Concert</option>
                             <option value="sports">Sport related activity</option>
                             <option value="theater">Theater / Cinema</option>
                             <option value="gaming">Gaming</option>
+                            <option value="beach">Swimming / Beaching</option>
+                            <option value="school">School related</option>
                         </select>
                         @Html.ValidationMessageFor(model => model.Photo)
                     </div>
