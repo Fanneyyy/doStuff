@@ -347,7 +347,6 @@ function SetFeedback(message) {
 }
 
 function toggleComment(element) {
-    debugger;
     $(element).siblings(".all-comments").toggle();
     $(element).children(".comment-plus").toggle();
     $(element).children(".comment-minus").toggle();
