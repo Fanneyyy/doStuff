@@ -4,185 +4,186 @@
 
 <ul id="event-feed">
     @foreach (var item in Model.Events)
-    {
-        <li class="event-list-item">
-            <span id=@Html.Raw("event-link" + item.Event.EventID)>&nbsp;</span>
-                <div class="event-box" id=@Html.Raw("event" + item.Event.EventID)>
-                    <!--Event Banner-->
-                    <div class="event-banner">
-                        <!--Event owner and group (if is a part of)-->
-                        <div class="col-md-12 event-banner-upper">
-                            <p class="event-owner">@item.Owner</p>
-                            <p class="event-group">
-                                @if (item.Event.GroupId != null)
+{
+    <li class="event-list-item" id=@Html.Raw("event-box" + item.Event.EventID)>
+        <span id=@Html.Raw("event-link" + item.Event.EventID)>&nbsp;</span>
+        <div class="event-box" id=@Html.Raw("event" + item.Event.EventID)>
+            <!--Event Banner-->
+            <div class="event-banner">
+                <!--Event owner and group (if is a part of)-->
+                <div class="col-md-12 event-banner-upper">
+                    <p class="event-owner">@item.Owner</p>
+                    <p class="event-group">
+                        @if (item.Event.GroupId != null)
+                        {
+                            foreach (var i in Model.Groups)
+                            {
+                                if (i.GroupID == item.Event.GroupId)
                                 {
-                                    foreach (var i in Model.Groups)
-                                    {
-                                        if (i.GroupID == item.Event.GroupId)
-                                        {
-                                            @i.Name
-                                        }
-                                    }
+                                    @i.Name
                                 }
-                            </p>
-                        </div>
-                        <!--Event Name and countdown or state-->
-                        @if (item.State == State.ON)
-                        {
-                            if (item.Event.TimeOfEvent <= DateTime.Now)
-                            {
-                                <div class="col-md-12 event-banner-lower event-banner-over">
-                                    <p class="event-name">@item.Event.Name</p>
-                                    <p class="event-state">This event has passed</p>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-md-12 event-banner-lower event-banner-on">
-                                    <p class="event-name">@item.Event.Name</p>
-                                    <p class="event-state">This event is ON</p>
-                                </div>
                             }
                         }
-                        else if (item.State == State.OFF)
-                        {
-                            <div class="col-md-12 event-banner-lower event-banner-off">
-                                <p class="event-name">@item.Event.Name</p>
-                                <p class="event-state">This event was canceled</p>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col-md-12 event-banner-lower event-banner-countdown">
-                                <p class="event-name">@item.Event.Name</p>
-                                <p class="event-state">
-                                    <span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span>
-                                </p>
-                            </div>
-                        }
-                    </div>
-                    <!--Event main body-->
-                    <div class="col-md-12 event-middle">
-                        <!--Event Photo, Description, Attendees, Time and Place-->
-                        <div class="col-md-12 event-photo event-photo-time-location-@item.Event.Photo">
-                            @if (item.State == State.ON)
-                            {
-                                <div class="col-md-12 event-attendees">
-                                    <p class="col-md-6">@item.Event.Description</p>
-                                    <ul class="col-md-6">
-                                        <li><p>Attending:</p></li>
-                                        @foreach (var i in item.Attendees)
-                                        {
-                                            <li>@i.DisplayName</li>
-                                        }
-                                    </ul>
-                                </div>
-                            }
-                            else
-                            {
-                                <p class="col-md-12 event-description">@item.Event.Description</p>
-                            }
-                            <!--Event Time and Place-->
-                            <div class="col-md-12 event-time-place">
-                                <p class="event-time">
-                                    @String.Format("{0:d MMM yyyy}", item.Event.TimeOfEvent)
-                                    <br /> @String.Format("{0:HH:mm}", item.Event.TimeOfEvent)
-                                </p>
-                                <p class="event-location">@item.Event.Location</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Event Buttons-->
-                    <div class="col-md-12 event-buttons">
-                            <div class="col-md-12 hidden" id=@Html.Raw("form-result" + item.Event.EventID)>
-                                <div class="col-md-12 event-joined">You Have Joined!</div>
-                                <div class="col-md-12 event-declined">You Have Declined!</div>
-                            </div>
-                                    @if (item.Attending == null)
-                                    {
-                                        using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @id = @Html.Raw("eventform" + item.Event.EventID) }))
-                                        {
-                                            <input name="eventId" type="hidden" value="@item.Event.EventID" />
-                                            <div class="col-md-12 btn-group">
-                                                <div class="col-md-6 col-xs-12 event-buttons-box">
-                                                    <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
-                                                </div>
-                                                <div class="col-md-6 col-xs-12 event-buttons-box">
-                                                    <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
-                                                </div>
-                                            </div>
-                                            @Html.ValidationSummary(false)
-                                        }
-                                    }
-                                    else if (item.Attending == true)
-                                    {
-                                        if (item.State == State.OFF)
-                                        {
-                                            <div class="event-join-decline">
-                                                @using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @class = "remove-event" }))
-                                                {
-                                                    <input name="eventId" type="hidden" value="@item.Event.EventID" />
-                                                    <input name="answer" type="hidden" value="False" />
-                                                    <button type="submit" class="btn btn-primary event-declined">Remove this event</button>
-                                                    @Html.ValidationSummary(false)
-                                                }
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="event-join-decline">
-                                                <div class="col-md-12 event-joined">You Have Joined!</div>
-                                            </div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <div class="event-join-decline">
-                                            <div class="col-md-12 event-declined">You Have Declined!</div>
-                                        </div>
-                                    }
-                            </div>
-                        </div>
-                <!--Comment section-->
-                <div class="comment-title" id=@Html.Raw("comment-title" + item.Event.EventID) >
-                    comments
-                    <i class="glyphicon glyphicon-plus comment-plus"></i>
-                    <i class="glyphicon glyphicon-minus comment-minus"></i>
-                    <span class="comments-number"> this event has @item.CommentsViewModels.Count comments</span>
+                    </p>
                 </div>
-                <div class="all-comments">
-                    @foreach (var comment in item.CommentsViewModels)
+                <!--Event Name and countdown or state-->
+                @if (item.State == State.ON)
+                {
+                    if (item.Event.TimeOfEvent <= DateTime.Now)
                     {
-                        <div class="row comment">
-                            <div class="col-md-2 col-xs-3 comment-owner">@comment.Owner.DisplayName</div>
-                            <div class="col-md-8 col-xs-6 comment-content">@comment.Comment.Content</div>
-                            @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
-                            {
-                                <div class="col-md-2 col-xs-3 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
-                            }
-                            else
-                            {
-                                <div class="col-md-2 col-xs-3comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
-                            }
+                        <div class="col-md-12 event-banner-lower event-banner-over">
+                            <p class="event-name">@item.Event.Name</p>
+                            <p class="event-state">This event has passed</p>
                         </div>
                     }
-                    @using (Html.BeginForm("Comment", "User", FormMethod.Post, new { @class = "event-comment-form" }))
+                    else
+                    {
+                        <div class="col-md-12 event-banner-lower event-banner-on">
+                            <p class="event-name">@item.Event.Name</p>
+                            <p class="event-state">This event is ON</p>
+                        </div>
+                    }
+                }
+                else if (item.State == State.OFF)
+                {
+                    <div class="col-md-12 event-banner-lower event-banner-off">
+                        <p class="event-name">@item.Event.Name</p>
+                        <p class="event-state">This event was canceled</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12 event-banner-lower event-banner-countdown">
+                        <p class="event-name">@item.Event.Name</p>
+                        <p class="event-state">
+                            <span class="countdown" data-minutes="@item.Event.Minutes" data-created="@item.TimeCreated" data-eventid=@item.Event.EventID></span>
+                        </p>
+                    </div>
+                }
+            </div>
+            <!--Event main body-->
+            <div class="col-md-12 event-middle">
+                <!--Event Photo, Description, Attendees, Time and Place-->
+                <div class="col-md-12 event-photo event-photo-time-location-@item.Event.Photo">
+                    @if (item.State == State.ON)
+                    {
+                        <div class="col-md-12 event-attendees">
+                            <p class="col-md-6">@item.Event.Description</p>
+                            <ul class="col-md-6">
+                                <li><p>Attending:</p></li>
+                                @foreach (var i in item.Attendees)
+                                {
+                                    <li>@i.DisplayName</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="col-md-12 event-description">@item.Event.Description</p>
+                    }
+                    <!--Event Time and Place-->
+                    <div class="col-md-12 event-time-place">
+                        <p class="event-time">
+                            @String.Format("{0:d MMM yyyy}", item.Event.TimeOfEvent)
+                            <br /> @String.Format("{0:HH:mm}", item.Event.TimeOfEvent)
+                        </p>
+                        <p class="event-location">@item.Event.Location</p>
+                    </div>
+                </div>
+            </div>
+            <!--Event Buttons-->
+            <div class="col-md-12 event-buttons">
+                <div class="col-md-12 hidden" id=@Html.Raw("form-result" + item.Event.EventID)>
+                    <div class="col-md-12 event-joined">You Have Joined!</div>
+                    <div class="col-md-12 event-declined">You Have Declined!</div>
+                </div>
+                @if (item.Attending == null)
+                {
+                    using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @id = @Html.Raw("eventform" + item.Event.EventID) }))
                     {
                         <input name="eventId" type="hidden" value="@item.Event.EventID" />
-                        <div class="row comment">
-                            <div class="col-md-2 col-xs-3 comment-owner comment-comment">comment:</div>
-                            <div class="form-group">
-                                <span class="col-md-8 col-xs-6 comment-text-field">
-                                    <input type="text" name="content" placeholder="write something clever..." />
-                                </span>
-                                <div class="col-md-2 col-xs-3 comment-button">
-                                    <input type="submit" value="post" class="btn btn-default" />
-                                </div>
+                        <div class="col-md-12 btn-group">
+                            <div class="col-md-6 col-xs-12 event-buttons-box">
+                                <button type="submit" class="btn btn-primary join-event" name="answer" value="True">join</button>
+                            </div>
+                            <div class="col-md-6 col-xs-12 event-buttons-box">
+                                <button type="submit" class="btn btn-primary decline-event" name="answer" value="False">decline</button>
                             </div>
                         </div>
                         @Html.ValidationSummary(false)
                     }
+                }
+                else if (item.Attending == true)
+                {
+                    if (item.State == State.OFF)
+                    {
+                        <div class="event-join-decline">
+                            @using (Html.BeginForm("AnswerEvent", "User", FormMethod.Post, new { @class = "remove-event" }))
+                            {
+                                <input name="eventId" type="hidden" value="@item.Event.EventID" />
+                                <input name="answer" type="hidden" value="False" />
+                                <button type="submit" class="btn btn-primary event-declined">Remove this event</button>
+                                @Html.ValidationSummary(false)
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="event-join-decline">
+                            <div class="col-md-12 event-joined">You Have Joined!</div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="event-join-decline">
+                        <div class="col-md-12 event-declined">You Have Declined!</div>
+                    </div>
+                }
+            </div>
+        </div>
+        <!--Comment section-->
+        <div class="comment-title" id=@Html.Raw("comment-title" + item.Event.EventID)>
+            comments
+            <i class="glyphicon glyphicon-plus comment-plus"></i>
+            <i class="glyphicon glyphicon-minus comment-minus"></i>
+            <span class="comments-number"> this event has @item.CommentsViewModels.Count comments</span>
+        </div>
+        <div class="all-comments" id=@Html.Raw("comment-content" + item.Event.EventID)>
+            @foreach (var comment in item.CommentsViewModels)
+            {
+                <div class="row comment">
+                    <div class="col-md-2 col-xs-3 comment-owner">@comment.Owner.DisplayName</div>
+                    <div class="col-md-8 col-xs-6 comment-content">@comment.Comment.Content</div>
+                    @if (comment.Comment.CreationTime.Date == DateTime.Now.Date)
+                    {
+                        <div class="col-md-2 col-xs-3 comment-time">Today, @String.Format("{0:t}", comment.Comment.CreationTime)</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 col-xs-3comment-time">@String.Format("{0:d MMM yyyy}", comment.Comment.CreationTime)</div>
+                    }
                 </div>
-        </li>
-    }
+            }
+            @using (Html.BeginForm("Comment", "User", FormMethod.Post, new { @class = "event-comment-form" }))
+            {
+                <input name="eventId" type="hidden" value="@item.Event.EventID" />
+                <div class="row comment">
+                    <div class="col-md-2 col-xs-3 comment-owner comment-comment">comment:</div>
+                    <div class="form-group">
+                        <span class="col-md-8 col-xs-6 comment-text-field">
+                            <input type="text" name="content" placeholder="write something clever..." />
+                        </span>
+                        <div class="col-md-2 col-xs-3 comment-button">
+                            <input type="submit" value="post" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationSummary(false)
+            }
+        </div>
+
+    </li>
+}
 </ul>

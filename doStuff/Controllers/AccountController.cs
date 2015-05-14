@@ -59,7 +59,7 @@ namespace doStuff.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // If we got this far, something failed, redisplay form.
             return View(model);
         }
 
@@ -105,7 +105,7 @@ namespace doStuff.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // If we got this far, something failed, redisplay form.
             return View(model);
         }
 
@@ -169,7 +169,7 @@ namespace doStuff.Controllers
             }
             else
             {
-                // User does not have a password so remove any validation errors caused by a missing OldPassword field
+                // User does not have a password so remove any validation errors caused by a missing OldPassword field.
                 ModelState state = ModelState["OldPassword"];
                 if (state != null)
                 {
@@ -190,7 +190,7 @@ namespace doStuff.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // If we got this far, something failed, redisplay form.
             return View(model);
         }
 
@@ -201,7 +201,7 @@ namespace doStuff.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Request a redirect to the external login provider
+            // Request a redirect to the external login provider.
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
@@ -216,7 +216,7 @@ namespace doStuff.Controllers
                 return RedirectToAction("Login");
             }
 
-            // Sign in the user with this external login provider if the user already has a login
+            // Sign in the user with this external login provider if the user already has a login.
             var user = await UserManager.FindAsync(loginInfo.Login);
             if (user != null)
             {
@@ -225,7 +225,7 @@ namespace doStuff.Controllers
             }
             else
             {
-                // If the user does not have an account, then prompt the user to create an account
+                // If the user does not have an account, then prompt the user to create an account.
                 ViewBag.ReturnUrl = returnUrl;
                 ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });
@@ -238,7 +238,7 @@ namespace doStuff.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
-            // Request a redirect to the external login provider to link a login for the current user
+            // Request a redirect to the external login provider to link a login for the current user.
             return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
         }
 
@@ -273,7 +273,7 @@ namespace doStuff.Controllers
 
             if (ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
+                // Get the information about the user from the external login provider.
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {

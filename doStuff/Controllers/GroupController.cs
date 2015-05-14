@@ -11,8 +11,7 @@ using CustomErrors;
 
 namespace doStuff.Controllers
 {
-    //TODO:
-    //1. Fix Redirect from commentview to GroupFeed..
+
     [Authorize]
     public class GroupController : ParentController
     {
@@ -87,22 +86,20 @@ namespace doStuff.Controllers
                 service.RemoveMember(memberId, groupId);
                 return RedirectToAction("Index", "User");
             }
-            if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
+            else if (service.IsOwnerOfGroup(user.UserID, groupId) == false)
             {
-                TempData["message"] = new Message("You are not the owner of this group.", MessageType.ERROR);
-                return RedirectToAction("Index", "Group", new { groupId = groupId });
+                TempData["message"] = new Message("You are not the owner of this group.", MessageType.WARNING);
             }
-            if (service.RemoveMember(memberId, groupId))
+            else if (service.RemoveMember(memberId, groupId))
             {
                 member = service.GetUser(memberId);
-                TempData["message"] = new Message(member.DisplayName + " has been removed from the group", MessageType.ERROR);
-                return RedirectToAction("Index", "Group", new { groupId = groupId });
+                TempData["message"] = new Message(member.DisplayName + " has been removed from the group", MessageType.SUCCESS);
             }
             if (Request.IsAjaxRequest())
             {
                 return Json(new { member = member, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Index", "Group", new { groupId = groupId });
         }
 
         [HttpGet]
@@ -123,6 +120,7 @@ namespace doStuff.Controllers
         [HttpPost]
         public ActionResult CreateEvent(int groupId, Event newEvent)
         {
+            ViewBag.groupId = groupId;
             var service = new Service();
             User user = service.GetUser(User.Identity.Name);
 
@@ -133,7 +131,7 @@ namespace doStuff.Controllers
             }
             else if (newEvent.Min.HasValue && newEvent.Max.HasValue && (newEvent.Max.Value < newEvent.Min.Value))
             {
-                ModelState.AddModelError("Error", "Max can't be higher than min");
+                ModelState.AddModelError("Error", "Min can't be higher than max");
             }
             else if (!service.ValidationOfTimeOfEvent(newEvent))
             {
@@ -171,11 +169,7 @@ namespace doStuff.Controllers
                 myComment.Active = true;
                 myComment.OwnerId = user.UserID;
                 myComment.CreationTime = DateTime.Now;
-                if (service.CreateComment(eventId, ref myComment))
-                {
-
-                }
-                else
+                if (!service.CreateComment(eventId, ref myComment))
                 {
                     TempData["Message"] = new Message("An Error occured when processing your event, please try again later", MessageType.ERROR);
                 }
@@ -196,17 +190,43 @@ namespace doStuff.Controllers
         {
             var service = new Service();
             User user = service.GetUser(User.Identity.Name);
-
             if (service.IsInvitedToEvent(user.UserID, eventId))
             {
-                if (service.AnswerEvent(user.UserID, eventId, answer))
+                Event theEvent = service.GetEventById(eventId);
+                EventViewModel model = service.CastToViewModel(theEvent, null);
+                if (model.State == State.FULL)
                 {
-                    return RedirectToAction("Index", new { groupId = groupId });
+                    TempData["message"] = new Message("This event is already full", MessageType.INFORMATION);
                 }
-                return RedirectToAction("Error", "An error occured when processing your request, please try again later.");
+                else if (answer && (model.State == State.OFF || model.State == State.ON))
+                {
+                    TempData["message"] = new Message("This event has expired", MessageType.INFORMATION);
+                }
+                else if (service.AnswerEvent(user.UserID, eventId, answer))
+                {
+                    if (answer)
+                    {
+                        TempData["message"] = new Message("You are listed as an attendee of " + theEvent.Name, MessageType.SUCCESS);
+                    }
+                    else
+                    {
+                        TempData["message"] = new Message("You declined the invitation to " + theEvent.Name, MessageType.SUCCESS);
+                    }
+                }
+                else
+                {
+                    TempData["message"] = new Message("An error occured when processing your request, please try again later.", MessageType.ERROR);
+                }
             }
-
-            return RedirectToAction("Error", "Either the event you are trying to access doesn't exist or you do not have sufficient access to it.");
+            else
+            {
+                TempData["message"] = new Message("Either the event you are trying to access doesn't exist or you do not have sufficient access to it.", MessageType.INFORMATION);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { id = eventId, message = TempData["message"] as Message }, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

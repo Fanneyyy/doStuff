@@ -172,7 +172,7 @@ namespace doStuff.Controllers
             var service = new Service();
             if (newEvent.Min.HasValue && newEvent.Max.HasValue && (newEvent.Max.Value < newEvent.Min.Value))
             {
-                ModelState.AddModelError("Error", "Max can't be higher than min");
+                ModelState.AddModelError("Error", "Min can't be higher than max");
             }
             else if (!service.ValidationOfTimeOfEvent(newEvent))
             {

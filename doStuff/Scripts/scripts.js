@@ -284,7 +284,7 @@ function RemoveEvent(event) {
         data: data,
         success: function (data) {
             if (data.id != null) {
-                $("#event" + data.id).remove();
+                $("#event-box" + data.id).remove();
             }
             SetFeedback(data.message);
             UpdateFeed();
