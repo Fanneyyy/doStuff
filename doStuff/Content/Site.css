@@ -14,6 +14,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    min-height:800px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -72,6 +73,11 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle;
     font-size:70px;
     margin-left: 7px;
+}
+
+.alert  {
+    border-radius: 0;
+    text-align: center;
 }
 
 #event {
