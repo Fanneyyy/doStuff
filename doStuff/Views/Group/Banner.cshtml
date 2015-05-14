@@ -3,7 +3,7 @@
 
 <!--doStuff Logo-->
 <div class="col-sm-4 col-xs-6 banner-logo-box">
-    <a href="@Url.Action("Index", "User")">
+    <a href="@Url.Action("Index", "User")" title="Home">
         <img class="banner-logo" src="@Url.Content("../Content/pictures/doStufflogoGray.png")" alt="doStuffLogo" />
     </a>
 </div>
@@ -14,7 +14,7 @@
 <!--Dropdown Menu-->
 <div class="col-sm-4 col-xs-12 col-sm-pull-4 banner-dropdown-box">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle feed-chooser" data-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn dropdown-toggle feed-chooser" data-toggle="dropdown" aria-expanded="false" title="My groups">
             <span class="banner-title">@Model.Group.Name</span><span class="glyphicon glyphicon-chevron-down green" aria-hidden="true"></span>
         </button>
         <ul class="dropdown-menu banner-dropdown" role="menu">
@@ -30,11 +30,11 @@
                     </form>
                 }
             </li>
-            <li>@Html.ActionLink("Event feed", "Index", "User")</li>
+            <li>@Html.ActionLink("Event feed", "Index", "User", new { title="Home" })</li>
             <li class="divider"></li>
             @foreach (var i in Model.Groups)
             {
-                <li>@Html.ActionLink(i.Name, "Index", "Group", new { groupId = i.GroupID }, null)</li>
+                <li>@Html.ActionLink(i.Name, "Index", "Group", new { groupId = i.GroupID }, new { title="Look at " + i.Name })</li>
             }
         </ul>
     </div>
