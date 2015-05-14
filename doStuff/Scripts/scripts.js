@@ -66,10 +66,10 @@ function Comment(event) {
         data: data,
         success: function (data) {
             SetFeedback(data.message);
-            UpdateFeed();
             if (data.id != null) {
                 lastcomment = "#comment-title" + data.id;
             }
+            UpdateFeed();
         },
         error: function () {
             $form.removeClass("hidden");
@@ -103,10 +103,10 @@ function CommentGroup(event) {
         data: data,
         success: function (data) {
             SetFeedback(data.message);
-            UpdateGroupFeed();
             if (data.id != null) {
                 lastcomment = "#comment-title" + data.id;
             }
+            UpdateGroupFeed();
         },
         error: function () {
             $form.removeClass("hidden");
