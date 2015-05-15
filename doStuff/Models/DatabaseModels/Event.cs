@@ -34,10 +34,10 @@ namespace doStuff.Models.DatabaseModels
         [Required(ErrorMessage = "Please add a location to the event")]
         [Display(Name = "location of event")]
         public string Location { get; set; }
-        [Range(1, 100, ErrorMessage = "Min must be between 1 - 100")]
+        [Range(1, 500000, ErrorMessage = "Min must be between 1 - 500.000, you can also just leave it empty!")]
         [Display(Name = "minimum number of people")]
         public int? Min { get; set; }
-        [Range(1, 100, ErrorMessage = "max")]
+        [Range(1, 500000, ErrorMessage = "Max must be between 1 - 500.000, you can also just leave it empty!")]
         [Display(Name = "maximum number of people")]
         public int? Max { get; set; }
 
