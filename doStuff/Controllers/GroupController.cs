@@ -139,8 +139,8 @@ namespace doStuff.Controllers
             }
             else if (ModelState.IsValid)
             {
-                newEvent.CreationTime = DateTime.Now;
                 newEvent.OwnerId = user.UserID;
+                newEvent.CreationTime = DateTime.Now;
                 newEvent.Active = true;
                 if (service.CreateEvent(ref newEvent))
                 {
