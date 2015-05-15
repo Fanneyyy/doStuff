@@ -48,6 +48,7 @@ namespace doStuff.Models
     {
         [Required]
         [Display(Name = "username")]
+        [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 6)]
         public string UserName { get; set; }
 
         [Required]
@@ -62,6 +63,7 @@ namespace doStuff.Models
         public string ConfirmPassword { get; set; }
         [Required]
         [Display(Name = "display name")]
+        [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 6)]
         public string DisplayName { get; set; }
         [Required]
         [Display(Name = "birth year")]
@@ -71,6 +73,7 @@ namespace doStuff.Models
         public Gender Gender { get; set; }
         [Required]
         [Display(Name = "email")]
+        [RegularExpression(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$", ErrorMessage="Not a valid email address")]
         public string Email { get; set; }
     }
 }
