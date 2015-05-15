@@ -11,20 +11,20 @@ namespace doStuff.Services
 {
     public class Service
     {
-        private Database db;
-        public Service(Database database = null)
+        private Database database;
+        public Service(Database setDatabase = null)
         {
-            db = database ?? new Database(null);
+            database = database ?? new Database(null);
         }
 
         public User GetUser(int id)
         {
-            return db.GetUser(id);
+            return database.GetUser(id);
         }
 
         public User GetUser(string userName)
         {
-            return db.GetUser(userName);
+            return database.GetUser(userName);
         }
 
         public TimeSpan TimeLeft(Event time, DateTime now)
@@ -54,8 +54,8 @@ namespace doStuff.Services
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
-            UserToUserRelation r1 = db.GetUserToUserRelation(userId, friendId);
-            UserToUserRelation r2 = db.GetUserToUserRelation(friendId, userId);
+            UserToUserRelation r1 = database.GetUserToUserRelation(userId, friendId);
+            UserToUserRelation r2 = database.GetUserToUserRelation(friendId, userId);
 
             if (r1 != null)
             {
@@ -75,7 +75,7 @@ namespace doStuff.Services
         }
         public bool IsOwnerOfGroup(int userId, int groupId)
         {
-            Group group = db.GetGroup(groupId);
+            Group group = database.GetGroup(groupId);
 
             if (group == null)
             {
@@ -90,7 +90,7 @@ namespace doStuff.Services
         }
         public bool IsMemberOfGroup(int userId, int groupId)
         {
-            List<User> members = db.GetMembers(groupId);
+            List<User> members = database.GetMembers(groupId);
 
             foreach (User member in members)
             {
@@ -104,7 +104,7 @@ namespace doStuff.Services
         }
         public bool IsEventInGroup(int groupId, int eventId)
         {
-            List<Event> events = db.GetEvents(groupId);
+            List<Event> events = database.GetEvents(groupId);
             foreach (Event eventt in events)
             {
                 if (eventId == eventt.EventID)
@@ -127,7 +127,7 @@ namespace doStuff.Services
         }
         public bool IsAttendingEvent(int userId, int eventId)
         {
-            EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+            EventToUserRelation relation = database.GetEventToUserRelation(eventId, userId);
             if (relation == null || relation.Answer.HasValue == false)
             {
                 return false;
@@ -136,7 +136,7 @@ namespace doStuff.Services
         }
         public bool IsInvitedToEvent(int userId, int eventId)
         {
-            Event theEvent = db.GetEvent(eventId);
+            Event theEvent = database.GetEvent(eventId);
             if (theEvent == null)
             {
                 return false;
@@ -161,7 +161,7 @@ namespace doStuff.Services
         public int GetUserId(string userName)
         {
             User user = new User();
-            user = db.GetUser(userName);
+            user = database.GetUser(userName);
             if (user != null)
             {
                 return user.UserID;
@@ -173,24 +173,24 @@ namespace doStuff.Services
         }
         public Group GetGroupById(int groupId)
         {
-            Group newGroup = db.GetGroup(groupId);
+            Group newGroup = database.GetGroup(groupId);
             return newGroup;
         }
         public Event GetEventById(int eventId)
         {
-            Event newEvent = db.GetEvent(eventId);
+            Event newEvent = database.GetEvent(eventId);
             return newEvent;
         }
         public Comment GetCommentById(int commentId)
         {
-            Comment newComment = db.GetComment(commentId);
+            Comment newComment = database.GetComment(commentId);
             return newComment;
         }
         #endregion
         #region FriendRelations
         public bool AnswerFriendRequest(int senderId, int receiverId, bool answer)
         {
-            UserToUserRelation relation = db.GetUserToUserRelation(senderId, receiverId);
+            UserToUserRelation relation = database.GetUserToUserRelation(senderId, receiverId);
             if (relation != null && relation.Active)
             {
                 if (!answer)
@@ -200,7 +200,7 @@ namespace doStuff.Services
                 if (relation.Answer != answer || relation.Active == false)
                 {
                     relation.Answer = answer;
-                    return db.Save();
+                    return database.Save();
                 }
             }
             return false;
@@ -208,31 +208,31 @@ namespace doStuff.Services
 
         public bool RemoveFriend(int userId, int friendId)
         {
-            UserToUserRelation relation = db.GetUserToUserRelation(userId, friendId);
+            UserToUserRelation relation = database.GetUserToUserRelation(userId, friendId);
             if (relation == null || relation.Active == false)
             {
-                relation = db.GetUserToUserRelation(friendId, userId);
+                relation = database.GetUserToUserRelation(friendId, userId);
             }
             if (relation != null && relation.Active == true)
             {
                 relation.Active = false;
-                return db.Save();
+                return database.Save();
             }
             return true;
         }
 
         public bool FriendRequestExists(int senderId, int receiverId)
         {
-            return db.ExistsUserToUserRelation(senderId, receiverId);
+            return database.ExistsUserToUserRelation(senderId, receiverId);
         }
 
         public bool FriendRequestCancel(int senderId, int receiverId)
         {
-            UserToUserRelation relation = db.GetUserToUserRelation(senderId, receiverId);
+            UserToUserRelation relation = database.GetUserToUserRelation(senderId, receiverId);
             if (relation != null && relation.Active == true)
             {
                 relation.Active = false;
-                return db.Save();
+                return database.Save();
             }
             return true;
         }
@@ -248,43 +248,43 @@ namespace doStuff.Services
             relation.SenderId = userId;
             relation.ReceiverId = friendId;
             relation.Answer = null;
-            return db.CreateUserToUserRelation(ref relation);
+            return database.CreateUserToUserRelation(ref relation);
         }
         #endregion
         #region GroupRelations
         public bool AddMember(int userId, int groupId)
         {
-            if (!db.ExistsGroupToUserRelation(groupId, userId))
+            if (!database.ExistsGroupToUserRelation(groupId, userId))
             {
                 GroupToUserRelation relation = new GroupToUserRelation();
                 relation.Active = true;
                 relation.GroupId = groupId;
                 relation.MemberId = userId;
-                return db.CreateGroupToUserRelation(ref relation);
+                return database.CreateGroupToUserRelation(ref relation);
             }
-            GroupToUserRelation existingRelation = db.GetGroupToUserRelation(groupId, userId);
+            GroupToUserRelation existingRelation = database.GetGroupToUserRelation(groupId, userId);
             if (existingRelation.Active == false)
             {
                 existingRelation.Active = true;
-                return db.Save();
+                return database.Save();
             }
             return true;
         }
         public bool RemoveMember(int userId, int groupId)
         {
-            GroupToUserRelation relation = db.GetGroupToUserRelation(groupId, userId);
+            GroupToUserRelation relation = database.GetGroupToUserRelation(groupId, userId);
 
             if (relation == null)
             {
                 return false;
             }
-            return db.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
+            return database.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
         }
         #endregion
         #region EventRelation
         public bool AnswerEvent(int userId, int eventId, bool answer)
         {
-            EventToUserRelation relation = db.GetEventToUserRelation(eventId, userId);
+            EventToUserRelation relation = database.GetEventToUserRelation(eventId, userId);
             if (relation == null)
             {
                 relation = new EventToUserRelation();
@@ -292,12 +292,12 @@ namespace doStuff.Services
                 relation.EventId = eventId;
                 relation.AttendeeId = userId;
                 relation.Answer = answer;
-                return db.CreateEventToUserRelation(ref relation);
+                return database.CreateEventToUserRelation(ref relation);
             }
             if (relation.Answer != answer)
             {
                 relation.Answer = answer;
-                return db.Save();
+                return database.Save();
             }
             return true;
         }
@@ -305,31 +305,31 @@ namespace doStuff.Services
         #region Create
         public bool CreateUser(ref User user)
         {
-            return db.CreateUser(ref user);
+            return database.CreateUser(ref user);
         }
         public bool CreateGroup(ref Group group)
         {
-            if (db.CreateGroup(ref group))
+            if (database.CreateGroup(ref group))
             {
                 GroupToUserRelation relation = new GroupToUserRelation();
                 relation.GroupId = group.GroupID;
                 relation.MemberId = group.OwnerId;
                 relation.Active = true;
-                db.CreateGroupToUserRelation(ref relation);
+                database.CreateGroupToUserRelation(ref relation);
                 return true;
             }
             return false;
         }
         public bool CreateEvent(ref Event newEvent)
         {
-            if (db.CreateEvent(ref newEvent))
+            if (database.CreateEvent(ref newEvent))
             {
                 EventToUserRelation relation = new EventToUserRelation();
                 relation.EventId = newEvent.EventID;
                 relation.AttendeeId = newEvent.OwnerId;
                 relation.Active = true;
                 relation.Answer = true;
-                if (db.CreateEventToUserRelation(ref relation))
+                if (database.CreateEventToUserRelation(ref relation))
                 {
                     if (newEvent.GroupId.HasValue)
                     {
@@ -337,7 +337,7 @@ namespace doStuff.Services
                         relation2.EventId = newEvent.EventID;
                         relation2.GroupId = newEvent.GroupId.Value;
                         relation2.Active = true;
-                        if (db.CreateGroupToEventRelation(ref relation2))
+                        if (database.CreateGroupToEventRelation(ref relation2))
                         {
                             return true;
                         }
@@ -351,10 +351,10 @@ namespace doStuff.Services
         }
         public bool CreateComment(int eventId, ref Comment comment)
         {
-            if (db.CreateComment(ref comment))
+            if (database.CreateComment(ref comment))
             {
                 EventToCommentRelation relation = new EventToCommentRelation(true, eventId, comment.CommentID);
-                if (db.CreateEventToCommentRelation(ref relation))
+                if (database.CreateEventToCommentRelation(ref relation))
                 {
                     return true;
                 }
@@ -366,31 +366,31 @@ namespace doStuff.Services
         #region Remove
         public bool RemoveGroup(int groupId)
         {
-            return db.RemoveGroup(groupId);
+            return database.RemoveGroup(groupId);
         }
         public bool RemoveEvent(int eventId)
         {
-            return db.RemoveEvent(eventId);
+            return database.RemoveEvent(eventId);
         }
         public bool RemoveComment(int commentId)
         {
-            return db.RemoveComment(commentId);
+            return database.RemoveComment(commentId);
         }
         #endregion
         #region GetViewModel
         public GroupFeedViewModel GetGroupFeed(int groupId, int userId)
         {
             GroupFeedViewModel groupFeed = new GroupFeedViewModel();
-            groupFeed.Group = db.GetGroup(groupId);
-            groupFeed.Groups = db.GetGroups(userId);
+            groupFeed.Group = database.GetGroup(groupId);
+            groupFeed.Groups = database.GetGroups(userId);
             groupFeed.SideBar = GetSideBar(userId, groupId);
-            List<Event> events = db.GetGroupEvents(groupId);
+            List<Event> events = database.GetGroupEvents(groupId);
             events = GetSortedEventList(events);
             groupFeed.Events = new List<EventViewModel>();
             foreach (Event e in events)
             {
                 bool? attending;
-                EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
+                EventToUserRelation eventToUser = database.GetEventToUserRelation(e.EventID, userId);
                 if (eventToUser == null)
                 {
                     attending = null;
@@ -415,17 +415,17 @@ namespace doStuff.Services
         public EventFeedViewModel GetEventFeed(int userId)
         {
             EventFeedViewModel eventFeed = new EventFeedViewModel();
-            eventFeed.Groups = db.GetGroups(userId);
+            eventFeed.Groups = database.GetGroups(userId);
             eventFeed.SideBar = GetSideBar(userId);
             List<Event> events = GetEventsFromFriends(eventFeed.SideBar.UserList);
-            events = events.Concat(db.GetEvents(userId)).ToList();
+            events = events.Concat(database.GetEvents(userId)).ToList();
             events = events.Concat(GetEventsFromGroups(eventFeed.Groups)).ToList();
             events = GetSortedEventList(events);
             eventFeed.Events = new List<EventViewModel>();
             foreach (Event e in events)
             {
                 bool? attending;
-                EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
+                EventToUserRelation eventToUser = database.GetEventToUserRelation(e.EventID, userId);
                 if (eventToUser == null)
                 {
                     attending = null;
@@ -457,33 +457,33 @@ namespace doStuff.Services
             {
                 SideBar.Avatar = "~/Content/pictures/Avatars/surprise.jpg";
             }
-            SideBar.User = db.GetUser(userId);
+            SideBar.User = database.GetUser(userId);
             SideBar.EventList = new List<EventViewModel>();
 
 
             if (groupId.HasValue)
             {
-                SideBar.UserList = db.GetMembers(groupId.Value);
+                SideBar.UserList = database.GetMembers(groupId.Value);
                 SideBar.UserList.Remove(SideBar.User);
             }
             else
             {
-                SideBar.UserList = GetSortedUserList(db.GetFriends(userId));
-                SideBar.UserPendingList = GetSortedUserList(db.GetPendingRequests(userId));
-                SideBar.UserRequestList = GetSortedUserList(db.GetFriendRequests(userId));
+                SideBar.UserList = GetSortedUserList(database.GetFriends(userId));
+                SideBar.UserPendingList = GetSortedUserList(database.GetPendingRequests(userId));
+                SideBar.UserRequestList = GetSortedUserList(database.GetFriendRequests(userId));
             }
 
             SideBar.UserList = GetSortedUserList(SideBar.UserList);
             List<Event> events = new List<Event>();
             if (groupId.HasValue)
             {
-                events = db.GetGroupEvents((int)groupId);
+                events = database.GetGroupEvents((int)groupId);
             }
             else
             {
                 events = GetEventsFromFriends(SideBar.UserList);
-                events = events.Concat(db.GetEvents(userId)).ToList();
-                events = events.Concat(GetEventsFromGroups(db.GetGroups(userId))).ToList();
+                events = events.Concat(database.GetEvents(userId)).ToList();
+                events = events.Concat(GetEventsFromGroups(database.GetGroups(userId))).ToList();
                 events = GetSortedByDateOfEvent(events);
             }
 
@@ -492,7 +492,7 @@ namespace doStuff.Services
             foreach (Event e in events)
             {
                 bool? attending;
-                EventToUserRelation eventToUser = db.GetEventToUserRelation(e.EventID, userId);
+                EventToUserRelation eventToUser = database.GetEventToUserRelation(e.EventID, userId);
                 if (eventToUser == null)
                 {
                     attending = null;
@@ -517,11 +517,11 @@ namespace doStuff.Services
         {
             EventViewModel eventViewModel = new EventViewModel();
             List<CommentViewModel> commentViews = new List<CommentViewModel>();
-            eventViewModel.Owner = db.GetUser(e.OwnerId).DisplayName;
+            eventViewModel.Owner = database.GetUser(e.OwnerId).DisplayName;
             eventViewModel.Event = e;
             eventViewModel.Attending = attending;
-            eventViewModel.Attendees = db.GetAttendees(e.EventID);
-            List<Comment> comments = db.GetComments(e.EventID);
+            eventViewModel.Attendees = database.GetAttendees(e.EventID);
+            List<Comment> comments = database.GetComments(e.EventID);
             foreach (Comment comment in comments)
             {
                 commentViews.Add(CastToViewModel(comment));
@@ -555,7 +555,7 @@ namespace doStuff.Services
         {
             CommentViewModel commentViewModel = new CommentViewModel();
             commentViewModel.Comment = c;
-            commentViewModel.Owner = db.GetUser(c.OwnerId);
+            commentViewModel.Owner = database.GetUser(c.OwnerId);
             return commentViewModel;
         }
 
@@ -564,7 +564,7 @@ namespace doStuff.Services
             List<Event> list = new List<Event>();
             foreach (User friend in friends)
             {
-                list = list.Concat(db.GetEvents(friend.UserID)).ToList();
+                list = list.Concat(database.GetEvents(friend.UserID)).ToList();
             }
             return list;
         }
@@ -574,7 +574,7 @@ namespace doStuff.Services
 
             foreach (Group group in groups)
             {
-                list = list.Concat(db.GetGroupEvents(group.GroupID)).ToList();
+                list = list.Concat(database.GetGroupEvents(group.GroupID)).ToList();
             }
 
             return list;
