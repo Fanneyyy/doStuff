@@ -10,9 +10,9 @@ namespace doStuff.Databases
     {
         protected IDataContext context;
 
-        public Database(IDataContext dbContext)
+        public Database(IDataContext databaseContext)
         {
-            context = dbContext ?? new DatabaseContext();       
+            context = databaseContext ?? new DatabaseContext();       
         }
 
         public bool Save()
