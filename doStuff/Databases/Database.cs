@@ -181,7 +181,6 @@ namespace doStuff.Databases
                 return true;
             }
             #endregion
-
             #region Get
             public User GetUser(int userId)
             {
