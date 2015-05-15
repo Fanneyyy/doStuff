@@ -301,20 +301,6 @@ namespace doStuff.Services
             return false;
         }
         #endregion
-        #region Remove
-        public bool RemoveGroup(int groupId)
-        {
-            return database.RemoveGroup(groupId);
-        }
-        public bool RemoveEvent(int eventId)
-        {
-            return database.RemoveEvent(eventId);
-        }
-        public bool RemoveComment(int commentId)
-        {
-            return database.RemoveComment(commentId);
-        }
-        #endregion
         #region GetViewModel
         public GroupFeedViewModel GetGroupFeed(int groupId, int userId)
         {
@@ -543,6 +529,7 @@ namespace doStuff.Services
         }
         #endregion
         #endregion
+        #region Time
         public static double DateTimeToMillis(DateTime created)
         {
             return created
@@ -573,5 +560,6 @@ namespace doStuff.Services
             time = time.Add(minutes);
             return thisEvent.TimeOfEvent >= time;
         }
+        #endregion
     }
 }
