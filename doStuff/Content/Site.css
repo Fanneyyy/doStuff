@@ -14,7 +14,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    min-height:800px;
+    min-height: 800px;
 }
 
 .pull-down {
@@ -86,5 +86,5 @@ input[type="checkbox"].input-validation-error {
 }
 
 #event {
-        margin-top: 5%;
-    }
+    margin-top: 5%;
+}

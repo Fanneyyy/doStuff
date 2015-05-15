@@ -101,6 +101,7 @@ namespace doStuff.Controllers
                 }
                 else
                 {
+                    ModelState.AddModelError("UserName", "That username is already taken");
                     AddErrors(result);
                 }
             }

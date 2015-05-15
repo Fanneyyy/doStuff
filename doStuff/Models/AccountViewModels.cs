@@ -49,6 +49,7 @@ namespace doStuff.Models
         [Required]
         [Display(Name = "username")]
         [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 4)]
+        [RegularExpression(@"[A-Za-z0-9]*", ErrorMessage = "Not a valid username")]
         public string UserName { get; set; }
 
         [Required]
