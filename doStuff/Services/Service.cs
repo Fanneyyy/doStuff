@@ -209,7 +209,14 @@ namespace doStuff.Services
             {
                 return false;
             }
-            return database.RemoveGroupToUserRelation(relation.GroupToUserRelationID);
+
+            if(relation.Active == true)
+            {
+                relation.Active = false;
+                return database.Save();
+            }
+
+            return true;
         }
         #endregion
         #region EventRelation
