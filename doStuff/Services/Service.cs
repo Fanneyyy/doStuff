@@ -522,6 +522,7 @@ namespace doStuff.Services
         }
         #endregion
         #endregion
+        #region Time
         public static double DateTimeToMillis(DateTime created)
         {
             return created
@@ -552,5 +553,6 @@ namespace doStuff.Services
             time = time.Add(minutes);
             return thisEvent.TimeOfEvent >= time;
         }
+        #endregion
     }
 }
