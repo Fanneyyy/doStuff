@@ -14,7 +14,7 @@ namespace doStuff.Services
         private Database database;
         public Service(Database setDatabase = null)
         {
-            database = database ?? new Database(null);
+            database = setDatabase ?? new Database(null);
         }
 
         public User GetUser(int id)
@@ -105,9 +105,9 @@ namespace doStuff.Services
         public bool IsEventInGroup(int groupId, int eventId)
         {
             List<Event> events = database.GetEvents(groupId);
-            foreach (Event eventt in events)
+            foreach (Event e in events)
             {
-                if (eventId == eventt.EventID)
+                if (eventId == e.EventID)
                 {
                     return true;
                 }
