@@ -48,7 +48,7 @@ namespace doStuff.Models
     {
         [Required]
         [Display(Name = "username")]
-        [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 6)]
+        [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 4)]
         public string UserName { get; set; }
 
         [Required]
@@ -63,7 +63,7 @@ namespace doStuff.Models
         public string ConfirmPassword { get; set; }
         [Required]
         [Display(Name = "display name")]
-        [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 6)]
+        [StringLength(24, ErrorMessage = "The {0} must be between {2} - {1} characters long.", MinimumLength = 4)]
         public string DisplayName { get; set; }
         [Required]
         [Display(Name = "birth year")]

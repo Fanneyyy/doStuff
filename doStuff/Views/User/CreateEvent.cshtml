@@ -38,7 +38,7 @@
                             <option value="sports">Sport related activity</option>
                             <option value="theater">Theater / Cinema</option>
                             <option value="gaming">Gaming</option>
-                            <option value="beach">Swimming / Beaching</option>
+                            <option value="beach">Beach / Swimming</option>
                             <option value="school">School related</option>
                         </select>
                         @Html.ValidationMessageFor(model => model.Photo)
@@ -58,7 +58,7 @@
                     <div class="col-md-10 col-md-offset-1">
                         <select name="Minutes" class="form-control birth-year">
                             <option value="11">11</option>
-                            <option value="23">23</option>
+                            <option value="23" selected="selected">23</option>
                             <option value="47">47</option>
                             <option value="59">59</option>
                             @Html.ValidationMessageFor(model => model.Minutes)

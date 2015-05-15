@@ -20,6 +20,7 @@
             <li>
                 @using (Html.BeginForm("CreateGroup", "Group", FormMethod.Post, new { @class = "create-button-fields" }))
                 {
+                    <!-- This does not pass the html validator but is needed for the look of th website -->
                     <form class="form-inline">
                         <div class="form-group create-group-form">
                             <label class="sr-only" for="create-group">Create new group</label>
