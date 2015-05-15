@@ -27,30 +27,6 @@ namespace doStuff.Services
             return database.GetUser(userName);
         }
 
-        public TimeSpan TimeLeft(Event time, DateTime now)
-        {
-            TimeSpan check = new TimeSpan(0, 0, 0);
-            TimeSpan addMinutes = new TimeSpan(0, 0, time.Minutes, 0, 0);
-            DateTime timeOfDecision = time.CreationTime;
-            timeOfDecision = timeOfDecision.Add(addMinutes);
-            TimeSpan timeToDecision = timeOfDecision.Subtract(now);
-
-            if (timeToDecision <= check)
-            {
-                return check;
-            }
-            return timeToDecision;
-
-        }
-
-        public bool ValidationOfTimeOfEvent(Event thisEvent)
-        {
-            DateTime time = DateTime.Now;
-            TimeSpan minutes = new TimeSpan(0, thisEvent.Minutes, 0);
-            time = time.Add(minutes);
-            return thisEvent.TimeOfEvent >= time;
-        }
-
         #region AccessRights
         public bool IsFriendsWith(int userId, int friendId)
         {
@@ -81,39 +57,17 @@ namespace doStuff.Services
             {
                 return false;
             }
-            if (userId == group.OwnerId)
-            {
-                return true;
-            }
-
-            return false;
+            return (userId == group.OwnerId);
         }
         public bool IsMemberOfGroup(int userId, int groupId)
         {
-            List<User> members = database.GetMembers(groupId);
-
-            foreach (User member in members)
-            {
-                if (member.UserID == userId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var relation = database.GetGroupToUserRelation(groupId, userId);
+            return (relation != null);
         }
         public bool IsEventInGroup(int groupId, int eventId)
         {
-            List<Event> events = database.GetEvents(groupId);
-            foreach (Event e in events)
-            {
-                if (eventId == e.EventID)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var relation = database.GetGroupToEventRelation(groupId, eventId);
+            return (relation != null);
         }
         public bool IsOwnerOfEvent(int userId, int eventId)
         {
@@ -158,19 +112,6 @@ namespace doStuff.Services
         }
         #endregion
         #region GetByID
-        public int GetUserId(string userName)
-        {
-            User user = new User();
-            user = database.GetUser(userName);
-            if (user != null)
-            {
-                return user.UserID;
-            }
-            else
-            {
-                throw new UserNotFoundException();
-            }
-        }
         public Group GetGroupById(int groupId)
         {
             Group newGroup = database.GetGroup(groupId);
@@ -254,21 +195,11 @@ namespace doStuff.Services
         #region GroupRelations
         public bool AddMember(int userId, int groupId)
         {
-            if (!database.ExistsGroupToUserRelation(groupId, userId))
-            {
-                GroupToUserRelation relation = new GroupToUserRelation();
-                relation.Active = true;
-                relation.GroupId = groupId;
-                relation.MemberId = userId;
-                return database.CreateGroupToUserRelation(ref relation);
-            }
-            GroupToUserRelation existingRelation = database.GetGroupToUserRelation(groupId, userId);
-            if (existingRelation.Active == false)
-            {
-                existingRelation.Active = true;
-                return database.Save();
-            }
-            return true;
+            GroupToUserRelation relation = new GroupToUserRelation();
+            relation.Active = true;
+            relation.GroupId = groupId;
+            relation.MemberId = userId;
+            return database.CreateGroupToUserRelation(ref relation);
         }
         public bool RemoveMember(int userId, int groupId)
         {
@@ -610,6 +541,30 @@ namespace doStuff.Services
             return created
                .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
                .TotalMilliseconds;
+        }
+
+        public TimeSpan TimeLeft(Event time, DateTime now)
+        {
+            TimeSpan check = new TimeSpan(0, 0, 0);
+            TimeSpan addMinutes = new TimeSpan(0, 0, time.Minutes, 0, 0);
+            DateTime timeOfDecision = time.CreationTime;
+            timeOfDecision = timeOfDecision.Add(addMinutes);
+            TimeSpan timeToDecision = timeOfDecision.Subtract(now);
+
+            if (timeToDecision <= check)
+            {
+                return check;
+            }
+            return timeToDecision;
+
+        }
+
+        public bool ValidationOfTimeOfEvent(Event thisEvent)
+        {
+            DateTime time = DateTime.Now;
+            TimeSpan minutes = new TimeSpan(0, thisEvent.Minutes, 0);
+            time = time.Add(minutes);
+            return thisEvent.TimeOfEvent >= time;
         }
     }
 }
