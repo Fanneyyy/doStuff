@@ -112,19 +112,6 @@ namespace doStuff.Services
         }
         #endregion
         #region GetByID
-        public int GetUserId(string userName)
-        {
-            User user = new User();
-            user = database.GetUser(userName);
-            if (user != null)
-            {
-                return user.UserID;
-            }
-            else
-            {
-                throw new UserNotFoundException();
-            }
-        }
         public Group GetGroupById(int groupId)
         {
             Group newGroup = database.GetGroup(groupId);

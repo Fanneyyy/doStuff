@@ -26,7 +26,7 @@ namespace doStuff.Databases
 
     public interface IDataContext
     {
-        IDbSet<User> Users { get; set; }
+        IDbSet<User> UserList { get; set; }
         IDbSet<Group> Groups { get; set; }
         IDbSet<Event> Events { get; set; }
         IDbSet<Comment> Comments { get; set; }
@@ -40,7 +40,7 @@ namespace doStuff.Databases
 
     public class DatabaseContext : IdentityDbContext<AppUser>, IDataContext
     {
-        public IDbSet<User> Users { get; set; }
+        public IDbSet<User> UserList { get; set; }
         public IDbSet<Group> Groups { get; set; }
         public IDbSet<Event> Events { get; set; }
         public IDbSet<Comment> Comments { get; set; }

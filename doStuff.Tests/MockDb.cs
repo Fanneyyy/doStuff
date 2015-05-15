@@ -11,7 +11,7 @@ namespace doStuff.Tests
 {
     class MockDb : IDataContext
     {
-        public IDbSet<User> Users { get; set; }
+        public IDbSet<User> UserList { get; set; }
         public IDbSet<Group> Groups { get; set; }
         public IDbSet<Event> Events { get; set; }
         public IDbSet<Comment> Comments { get; set; }
@@ -22,7 +22,7 @@ namespace doStuff.Tests
         public IDbSet<EventToCommentRelation> EventToCommentRelations { get; set; }
         public MockDb()
         {
-            Users = new InMemoryDbSet<User>();
+            UserList = new InMemoryDbSet<User>();
             Groups = new InMemoryDbSet<Group>();
             Events = new InMemoryDbSet<Event>();
             Comments = new InMemoryDbSet<Comment>();

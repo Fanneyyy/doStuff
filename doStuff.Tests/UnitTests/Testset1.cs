@@ -54,9 +54,9 @@ namespace doStuff.Tests.DbTest
                 Gender = Gender.FEMALE,
                 Email = "pullipuls@urmom.is"
             };
-            mock.Users.Add(user1);
-            mock.Users.Add(user2);
-            mock.Users.Add(user3);
+            mock.UserList.Add(user1);
+            mock.UserList.Add(user2);
+            mock.UserList.Add(user3);
             #endregion
             #region Groups
 

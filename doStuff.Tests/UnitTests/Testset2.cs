@@ -22,11 +22,11 @@ namespace doStuff.Tests.DbTest
 
             #region Records
             #region User
-            mock.Users.Add(new User(true, "Hrafn", "Hrafn Orri Hrafnkelsson", 1994, Gender.MALE, "HrafnOrri1207@gmail.com", 1));
-            mock.Users.Add(new User(true, "Gudni", "Gudni Fannar Kristjánsson", 1994, Gender.MALE, "Drulludanni5@gmail.com", 2));
-            mock.Users.Add(new User(false, "Kristinn", "Kristinn Þorri Þrastarsson", 1989, Gender.MALE, "Kristinn@gmail.com", 3));
-            mock.Users.Add(new User(true, "Helgi", "Helgi Rúnar Einarsson", 1989, Gender.MALE, "Helgi@gmail.com", 4));
-            mock.Users.Add(new User(true, "Fanney", "Fanney Sigurðardóttir", 1985, Gender.FEMALE, "Fanneyyy@gmail.com", 5));
+            mock.UserList.Add(new User(true, "Hrafn", "Hrafn Orri Hrafnkelsson", 1994, Gender.MALE, "HrafnOrri1207@gmail.com", 1));
+            mock.UserList.Add(new User(true, "Gudni", "Gudni Fannar Kristjánsson", 1994, Gender.MALE, "Drulludanni5@gmail.com", 2));
+            mock.UserList.Add(new User(false, "Kristinn", "Kristinn Þorri Þrastarsson", 1989, Gender.MALE, "Kristinn@gmail.com", 3));
+            mock.UserList.Add(new User(true, "Helgi", "Helgi Rúnar Einarsson", 1989, Gender.MALE, "Helgi@gmail.com", 4));
+            mock.UserList.Add(new User(true, "Fanney", "Fanney Sigurðardóttir", 1985, Gender.FEMALE, "Fanneyyy@gmail.com", 5));
             #endregion
             #region Group
             mock.Groups.Add(new Group(true, 1, "Lan Group", 1));

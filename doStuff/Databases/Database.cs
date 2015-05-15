@@ -49,7 +49,7 @@ namespace doStuff.Databases
         public List<User> GetPendingRequests(int userId)
         {
             return (from r in context.UserToUserRelations
-                    from u in context.Users
+                    from u in context.UserList
                     where r.SenderId == userId
                     && r.Active
                     && !r.Answer.HasValue
@@ -60,7 +60,7 @@ namespace doStuff.Databases
         public List<User> GetFriendRequests(int userId)
         {
             return (from r in context.UserToUserRelations
-                    from u in context.Users
+                    from u in context.UserList
                     where r.ReceiverId == userId
                     && r.Active
                     && !r.Answer.HasValue
@@ -70,7 +70,7 @@ namespace doStuff.Databases
         public List<User> GetMembers(int groupId)
         {
             List<User> members = (from g in context.GroupToUserRelations
-                                  from u in context.Users
+                                  from u in context.UserList
                                   where g.GroupId == groupId 
                                   && g.Active == true
                                   && u.UserID == g.MemberId
@@ -138,7 +138,7 @@ namespace doStuff.Databases
             #region Exists
             public bool ExistsUser(int userId)
             {
-                return (null != (from u in context.Users where u.UserID == userId && u.Active == true select u).SingleOrDefault());
+                return (null != (from u in context.UserList where u.UserID == userId && u.Active == true select u).SingleOrDefault());
             }
             public bool ExistsGroup(int groupId)
             {
@@ -156,7 +156,7 @@ namespace doStuff.Databases
             #region Create
             public bool CreateUser(ref User user)
             {
-                context.Users.Add(user);
+                context.UserList.Add(user);
                 context.SaveChanges();
                 return true;
             }
@@ -182,7 +182,7 @@ namespace doStuff.Databases
             #region Remove
             public bool RemoveUser(int userId)
             {
-                var user = (from u in context.Users
+                var user = (from u in context.UserList
                             where u.UserID == userId
                             select u).SingleOrDefault();
                 user.Active = false;
@@ -220,14 +220,14 @@ namespace doStuff.Databases
             #region Get
             public User GetUser(int userId)
             {
-                return (from u in context.Users
+                return (from u in context.UserList
                         where u.UserID == userId && u.Active == true
                         select u).SingleOrDefault();
             }
 
             public User GetUser(string userName)
             {
-                return (from u in context.Users
+                return (from u in context.UserList
                         where u.UserName.ToLower() == userName.ToLower() && u.Active == true
                         select u).SingleOrDefault();
             }

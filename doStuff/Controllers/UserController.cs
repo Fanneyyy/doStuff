@@ -182,7 +182,7 @@ namespace doStuff.Controllers
             {
                 newEvent.Active = true;
                 newEvent.CreationTime = DateTime.Now;
-                newEvent.OwnerId = service.GetUserId(User.Identity.Name);
+                newEvent.OwnerId = service.GetUser(User.Identity.Name).UserID;
                 if (service.CreateEvent(ref newEvent))
                 {
                     return RedirectToAction("Index");
